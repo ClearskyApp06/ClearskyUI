@@ -21,7 +21,7 @@ export function About({ onToggleAbout }) {
       </span>
       <div className='text'>
         <span className='legalese'>
-          <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions</a>
+          <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions</a> | <a href="mailto:support@clearsky.app">Contact Us</a>
         </span>
 
         {localise('Version', { uk: 'Версія' })}: 4.0.1d <br />
