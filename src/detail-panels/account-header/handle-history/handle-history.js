@@ -67,7 +67,7 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
   
   if (isCreated) return (
     <div className='event-entry'>
-      <FormatTimestamp className='event-timestamp' timestamp={date} noTooltip />
+      <FormatTimestamp className='event-timestamp' timestamp={date} />
       <span className='event-label event-label-registered'>
         {localise('registered ', { uk: 'зареєстровано ' })}
       </span>
@@ -90,7 +90,7 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
 
   if (!isHandleChanged && !isPdsChanged) return (
     <div className='event-entry'>
-      <FormatTimestamp className='event-timestamp' timestamp={date} noTooltip />
+      <FormatTimestamp className='event-timestamp' timestamp={date} />
       <span className='event-label event-label-handle-changed'>
         {localise('data refresh', { uk: 'оновлення' })}
       </span>
@@ -131,8 +131,8 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
 
   return (
     <div className='event-entry'>
-      <FormatTimestamp className='event-timestamp' timestamp={date} noTooltip />
-      {handlePart}{' '}{pdsPart}
+      <FormatTimestamp className='event-timestamp' timestamp={date} />
+      {handlePart}{handlePart && pdsPart ? ' ' : undefined}{pdsPart}
     </div>
   );
 }

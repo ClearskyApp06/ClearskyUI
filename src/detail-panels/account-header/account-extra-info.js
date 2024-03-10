@@ -9,6 +9,7 @@ import { ContentCopy } from '@mui/icons-material';
 import { unwrapShortDID } from '../../api';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
+import { localise } from '../../localisation';
 
 /**
  * @param {{
@@ -32,7 +33,14 @@ export function AccountExtraInfo({ className, account, handleHistory, ...rest })
       <div className='handle-history-section'>
         {
           !handleHistory ? undefined :
-            <HandleHistory handleHistory={handleHistory} />
+            <>
+              <span className='handle-history-title'>
+                {
+                  localise('registration and history:', { uk: 'реєстрація та важливі події:'})
+                }
+              </span>
+              <HandleHistory handleHistory={handleHistory} />
+            </>
         }
       </div>
     </div>

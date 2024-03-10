@@ -124,3 +124,14 @@
   width: 1em;
   top: -0.07em;
 }
+
+.handle-history-title {
+  margin-left: 1em;
+  opacity: 0.6;
+  border-top: solid 1px #c9c9c9;
+  display: block;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  padding-top: 0.6em;
+  padding-bottom: 0.5em;
+}
