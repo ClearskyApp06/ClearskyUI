@@ -5,7 +5,7 @@
   "scripts": {
     "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
     "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc -noEmit"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +24,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0"
+  },
+  "devDependencies" : {
+    "typescript": "^5"
   }
 }
