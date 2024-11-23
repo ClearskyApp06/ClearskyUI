@@ -15,14 +15,19 @@ import { unwrapClearSkyURL } from './core';
 /** @type {{ [shortDID: string]: HandleHistoryResponse | Promise<HandleHistoryResponse>}} */
 const handleHistoryCache = {};
 
-/** @param {string | null | undefined} handleOrDID */
-export function getHandleHistory(handleOrDID) {
+/**
+ * @param {string | null | undefined} shortHandle
+ * @param {string | null | undefined} shortDID
+ */
+export function getHandleHistory([shortDID, shortHandle]) {
+  const handleOrDID = shortDID ?? shortHandle;
+  const isHandle = shortDID == null;
   if (!handleOrDID) return;
   let fromCache = handleHistoryCache[handleOrDID];
   if (fromCache) return fromCache;
 
   let resolved = false;
-  return (handleHistoryCache[handleOrDID] = getHandleHistoryRaw(handleOrDID)
+  return (handleHistoryCache[handleOrDID] = getHandleHistoryRaw(handleOrDID, isHandle)
     .then(
       data => {
         if (!data) return { identifier: 'failed', handle_history: [] };
@@ -39,10 +44,14 @@ export function getHandleHistory(handleOrDID) {
     }));
 }
 
-/** @param {string} handleOrDID */
-async function getHandleHistoryRaw(handleOrDID) {
+/**
+ * @param {string} handleOrDID
+ * @param {bool} isHandle
+ */
+async function getHandleHistoryRaw(handleOrDID, isHandle) {
+  const unwrappedHandleOrDID = isHandle ? handleOrDID : unwrapShortDID(handleOrDID);
   const json = await fetch(
-    unwrapClearSkyURL(v1APIPrefix + 'get-handle-history/') + unwrapShortDID(handleOrDID),
+    unwrapClearSkyURL(v1APIPrefix + 'get-handle-history/') + unwrappedHandleOrDID,
     { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
   return json.data;
 }

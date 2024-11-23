@@ -36,7 +36,7 @@ function WithAccount({ account }) {
   const navigate = useNavigate();
 
   const handleHistory = forAwait(
-    account?.shortDID || account?.shortHandle,
+    [account?.shortDID, account?.shortHandle],
     getHandleHistory);
 
   return (
