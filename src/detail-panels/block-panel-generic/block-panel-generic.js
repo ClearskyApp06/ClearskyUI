@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { ViewList } from '@mui/icons-material';
+import { TableChart, TableRows } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
@@ -64,7 +64,9 @@ export function BlockPanelGeneric({
         showSearch={showSearch}
         setShowSearch={setShowSearch}
         onShowSearch={() => setShowSearch(true)}
-        onToggleView={() => setTableView(!tableView)} />
+        onToggleView={() => setTableView(!tableView)}
+        tableView={tableView} 
+        />
       {
         nextPage && !blocklist?.length ?
           <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p> :
@@ -109,7 +111,7 @@ class PanelHeader extends React.Component {
           <Button
             title={localise('Toggle table view', {uk: 'Перемкнути вигляд таблиці/списку'})}
             variant='contained' size='small' className='panel-toggle-table' onClick={this.props.onToggleView}>
-            <ViewList />
+            {this.props.tableView ?  <TableRows /> : <TableChart />}
           </Button>
         </span>
       </h3>
