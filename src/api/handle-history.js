@@ -16,8 +16,7 @@ import { unwrapClearSkyURL } from './core';
 const handleHistoryCache = {};
 
 /**
- * @param {string | null | undefined} shortHandle
- * @param {string | null | undefined} shortDID
+ * @param {[shortHandle: string | null | undefined, shortDID: string | null | undefined]} args
  */
 export function getHandleHistory([shortDID, shortHandle]) {
   const handleOrDID = shortDID ?? shortHandle;
@@ -46,7 +45,7 @@ export function getHandleHistory([shortDID, shortHandle]) {
 
 /**
  * @param {string} handleOrDID
- * @param {bool} isHandle
+ * @param {boolean} isHandle
  */
 async function getHandleHistoryRaw(handleOrDID, isHandle) {
   const unwrappedHandleOrDID = isHandle ? handleOrDID : unwrapShortDID(handleOrDID);
