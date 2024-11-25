@@ -18,7 +18,7 @@ import { Lists } from './lists';
 import { getHandleHistory } from '../api/handle-history';
 import { forAwait } from '../common-components/for-await';
 
-export const accountTabs = /** @type {const} */(['blocking', 'blocked-by', 'lists', 'history']);
+export const accountTabs = /** @type {const} */(['history', 'blocking', 'blocked-by', 'lists']);
 
 export function AccountLayout() {
 
