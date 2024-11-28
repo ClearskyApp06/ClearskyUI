@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script
-  type="text/javascript"
-  src="https://app.termly.io/resource-blocker/21711ede-a7eb-4bec-a2b5-718c8c45072e?autoBlock=on"
-></script>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -24,31 +20,6 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <title>ClearSky</title>
-
-<script>
-(function() {
-
-var b = document.createElement('base');
-b.href = detectBaseURL();
-b.target = '_blank';
-document.head.appendChild(b);
-
-function detectBaseURL() {
-  if (/file/i.test(location.protocol)) return './';
-
-  if (['localhost', '127.0.0.1'].indexOf(location.hostname.toLowerCase()) >=0) {
-    var staticPos = location.pathname.toLowerCase().indexOf('/static/');
-    if (staticPos>=0) return location.pathname.slice(0, staticPos+'/static/'.length);
-    var indexHTMLPos = location.pathname.toLowerCase().indexOf('/index.html');
-    if (indexHTMLPos>=0) return location.pathname.slice(0, indexHTMLPos + 1);
-    return '/';
-  }
-
-  return '/';
-}
-
-})();
-</script>
 
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
