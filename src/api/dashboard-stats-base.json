@@ -1,19 +1,46 @@
 {
   "asof": "2024-02-25T16:24:36.272449",
-      "active_count": {
-        "displayname": "Active Users",
-        "value": "5,041,681"
-      },
-      "deleted_count": {
-        "displayname": "Deleted Users",
-        "value": "358,084"
-      },
-      "total_count": {
-        "displayname": "Total Users",
-        "value": "5,399,765"
-      },
-
-
+  "totalUsers": {
+    "active_count": {
+      "displayName": "Active Users",
+      "value": "5,041,681"
+    },
+    "deleted_count": {
+      "displayName": "Deleted Users",
+      "value": "358,084"
+    },
+    "total_count": {
+      "displayName": "Total Users",
+      "value": "5,399,765"
+    }
+  },
+  "blockStats": {
+    "averageNumberOfBlocked": 5.29,
+    "averageNumberOfBlocks": 12.83,
+    "numberBlock1": 188265,
+    "numberBlocked1": 602973,
+    "numberBlocked101and1000": 5551,
+    "numberBlocked2and100": 450770,
+    "numberBlockedGreaterThan1000": 525,
+    "numberBlocking101and1000": 9224,
+    "numberBlocking2and100": 239335,
+    "numberBlockingGreaterThan1000": 124,
+    "numberOfTotalBlocks": 5606317,
+    "numberOfUniqueUsersBlocked": 1059819,
+    "numberOfUniqueUsersBlocking": 436948,
+    "percentNumberBlocked1": 56.89,
+    "percentNumberBlocked101and1000": 0.52,
+    "percentNumberBlocked2and100": 42.53,
+    "percentNumberBlockedGreaterThan1000": 0.05,
+    "percentNumberBlocking1": 43.09,
+    "percentNumberBlocking101and1000": 2.11,
+    "percentNumberBlocking2and100": 54.77,
+    "percentNumberBlockingGreaterThan1000": 0.03,
+    "percentUsersBlocked": 19.63,
+    "percentUsersBlocking": 8.09,
+    "totalUsers": 5399765
+  },
+  "topLists": {
     "blocked": [
       {
         "Handle": "jordanbpeterson.bsky.social",
@@ -303,345 +330,249 @@
       "did:plc:yq6oqday6xtoqcgigdotnglw": "bafkreif7yd74dsurrjboyvrqwmwdbhpqs3w4eku36gmcw2vfqk4vncrnyq"
     },
 
-  "blocked24": [
-    {
-      "Handle": "william1ng.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:srszfyoy7rnvbayspnvo6gzk",
-      "block_count": 472,
-      "did": "did:plc:srszfyoy7rnvbayspnvo6gzk"
-    },
-    {
-      "Handle": "permabanned.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:lq27lgik3ku2qg6zfxmil5xo",
-      "block_count": 301,
-      "did": "did:plc:lq27lgik3ku2qg6zfxmil5xo"
-    },
-    {
-      "Handle": "whstancil.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:7umvpuxe2vbrc3zrzuquzniu",
-      "block_count": 242,
-      "did": "did:plc:7umvpuxe2vbrc3zrzuquzniu"
-    },
-    {
-      "Handle": "nihilinterit.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:gvgcih7d6m3e2hvyq46igazf",
-      "block_count": 222,
-      "did": "did:plc:gvgcih7d6m3e2hvyq46igazf"
-    },
-    {
-      "Handle": "thallus.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:3j6zhuwhlaq6ce3whn6psuzf",
-      "block_count": 202,
-      "did": "did:plc:3j6zhuwhlaq6ce3whn6psuzf"
-    },
-    {
-      "Handle": "terfslayer.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:inbqnvflb7h2yiiaz7csx3wc",
-      "block_count": 174,
-      "did": "did:plc:inbqnvflb7h2yiiaz7csx3wc"
-    },
-    {
-      "Handle": "saltyserpent.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:aev34tr3qek5p4xpgkqte7ve",
-      "block_count": 127,
-      "did": "did:plc:aev34tr3qek5p4xpgkqte7ve"
-    },
-    {
-      "Handle": "therealericg765.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:6m3d4kvetsgyuv63fal2nfeh",
-      "block_count": 126,
-      "did": "did:plc:6m3d4kvetsgyuv63fal2nfeh"
-    },
-    {
-      "Handle": "bargdaffy.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:k5igcriqmplffxazxux36dk3",
-      "block_count": 124,
-      "did": "did:plc:k5igcriqmplffxazxux36dk3"
-    },
-    {
-      "Handle": "sarahiscute.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:kkwgudwujvnik2wwohuxr36q",
-      "block_count": 111,
-      "did": "did:plc:kkwgudwujvnik2wwohuxr36q"
-    },
-    {
-      "Handle": "rexs1gma.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:qdriunexx3nobe5kpltycouy",
-      "block_count": 106,
-      "did": "did:plc:qdriunexx3nobe5kpltycouy"
-    },
-    {
-      "Handle": "schierkujaschierk.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:pbeh735amil4zwnwfidbwawx",
-      "block_count": 101,
-      "did": "did:plc:pbeh735amil4zwnwfidbwawx"
-    },
-    {
-      "Handle": "lofibaby.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:jq6adp6xpuywzmkkq5xhgsli",
-      "block_count": 101,
-      "did": "did:plc:jq6adp6xpuywzmkkq5xhgsli"
-    },
-    {
-      "Handle": "navin5u.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:izwkrpapa4baoz4cfxkyri3t",
-      "block_count": 100,
-      "did": "did:plc:izwkrpapa4baoz4cfxkyri3t"
-    },
-    {
-      "Handle": "contexthuman5u.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:3w6lqhoiwb4oyxkq4vkezmoh",
-      "block_count": 100,
-      "did": "did:plc:3w6lqhoiwb4oyxkq4vkezmoh"
-    },
-    {
-      "Handle": "200motels.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:7hdkruwu4o5ctjvgasmoq7kz",
-      "block_count": 95,
-      "did": "did:plc:7hdkruwu4o5ctjvgasmoq7kz"
-    },
-    {
-      "Handle": "nowarbutclasswar.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:l4yavyh246boe7uzo4cua2ns",
-      "block_count": 91,
-      "did": "did:plc:l4yavyh246boe7uzo4cua2ns"
-    },
-    {
-      "Handle": "sdesk.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:4mbllyfo5h6macrye35rg2dv",
-      "block_count": 90,
-      "did": "did:plc:4mbllyfo5h6macrye35rg2dv"
-    },
-    {
-      "Handle": "meginstarlight.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:3le6pwxcgwunzz6o77x2z7ar",
-      "block_count": 84,
-      "did": "did:plc:3le6pwxcgwunzz6o77x2z7ar"
-    },
-    {
-      "Handle": "lukemaskwalker.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:cnjc3bgo6werfibdv7ztbwbs",
-      "block_count": 82,
-      "did": "did:plc:cnjc3bgo6werfibdv7ztbwbs"
-    }
-  ],
-  "blockers24": [
-    {
-      "Handle": "godemperorof.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
-      "block_count": 6419,
-      "did": "did:plc:aaelnwlxvflllswegmearbwo"
-    },
-    {
-      "Handle": "hatac009.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:d7pkd2naqqxa6eutobyokvp5",
-      "block_count": 1080,
-      "did": "did:plc:d7pkd2naqqxa6eutobyokvp5"
-    },
-    {
-      "Handle": "whydoilikethis.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:g2xshwj4o33b5wzxs3xspfxk",
-      "block_count": 539,
-      "did": "did:plc:g2xshwj4o33b5wzxs3xspfxk"
-    },
-    {
-      "Handle": "cynanthrope.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:5gspcix3gh6xlpq7cpud3igc",
-      "block_count": 409,
-      "did": "did:plc:5gspcix3gh6xlpq7cpud3igc"
-    },
-    {
-      "Handle": "jeanbath.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:nsf5dhzypf4e3j4ujlxsw6mj",
-      "block_count": 299,
-      "did": "did:plc:nsf5dhzypf4e3j4ujlxsw6mj"
-    },
-    {
-      "Handle": "fierydarkstar.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:ni3wjvylk76d5q7mk665bgac",
-      "block_count": 245,
-      "did": "did:plc:ni3wjvylk76d5q7mk665bgac"
-    },
-    {
-      "Handle": "joshaustin.tech",
-      "ProfileURL": "https://bsky.app/profile/did:plc:ejn42lyctdwfin3ymjoenebs",
-      "block_count": 236,
-      "did": "did:plc:ejn42lyctdwfin3ymjoenebs"
-    },
-    {
-      "Handle": "john88.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:nhfzuw3qpspigcbhopyjyoxg",
-      "block_count": 221,
-      "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg"
-    },
-    {
-      "Handle": "pyritohedron.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:kc6b7l5qnaylgnrkpo4apnms",
-      "block_count": 190,
-      "did": "did:plc:kc6b7l5qnaylgnrkpo4apnms"
-    },
-    {
-      "Handle": "murxibald.vegantifa.de",
-      "ProfileURL": "https://bsky.app/profile/did:plc:3tahovyvo3t2cp5rshxalw33",
-      "block_count": 190,
-      "did": "did:plc:3tahovyvo3t2cp5rshxalw33"
-    },
-    {
-      "Handle": "shisuiten.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:afiyi64xi7t2jppwbfwujvrl",
-      "block_count": 173,
-      "did": "did:plc:afiyi64xi7t2jppwbfwujvrl"
-    },
-    {
-      "Handle": "helinon.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:mjllre6n522jmm6wfaguifuw",
-      "block_count": 160,
-      "did": "did:plc:mjllre6n522jmm6wfaguifuw"
-    },
-    {
-      "Handle": "limbischessystem.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:laox4youuo2r5bw2nxlfkxla",
-      "block_count": 149,
-      "did": "did:plc:laox4youuo2r5bw2nxlfkxla"
-    },
-    {
-      "Handle": "enyantiomer.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:rcpdouakmhwfitbxf4wlf73g",
-      "block_count": 134,
-      "did": "did:plc:rcpdouakmhwfitbxf4wlf73g"
-    },
-    {
-      "Handle": "kristianharstad.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:aui4nwz642bg4edbkvexogcw",
-      "block_count": 114,
-      "did": "did:plc:aui4nwz642bg4edbkvexogcw"
-    },
-    {
-      "Handle": "simomo.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:bsfkrvkgspgv7nx7yyvn6kfy",
-      "block_count": 103,
-      "did": "did:plc:bsfkrvkgspgv7nx7yyvn6kfy"
-    },
-    {
-      "Handle": "nationalist.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:vpaoviy4grvnajgaze6642tf",
-      "block_count": 100,
-      "did": "did:plc:vpaoviy4grvnajgaze6642tf"
-    },
-    {
-      "Handle": "lunastarlight123.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:j5azar2i2m33clf4gx6s3q5l",
-      "block_count": 99,
-      "did": "did:plc:j5azar2i2m33clf4gx6s3q5l"
-    },
-    {
-      "Handle": "666naberius666.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:kyj73ifujf6tnhe7s5wpoam4",
-      "block_count": 97,
-      "did": "did:plc:kyj73ifujf6tnhe7s5wpoam4"
-    },
-    {
-      "Handle": "ponderosa121.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:6icr4tipspgctwsl24lv5r3y",
-      "block_count": 95,
-      "did": "did:plc:6icr4tipspgctwsl24lv5r3y"
-    }
-  ],
-
-    "averageNumberOfBlocked": {
-      "displayname": "Average Number of Users Blocked",
-      "value": 5.29
-    },
-    "averageNumberOfBlocks": {
-      "displayname": "Average Number of Blocks",
-      "value": "12.83"
-    },
-    "numberBlock1": {
-      "displayname": "Number of Users Blocking 1 User",
-      "value": "188,265"
-    },
-    "numberBlocked1": {
-      "displayname": "Number of Users Blocked by 1 User",
-      "value": "602,973"
-    },
-    "numberBlocked101and1000": {
-      "displayname": "Number of Users Blocked by 101-1000 Users",
-      "value": "5,551"
-    },
-    "numberBlocked2and100": {
-      "displayname": "Number of Users Blocked by 2-100 Users",
-      "value": "450,770"
-    },
-    "numberBlockedGreaterThan1000": {
-      "displayname": "Number of Users Blocked by More than 1000 Users",
-      "value": "525"
-    },
-    "numberBlocking101and1000": {
-      "displayname": "Number of Users Blocking 101-1000 Users",
-      "value": "9,224"
-    },
-    "numberBlocking2and100": {
-      "displayname": "Number of Users Blocking 2-100 Users",
-      "value": "239,335"
-    },
-    "numberBlockingGreaterThan1000": {
-      "displayname": "Number of Users Blocking More than 1000 Users",
-      "value": "124"
-    },
-    "numberOfTotalBlocks": {
-      "displayname": "Number of Total Blocks",
-      "value": "5,606,317"
-    },
-    "numberOfUniqueUsersBlocked": {
-      "displayname": "Number of Unique Users Blocked",
-      "value": "1,059,819"
-    },
-    "numberOfUniqueUsersBlocking": {
-      "displayname": "Number of Unique Users Blocking",
-      "value": "436,948"
-    },
-    "percentNumberBlocked1": {
-      "displayname": "Percent of Users Blocked by 1 User",
-      "value": 56.89
-    },
-    "percentNumberBlocked101and1000": {
-      "displayname": "Percent of Users Blocked by 101-1000 Users",
-      "value": 0.52
-    },
-    "percentNumberBlocked2and100": {
-      "displayname": "Percent of Users Blocked by 2-100 Users",
-      "value": 42.53
-    },
-    "percentNumberBlockedGreaterThan1000": {
-      "displayname": "Percent of Users Blocked by More than 1000 Users",
-      "value": 0.05
-    },
-    "percentNumberBlocking1": {
-      "displayname": "Percent of Users Blocking 1 User",
-      "value": 43.09
-    },
-    "percentNumberBlocking101and1000": {
-      "displayname": "Percent of Users Blocking 101-1000 Users",
-      "value": 2.11
-    },
-    "percentNumberBlocking2and100": {
-      "displayname": "Percent of Users Blocking 2-100 Users",
-      "value": 54.77
-    },
-    "percentNumberBlockingGreaterThan1000": {
-      "displayname": "Percent of Users Blocking More than 1000 Users",
-      "value": 0.03
-    },
-    "percentUsersBlocked": {
-      "displayname": "Percent Users Blocked",
-      "value": 19.63
-    },
-    "percentUsersBlocking": {
-      "displayname": "Percent Users Blocking",
-      "value": 8.09
-    },
-    "totalUsers": {
-      "displayname": "Total Users",
-      "value": "5,399,765"
-    }
+    "blocked24": [
+      {
+        "Handle": "william1ng.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:srszfyoy7rnvbayspnvo6gzk",
+        "block_count": 472,
+        "did": "did:plc:srszfyoy7rnvbayspnvo6gzk"
+      },
+      {
+        "Handle": "permabanned.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:lq27lgik3ku2qg6zfxmil5xo",
+        "block_count": 301,
+        "did": "did:plc:lq27lgik3ku2qg6zfxmil5xo"
+      },
+      {
+        "Handle": "whstancil.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:7umvpuxe2vbrc3zrzuquzniu",
+        "block_count": 242,
+        "did": "did:plc:7umvpuxe2vbrc3zrzuquzniu"
+      },
+      {
+        "Handle": "nihilinterit.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:gvgcih7d6m3e2hvyq46igazf",
+        "block_count": 222,
+        "did": "did:plc:gvgcih7d6m3e2hvyq46igazf"
+      },
+      {
+        "Handle": "thallus.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:3j6zhuwhlaq6ce3whn6psuzf",
+        "block_count": 202,
+        "did": "did:plc:3j6zhuwhlaq6ce3whn6psuzf"
+      },
+      {
+        "Handle": "terfslayer.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:inbqnvflb7h2yiiaz7csx3wc",
+        "block_count": 174,
+        "did": "did:plc:inbqnvflb7h2yiiaz7csx3wc"
+      },
+      {
+        "Handle": "saltyserpent.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:aev34tr3qek5p4xpgkqte7ve",
+        "block_count": 127,
+        "did": "did:plc:aev34tr3qek5p4xpgkqte7ve"
+      },
+      {
+        "Handle": "therealericg765.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:6m3d4kvetsgyuv63fal2nfeh",
+        "block_count": 126,
+        "did": "did:plc:6m3d4kvetsgyuv63fal2nfeh"
+      },
+      {
+        "Handle": "bargdaffy.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:k5igcriqmplffxazxux36dk3",
+        "block_count": 124,
+        "did": "did:plc:k5igcriqmplffxazxux36dk3"
+      },
+      {
+        "Handle": "sarahiscute.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:kkwgudwujvnik2wwohuxr36q",
+        "block_count": 111,
+        "did": "did:plc:kkwgudwujvnik2wwohuxr36q"
+      },
+      {
+        "Handle": "rexs1gma.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:qdriunexx3nobe5kpltycouy",
+        "block_count": 106,
+        "did": "did:plc:qdriunexx3nobe5kpltycouy"
+      },
+      {
+        "Handle": "schierkujaschierk.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:pbeh735amil4zwnwfidbwawx",
+        "block_count": 101,
+        "did": "did:plc:pbeh735amil4zwnwfidbwawx"
+      },
+      {
+        "Handle": "lofibaby.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:jq6adp6xpuywzmkkq5xhgsli",
+        "block_count": 101,
+        "did": "did:plc:jq6adp6xpuywzmkkq5xhgsli"
+      },
+      {
+        "Handle": "navin5u.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:izwkrpapa4baoz4cfxkyri3t",
+        "block_count": 100,
+        "did": "did:plc:izwkrpapa4baoz4cfxkyri3t"
+      },
+      {
+        "Handle": "contexthuman5u.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:3w6lqhoiwb4oyxkq4vkezmoh",
+        "block_count": 100,
+        "did": "did:plc:3w6lqhoiwb4oyxkq4vkezmoh"
+      },
+      {
+        "Handle": "200motels.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:7hdkruwu4o5ctjvgasmoq7kz",
+        "block_count": 95,
+        "did": "did:plc:7hdkruwu4o5ctjvgasmoq7kz"
+      },
+      {
+        "Handle": "nowarbutclasswar.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:l4yavyh246boe7uzo4cua2ns",
+        "block_count": 91,
+        "did": "did:plc:l4yavyh246boe7uzo4cua2ns"
+      },
+      {
+        "Handle": "sdesk.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:4mbllyfo5h6macrye35rg2dv",
+        "block_count": 90,
+        "did": "did:plc:4mbllyfo5h6macrye35rg2dv"
+      },
+      {
+        "Handle": "meginstarlight.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:3le6pwxcgwunzz6o77x2z7ar",
+        "block_count": 84,
+        "did": "did:plc:3le6pwxcgwunzz6o77x2z7ar"
+      },
+      {
+        "Handle": "lukemaskwalker.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:cnjc3bgo6werfibdv7ztbwbs",
+        "block_count": 82,
+        "did": "did:plc:cnjc3bgo6werfibdv7ztbwbs"
+      }
+    ],
+    "blockers24": [
+      {
+        "Handle": "godemperorof.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
+        "block_count": 6419,
+        "did": "did:plc:aaelnwlxvflllswegmearbwo"
+      },
+      {
+        "Handle": "hatac009.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:d7pkd2naqqxa6eutobyokvp5",
+        "block_count": 1080,
+        "did": "did:plc:d7pkd2naqqxa6eutobyokvp5"
+      },
+      {
+        "Handle": "whydoilikethis.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:g2xshwj4o33b5wzxs3xspfxk",
+        "block_count": 539,
+        "did": "did:plc:g2xshwj4o33b5wzxs3xspfxk"
+      },
+      {
+        "Handle": "cynanthrope.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:5gspcix3gh6xlpq7cpud3igc",
+        "block_count": 409,
+        "did": "did:plc:5gspcix3gh6xlpq7cpud3igc"
+      },
+      {
+        "Handle": "jeanbath.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:nsf5dhzypf4e3j4ujlxsw6mj",
+        "block_count": 299,
+        "did": "did:plc:nsf5dhzypf4e3j4ujlxsw6mj"
+      },
+      {
+        "Handle": "fierydarkstar.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:ni3wjvylk76d5q7mk665bgac",
+        "block_count": 245,
+        "did": "did:plc:ni3wjvylk76d5q7mk665bgac"
+      },
+      {
+        "Handle": "joshaustin.tech",
+        "ProfileURL": "https://bsky.app/profile/did:plc:ejn42lyctdwfin3ymjoenebs",
+        "block_count": 236,
+        "did": "did:plc:ejn42lyctdwfin3ymjoenebs"
+      },
+      {
+        "Handle": "john88.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:nhfzuw3qpspigcbhopyjyoxg",
+        "block_count": 221,
+        "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg"
+      },
+      {
+        "Handle": "pyritohedron.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:kc6b7l5qnaylgnrkpo4apnms",
+        "block_count": 190,
+        "did": "did:plc:kc6b7l5qnaylgnrkpo4apnms"
+      },
+      {
+        "Handle": "murxibald.vegantifa.de",
+        "ProfileURL": "https://bsky.app/profile/did:plc:3tahovyvo3t2cp5rshxalw33",
+        "block_count": 190,
+        "did": "did:plc:3tahovyvo3t2cp5rshxalw33"
+      },
+      {
+        "Handle": "shisuiten.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:afiyi64xi7t2jppwbfwujvrl",
+        "block_count": 173,
+        "did": "did:plc:afiyi64xi7t2jppwbfwujvrl"
+      },
+      {
+        "Handle": "helinon.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:mjllre6n522jmm6wfaguifuw",
+        "block_count": 160,
+        "did": "did:plc:mjllre6n522jmm6wfaguifuw"
+      },
+      {
+        "Handle": "limbischessystem.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:laox4youuo2r5bw2nxlfkxla",
+        "block_count": 149,
+        "did": "did:plc:laox4youuo2r5bw2nxlfkxla"
+      },
+      {
+        "Handle": "enyantiomer.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:rcpdouakmhwfitbxf4wlf73g",
+        "block_count": 134,
+        "did": "did:plc:rcpdouakmhwfitbxf4wlf73g"
+      },
+      {
+        "Handle": "kristianharstad.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:aui4nwz642bg4edbkvexogcw",
+        "block_count": 114,
+        "did": "did:plc:aui4nwz642bg4edbkvexogcw"
+      },
+      {
+        "Handle": "simomo.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:bsfkrvkgspgv7nx7yyvn6kfy",
+        "block_count": 103,
+        "did": "did:plc:bsfkrvkgspgv7nx7yyvn6kfy"
+      },
+      {
+        "Handle": "nationalist.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:vpaoviy4grvnajgaze6642tf",
+        "block_count": 100,
+        "did": "did:plc:vpaoviy4grvnajgaze6642tf"
+      },
+      {
+        "Handle": "lunastarlight123.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:j5azar2i2m33clf4gx6s3q5l",
+        "block_count": 99,
+        "did": "did:plc:j5azar2i2m33clf4gx6s3q5l"
+      },
+      {
+        "Handle": "666naberius666.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:kyj73ifujf6tnhe7s5wpoam4",
+        "block_count": 97,
+        "did": "did:plc:kyj73ifujf6tnhe7s5wpoam4"
+      },
+      {
+        "Handle": "ponderosa121.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:6icr4tipspgctwsl24lv5r3y",
+        "block_count": 95,
+        "did": "did:plc:6icr4tipspgctwsl24lv5r3y"
+      }
+    ]
+  }
 }

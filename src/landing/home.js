@@ -1,7 +1,7 @@
 // @ts-check
 import React from 'react';
 
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { unwrapShortHandle } from '../api';
 import { HomeHeader } from './home-header';
 
@@ -12,8 +12,7 @@ import { About } from './about';
 
 export function Home() {
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchText, setSearchText] = React.useState(searchParams.get('q') || '');
+  const [searchText, setSearchText] = React.useState('');
   const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -25,7 +24,6 @@ export function Home() {
         searchText={searchText}
         onSearchTextChanged={searchText => {
           setSearchText(searchText);
-          setSearchParams({ q: searchText });
         }}
         onAccountSelected={(account) => {
           console.log('Account selected ', account);

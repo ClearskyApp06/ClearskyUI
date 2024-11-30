@@ -1,10 +1,9 @@
 // @ts-check
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { HomeStatsMain } from './home-stats-main';
-import { dashboardStats, isPromise } from '../../api';
-import { forAwait } from '../../common-components/for-await';
+import { useDashboardStats } from '../../api';
 import { parseNumberWithCommas } from '../../api/core';
 import { HomeStatsTable } from './home-stats-table';
 
@@ -17,7 +16,7 @@ import { HomeStatsTable } from './home-stats-table';
  *  percentNumberBlocked1: number | undefined;
  *  percentNumberBlocking1: number | undefined;
  *  loading: boolean;
- *  stats: DashboardStats;
+ *  stats: DashboardStats | undefined;
  *  onToggleTable?: () => void;
  * }} HomeStatsDetails
  */
@@ -30,26 +29,31 @@ import { HomeStatsTable } from './home-stats-table';
 export function HomeStats({ className }) {
   const [asTable, setAsTable] = useState(false);
 
-  /** @type {DashboardStats | undefined} */
-  const stats = forAwait(undefined, () => dashboardStats());
+  const { data: stats, isLoading } = useDashboardStats();
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
-  let activeAccounts = undefined;
-  let deletedAccounts = undefined;
-  let percentNumberBlocked1 = undefined;
-  let percentNumberBlocking1 = undefined;
-  let loading = true;
-  if (!isPromise(stats)) {
-    activeAccounts = parseNumberWithCommas(stats?.active_count?.value);
-    deletedAccounts = parseNumberWithCommas(stats?.deleted_count?.value);
-    percentNumberBlocked1 = parseNumberWithCommas(stats?.percentNumberBlocked1?.value);
-    percentNumberBlocking1 = parseNumberWithCommas(stats?.percentNumberBlocking1?.value);
-    loading = false;
-  }
+  const activeAccounts = parseNumberWithCommas(
+    stats?.totalUsers.active_count?.value
+  );
+  const deletedAccounts = parseNumberWithCommas(
+    stats?.totalUsers.deleted_count?.value
+  );
+  const percentNumberBlocked1 = stats?.blockStats.percentNumberBlocked1;
+  const percentNumberBlocking1 = stats?.blockStats.percentNumberBlocking1;
 
-  const arg = { className, asofFormatted, activeAccounts, deletedAccounts, percentNumberBlocked1, percentNumberBlocking1, loading, stats };
+  const arg = {
+    className,
+    asofFormatted,
+    activeAccounts,
+    deletedAccounts,
+    percentNumberBlocked1,
+    percentNumberBlocking1,
+    loading: isLoading,
+    stats,
+  };
 
-  if (asTable) return <HomeStatsTable {...arg} onToggleTable={() => setAsTable(false)} />;
+  if (asTable)
+    return <HomeStatsTable {...arg} onToggleTable={() => setAsTable(false)} />;
   else return <HomeStatsMain {...arg} onToggleTable={() => setAsTable(true)} />;
 }

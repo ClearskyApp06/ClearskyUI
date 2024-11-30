@@ -1,6 +1,4 @@
 // @ts-check
-import React from 'react';
-
 import { isPromise } from '../../api';
 
 import { NetworkCircle } from './infographics/network-circle';
@@ -8,7 +6,7 @@ import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
 
 import './home-stats-main.css';
-import { Button, Fab } from '@mui/material';
+import { Button } from '@mui/material';
 import { ViewList } from '@mui/icons-material';
 
 /**
@@ -23,18 +21,22 @@ export function HomeStatsMain({
   percentNumberBlocking1,
   loading,
   stats,
-  onToggleTable
+  onToggleTable,
 }) {
   return (
-    <div className={'home-stats-main ' + (className || '')} style={{ padding: '0 1em' }}>
-      <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}><i>{asofFormatted}</i></div>
+    <div
+      className={'home-stats-main ' + (className || '')}
+      style={{ padding: '0 1em' }}
+    >
+      <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}>
+        <i>{asofFormatted}</i>
+      </div>
 
-      {
-        loading ? undefined :
-          <Button size='small' className='toggle-table' onClick={onToggleTable}>
-            <ViewList style={{ color: 'gray' }} />
-          </Button>
-      }
+      {loading ? undefined : (
+        <Button size="small" className="toggle-table" onClick={onToggleTable}>
+          <ViewList style={{ color: 'gray' }} />
+        </Button>
+      )}
 
       <NetworkCircle
         {...{
@@ -42,20 +44,25 @@ export function HomeStatsMain({
           deletedAccounts,
           percentNumberBlocked1,
           percentNumberBlocking1,
-          loading
-        }} />
+          loading,
+        }}
+      />
 
-      {stats &&
+      {stats && (
         <>
           <TopBlocked
-            blocked={isPromise(stats) ? undefined : stats.blocked}
-            blocked24={isPromise(stats) ? undefined : stats.blocked24} />
+            blocked={isPromise(stats) ? undefined : stats.topLists.blocked}
+            blocked24={isPromise(stats) ? undefined : stats.topLists.blocked24}
+          />
 
           <TopBlockers
-            blockers={isPromise(stats) ? undefined : stats.blockers}
-            blockers24={isPromise(stats) ? undefined : stats.blockers24} />
-        </>}
-
+            blockers={isPromise(stats) ? undefined : stats.topLists.blockers}
+            blockers24={
+              isPromise(stats) ? undefined : stats.topLists.blockers24
+            }
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -1,15 +1,11 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-export { dashboardStats } from './dashboard-stats';
+export { useDashboardStats } from './dashboard-stats';
 export { postHistory } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { useSingleBlocklist, useBlocklist } from './blocklist';
-
-export const xAPIKey = '';
-
-export const v1APIPrefix = '/api/v1/anon/';
 
 export function getProfileBlobUrl(did, cid) {
   if (!did || !cid) return undefined;

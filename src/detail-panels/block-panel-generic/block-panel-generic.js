@@ -23,6 +23,7 @@ import { localise } from '../../localisation';
  * @param {{
  *  className?: string,
  *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
+ *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
  *  account: AccountInfo | { shortHandle: String, loading: true },
  *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
  * }} _
@@ -30,17 +31,19 @@ import { localise } from '../../localisation';
 export function BlockPanelGeneric({
   className,
   blocklistQuery,
+  totalQuery,
   account,
   header,
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     blocklistQuery;
+  const { data: totalData } = totalQuery;
 
   // const [tableView, setTableView] = React.useState(false);
 
   const blocklistPages = data?.pages || [];
   const blocklist = blocklistPages.flatMap((page) => page.blocklist);
-  const count = blocklistPages?.[0]?.count;
+  const count = totalData?.count;
 
   // const [searchParams, setSearchParams] = useSearchParams();
   // const [tick, setTick] = useState(0);

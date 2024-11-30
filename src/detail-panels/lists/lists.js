@@ -1,12 +1,12 @@
 // @ts-check
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList } from '../../api/lists';
+import { useList, useListTotal } from '../../api/lists';
 import { ListView } from './list-view';
 
 import './lists.css';
@@ -22,14 +22,16 @@ import { resolveHandleOrDID } from '../../api';
  * }} _
  */
 export function Lists({ account }) {
-  const shortHandle = account?.shortHandle;
+  const shortHandle = "shortDID" in account ? account.shortDID : null;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useList(shortHandle);
+  const { data: totalData, isLoading: isLoadingTotal } = useListTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
 
+  const listsTotal = totalData?.count;
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.lists);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
@@ -59,12 +61,13 @@ export function Lists({ account }) {
       </div>
 
       <h3 className='lists-header'>
-        {allLists?.length ?
+        {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
+        {listsTotal ?
           <>
             {localise(
-              'Member of ' + allLists.length.toLocaleString() + ' ' + localiseNumberSuffix('list', allLists.length) + ':',
+              'Member of ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', listsTotal) + ':',
               {
-                uk: 'Входить до ' + allLists.length.toLocaleString() + ' ' + localiseNumberSuffix('списку', allLists.length) + ':'
+                uk: 'Входить до ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('списку', listsTotal) + ':'
               })}
             <span className='panel-toggles'>
               {!showSearch &&
@@ -76,7 +79,7 @@ export function Lists({ account }) {
               }
             </span>
           </> :
-          <>{localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })}</>
+          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
         }
       </h3>
 

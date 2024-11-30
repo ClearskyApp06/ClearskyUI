@@ -1,89 +1,60 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import { v1APIPrefix, xAPIKey } from '.';
-import { unwrapClearSkyURL } from './core';
+import { useQuery } from '@tanstack/react-query';
+import { fetchClearskyApi } from './core';
 
-import dashboardStatsBase from './dashboard-stats-base.json';
+import initialData from './dashboard-stats-base.json';
+const initialDataUpdatedAt = new Date(initialData.asof).valueOf();
 
-/** @type {DashboardStats | Promise<DashboardStats> & { asof: string }} */
-var prevDashboardStats;
-
-/**
- * @returns {AsyncGenerator<DashboardStats>}
- */
-export async function* dashboardStats() {
-  if (prevDashboardStats) {
-    const now = new Date();
-    const prevDate = new Date(prevDashboardStats.asof);
-    if (Math.abs(now.getTime() - prevDate.getTime()) < 1000 * 60)
-      return { ...prevDashboardStats, loading: true };
-  }
-
-  yield dashboardStatsBase;
-  const dashboardStatsApiPromise = dashboardStatsApi();
-  const dashboardStatsApiData = await dashboardStatsApiPromise;
-  yield dashboardStatsApiData;
+export function useDashboardStats() {
+  return useQuery({
+    queryKey: ['dashboard-stats'],
+    queryFn: dashboardStatsApi,
+    initialData,
+    initialDataUpdatedAt,
+  });
 }
 
-function dashboardStatsApi() {
-  const now = new Date();
+async function dashboardStatsApi() {
+  /** @type {Promise<StatsEndpointResp<TotalUsers>>} */
+  const totalUsersPromise = fetchClearskyApi('v1', 'total-users').catch(
+    (err) => ({ totalUsers: err.message + ' CORS?' })
+  );
 
-  const apiURL =
-    unwrapClearSkyURL(v1APIPrefix + 'lists/');
-  const apiURL2 =
-    unwrapClearSkyURL(v1APIPrefix);
-  const headers = { 'X-API-Key': xAPIKey };
+  /** @type {Promise<StatsEndpointResp<FunFacts>>} */
+  const funFactsPromise = fetchClearskyApi('v1', 'lists/fun-facts').catch(
+    (err) => ({ funFacts: err.message + ' CORS?' })
+  );
 
-  let asof = now.toISOString();
+  /** @type {Promise<StatsEndpointResp<FunnerFacts>>} */
+  const funerFactsPromise = fetchClearskyApi('v1', 'lists/funer-facts').catch(
+    (err) => ({ funerFacts: err.message + ' CORS?' })
+  );
 
-  const totalUsersPromise = fetch(
-    apiURL2 + 'total-users', { headers }).then(x => x.json())
-    .catch(err => ({ totalUsers: err.message + ' CORS?' }));
+  /** @type {Promise<StatsEndpointResp<BlockStats>>} */
+  const blockStatsPromise = fetchClearskyApi('v1', 'lists/block-stats').catch(
+    (err) => ({ blockStats: err.message })
+  );
 
-  const funFactsPromise = fetch(
-    apiURL + 'fun-facts', { headers }).then(x => x.json())
-    .catch(err => ({ funFacts: err.message + ' CORS?' }));
+  const [totalUsers, funFacts, funnerFacts, blockStats] = await Promise.all([
+    totalUsersPromise,
+    funFactsPromise,
+    funerFactsPromise,
+    blockStatsPromise,
+  ]);
 
-  const funerFactsPromise = fetch(
-    apiURL + 'funer-facts', { headers }).then(x => x.json())
-    .catch(err => ({ funerFacts: err.message + ' CORS?' }));
+  const asof = 'asof' in blockStats ? blockStats.asof : null;
 
-  const blockStatsPromise = fetch(
-    apiURL + 'block-stats', { headers }).then(x => x.json())
-    .catch(err => ({ blockStats: err.message }));
-
-  const promise = (async () => {
-
-    const fetchResultList = await Promise.all([
-      totalUsersPromise,
-      funFactsPromise,
-      funerFactsPromise,
-      blockStatsPromise
-    ]);
-
-    /** @type {DashboardStats} */
-    const result = {
-      asof
-    };
-
-    for (const res of fetchResultList) {
-      if (res?.data && !res.data.timeLeft) {
-        if (typeof res?.asof === 'string') asof = res.asof;
-        if (typeof res?.['as of'] === 'string') asof = res['as of'];
-        Object.assign(result, res?.data || res);
-      }
-    }
-
-    prevDashboardStats = result;
-
-    return result;
-
-  })();
-
-  prevDashboardStats =
-  /** @type {Promise<DashboardStats> & { asof: string }} */(promise);
-  prevDashboardStats.asof = asof;
-
-  return prevDashboardStats;
+  /** @type {DashboardStats} */
+  const result = {
+    asof,
+    totalUsers: 'data' in totalUsers ? totalUsers.data : null,
+    blockStats: 'data' in blockStats ? blockStats.data : null,
+    topLists: {
+      ...('data' in funFacts ? funFacts.data : {}),
+      ...('data' in funnerFacts ? funnerFacts.data : {}),
+    },
+  };
+  return result;
 }
