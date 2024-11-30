@@ -1,11 +1,12 @@
 // @ts-check
 
-import { useState } from 'react';
+import { useState, lazy } from 'react';
 
 import { HomeStatsMain } from './home-stats-main';
 import { useDashboardStats } from '../../api';
 import { parseNumberWithCommas } from '../../api/core';
-import { HomeStatsTable } from './home-stats-table';
+
+const HomeStatsTable = lazy(() => import('./home-stats-table'));
 
 /**
  * @typedef {{

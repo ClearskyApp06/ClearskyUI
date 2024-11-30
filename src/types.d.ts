@@ -1,5 +1,9 @@
 /// <reference types="@atproto/api" />
 
+declare module '*.png' {
+  export default '' as string;
+}
+
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;

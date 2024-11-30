@@ -7,6 +7,9 @@ export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { useSingleBlocklist, useBlocklist } from './blocklist';
 
+import { unwrapShortDID } from './core';
+export { unwrapShortDID } from "./core"
+
 export function getProfileBlobUrl(did, cid) {
   if (!did || !cid) return undefined;
   return `https://cdn.bsky.app/img/avatar/plain/${unwrapShortDID(did)}/${cid}@jpeg`;
@@ -35,10 +38,6 @@ export function shortenDID(did) {
 }
 
 const _shortenDID_Regex = /^did\:plc\:/;
-
-export function unwrapShortDID(shortDID) {
-  return !shortDID ? undefined : shortDID.indexOf(':') < 0 ? 'did:plc:' + shortDID.toLowerCase() : shortDID.toLowerCase();
-}
 
 /**
  * @param {T} handle

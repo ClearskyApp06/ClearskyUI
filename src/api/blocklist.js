@@ -1,7 +1,10 @@
 // @ts-check
 
-import { unwrapShortDID } from '.';
-import { fetchClearskyApi, parseNumberWithCommas } from './core';
+import {
+  fetchClearskyApi,
+  parseNumberWithCommas,
+  unwrapShortDID,
+} from './core';
 import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 

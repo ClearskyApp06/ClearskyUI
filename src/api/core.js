@@ -47,6 +47,14 @@ export function fetchClearskyApi(apiVer, apiPath) {
   return fetch(apiUrl).then((x) => x.json());
 }
 
+export function unwrapShortDID(shortDID) {
+  return !shortDID
+    ? undefined
+    : shortDID.indexOf(':') < 0
+    ? 'did:plc:' + shortDID.toLowerCase()
+    : shortDID.toLowerCase();
+}
+
 /** @param {number | string | null | undefined} value */
 export function calcHash(value) {
   if (!value) return 13;
