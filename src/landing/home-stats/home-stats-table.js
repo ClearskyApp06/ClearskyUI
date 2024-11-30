@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { AgGridReact } from 'ag-grid-react';
 
@@ -84,24 +84,32 @@ function getGridRowsAndColumns(stats) {
   const rows = [];
 
   rows.push({ Handle: localise('Stats', {}), title: true });
-  rows.push({
-    Handle: localise('as of', {}),
-    block_count: new Date(stats['asof']).toLocaleString(),
-  });
-  /** @type {ValueWithDisplayName[]} */
-  const totalStats = Object.values(stats.totalUsers);
-  for (const stat of totalStats) {
+  if (stats.asof) {
     rows.push({
-      Handle: stat.displayName,
-      block_count: stat.value.toLocaleString(),
+      Handle: localise('as of', {}),
+      block_count: new Date(stats.asof).toLocaleString(),
     });
   }
-  for (const [key, value] of Object.entries(stats.blockStats)) {
-    rows.push({
-      // @ts-ignore would like a cast here
-      Handle: getLabelForStatKey(key),
-      block_count: value.toLocaleString(),
-    });
+
+  if (stats.totalUsers) {
+    /** @type {ValueWithDisplayName[]} */
+    const totalStats = Object.values(stats.totalUsers);
+    for (const stat of totalStats) {
+      rows.push({
+        Handle: stat.displayName,
+        block_count: stat.value?.toLocaleString(),
+      });
+    }
+  }
+
+  if (stats.blockStats) {
+    for (const [key, value] of Object.entries(stats.blockStats)) {
+      rows.push({
+        // @ts-ignore would like a cast here
+        Handle: getLabelForStatKey(key),
+        block_count: value.toLocaleString(),
+      });
+    }
   }
 
   if (stats.topLists.blocked?.length) {

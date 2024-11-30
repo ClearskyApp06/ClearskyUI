@@ -2,8 +2,7 @@
 /// <reference path="../types.d.ts" />
 
 import { useQuery } from '@tanstack/react-query';
-import { v1APIPrefix, xAPIKey } from '.';
-import { unwrapClearSkyURL } from './core';
+import { fetchClearskyApi } from './core';
 
 import initialData from './dashboard-stats-base.json';
 const initialDataUpdatedAt = new Date(initialData.asof).valueOf();
@@ -18,52 +17,43 @@ export function useDashboardStats() {
 }
 
 async function dashboardStatsApi() {
-  const apiURL = unwrapClearSkyURL(v1APIPrefix + 'lists/');
-  const apiURL2 = unwrapClearSkyURL(v1APIPrefix);
-  const headers = { 'X-API-Key': xAPIKey };
+  /** @type {Promise<StatsEndpointResp<TotalUsers>>} */
+  const totalUsersPromise = fetchClearskyApi('v1', 'total-users').catch(
+    (err) => ({ totalUsers: err.message + ' CORS?' })
+  );
 
-  /** @type {Promise<{ data: TotalUsers }>} */
-  const totalUsersPromise = fetch(apiURL2 + 'total-users', { headers })
-    .then((x) => x.json())
-    .catch((err) => ({ totalUsers: err.message + ' CORS?' }));
+  /** @type {Promise<StatsEndpointResp<FunFacts>>} */
+  const funFactsPromise = fetchClearskyApi('v1', 'lists/fun-facts').catch(
+    (err) => ({ funFacts: err.message + ' CORS?' })
+  );
 
-  /** @type {Promise<{ asof: string; data: FunFacts; }>} */
-  const funFactsPromise = fetch(apiURL + 'fun-facts', { headers })
-    .then((x) => x.json())
-    .catch((err) => ({ funFacts: err.message + ' CORS?' }));
+  /** @type {Promise<StatsEndpointResp<FunnerFacts>>} */
+  const funerFactsPromise = fetchClearskyApi('v1', 'lists/funer-facts').catch(
+    (err) => ({ funerFacts: err.message + ' CORS?' })
+  );
 
-  /** @type {Promise<{ asof: string; data: FunnerFacts; }>} */
-  const funerFactsPromise = fetch(apiURL + 'funer-facts', { headers })
-    .then((x) => x.json())
-    .catch((err) => ({ funerFacts: err.message + ' CORS?' }));
+  /** @type {Promise<StatsEndpointResp<BlockStats>>} */
+  const blockStatsPromise = fetchClearskyApi('v1', 'lists/block-stats').catch(
+    (err) => ({ blockStats: err.message })
+  );
 
-  /** @type {Promise<{ asof: string; data: BlockStats; }>} */
-  const blockStatsPromise = fetch(apiURL + 'block-stats', { headers })
-    .then((x) => x.json())
-    .catch((err) => ({ blockStats: err.message }));
-
-  const [
-    {
-      data: { 'as of': asof, ...totalUsers },
-    },
-    funFacts,
-    funnerFacts,
-    blockStats,
-  ] = await Promise.all([
+  const [totalUsers, funFacts, funnerFacts, blockStats] = await Promise.all([
     totalUsersPromise,
     funFactsPromise,
     funerFactsPromise,
     blockStatsPromise,
   ]);
 
+  const asof = 'asof' in blockStats ? blockStats.asof : null;
+
   /** @type {DashboardStats} */
   const result = {
     asof,
-    totalUsers,
-    blockStats: blockStats.data,
+    totalUsers: 'data' in totalUsers ? totalUsers.data : null,
+    blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      ...funFacts.data,
-      ...funnerFacts.data,
+      ...('data' in funFacts ? funFacts.data : {}),
+      ...('data' in funnerFacts ? funnerFacts.data : {}),
     },
   };
   return result;

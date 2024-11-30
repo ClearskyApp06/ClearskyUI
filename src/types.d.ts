@@ -8,22 +8,22 @@ type AccountInfo = {
   avatarUrl?: string;
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
-}
+};
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {
   uri: string;
   cid: string;
-}
+};
 
 type BlockedByRecord = {
   blocked_date: string;
   did: string;
   status: boolean;
-}
+};
 
 type CompactHandleOrHandleDisplayName =
-  string |
-  [shortHandle: string, displayName: string];
+  | string
+  | [shortHandle: string, displayName: string];
 
 type SearchMatch = {
   rank: number;
@@ -38,16 +38,14 @@ type SearchMatch = {
   displayNameMatches?: string;
 
   postID?: string;
-}
+};
 
 type ValueWithDisplayName = {
   displayName?: string;
   value: string | number | undefined;
-}
+};
 
 interface TotalUsers {
-  "as of": string;
-  /** 2,186,543 */
   active_count: ValueWithDisplayName;
   deleted_count: ValueWithDisplayName;
   total_count: ValueWithDisplayName;
@@ -91,29 +89,36 @@ interface FunnerFacts {
 }
 
 type DashboardStats = {
-  asof: string;
-  totalUsers: Omit<TotalUsers, "as of">;
-  blockStats: BlockStats;
-  topLists: FunFacts & FunnerFacts;
-}
+  asof: string | null;
+  totalUsers: Omit<TotalUsers> | null;
+  blockStats: BlockStats | null;
+  topLists: Partial<FunFacts> & Partial<FunnerFacts>;
+};
+
+type StatsEndpointResp<Data> =
+  | {
+      asof: string;
+      data: Data;
+    }
+  | { timeLeft: string };
 
 type DashboardBlockListEntry = {
   /** mailia.bsky.social */
-  Handle: string,
+  Handle: string;
   /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
-  ProfileURL: string,
+  ProfileURL: string;
   /** 1589 */
-  block_count: number,
+  block_count: number;
   /** did:plc:i3bauhmsixt5j33pnr5g7475 */
-  did: string
+  did: string;
 };
 
 type AccountListEntry = {
-  created_date: string,
-  date_added: string,
-  description: string,
-  did: string,
-  name: string,
-  status: boolean,
-  url: string
-}
+  created_date: string;
+  date_added: string;
+  description: string;
+  did: string;
+  name: string;
+  status: boolean;
+  url: string;
+};

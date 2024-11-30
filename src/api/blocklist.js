@@ -1,11 +1,7 @@
 // @ts-check
 
-import { unwrapShortDID, v1APIPrefix, xAPIKey } from '.';
-import {
-  fetchClearskyApi,
-  parseNumberWithCommas,
-  unwrapClearSkyURL,
-} from './core';
+import { unwrapShortDID } from '.';
+import { fetchClearskyApi, parseNumberWithCommas } from './core';
 import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
@@ -119,13 +115,12 @@ export function useSingleBlocklistCount(did) {
  * }>}
  */
 async function blocklistCall(did, api, currentPage = 1) {
-  const handleURL = unwrapClearSkyURL(v1APIPrefix + api + '/') + did;
+  const handleURL = `${api}/${did}${
+    currentPage === 1 ? '' : `/${currentPage}`
+  }`;
 
   /** @type {BlocklistResponse<BlocklistPage>} */
-  const pageResponse = await fetch(
-    currentPage === 1 ? handleURL : handleURL + '/' + currentPage,
-    { headers: { 'X-API-Key': xAPIKey } }
-  ).then((x) => x.json());
+  const pageResponse = await fetchClearskyApi('v1', handleURL);
 
   let count = parseNumberWithCommas(pageResponse.data.count) || 0;
 

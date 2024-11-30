@@ -7,10 +7,6 @@ export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { useSingleBlocklist, useBlocklist } from './blocklist';
 
-export const xAPIKey = '';
-
-export const v1APIPrefix = '/api/v1/anon/';
-
 export function getProfileBlobUrl(did, cid) {
   if (!did || !cid) return undefined;
   return `https://cdn.bsky.app/img/avatar/plain/${unwrapShortDID(did)}/${cid}@jpeg`;

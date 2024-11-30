@@ -2,7 +2,6 @@
 /// <reference path="../types.d.ts" />
 
 import { BskyAgent } from '@atproto/api';
-import { v1APIPrefix, xAPIKey } from '.';
 
 export const oldXrpc = 'https://bsky.social/xrpc';
 export const newXrpc = 'https://bsky.network/xrpc';
@@ -16,33 +15,36 @@ patchBskyAgent(publicAtClient);
 
 /** @param {typeof atClient} atClient */
 export function patchBskyAgent(atClient) {
-  atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput = function () {
-    return true;
-  };
+  atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput =
+    function () {
+      return true;
+    };
 }
 
 let baseURL = 'https://api.clearsky.services/';
 let baseStagingURL = 'https://staging.api.clearsky.services/';
 
+export const v1APIPrefix = '/api/v1/anon/';
+
 /**
  * @param {string} apiURL
  */
-export function unwrapClearSkyURL(apiURL) {
-  const runStaging = location.hostname !== "clearsky.app";
+function unwrapClearSkyURL(apiURL) {
+  const runStaging = location.hostname !== 'clearsky.app';
   const useBaseURL = runStaging ? baseStagingURL : baseURL;
-    
+
   return useBaseURL + apiURL.replace(/^\//, '');
 }
 
 /**
- * 
+ *
  * @param {"v1"} apiVer
  * @param {string} apiPath
  * @returns
  */
 export function fetchClearskyApi(apiVer, apiPath) {
   const apiUrl = unwrapClearSkyURL(v1APIPrefix + apiPath);
-  return fetch(apiUrl, { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
+  return fetch(apiUrl).then((x) => x.json());
 }
 
 /** @param {number | string | null | undefined} value */
@@ -53,14 +55,14 @@ export function calcHash(value) {
 }
 
 /** @param {string} str */
-function hashString(str) { 
+function hashString(str) {
   let hash = 19;
-  for (let i = 0; i < str.length; i++) { 
-      let char = str.charCodeAt(i); 
-      hash = ((hash << 5) - hash) + char; 
-      hash = hash & hash; 
-  } 
-  return hash; 
+  for (let i = 0; i < str.length; i++) {
+    let char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+  return hash;
 }
 
 /** @param {number} rnd */
@@ -74,9 +76,7 @@ export function nextRandom(rnd) {
 }
 
 export function parseNumberWithCommas(numOrStr) {
-  if (!numOrStr)
-    return undefined;
-  if (typeof numOrStr === 'number')
-    return numOrStr;
+  if (!numOrStr) return undefined;
+  if (typeof numOrStr === 'number') return numOrStr;
   return Number(String(numOrStr).replace(/,/g, ''));
 }
