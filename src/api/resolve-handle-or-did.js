@@ -12,7 +12,7 @@ import {
 } from '.';
 import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
-import { create, windowedFiniteBatchScheduler } from '@yornaath/batshit';
+import { create as createBatchingFetch, windowedFiniteBatchScheduler } from '@yornaath/batshit';
 
 /**
  *
@@ -38,7 +38,7 @@ const resolveHandleCache = throttledAsyncCache(
   }
 );
 
-const batchedDIDLookup = create({
+const batchedDIDLookup = createBatchingFetch({
   fetcher: resolveDIDs,
   resolver: (items, query) => {
     const shortDID = shortenDID(query);
