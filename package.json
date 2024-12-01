@@ -3,8 +3,9 @@
   "version": "4.3.0",
   "description": "",
   "scripts": {
-    "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
-    "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --define:process.env.NODE_ENV=\\\"production\\\" --define:window.BUILD_COMMIT_HASH=\\\"$(git describe --always --dirty)\\\"",
+    "start": "vite --open",
+    "preview": "vite preview --open",
+    "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
     "typecheck": "tsc -noEmit"
   },
   "keywords": [],
@@ -24,13 +25,14 @@
     "@yornaath/batshit": "^0.10.1",
     "ag-grid-community": "^31.0.2",
     "ag-grid-react": "^31.0.3",
-    "esbuild": "^0.20.0",
     "fuse.js": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0"
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
-    "typescript": "^5"
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5",
+    "vite": "^6.0.1"
   }
 }

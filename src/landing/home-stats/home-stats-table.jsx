@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from '../../common-components/ag-grid';
 
 import { ViewList } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -13,7 +13,7 @@ import { localise } from '../../localisation';
 /**
  * @param {import('.').HomeStatsDetails} _
  */
-export function HomeStatsTable({
+export default function HomeStatsTable({
   className,
   asofFormatted,
   loading,

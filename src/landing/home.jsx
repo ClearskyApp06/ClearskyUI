@@ -10,8 +10,7 @@ import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
 
-export function Home() {
-
+export default function Home() {
   const [searchText, setSearchText] = React.useState('');
   const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -20,22 +19,29 @@ export function Home() {
     <div className={'home ' + (aboutOpen ? 'about-open' : '')}>
       <Logo />
       <About onToggleAbout={() => setAboutOpen(!aboutOpen)} />
-      <HomeHeader className='home-header'
+      <HomeHeader
+        className="home-header"
         searchText={searchText}
-        onSearchTextChanged={searchText => {
+        onSearchTextChanged={(searchText) => {
           setSearchText(searchText);
         }}
         onAccountSelected={(account) => {
           console.log('Account selected ', account);
           if (account.shortHandle) {
             if (account.postID)
-              navigate('/' + unwrapShortHandle(account.shortHandle) + '/history/?q=' + account.postID);
-            else
-              navigate('/' + unwrapShortHandle(account.shortHandle));
+              navigate(
+                '/' +
+                  unwrapShortHandle(account.shortHandle) +
+                  '/history/?q=' +
+                  account.postID
+              );
+            else navigate('/' + unwrapShortHandle(account.shortHandle));
           }
         }}
       />
-      <HomeStats className='home-stats' />
+      <React.Suspense>
+        <HomeStats className="home-stats" />
+      </React.Suspense>
     </div>
   );
 }

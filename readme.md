@@ -10,7 +10,9 @@ Install dependencies with `npm install`
 
 `npm run typecheck` to type check
 
-`npm start` to start a local server with a changer watcher
+`npm start` to start a local server with a change watcher
+
+`npm run build && npm run preview` will serve a production-type build locally
 
 ## Deployment:
 
