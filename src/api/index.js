@@ -2,7 +2,7 @@
 /// <reference path="../types.d.ts" />
 
 export { useDashboardStats } from './dashboard-stats';
-export { postHistory } from './post-history';
+export { usePostHistory, usePostByUri } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { useSingleBlocklist, useBlocklist } from './blocklist';
@@ -20,7 +20,7 @@ export function getFeedBlobUrl(did, cid) {
 /** @param {string | null | undefined} text */
 export function likelyDID(text) {
   return text && (
-    !text.trim().indexOf('did:') ||
+    text.trim().startsWith('did:') ||
     text.trim().length === 24 && !/[^\sa-z0-9]/i.test(text)
   );
 }
