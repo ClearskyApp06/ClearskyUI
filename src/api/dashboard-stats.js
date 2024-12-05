@@ -44,7 +44,7 @@ async function dashboardStatsApi() {
     blockStatsPromise,
   ]);
 
-  const asof = 'asof' in blockStats ? blockStats.asof : null;
+  const asof = blockStats['as of'] || null;
 
   /** @type {DashboardStats} */
   const result = {
