@@ -7,6 +7,8 @@ import { useDashboardStats } from '../../api';
 import { parseNumberWithCommas } from '../../api/core';
 import { HomeStatsTable } from './home-stats-table';
 
+import { localise } from '../../localisation';
+
 /**
  * @typedef {{
  *  className: string | undefined;
@@ -31,7 +33,7 @@ export function HomeStats({ className }) {
 
   const { data: stats, isLoading } = useDashboardStats();
 
-  const asofFormatted = stats?.asof && new Date(stats.asof) + '';
+  const asofFormatted = stats?.asof && localise('As of: ', {}) + new Date(stats.asof);
 
   const activeAccounts = parseNumberWithCommas(
     stats?.totalUsers.active_count?.value
