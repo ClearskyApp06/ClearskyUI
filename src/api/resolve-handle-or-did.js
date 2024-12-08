@@ -3,40 +3,115 @@
 
 import { useQuery } from '@tanstack/react-query';
 import {
-  isPromise,
-  likelyDID,
+  distinguishDidFromHandle,
   shortenDID,
   shortenHandle,
   unwrapShortDID,
   unwrapShortHandle,
 } from '.';
 import { atClient } from './core';
-import { throttledAsyncCache } from './throttled-async-cache';
-import { create as createBatchingFetch, windowedFiniteBatchScheduler } from '@yornaath/batshit';
+import {
+  create as createBatchingFetch,
+  windowedFiniteBatchScheduler,
+} from '@yornaath/batshit';
+import { queryClient } from './query-client';
+
+/** @typedef {import('@tanstack/react-query').QueryClient} QueryClient */
+
+/**
+ * @deprecated DO NOT USE THIS. Always prefer the hook version `useResolveHandleOrDid`
+ * @param {string} handleOrDID
+ */
+export async function resolveHandleOrDID(handleOrDID) {
+  let { handle, did } = distinguishDidFromHandle(handleOrDID);
+  if (handle) {
+    const fullHandle = unwrapShortHandle(handle);
+    did = await queryClient.fetchQuery({
+      queryKey: queryKeyForHandle(fullHandle),
+      queryFn: () => resolveHandleToDid(fullHandle),
+    });
+  }
+  did = unwrapShortDID(did);
+  return queryClient.fetchQuery({
+    queryKey: queryKeyForDid(did),
+    queryFn: () => batchedDIDLookup.fetch(did),
+  });
+}
 
 /**
  *
  * @param {string} handleOrDID
  */
 export function useResolveHandleOrDid(handleOrDID) {
+  const { handle, did } = distinguishDidFromHandle(handleOrDID);
+  const handleQuery = useResolveHandleToDid(handle);
+  return useResolveDidToProfile(did || handleQuery.data);
+}
+
+const queryKeyForHandle = (/** @type {string} */ fullHandle) => [
+  'resolve-handle-to-did',
+  fullHandle,
+];
+/**
+ *
+ * @param {string} handle
+ * @returns the corresponding DID
+ */
+function useResolveHandleToDid(handle) {
+  const fullHandle = unwrapShortHandle(handle);
   return useQuery({
-    enabled: !!handleOrDID,
-    queryKey: ['resolveHandleOrDid', handleOrDID],
-    queryFn: () => resolveHandleOrDID(handleOrDID),
+    enabled: !!fullHandle,
+    queryKey: queryKeyForHandle(fullHandle),
+    queryFn: () => resolveHandleToDid(fullHandle),
   });
 }
 
-const resolveHandleCache = throttledAsyncCache(
-  async (/** @type {string} */ handle) => {
-    const resolved = await atClient.com.atproto.identity.resolveHandle({
-      handle: unwrapShortHandle(handle),
-    });
+const queryKeyForDid = (/** @type {string} */ fullDID) => [
+  'resolve-did-to-profile',
+  fullDID,
+];
+/**
+ *
+ * @param {string} did
+ * @returns the profile data for a given DID
+ */
+function useResolveDidToProfile(did) {
+  const fullDID = unwrapShortDID(did);
+  return useQuery({
+    enabled: !!fullDID,
+    queryKey: queryKeyForDid(fullDID),
+    queryFn: () => batchedDIDLookup.fetch(fullDID),
+  });
+}
 
-    if (!resolved.data.did)
-      throw new Error('Handle did not resolve: ' + handle);
-    return shortenDID(resolved.data.did);
+async function resolveHandleToDid(/** @type {string} */ handle) {
+  try {
+    return await resolveHandleFromBsky(handle);
+  } catch {
+    return await resolveHandleFromDns(handle);
   }
-);
+}
+
+async function resolveHandleFromBsky(/** @type {string} */ handle) {
+  const resolved = await atClient.com.atproto.identity.resolveHandle({
+    handle: unwrapShortHandle(handle),
+  });
+
+  if (!resolved.data.did) throw new Error('Handle did not resolve: ' + handle);
+  return shortenDID(resolved.data.did);
+}
+
+async function resolveHandleFromDns(/** @type {string} */ handle) {
+  const dohClient = await import('iso-web/doh');
+  const resolved = await dohClient.resolve(`_atproto.${handle}`, 'TXT');
+
+  const record = resolved.result?.find((record) =>
+    record.startsWith('did=did:')
+  );
+  if (record) {
+    return shortenDID(record.replace(/^did=/, ''));
+  } else throw new Error('Handle did not resolve: ' + handle);
+}
 
 const batchedDIDLookup = createBatchingFetch({
   fetcher: resolveDIDs,
@@ -99,11 +174,14 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
       bannerUrl,
       displayName,
       description,
+      obscurePublicRecords,
     };
-    if (typeof obscurePublicRecords !== 'undefined')
-      profileDetails.obscurePublicRecords = obscurePublicRecords;
 
-    resolveHandleCache.prepopulate(shortDID, shortHandle);
+    queryClient.setQueryData(queryKeyForDid(profileRecord.did), profileDetails);
+    queryClient.setQueryData(
+      queryKeyForHandle(profileRecord.handle),
+      profileRecord.did
+    );
     return profileDetails;
   });
 
@@ -118,28 +196,4 @@ function detectObscurePublicRecordsFlag(profileRecord) {
       }
     }
   }
-}
-
-function detectObscurePublicRecordsFlagOld(profileRec) {
-  const labels = profileRec?.labels;
-  if (labels?.$type === 'com.atproto.label.defs#selfLabels') {
-    if (labels.values?.length) {
-      for (const value of labels.values) {
-        if (value?.val === '!no-unauthenticated') return true;
-      }
-    }
-  }
-}
-
-/**
- * @param {string} handleOrDid
- * @returns {AccountInfo | Promise<AccountInfo>}
- */
-export function resolveHandleOrDID(handleOrDid) {
-  if (likelyDID(handleOrDid))
-    return batchedDIDLookup.fetch(unwrapShortDID(handleOrDid));
-  const didOrPromise = resolveHandleCache(unwrapShortHandle(handleOrDid));
-
-  if (isPromise(didOrPromise)) return didOrPromise.then(batchedDIDLookup.fetch);
-  else return batchedDIDLookup.fetch(didOrPromise);
 }

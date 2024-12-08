@@ -3,7 +3,7 @@
 
 export { useDashboardStats } from './dashboard-stats';
 export { usePostHistory, usePostByUri } from './post-history';
-export { resolveHandleOrDID } from './resolve-handle-or-did';
+export { resolveHandleOrDID, useResolveHandleOrDid } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { useSingleBlocklist, useBlocklist } from './blocklist';
 
@@ -15,6 +15,17 @@ export function getProfileBlobUrl(did, cid) {
 export function getFeedBlobUrl(did, cid) {
   if (!did || !cid) return undefined;
   return `https://cdn.bsky.app/img/feed_thumbnail/plain/${unwrapShortDID(did)}/${cid}@jpeg`;
+}
+
+/**
+ * @param {string | null | undefined} text
+ * @returns {{ did: string; handle: null } | { did: null; handle: string }}
+ **/
+export function distinguishDidFromHandle(text) {
+  if (likelyDID(text)) {
+    return { did: text, handle: null };
+  }
+  return { did: null, handle: text };
 }
 
 /** @param {string | null | undefined} text */

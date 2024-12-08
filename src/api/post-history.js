@@ -4,12 +4,8 @@
 import { BskyAgent } from '@atproto/api';
 import { breakFeedUri, unwrapShortDID } from '.';
 import { atClient, patchBskyAgent, publicAtClient } from './core';
-import {
-  QueryClient,
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { queryClient } from './query-client';
 import { usePdsUrl } from './pds';
 import { useMemo } from 'react';
 
@@ -26,12 +22,11 @@ export function usePostHistory(did) {
     patchBskyAgent(client);
     return client;
   }, [pdsUrl]);
-  const queryClient = useQueryClient();
   return useInfiniteQuery({
     enabled: !!fullDid && pdsStatus !== 'pending',
     queryKey: ['post-history', pdsUrl, fullDid],
     queryFn: async ({ pageParam }) =>
-      fetchPostHistory(pdsClient, fullDid, pageParam, queryClient),
+      fetchPostHistory(pdsClient, fullDid, pageParam),
     getNextPageParam: (page) => page.cursor,
     initialPageParam: undefined,
   });
@@ -42,10 +37,9 @@ export function usePostHistory(did) {
  * @param {BskyAgent} pdsClient
  * @param {string} did
  * @param {string | undefined} cursor
- * @param {QueryClient} queryClient
  * @returns
  */
-async function fetchPostHistory(pdsClient, did, cursor, queryClient) {
+async function fetchPostHistory(pdsClient, did, cursor) {
   const history = await pdsClient.com.atproto.repo.listRecords({
     collection: 'app.bsky.feed.post',
     repo: did,
