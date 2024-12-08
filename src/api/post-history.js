@@ -2,97 +2,68 @@
 /// <reference path="../types.d.ts" />
 
 import { BskyAgent } from '@atproto/api';
-import { breakFeedUri, isPromise, unwrapShortDID } from '.';
-import { atClient, oldXrpc, patchBskyAgent, publicAtClient } from './core';
-import { resolveHandleOrDID } from './resolve-handle-or-did';
-import { throttledAsyncCache } from './throttled-async-cache';
-
-/** @type {{ [shortDID: string]: { shortDID: string, shortHandle: string, posts: PostDetails[], hasMore?: boolean, fetchMore: () => Promise<void> | undefined } }} */
-const historyCache = {};
-
-/** @type {{ [uri: string]: PostDetails | Promise<PostDetails> }} */
-const historyPostByUri = {};
+import { breakFeedUri, unwrapShortDID } from '.';
+import { atClient, patchBskyAgent, publicAtClient } from './core';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { queryClient } from './query-client';
+import { usePdsUrl } from './pds';
+import { useMemo } from 'react';
 
 /**
- * @param {string} shortHandleOrShortDid
+ * @param {string} did
+ * @returns
  */
-export function postHistory(shortHandleOrShortDid) {
-  const accountInfoOrPromise = resolveHandleOrDID(shortHandleOrShortDid);
-  if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.shortDID]) return historyCache[accountInfoOrPromise.shortDID];
+export function usePostHistory(did) {
+  const fullDid = unwrapShortDID(did);
+  const { pdsUrl, status: pdsStatus } = usePdsUrl(fullDid);
+  const pdsClient = useMemo(() => {
+    if (!pdsUrl) return atClient;
+    const client = new BskyAgent({ service: pdsUrl });
+    patchBskyAgent(client);
+    return client;
+  }, [pdsUrl]);
+  return useInfiniteQuery({
+    enabled: !!fullDid && pdsStatus !== 'pending',
+    queryKey: ['post-history', pdsUrl, fullDid],
+    queryFn: async ({ pageParam }) =>
+      fetchPostHistory(pdsClient, fullDid, pageParam),
+    getNextPageParam: (page) => page.cursor,
+    initialPageParam: undefined,
+  });
+}
 
-  return (async () => {
-    const accountInfo = await accountInfoOrPromise;
-    if (!isPromise(accountInfo) && historyCache[accountInfo.shortDID]) return historyCache[accountInfo.shortDID];
+/**
+ *
+ * @param {BskyAgent} pdsClient
+ * @param {string} did
+ * @param {string | undefined} cursor
+ * @returns
+ */
+async function fetchPostHistory(pdsClient, did, cursor) {
+  const history = await pdsClient.com.atproto.repo.listRecords({
+    collection: 'app.bsky.feed.post',
+    repo: did,
+    cursor,
+  });
+  const nextCursor = history?.data?.cursor;
 
-    let fetchingMore;
-    let cursor;
-    let reachedEndRepeatAt;
+  if (history?.data?.records?.length) {
+    const records = history.data.records.map((record) => {
+      /** @type {PostDetails} */
+      const post = {
+        uri: record.uri,
+        cid: record.cid,
+        .../** @type {import('@atproto/api').AppBskyFeedPost.Record} */ (
+          record.value
+        ),
+      };
+      queryClient.setQueryData(queryKeyForPost(post.uri), post);
+      return post;
+    });
+    return { records, cursor: nextCursor };
+  }
 
-    /** @type {typeof historyCache['a']} */
-    const fetcher = historyCache[accountInfo.shortDID] = {
-      shortDID: accountInfo.shortDID,
-      shortHandle: accountInfo.shortHandle,
-      posts: [],
-      hasMore: true,
-      fetchMore
-    };
-    fetchMore();
-    return fetcher;
-
-    /** @type {typeof atClient} */
-    var pdsClient;
-
-    function fetchMore() {
-      if (fetchingMore) return fetchingMore;
-      if (reachedEndRepeatAt && Date.now() < reachedEndRepeatAt) return;
-
-      return fetchingMore = (async () => {
-        if (!pdsClient) {
-          const pdsData = await fetch(
-            'https://plc.directory/' + unwrapShortDID(accountInfo.shortDID)
-          ).then(x => x.json());
-          var pdsURL = oldXrpc;
-          if (pdsData?.service?.length) {
-            for (const svcEntry of pdsData.service) {
-              if (svcEntry?.type === 'AtprotoPersonalDataServer' && svcEntry.serviceEndpoint)
-                pdsURL = svcEntry.serviceEndpoint;
-            }
-          }
-
-          pdsClient = new BskyAgent({ service: pdsURL });
-          patchBskyAgent(pdsClient);
-          // TODO: patch CORS!
-        }
-
-        const history = await pdsClient.com.atproto.repo.listRecords({
-          collection: 'app.bsky.feed.post',
-          repo: unwrapShortDID(accountInfo.shortDID),
-          cursor,
-        });
-
-        if (history?.data?.cursor) {
-          cursor = history.data.cursor;
-        } else {
-          reachedEndRepeatAt = Date.now() + 1000 * 20;
-          fetcher.hasMore = false;
-        }
-
-        if (history?.data?.records?.length) {
-          for (const record of history.data.records) {
-            const post = {
-              uri: record.uri,
-              cid: record.cid,
-              .../** @type {import('@atproto/api').AppBskyFeedPost.Record} */(record.value)
-            };
-            fetcher.posts.push(post);
-            historyPostByUri[post.uri] = post;
-          }
-        }
-
-        fetchingMore = undefined;
-      })();
-    }
-  })();
+  return { records: [], cursor: nextCursor };
 }
 
 /**
@@ -108,39 +79,48 @@ export function postHistory(shortHandleOrShortDid) {
  * @param {string} uri
  * @returns {AsyncIterable<ThreadedPostDetails>}
  */
-export async function* getPostThread(uri) {
-  const originalThread = await publicAtClient.app.bsky.feed.getPostThread({
-    uri,
-    depth: 400,
-    parentHeight: 900
-  });
-  console.log(originalThread);
-  return;
-}
+// export async function* getPostThread(uri) {
+//   const originalThread = await publicAtClient.app.bsky.feed.getPostThread({
+//     uri,
+//     depth: 400,
+//     parentHeight: 900,
+//   });
+//   // hm this never yields. seems like this was never fully implemented?
+//   console.log(originalThread);
+//   return;
+// }
 
-const throttledPostGet = throttledAsyncCache(async (uri) => {
+/**
+ *
+ * @param {string} uri
+ * @returns {Promise<PostDetails>}
+ */
+async function fetchPostByUri(uri) {
   const uriEntity = breakFeedUri(uri);
   if (!uriEntity) throw new Error('Invalid post URI: ' + uri);
 
   const postRecord = await atClient.com.atproto.repo.getRecord({
     repo: unwrapShortDID(uriEntity.shortDID),
     collection: 'app.bsky.feed.post',
-    rkey: uriEntity.postID
+    rkey: uriEntity.postID,
   });
 
   return {
     uri: postRecord.data.uri,
     cid: postRecord.data.cid,
-    .../** @type {*} */(postRecord.data.value)
+    .../** @type {*} */ (postRecord.data.value),
   };
-});
+}
+
+const queryKeyForPost = (/** @type {string} */ uri) => ['post-by-uri', uri];
 
 /**
  * @param {string} uri
- * @returns {PostDetails | Promise<PostDetails>}
  */
-export function getPost(uri) {
-  if (historyPostByUri[uri]) return historyPostByUri[uri];
-
-  return throttledPostGet(uri);
+export function usePostByUri(uri) {
+  return useQuery({
+    enabled: !!uri,
+    queryKey: queryKeyForPost(uri),
+    queryFn: () => fetchPostByUri(uri),
+  });
 }

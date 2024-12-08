@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import { shortenDID, shortenHandle } from '../api';
-
 import { FullDID, FullHandle } from './full-short';
 import './mini-account-info.css';
 
@@ -12,7 +10,7 @@ import './mini-account-info.css';
  * @param {{
  *  banner?: React.ReactNode,
  *  className?: string,
- *  account: Partial<AccountInfo>,
+ *  account: AccountInfo | null,
  *  details?: React.ReactNode,
  *  children?: React.ReactNode
  * }} _
@@ -28,7 +26,7 @@ export function MiniAccountInfo({
     <div className={'mini-account-info ' + className} {...rest}>
       <h3>
         <div className='account-banner' style={{
-          backgroundImage: account.bannerUrl ? `url(${account.bannerUrl})` : 'transparent'
+          backgroundImage: account?.bannerUrl ? `url(${account?.bannerUrl})` : 'transparent'
         }}>
           {banner}
         </div>
@@ -36,32 +34,32 @@ export function MiniAccountInfo({
         <span className='account-avatar-and-displayName-line'>
           <span className='account-banner-overlay'></span>
           <span className='account-avatar' style={{
-            backgroundImage: account.avatarUrl ? `url(${account.avatarUrl})` : 'transparent'
+            backgroundImage: account?.avatarUrl ? `url(${account?.avatarUrl})` : 'transparent'
           }}></span>
           <span className='account-displayName'>
             {
-              account.displayName ||
-              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={account.shortHandle} /></span>
+              account?.displayName ||
+              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={account?.shortHandle} /></span>
             }
           </span>
           {
-            !account.displayName ? undefined :
+            !account?.displayName ? undefined :
               <span className='account-handle'>
                 <span className='account-handle-at'>@</span>
-                <FullHandle shortHandle={account.shortHandle} />
+                <FullHandle shortHandle={account?.shortHandle} />
               </span>
           }
           {
-            !account.shortDID ? undefined :
+            !account?.shortDID ? undefined :
               <span className='account-did'>
-                <FullDID shortDID={account.shortDID} />
+                <FullDID shortDID={account?.shortDID} />
               </span>
           }
         </span>
       </h3>
 
       <div className='account-info-panel-description'>
-        {details || account.description}
+        {details || account?.description}
       </div>
       {children == null ? undefined :
         <div className='account-info-panel-children'>

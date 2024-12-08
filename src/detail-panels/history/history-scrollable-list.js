@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import './history-scrollable-list.css';
 import { Visible } from '../../common-components/visible';
@@ -9,105 +9,105 @@ import { applySearchGetResults } from './search/cached-search';
 import { RenderSearchResults } from './search/render-search-results';
 import { localise } from '../../localisation';
 
-const BLOCK_ADD_INFINITE_SCROLLING = 7;
+const BLOCK_ADD_INFINITE_SCROLLING = 15;
 
 const globalSearchCache = [];
 
 /**
- * @extends {React.Component<{
- *  account: AccountInfo,
- *  searchText: string | undefined,
- *  history: Awaited<ReturnType<import('../../api').postHistory>>
- * }, { renderCount: number, fetching: boolean, bottomVisible: boolean, tick: number }>} _
+ * @typedef {import('@tanstack/react-query').InfiniteData<{records: PostDetails[];}>} InfPosts
  */
-export class HistoryScrollableList extends React.Component {
-  lastRankedCount = 0;
-  debounceShrinkVirtualScroll = 0;
 
-  render() {
-    const { account, searchText, history } = this.props;
-    const ranked = applySearchGetResults({ searchText, posts: history.posts, cachedSearches: globalSearchCache });
-    this.lastRankedCount = ranked.length;
+/**
+ * @param {{
+ *  searchText: string | undefined,
+ *  history: import('@tanstack/react-query').UseInfiniteQueryResult<InfPosts>,
+ * }} _
+ * // state { renderCount: number, bottomVisible: boolean, tick: number }
+ */
+export function HistoryScrollableList({ searchText, history }) {
+  const [renderCount, setRenderCount] = useState(BLOCK_ADD_INFINITE_SCROLLING);
+  const [bottomVisible, setBottomVisible] = useState(false);
+  // lastRankedCount = 0;
+  // debounceShrinkVirtualScroll = 0;
+  const allPosts = history.data?.pages.flatMap((page) => page.records) || [];
+  const ranked = useMemo(
+    () =>
+      applySearchGetResults({
+        searchText,
+        posts: allPosts,
+        cachedSearches: globalSearchCache,
+      }),
+    [searchText, allPosts]
+  );
 
-    let maxRenderCount = this.state?.renderCount || BLOCK_ADD_INFINITE_SCROLLING;
-    let fetching = this.state?.fetching;
+  let fetching = history.isFetching;
 
-    if (this.state?.bottomVisible) {
-      if (maxRenderCount < ranked.length) {
-        maxRenderCount += BLOCK_ADD_INFINITE_SCROLLING;
-        this.setState({ renderCount: maxRenderCount }); // setting from render sorry
-      } else {
-        if (!fetching) {
-          this.setState({ fetching: true });
-          this.loadMore();
-        }
+  useEffect(() => {
+    if (bottomVisible) {
+      if (renderCount < ranked.length) {
+        setRenderCount((prev) => prev + BLOCK_ADD_INFINITE_SCROLLING);
       }
     }
+  }, [bottomVisible]);
 
-    if (ranked.length < maxRenderCount) {
-      clearTimeout(this.debounceShrinkVirtualScroll);
-      this.debounceShrinkVirtualScroll = setTimeout(() => {
-        if (this.lastRankedCount < this.state?.renderCount)
-          this.setState({ renderCount: this.lastRankedCount + Math.round(BLOCK_ADD_INFINITE_SCROLLING / 2) });
-      }, 1000);
-    }
+  // useEffect(() => {}, [renderCount, ranked]);
 
-    console.log('render ', { state: { ...this.state }, props: { ...this.props }, 'this': { ...this } });
+  // if (ranked.length < renderCount) {
+  //   clearTimeout(this.debounceShrinkVirtualScroll);
+  //   this.debounceShrinkVirtualScroll = setTimeout(() => {
+  //     if (this.lastRankedCount < this.state?.renderCount)
+  //       this.setState({ renderCount: this.lastRankedCount + Math.round(BLOCK_ADD_INFINITE_SCROLLING / 2) });
+  //   }, 1000);
+  // }
 
-    return (
-      <>
-        <RenderSearchResults rankedPosts={ranked} maxRenderCount={maxRenderCount} />
-        <Visible
-          rootMargin='0px 0px 300px 0px'
-          onVisible={() => this.setState({ bottomVisible: true })}
-          onObscured={() => this.setState({ bottomVisible: false })}>
-          {!history.fetchMore || !history.hasMore ? <CompleteHistoryFooter account={account} history={history} /> :
-            fetching ? <LoadingHistoryFooter account={account} history={history} /> :
-              <LoadMoreHistoryFooter account={account} history={history} onClick={this.loadMore} />}
-        </Visible>
-      </>
-    );
-  }
-
-  loadMore = () => {
-    console.log('loadMore ', { state: { ...this.state }, props: { ...this.props }, 'this': { ...this } });
-    const { history } = this.props;
-    if (!history.fetchMore || !history.hasMore) {
-      if (this.state?.fetching) this.setState({ fetching: false });
-      return;
-    }
-
-    const fetchMorePromise = history.fetchMore();
-    if (fetchMorePromise) {
-      if (!this.state?.fetching) this.setState({ fetching: true });
-
-      fetchMorePromise.finally(() => {
-        setTimeout(() => {
-          console.log('loadMore finally ', { state: { ...this.state }, props: { ...this.props }, 'this': { ...this } });
-
-          if (this.state?.fetching) this.setState({ fetching: false, tick: Date.now() });
-        }, 100);
-      });
-    }
-  };
+  return (
+    <>
+      <RenderSearchResults rankedPosts={ranked} maxRenderCount={renderCount} />
+      <Visible
+        rootMargin="0px 0px 300px 0px"
+        onVisible={() => setBottomVisible(true)}
+        onObscured={() => setBottomVisible(false)}
+      >
+        {!history.hasNextPage ? (
+          <CompleteHistoryFooter historySize={allPosts.length} />
+        ) : fetching ? (
+          <LoadingHistoryFooter historySize={allPosts.length} />
+        ) : (
+          <LoadMoreHistoryFooter
+            historySize={allPosts.length}
+            onClick={() => history.fetchNextPage()}
+          />
+        )}
+      </Visible>
+    </>
+  );
 }
 
-function CompleteHistoryFooter({ account, history }) {
-  return history.posts.length + localise(' loaded, complete.', { uk: ' завантажено, вичерпно.'});
+function CompleteHistoryFooter({ historySize }) {
+  return (
+    historySize +
+    localise(' loaded, complete.', { uk: ' завантажено, вичерпно.' })
+  );
 }
 
-function LoadingHistoryFooter({ account, history }) {
-  return history.posts.length + localise(' loaded, loading more from server...', { uk: ' завантажено, зачекайте ще...'});
+function LoadingHistoryFooter({ historySize }) {
+  return (
+    historySize +
+    localise(' loaded, loading more from server...', {
+      uk: ' завантажено, зачекайте ще...',
+    })
+  );
 }
 
-function LoadMoreHistoryFooter({ account, history, onClick }) {
+function LoadMoreHistoryFooter({ historySize, onClick }) {
   return (
     <span onClick={onClick}>
-      {
-        history.posts.length > 0 ?
-          history.posts.length + localise(' loaded, click to load more...', {uk:' завантажено, натисніть щоб пошукати ще...'}) :
-          '.'
-      }
+      {historySize > 0
+        ? historySize +
+          localise(' loaded, click to load more...', {
+            uk: ' завантажено, натисніть щоб пошукати ще...',
+          })
+        : '.'}
     </span>
   );
 }

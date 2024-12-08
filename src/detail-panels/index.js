@@ -1,1 +1,1 @@
-export { AccountView } from './account-view';
+export { AccountLayout } from './layout';

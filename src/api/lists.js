@@ -2,7 +2,7 @@
 
 import { unwrapShortHandle } from '.';
 import { fetchClearskyApi } from './core';
-import { resolveHandleOrDID } from './resolve-handle-or-did';
+import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 const PAGE_SIZE = 100;
@@ -11,10 +11,12 @@ const PAGE_SIZE = 100;
  * @param {string} handleOrDID
  */
 export function useList(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
   return useInfiniteQuery({
-    enabled: !!handleOrDID,
-    queryKey: ['lists', handleOrDID],
-    queryFn: ({ pageParam }) => getList(handleOrDID, pageParam),
+    enabled: !!shortHandle,
+    queryKey: ['lists', shortHandle],
+    queryFn: ({ pageParam }) => getList(shortHandle, pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
@@ -24,29 +26,27 @@ export function useList(handleOrDID) {
  * @param {string} handleOrDID
  */
 export function useListTotal(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!handleOrDID,
-    queryKey: ['list-total', handleOrDID],
-    queryFn: () => getListTotal(handleOrDID),
+    enabled: !!shortHandle,
+    queryKey: ['list-total', shortHandle],
+    queryFn: () => getListTotal(shortHandle),
   });
 }
 
 /**
- * @param {string} handleOrDID
+ * @param {string} shortHandle
  * @param {number} currentPage
  * @returns {Promise<{
  *    lists: AccountListEntry[],
  *    nextPage: number | null
  * }>}
  */
-async function getList(handleOrDID, currentPage = 1) {
-  const resolved = await resolveHandleOrDID(handleOrDID);
-  if (!resolved)
-    throw new Error('Could not resolve handle or DID: ' + handleOrDID);
-
+async function getList(shortHandle, currentPage = 1) {
   const handleURL =
     'get-list/' +
-    unwrapShortHandle(resolved.shortHandle) +
+    unwrapShortHandle(shortHandle) +
     (currentPage === 1 ? '' : '/' + currentPage);
 
   /** @type {{ data: { lists: AccountListEntry[] } }} */
@@ -68,14 +68,10 @@ async function getList(handleOrDID, currentPage = 1) {
 }
 
 /**
- * @param {string} handleOrDID
+ * @param {string} shortHandle
  */
-async function getListTotal(handleOrDID) {
-  const resolved = await resolveHandleOrDID(handleOrDID);
-  if (!resolved)
-    throw new Error('Could not resolve handle or DID: ' + handleOrDID);
-
-  const handleURL = 'get-list/total/' + unwrapShortHandle(resolved.shortHandle);
+async function getListTotal(shortHandle) {
+  const handleURL = 'get-list/total/' + unwrapShortHandle(shortHandle);
 
   /** @type {{ data: { count: number; pages: number } }} */
   const re = await fetchClearskyApi('v1', handleURL);

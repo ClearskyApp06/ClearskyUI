@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 // import { useSearchParams } from 'react-router-dom';
 
-import { isPromise, resolveHandleOrDID } from '../../api';
 // import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
 // import { TableView } from './table-view';
@@ -24,7 +23,6 @@ import { localise } from '../../localisation';
  *  className?: string,
  *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
  *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
- *  account: AccountInfo | { shortHandle: String, loading: true },
  *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
  * }} _
  */
@@ -32,7 +30,6 @@ export function BlockPanelGeneric({
   className,
   blocklistQuery,
   totalQuery,
-  account,
   header,
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
@@ -87,7 +84,7 @@ export function BlockPanelGeneric({
         </p>
       ) : (
         //tableView ? (<TableView account={account} blocklist={blocklist} />) : (
-        <ListView account={account} blocklist={blocklist} />
+        <ListView blocklist={blocklist} />
       )}
       {/* )} */}
       {hasNextPage ? (

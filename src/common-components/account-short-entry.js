@@ -7,17 +7,16 @@ import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 
-import { likelyDID, unwrapShortHandle } from '../api';
+import { distinguishDidFromHandle, likelyDID, unwrapShortHandle, useResolveHandleOrDid } from '../api';
 import { calcHash } from '../api/core';
 import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
-import { useResolveAccount } from './use-resolve-account';
 
 import './account-short-entry.css';
 
 /**
  * @typedef {{
- *  account: string | Partial<AccountInfo> & { loading?: boolean },
+ *  account: string,
  *  withDisplayName?: boolean,
  *  className?: string,
  *  contentClassName?: string,
@@ -34,23 +33,25 @@ import './account-short-entry.css';
  * @param {Props} _
  */
 export function AccountShortEntry({ account, ...rest }) {
-
-  const resolved = useResolveAccount(account);
+  const resolved = useResolveHandleOrDid(account);
   if (!resolved) return undefined;
   
-  if (resolved.loading) return (
-    <LoadingAccount  {...rest} handle={resolved.shortHandle} />
+  if (resolved.isLoading) return (
+    <LoadingAccount  {...rest} handle={account} />
   );
-  else if (resolved.error) return (
-    <ErrorAccount {...rest} error={resolved.error} handle={resolved.shortHandle} />
+  else if (resolved.isError) return (
+    <ErrorAccount {...rest} error={resolved.error} handle={account} />
   );
-  else return (
-    <ResolvedAccount {...rest} account={resolved} />
-  );
+  else {
+    const { did, handle } = distinguishDidFromHandle(account);
+    return (
+      <ResolvedAccount {...rest} account={resolved.data || { shortDID: did || '', shortHandle: handle || '' }} />
+    );
+  }
 }
 
 /**
- * @param {Props & { account: Partial<AccountInfo>}} _
+ * @param {Omit<Props, "account"> & { account: AccountInfo }} _
  */
 function ResolvedAccount({
   account,
@@ -80,7 +81,7 @@ function ResolvedAccount({
               backgroundImage: `url(${account.avatarUrl})`,
               animationDelay: avatarDelay
             }}>@</span>
-        <FullHandle shortHandle={account.shortHandle} />
+        <FullHandle shortHandle={account.shortHandle || account.shortDID} />
         {
           !withDisplayName || !account.displayName ? undefined :
             <>
