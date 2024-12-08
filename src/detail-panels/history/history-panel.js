@@ -9,14 +9,12 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { Button, Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import './history-panel.css';
+import { useAccountResolver } from '../account-resolver';
 
-/**
- * @param {{
- *  account: Partial<AccountInfo> & { shortHandle: String, loading: true }
- * }} _
- */
-export function HistoryPanel({ account }) {
-  const history = usePostHistory(account.shortDID);
+export function HistoryPanel() {
+  const accountQuery = useAccountResolver();
+  const account = accountQuery.data;
+  const history = usePostHistory(account?.shortDID);
 
   return (
     <SearchParamsHelper>
@@ -33,7 +31,7 @@ export function HistoryPanel({ account }) {
               <div className="obscure-public-records-overlay">
                 <div className="obscure-public-records-overlay-content">
                   <AccountShortEntry
-                    account={account}
+                    account={account?.shortDID}
                     withDisplayName
                     link={false}
                   />
@@ -54,7 +52,7 @@ export function HistoryPanel({ account }) {
                     variant="outlined"
                     target="_blank"
                     href={`https://bsky.app/profile/${unwrapShortHandle(
-                      account.shortHandle
+                      account?.shortHandle
                     )}`}
                   >
                     {localise('Authenticate', {
@@ -79,7 +77,7 @@ export function HistoryPanel({ account }) {
               }
             >
               {history.isLoading ? (
-                <HistoryLoading account={account} />
+                <HistoryLoading />
               ) : (
                 <HistoryScrollableList
                   history={history}

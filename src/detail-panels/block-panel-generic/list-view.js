@@ -1,8 +1,5 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
-
-import React from 'react';
-
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
@@ -14,20 +11,17 @@ const GROW_BLOCK_SIZE = 29;
 
 /**
  * @param {{
- *  account: AccountInfo | { shortHandle: string, loading: true };
  *  blocklist: (BlockedByRecord | { did: string; blocked_date: string })[];
  * }} _
  */
-export function ListView({ account, blocklist }) {
+export function ListView({ blocklist }) {
   const [listSize, setListSize] = useState(INITIAL_SIZE);
   const showSize = Math.min(blocklist.length, listSize);
 
   return (
     <ul className="block-list">
       {blocklist.slice(0, showSize).map((block, index) => {
-        const entry = (
-          <ListViewEntry key={index} account={account} {...block} />
-        );
+        const entry = <ListViewEntry key={index} {...block} />;
 
         return index < showSize - 1 ? (
           entry
@@ -55,21 +49,13 @@ export function ListView({ account, blocklist }) {
 
 /**
  * @param {{
- *  account: AccountInfo | {shortHandle: string, loading: true};
  *  blocked_date: string;
  *  handle?: string;
  *  did?: string;
  *  className?: string;
  * }} _
  */
-function ListViewEntry({
-  account,
-  blocked_date,
-  handle,
-  did,
-  className,
-  ...rest
-}) {
+function ListViewEntry({ blocked_date, handle, did, className, ...rest }) {
   const result = (
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
       <AccountShortEntry

@@ -1,13 +1,12 @@
 // @ts-check
 /// <reference path="../../../types.d.ts" />
 
-import { breakFeedUri, likelyDID, unwrapShortDID, unwrapShortHandle } from '../../../api';
+import { breakFeedUri, likelyDID, unwrapShortDID, unwrapShortHandle, useResolveHandleOrDid } from '../../../api';
 import { usePostByUri } from '../../../api/post-history';
 
 import { Tooltip } from '@mui/material';
 import { AccountShortEntry } from '../../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../../common-components/format-timestamp';
-import { useResolveAccount } from '../../../common-components/use-resolve-account';
 import { PostContentText } from './post-content-text';
 import { PostEmbed } from './post-embed';
 
@@ -27,7 +26,7 @@ import { localise } from '../../../localisation';
 export function RenderPost({ post, className, disableEmbedQT, level, textHighlights, textLightHighlights, ...rest }) {
   if (!post) return undefined;
   const postUri = breakFeedUri(/** @type {string} */(post.uri));
-  const account = useResolveAccount(postUri?.shortDID);
+  const account = useResolveHandleOrDid(postUri?.shortDID);
 
   return (
     <div {...rest} className={'post-with-content ' + (className || '')}
@@ -103,10 +102,10 @@ function ReplyToLink({ post, ...rest }) {
   const replyUri = breakFeedUri(post.reply?.parent?.uri);
   const rootUri = breakFeedUri(post.reply?.root?.uri);
 
-  const replyAccount = useResolveAccount(replyUri?.shortDID);
-  const rootAccount = useResolveAccount(rootUri?.shortDID);
+  const replyAccount = useResolveHandleOrDid(replyUri?.shortDID);
+  const rootAccount = useResolveHandleOrDid(rootUri?.shortDID);
 
-  if (!replyAccount && !rootAccount) return undefined;
+  if (!replyAccount.data || !rootAccount.data) return undefined;
 
   return (
     <span {...rest}>
@@ -115,18 +114,18 @@ function ReplyToLink({ post, ...rest }) {
           <>
             <span className='post-replying-to-marker-text'>&lsaquo;</span>
             <Tooltip title={<RenderPostInTooltip postUri={post.reply?.parent?.uri} />}>
-              <a href={createPostHref(replyAccount.shortHandle, replyUri?.postID)} target='_blank'>
+              <a href={createPostHref(replyAccount.data.shortHandle, replyUri?.postID)} target='_blank'>
                 <MiniAvatar className='post-replying-to-resolved' account={replyAccount} />
               </a>
             </Tooltip>
           </>
       }
       {
-        !rootAccount || rootAccount.shortHandle === replyAccount?.shortHandle ? undefined :
+        !rootAccount || rootAccount.data.shortHandle === replyAccount.data.shortHandle ? undefined :
           <>
             <span className='post-replying-to-marker-text'>&lsaquo;</span>
             <Tooltip title={<RenderPostInTooltip postUri={post.reply?.root?.uri} />}>
-              <a href={createPostHref(rootAccount.shortHandle, rootUri?.postID)} target='_blank'>
+              <a href={createPostHref(rootAccount.data.shortHandle, rootUri?.postID)} target='_blank'>
                 <MiniAvatar className='post-replying-to-resolved post-replying-to-root' account={rootAccount} />
               </a>
             </Tooltip>

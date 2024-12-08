@@ -104,12 +104,11 @@ const _breakPostURL_Regex = /^http[s]?\:\/\/bsky\.app\/profile\/([a-z0-9\.\:]+)\
 * @param {string | null | undefined} uri
 */
 export function breakFeedUri(uri) {
-  if (!uri) return;
-  const match = _breakFeedUri_Regex.exec(uri);
-  if (!match || !match[3]) return;
-  return { shortDID: match[2], postID: match[3] };
+  if (!uri || !uri.startsWith('at://')) return;
+  const [did, type, postID] = uri.replace('at://', '').split('/');
+  if (!did || !postID) return;
+  return { shortDID: did, postID };
 }
-const _breakFeedUri_Regex = /^at\:\/\/(did:plc:)?([a-z0-9]+)\/[a-z\.]+\/?(.*)?$/;
 
 /**
  * @param {any} x

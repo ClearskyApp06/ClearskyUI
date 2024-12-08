@@ -15,7 +15,7 @@ import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 
 import { Home } from './landing/home';
-import { AccountView } from './detail-panels';
+import { AccountLayout } from './detail-panels';
 
 import './app.css';
 
@@ -64,8 +64,8 @@ function showApp() {
       { path: '/', element: <Home /> },
       { path: '/index.html', element: <Home /> },
       { path: '/stable/*', element: <Home /> },
-      { path: '/:handle', element: <AccountView /> },
-      { path: '/:handle/:tab', element: <AccountView /> }
+      { path: '/:handle', element: <AccountLayout /> },
+      { path: '/:handle/:tab', element: <AccountLayout /> }
     ], {
       basename:
         /file/i.test(location.protocol) ? undefined :
