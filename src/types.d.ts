@@ -90,7 +90,7 @@ interface FunnerFacts {
 
 type DashboardStats = {
   asof: string | null;
-  totalUsers: Omit<TotalUsers> | null;
+  totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
   topLists: Partial<FunFacts> & Partial<FunnerFacts>;
 };
