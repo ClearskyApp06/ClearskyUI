@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "",
   "scripts": {
     "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
