@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { unwrapShortDID, unwrapShortHandle } from '../../api';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
@@ -10,28 +10,30 @@ import { FullDID, FullHandle } from '../../common-components/full-short';
 import './account-header.css';
 import { localise } from '../../localisation';
 import { Button } from '@mui/material';
+import { useAccountResolver } from '../account-resolver';
+import { useHandleHistory } from '../../api/handle-history';
 
 /**
  * @param {{
  *  className?: string,
- *  account: Partial<AccountInfo> & { loading?: boolean },
- *  handleHistory?: [handle: string, date: string][],
  *  onInfoClick?: () => void,
  *  onCloseClick?: () => void
  * }} _ 
  */
 export function AccountHeader({
   className,
-  account,
-  handleHistory,
   onInfoClick,
   onCloseClick }) {
   const [isCopied, setIsCopied] = useState(false);
   const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
+  const resolved = useAccountResolver();
+  
+  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
+  const handleHistory = handleHistoryQuery.data?.handle_history;
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
-    const modifiedShortDID = unwrapShortDID(account.shortDID);
+    const modifiedShortDID = unwrapShortDID(resolved.data?.shortDID);
     const textField = document.createElement('textarea');
     textField.innerText = modifiedShortDID;
     document.body.appendChild(textField);
@@ -60,33 +62,33 @@ export function AccountHeader({
         }
 
         <div className='account-banner' style={{
-          backgroundImage: account.bannerUrl ? `url(${account.bannerUrl})` : 'transparent'
+          backgroundImage: resolved.data?.bannerUrl ? `url(${resolved.data?.bannerUrl})` : 'transparent'
         }}>
         </div>
 
         <span className='account-avatar-and-displayName-line'>
           <span className='account-banner-overlay'></span>
           <span className='account-avatar' style={{
-            backgroundImage: account.avatarUrl ? `url(${account.avatarUrl})` : 'transparent'
+            backgroundImage: resolved.data?.avatarUrl ? `url(${resolved.data?.avatarUrl})` : 'transparent'
           }}></span>
           <span className='account-displayName'>
             {
-              account.displayName ||
-              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={account.shortHandle} /></span>
+              resolved.data?.displayName ||
+              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={resolved.data?.shortHandle} /></span>
             }
           </span>
           {
-            !account.displayName ? undefined :
+            !resolved.data?.displayName ? undefined :
               <span className='account-handle'>
                 <span className='account-handle-at'>@</span>
-                <a href={`https://bsky.app/profile/${unwrapShortHandle(account.shortHandle)}`} target="_blank">
-                  <FullHandle shortHandle={account.shortHandle} />
+                <a href={`https://bsky.app/profile/${unwrapShortHandle(resolved.data?.shortHandle)}`} target="_blank">
+                  <FullHandle shortHandle={resolved.data?.shortHandle} />
                 </a>
               </span>
           }
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
             {
-              handleHistory && handleHistory.length > 0 && handleHistory[handleHistory.length - 1][1]
+              handleHistory?.length > 0 && handleHistory[handleHistory.length - 1][1]
                 ? <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} noTooltip />
                 : 'Unknown Date'
             }

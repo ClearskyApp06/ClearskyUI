@@ -4,10 +4,11 @@ import { useBlocklist } from '../../api';
 import { BlockPanelGeneric } from '../block-panel-generic';
 import { localise } from '../../localisation';
 import { useBlocklistCount } from '../../api/blocklist';
+import { useAccountResolver } from '../account-resolver';
 
-/** @param {{ account: AccountInfo | { shortHandle: string; loading: true } }} _ */
-export function BlockingPanel({ account }) {
-  const did = 'shortDID' in account ? account.shortDID : '';
+export function BlockingPanel() {
+  const accountQuery = useAccountResolver();
+  const did = accountQuery.data?.shortDID;
   const blocklistQuery = useBlocklist(did);
   const totalQuery = useBlocklistCount(did);
   return (
@@ -15,7 +16,6 @@ export function BlockingPanel({ account }) {
       className="blocking-panel"
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
-      account={account}
       header={({ count }) => (
         <>
           {localise(`Blocking ${count.toLocaleString()}`, {
