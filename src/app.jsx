@@ -3,7 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './api/query-client';
 
 const Home = React.lazy(() => import('./landing/home'));
 const AccountView = React.lazy(() => import('./detail-panels'));
@@ -54,14 +55,6 @@ function showApp() {
             paddingRight: '0.2em',
           },
         },
-      },
-    },
-  });
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 10 * 60_000, // ten minutes before a request will refetch
       },
     },
   });

@@ -9,15 +9,33 @@ import { useQuery } from '@tanstack/react-query';
  * @param {string} did
  * @returns {import('@tanstack/react-query').UseQueryResult<PlcRecord>}
  */
-export function usePlcRecord(did) {
+export function useDidDocument(did) {
   return useQuery({
     enabled: !!did,
-    queryKey: ['plc.directory', did],
-    queryFn: () =>
-      fetch(`https://plc.directory/${encodeURIComponent(did)}`).then((x) =>
-        x.json()
-      ),
+    queryKey: ['did-document', did],
+    queryFn: ({ signal }) => fetchDidDocument(did, signal),
   });
+}
+
+/**
+ * @param {string} fullDid
+ * @param {AbortSignal} signal
+ */
+export async function fetchDidDocument(fullDid, signal) {
+  /** @type {Response} */
+  let req;
+  if (fullDid.startsWith('did:plc:')) {
+    req = await fetch(`https://plc.directory/${encodeURIComponent(fullDid)}`, {
+      signal,
+    });
+  } else if (fullDid.startsWith('did:web:')) {
+    const docDomain = fullDid.replace('did:web:', '');
+    req = await fetch(`https://${docDomain}/.well-known/did.json`, { signal });
+  } else {
+    throw new Error('unsupported did method');
+  }
+
+  return req.json();
 }
 
 /**
@@ -25,7 +43,7 @@ export function usePlcRecord(did) {
  * @param {string} did
  */
 export function usePdsUrl(did) {
-  const { status, error, data } = usePlcRecord(did);
+  const { status, error, data } = useDidDocument(did);
   /** @type {string | undefined} */
   let pdsUrl;
   if (status === 'success') {

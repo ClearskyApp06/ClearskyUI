@@ -1,12 +1,12 @@
 {
   "name": "ui",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "",
   "scripts": {
     "start": "vite --open",
     "preview": "vite preview --open",
     "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
-    "typecheck": "tsc -noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "ag-grid-community": "^31.0.2",
     "ag-grid-react": "^31.0.3",
     "fuse.js": "^7.0.0",
+    "iso-web": "^1.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0"

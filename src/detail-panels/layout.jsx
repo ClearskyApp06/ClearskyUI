@@ -1,6 +1,6 @@
 // @ts-check
 
-import { Component, lazy } from 'react';
+import { useState, lazy } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { unwrapShortHandle } from '../api';
@@ -16,7 +16,6 @@ import { useAccountResolver } from './account-resolver';
 
 import './layout.css';
 import { AccountExtraInfo } from './account-header';
-import { useHandleHistory } from '../api/handle-history';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -32,17 +31,15 @@ export function AccountLayout() {
 
   const navigate = useNavigate();
 
-  const did = 'shortDID' in account ? account.shortDID : '';
-  const handleHistoryQuery = useHandleHistory(did);
-
   return (
     <AccountLayoutCore
-      account={account}
-      handleHistory={handleHistoryQuery.data?.handle_history}
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
         navigate(
-          '/' + unwrapShortHandle(account?.shortHandle) + '/' + selectedTab,
+          '/' +
+            unwrapShortHandle(account.data?.shortHandle) +
+            '/' +
+            selectedTab,
           { replace: true }
         );
       }}
@@ -53,53 +50,47 @@ export function AccountLayout() {
   );
 }
 
-export class AccountLayoutCore extends Component {
-  materializedTabs = {};
+/**
+ *
+ * @param {{
+ *   selectedTab: string,
+ * onCloseClick: () => void,
+ * onSetSelectedTab: (tab:string) => void,
+ * }} param0
+ * @returns
+ */
+export function AccountLayoutCore({
+  selectedTab,
+  onCloseClick,
+  onSetSelectedTab,
+}) {
+  const [revealInfo, setRevealInfo] = useState(false);
 
-  clearOldTabsTimeout;
+  const handleInfoClick = () => {
+    setRevealInfo((prev) => !prev);
+  };
+  const result = (
+    <>
+      <div className="layout">
+        <AccountHeader
+          className="account-header"
+          onCloseClick={onCloseClick}
+          onInfoClick={handleInfoClick}
+        />
 
-  render() {
-    const selectedTab = this.props.selectedTab;
+        <AccountExtraInfo
+          className={revealInfo ? 'account-extra-info-reveal' : ''}
+        />
 
-    let anyTabsBehind = false;
-    const result = (
-      <>
-        <div className="layout">
-          <AccountHeader
-            account={this.props.account}
-            className="account-header"
-            handleHistory={this.props.handleHistory}
-            onCloseClick={this.props.onCloseClick}
-            onInfoClick={this.handleInfoClick}
-          />
+        <TabSelector
+          className="account-tabs-handles"
+          tab={selectedTab}
+          onTabSelected={(selectedTab) => onSetSelectedTab(selectedTab)}
+        />
 
-          <AccountExtraInfo
-            className={
-              this.state?.revealInfo ? 'account-extra-info-reveal' : ''
-            }
-            handleHistory={this.props.handleHistory}
-            account={this.props.account}
-          />
-
-          <TabSelector
-            className="account-tabs-handles"
-            tab={selectedTab}
-            onTabSelected={(selectedTab) =>
-              this.props.onSetSelectedTab(selectedTab)
-            }
-          />
-
-          <div className="account-tabs-content">
-            {accountTabs.map((tab) => {
-              if (tab === selectedTab && !this.materializedTabs[tab])
-                this.materializedTabs[tab] = () =>
-                  renderTabContent(tab, this.props.account);
-              if (tab !== selectedTab && this.materializedTabs[tab])
-                anyTabsBehind = true;
-
-              const tabContentRender = this.materializedTabs[tab];
-              if (!tabContentRender) return undefined;
-
+        <div className="account-tabs-content">
+          {accountTabs.map((tab) => {
+            if (tab === selectedTab)
               return (
                 <div
                   key={tab}
@@ -108,53 +99,32 @@ export class AccountLayoutCore extends Component {
                     (tab === selectedTab ? 'account-tab-selected' : '')
                   }
                 >
-                  {tabContentRender()}
+                  {renderTabContent(tab)}
                 </div>
               );
-            })}
-          </div>
+          })}
         </div>
-      </>
-    );
-
-    clearTimeout(this.clearOldTabsTimeout);
-    if (anyTabsBehind) {
-      this.clearOldTabsTimeout = setTimeout(this.clearOldTabs, 700);
-    }
-
-    return result;
-  }
-
-  handleInfoClick = () => {
-    this.setState({
-      revealInfo: !this.state?.revealInfo,
-    });
-  };
-
-  clearOldTabs = () => {
-    let anyTabsCleared = false;
-    for (const tab of accountTabs) {
-      if (tab !== this.props.selectedTab && this.materializedTabs[tab]) {
-        delete this.materializedTabs[tab];
-        anyTabsCleared = true;
-      }
-    }
-    if (anyTabsCleared) {
-      this.forceUpdate();
-    }
-  };
+      </div>
+    </>
+  );
+  return result;
 }
 
-function renderTabContent(tab, account) {
+/**
+ *
+ * @param {string} tab
+ * @returns
+ */
+function renderTabContent(tab) {
   switch (tab) {
     case 'blocked-by':
-      return <BlockedByPanel account={account} />;
+      return <BlockedByPanel />;
     case 'blocking':
-      return <BlockingPanel account={account} />;
+      return <BlockingPanel />;
     case 'lists':
-      return <Lists account={account} />;
+      return <Lists />;
     case 'history':
-      return <HistoryPanel account={account} />;
+      return <HistoryPanel />;
 
     default:
       return (

@@ -35,13 +35,13 @@ export function HomeStats({ className }) {
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
   const activeAccounts = parseNumberWithCommas(
-    stats?.totalUsers.active_count?.value
+    stats?.totalUsers?.active_count?.value
   );
   const deletedAccounts = parseNumberWithCommas(
-    stats?.totalUsers.deleted_count?.value
+    stats?.totalUsers?.deleted_count?.value
   );
-  const percentNumberBlocked1 = stats?.blockStats.percentNumberBlocked1;
-  const percentNumberBlocking1 = stats?.blockStats.percentNumberBlocking1;
+  const percentNumberBlocked1 = stats?.blockStats?.percentNumberBlocked1;
+  const percentNumberBlocking1 = stats?.blockStats?.percentNumberBlocking1;
 
   const arg = {
     className,

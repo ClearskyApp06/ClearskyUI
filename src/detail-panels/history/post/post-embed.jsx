@@ -1,12 +1,11 @@
 // @ts-check
 
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { breakFeedUri, getFeedBlobUrl } from '../../../api';
-import { getPost } from '../../../api/post-history';
+import { usePostByUri } from '../../../api/post-history';
 
 import { RenderPost } from './render-post';
-import { forAwait } from '../../../common-components/for-await';
 import { localise } from '../../../localisation';
 
 /**
@@ -49,10 +48,10 @@ export function PostEmbed({ post, embed, disableEmbedQT, level }) {
  * }} _
  */
 function PostEmbedRecord({ embed, disableEmbedQT, level }) {
-  const post = forAwait(embed.record.uri, getPost);
-  return !post ? 'Loading...' : (
+  const { data } = usePostByUri(embed.record.uri);
+  return !data ? 'Loading...' : (
     <div className='post-content-embed'>
-      <RenderPost post={post} disableEmbedQT={disableEmbedQT} level={level} className='post-content-embed-qt' />
+      <RenderPost post={data} disableEmbedQT={disableEmbedQT} level={level} className='post-content-embed-qt' />
     </div>
   );
 }
@@ -125,7 +124,7 @@ function ImageWithAlt({ className, Component = 'span', imageClassName, altClassN
 function PostEmbedRecordWithMedia({ post, embed }) {
   const images = /** @type {import('@atproto/api').AppBskyEmbedImages.Main['images']} */(embed.media?.images);
   const postUri = breakFeedUri(post.uri);
-  const embedPost = forAwait(embed.record.record.uri, getPost);
+  const { data } = usePostByUri(embed.record.record.uri);
   return (
     <div className='post-content-embed'>
       {
@@ -147,8 +146,8 @@ function PostEmbedRecordWithMedia({ post, embed }) {
                 alt={image.alt} />)
       }
       {
-        !embedPost ? localise('Loading...', {uk: 'Зачекайте...'}) :
-          <RenderPost post={embedPost} disableEmbedQT className='post-content-embed-qt' />
+        !data ? localise('Loading...', {uk: 'Зачекайте...'}) :
+          <RenderPost post={data} disableEmbedQT className='post-content-embed-qt' />
       }
     </div>
   );

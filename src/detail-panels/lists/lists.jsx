@@ -14,15 +14,11 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
+import { useAccountResolver } from '../account-resolver';
 
-/**
- * @param {{
- *  className?: string,
- *  account: AccountInfo | { shortHandle: String, loading: true }
- * }} _
- */
-export function Lists({ account }) {
-  const shortHandle = "shortDID" in account ? account.shortDID : null;
+export function Lists() {
+  const accountQuery = useAccountResolver();
+  const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useList(shortHandle);
   const { data: totalData, isLoading: isLoadingTotal } = useListTotal(shortHandle);
 
@@ -84,7 +80,6 @@ export function Lists({ account }) {
       </h3>
 
       <ListView
-        account={account}
         list={filteredLists} />
 
       {shouldShowLoadMore && (
@@ -113,13 +108,8 @@ function matchSearch(blocklist, search, redraw) {
     if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
 
-    const accountOrPromise = resolveHandleOrDID(entry.did);
-    if (accountOrPromise instanceof Promise) {
-      accountOrPromise.then(redraw);
-      return false;
-    }
-
-    if ((accountOrPromise.displayName || '').toLowerCase().includes(searchLowercase)) return true;
+    resolveHandleOrDID(entry.did).then(redraw);
+    return false;
   });
   return filtered;
 }

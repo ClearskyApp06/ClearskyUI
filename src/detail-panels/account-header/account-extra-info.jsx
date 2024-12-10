@@ -10,25 +10,29 @@ import { unwrapShortDID } from '../../api';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
 import { localise } from '../../localisation';
+import { useAccountResolver } from '../account-resolver';
+import { useHandleHistory } from '../../api/handle-history';
 
 /**
  * @param {{
- *  account: AccountInfo,
- *  handleHistory?: import('../../api/handle-history').HandleHistoryResponse['handle_history'],
  *  className?: string
  * }} _
  */
-export function AccountExtraInfo({ className, account, handleHistory, ...rest }) {
+export function AccountExtraInfo({ className, ...rest }) {
+  const accountQuery = useAccountResolver();
+  const account = accountQuery.data;
+  const handleHistoryQuery = useHandleHistory(account?.shortDID);
+  const handleHistory = handleHistoryQuery.data?.handle_history;
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
       <div className='bio-section'>
         {
           !account?.description ? undefined :
-            <MultilineFormatted text={account.description} />
+            <MultilineFormatted text={account?.description} />
         }
       </div>
       <div className='did-section'>
-        <DidWithCopyButton account={account} handleHistory={handleHistory} />
+        <DidWithCopyButton shortDID={account?.shortDID} handleHistory={handleHistory} />
       </div>
       <div className='handle-history-section'>
         {
@@ -49,21 +53,21 @@ export function AccountExtraInfo({ className, account, handleHistory, ...rest })
 
 /**
  * @param {{
- *  account: AccountInfo,
+ *  shortDID: string,
  *  handleHistory?: import('../../api/handle-history').HandleHistoryResponse['handle_history'],
  * }} _
  */
-function DidWithCopyButton({ account, handleHistory }) {
+function DidWithCopyButton({ shortDID, handleHistory }) {
   const [isCopied, setIsCopied] = React.useState(false);
 
   const currentPds = handleHistory?.map(entry => entry[2]).filter(Boolean)[0];
 
   return (
     <>
-      <FullDID shortDID={account.shortDID} />
+      <FullDID shortDID={shortDID} />
       {isCopied ?
         <div className='copied-to-clipboard'>Copied to Clipboard</div> :
-        <Button className='copy-did' onClick={() => handleCopyDid(account)}>
+        <Button className='copy-did' onClick={() => handleCopyDid(shortDID)}>
           <ContentCopy />
         </Button>
       }
@@ -76,9 +80,12 @@ function DidWithCopyButton({ account, handleHistory }) {
     </>
   );
 
-  function handleCopyDid(account) {
+  /**
+   * @param {string} shortDID 
+   */
+  function handleCopyDid(shortDID) {
     // Copy the shortDID to the clipboard
-    const modifiedShortDID = unwrapShortDID(account.shortDID);
+    const modifiedShortDID = unwrapShortDID(shortDID);
     const textField = document.createElement('textarea');
     textField.innerText = modifiedShortDID;
     document.body.appendChild(textField);

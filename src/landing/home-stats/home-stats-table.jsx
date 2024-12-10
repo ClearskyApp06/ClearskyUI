@@ -84,12 +84,6 @@ function getGridRowsAndColumns(stats) {
   const rows = [];
 
   rows.push({ Handle: localise('Stats', {}), title: true });
-  if (stats.asof) {
-    rows.push({
-      Handle: localise('as of', {}),
-      block_count: new Date(stats.asof).toLocaleString(),
-    });
-  }
 
   if (stats.totalUsers) {
     /** @type {ValueWithDisplayName[]} */

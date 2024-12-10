@@ -1,8 +1,5 @@
 // @ts-check
 
-import React from 'react';
-import { Tooltip } from '@mui/material';
-
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 
@@ -11,17 +8,15 @@ import './list-view.css';
 /**
  * @param {{
  *  className?: string,
- *  account: AccountInfo | { shortHandle: String, loading: true },
  *  list?: AccountListEntry[]
  * }} _
  */
-export function ListView({ className, account, list }) {
+export function ListView({ className, list }) {
   return (
     <ul className={'lists-as-list-view ' + (className || '')}>
       {(list || []).map((entry, i) => (
         <ListViewEntry
           key={i}
-          account={account}
           entry={entry} />
       ))}
     </ul>
@@ -31,11 +26,10 @@ export function ListView({ className, account, list }) {
 /**
  * @param {{
  *  className?: string,
- *  account: AccountInfo | { shortHandle: String, loading: true },
  *  entry: AccountListEntry
  * }} _
  */
-function ListViewEntry({ className, account, entry }) {
+function ListViewEntry({ className, entry }) {
   return (
     <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
