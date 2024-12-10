@@ -1,11 +1,11 @@
 {
   "name": "ui",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "",
   "scripts": {
     "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
     "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --define:process.env.NODE_ENV=\\\"production\\\" --define:window.BUILD_COMMIT_HASH=\\\"$(git describe --always --dirty)\\\"",
-    "typecheck": "tsc -noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "ag-grid-react": "^31.0.3",
     "esbuild": "^0.20.0",
     "fuse.js": "^7.0.0",
+    "iso-web": "^1.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0"
