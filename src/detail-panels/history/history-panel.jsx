@@ -11,7 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import './history-panel.css';
 import { useAccountResolver } from '../account-resolver';
 
-export function HistoryPanel() {
+export default function HistoryPanel() {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
   const history = usePostHistory(account?.shortDID);

@@ -1,20 +1,21 @@
 // @ts-check
 
-import { useState } from 'react';
+import { useState, lazy } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { unwrapShortHandle } from '../api';
 
+const BlockedByPanel = lazy(() => import('./blocked-by'));
+const BlockingPanel = lazy(() => import('./blocking'));
+const HistoryPanel = lazy(() => import('./history/history-panel'));
+const Lists = lazy(() => import('./lists'));
+
 import { AccountHeader } from './account-header';
-import { BlockedByPanel } from './blocked-by';
-import { BlockingPanel } from './blocking';
-import { HistoryPanel } from './history/history-panel';
 import { TabSelector } from './tab-selector';
 import { useAccountResolver } from './account-resolver';
 
 import './layout.css';
 import { AccountExtraInfo } from './account-header';
-import { Lists } from './lists';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',

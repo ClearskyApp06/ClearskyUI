@@ -9,9 +9,9 @@
 <meta name="theme-color" content="white" />
 <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
-<link type="image/png" href="/apple-touch-icon.png" rel="icon">
-<link type="image/png" href="/apple-touch-icon.png" rel="shortcut icon">
-<link type="image/png" href="/apple-touch-icon.png" rel="apple-touch-icon">
+<link type="image/png" href="./assets/apple-touch-icon.png" rel="icon">
+<link type="image/png" href="./assets/apple-touch-icon.png" rel="shortcut icon">
+<link type="image/png" href="./assets/apple-touch-icon.png" rel="apple-touch-icon">
 
 <meta property="og:title" content="ClearSky">
 <meta property="og:type" content="article" />
@@ -21,8 +21,8 @@
 
 <title>ClearSky</title>
 
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="icon" type="image/png" href="./assets/favicon.png">
+<link rel="apple-touch-icon" href="./assets/favicon.png">
 
 <style>
 html {
@@ -75,14 +75,13 @@ button {
   font-family: inherit;
 }
 </style>
-<link rel="stylesheet" href="/index.css">
 </head>
 
 <body class="ag-theme-quartz">
 <div id="loading-ui" style="position: absolute;height: 100%;width: 100%;display: grid;filter: blur(6px) brightness(1.1); z-index: 100; background: white;">
   <!-- this content of loading-ui is there to present as an instant placeholder while the main app is loading-->
   <div class="layout">
-    <div class="home-header-logo " style="background-image: url(&quot;/ClearnightLarge.png&quot;);"></div>
+    <div class="home-header-logo " style="background-image: url(&quot;./assets/ClearnightLarge.png&quot;);"></div>
     <div class="home-header" style="padding: 0px 1em;">
       <div
         class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon search-autocomplete  css-1h51icj-MuiAutocomplete-root">
@@ -432,6 +431,6 @@ button {
   </div>
 </div>
 
-<script src="/index.js"></script>
+<script type="module" src="app.jsx"></script>
 </body>
 </html>

@@ -1,12 +1,15 @@
 // @ts-check
 
-import { unwrapShortDID } from '.';
-import { fetchClearskyApi, parseNumberWithCommas } from './core';
+import {
+  fetchClearskyApi,
+  parseNumberWithCommas,
+  unwrapShortDID,
+} from './core';
 import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 /**
- * @param {string} did
+ * @param {string | undefined} did
  */
 export function useBlocklist(did) {
   const fullDid = unwrapShortDID(did);
@@ -49,7 +52,7 @@ async function getBlocksFromPds(pdsHost, fullDid, cursor) {
 }
 
 /**
- * @param {string} did
+ * @param {string | undefined} did
  */
 export function useSingleBlocklist(did) {
   const fullDid = unwrapShortDID(did);
@@ -65,7 +68,7 @@ export function useSingleBlocklist(did) {
 
 /**
  *
- * @param {string} did
+ * @param {string | undefined} did
  */
 export function useBlocklistCount(did) {
   const fullDid = unwrapShortDID(did);
@@ -77,7 +80,7 @@ export function useBlocklistCount(did) {
 }
 /**
  *
- * @param {string} did
+ * @param {string | undefined} did
  */
 export function useSingleBlocklistCount(did) {
   const fullDid = unwrapShortDID(did);
