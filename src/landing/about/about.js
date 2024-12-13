@@ -33,6 +33,14 @@ export function About({ onToggleAbout }) {
           link="https://bsky.app/profile/thieflord.dev"
           accountTooltipPanel={true}
         />
+        <h2 className="petition">
+          <a
+            target="_blank"
+            href="https://www.change.org/p/bluesky-must-enforce-its-community-guidelines-equally"
+          >
+            Sign the Bluesky change.org Petition
+          </a>
+        </h2>
       </div>
     </div>
   );
