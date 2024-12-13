@@ -46,6 +46,10 @@
   text-align: center;
 }
 
+.home .petition a {
+  text-decoration: none; /* Removes the underline from the link */
+}
+
 .home-header {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
