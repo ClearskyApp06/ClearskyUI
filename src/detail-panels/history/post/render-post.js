@@ -104,28 +104,28 @@ function ReplyToLink({ post, ...rest }) {
   const replyAccount = useResolveHandleOrDid(replyUri?.shortDID);
   const rootAccount = useResolveHandleOrDid(rootUri?.shortDID);
 
-  if (!replyAccount.data || !rootAccount.data) return undefined;
+  if (!post.reply) return undefined;
 
   return (
     <span {...rest}>
       {
-        !replyAccount ? undefined :
+        !replyUri ? undefined :
           <>
             <span className='post-replying-to-marker-text'>&lsaquo;</span>
             <Tooltip title={<RenderPostInTooltip postUri={post.reply?.parent?.uri} />}>
-              <a href={createPostHref(replyAccount.data.shortHandle, replyUri?.postID)} target='_blank'>
-                <MiniAvatar className='post-replying-to-resolved' account={replyAccount} />
+              <a href={createPostHref(replyAccount.data?.shortHandle, replyUri?.postID)} target='_blank'>
+                <MiniAvatar className='post-replying-to-resolved' account={replyAccount.data} />
               </a>
             </Tooltip>
           </>
       }
       {
-        !rootAccount || rootAccount.data.shortHandle === replyAccount.data.shortHandle ? undefined :
+        !replyUri || rootUri?.shortDID === replyUri?.shortDID ? undefined :
           <>
             <span className='post-replying-to-marker-text'>&lsaquo;</span>
             <Tooltip title={<RenderPostInTooltip postUri={post.reply?.root?.uri} />}>
-              <a href={createPostHref(rootAccount.data.shortHandle, rootUri?.postID)} target='_blank'>
-                <MiniAvatar className='post-replying-to-resolved post-replying-to-root' account={rootAccount} />
+              <a href={createPostHref(rootAccount.data?.shortHandle, rootUri?.postID)} target='_blank'>
+                <MiniAvatar className='post-replying-to-resolved post-replying-to-root' account={rootAccount?.data} />
               </a>
             </Tooltip>
           </>
@@ -147,12 +147,18 @@ function RenderPostInTooltip({ postUri }) {
 }
 
 
+/**
+ * @param {{
+*  account: AccountInfo | null,
+*  className?: string
+* }} _
+*/
 function MiniAvatar({ account, className, ...rest }) {
   return (
     <span className={'post-replying-mini-avatar ' + (className || '')} style={
-      !account.avatarUrl ? undefined :
-        { backgroundImage: `url(${account.avatarUrl})` }
-    } {...rest}>{account.displayName}</span>
+      !account?.avatarUrl ? undefined :
+        { backgroundImage: `url(${account?.avatarUrl})` }
+    } {...rest}>{account?.displayName}</span>
   );
 }
 
