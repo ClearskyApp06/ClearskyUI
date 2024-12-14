@@ -51,8 +51,7 @@ export function RenderPost({ post, className, disableEmbedQT, level, textHighlig
                 className='post-timestamp'
                 timestamp={post.createdAt}
                 Component='a'
-                // @ts-ignore
-                href={createPostHref(account.shortHandle, postUri?.postID)}
+                href={createPostHref(account.data?.shortHandle, postUri?.postID)}
                 target='_blank'
                 tooltipExtra={
                   <div className='post-timestamp-tooltip'>

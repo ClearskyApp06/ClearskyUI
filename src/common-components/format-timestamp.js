@@ -12,6 +12,8 @@ import { localise } from '../localisation';
  *  Component?: React.ElementType,
  *  noTooltip?: boolean,
  *  tooltipExtra?: import('react').ReactNode
+ *  target?: string;
+ *  href?: string;
  * }} _ 
  */
 export function FormatTimestamp({
