@@ -27,12 +27,6 @@ export function About({ onToggleAbout }) {
         {localise('Version', { uk: 'Версія' })}: {version}{' '}
         {builtFromCommit && `(${builtFromCommit})`}
         <br />
-        &nbsp; {localise('Created by', { uk: 'Створив' })}:{' '}
-        <AccountShortEntry
-          account="thieflord.dev"
-          link="https://bsky.app/profile/thieflord.dev"
-          accountTooltipPanel={true}
-        />
         <h2 className="petition">
           <a
             target="_blank"
