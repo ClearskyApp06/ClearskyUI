@@ -12,18 +12,6 @@ const AccountView = React.lazy(() => import('./detail-panels'));
 import './app.css';
 
 function showApp() {
-  const loadingUI = document.getElementById('loading-ui');
-  if (loadingUI) {
-    loadingUI.style.transition = 'opacity 0.5s';
-    setTimeout(() => {
-      loadingUI.style.opacity = '0';
-      setTimeout(() => {
-        console.log('removing loadingUI');
-        loadingUI.parentElement?.removeChild(loadingUI);
-      }, 500);
-    }, 1);
-  }
-
   const root = document.createElement('div');
   root.id = 'root';
   root.style.cssText = `
@@ -79,5 +67,4 @@ function showApp() {
   );
 }
 
-console.log('starting the app...');
 showApp();
