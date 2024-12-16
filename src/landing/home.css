@@ -23,9 +23,13 @@
   grid-row: 1 / 2;
   margin: 0.5em;
 
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position-y: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.home-header-logo img {
+  width: 100%;
 }
 
 .home .about {

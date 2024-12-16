@@ -1,42 +1,49 @@
 // @ts-check
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import logoDay from '../assets/CleardayLarge.png';
 import logoNight from '../assets/ClearnightLarge.png';
+import logoDaySmall from '../assets/CleardaySmall.png';
+import logoNightSmall from '../assets/ClearnightSmall.png';
+
+function useForceUpdate() {
+  const [, update] = useState(0);
+  return useCallback(() => {
+    update((prev) => prev + 1);
+  }, []);
+}
 
 /**
  * @param {{
- *  Component?: any,
  *  className?: string,
  *  style?: React.CSSProperties
  * }} _
  */
-export function Logo({
-  Component = 'div',
-  className,
-  ...rest }) {
+export function Logo({ className, ...rest }) {
+  const images = getLogoImage();
+  const forceUpdate = useForceUpdate();
 
-  const [logoImage, setLogoImage] = useState(getLogoImageAndRefresh);
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      forceUpdate();
+    }, images.refreshInMsec);
+    return () => {
+      clearTimeout(handle);
+    };
+  }, [images.large]);
 
+  const img = <img srcSet="" />;
   return (
-    <Component
-      {...rest}
-      className={'home-header-logo ' + (className || '')}
-      style={{
-        backgroundImage: logoImage,
-        ...rest.style
-      }}>
-    </Component>
+    <figure className={'home-header-logo ' + (className || '')}>
+      <img
+        {...rest}
+        alt="clearsky logo"
+        src={images.large}
+        srcSet={`${images.small} (max-width: 800px), ${images.large}`}
+      />
+    </figure>
   );
-
-  function getLogoImageAndRefresh() {
-    const { image, refreshInMsec } = getLogoImage();
-    setTimeout(
-      () => setLogoImage(getLogoImageAndRefresh()),
-      refreshInMsec);
-    return image;
-  }
 }
 
 function getLogoImage() {
@@ -62,9 +69,11 @@ function getLogoImage() {
     refreshIn.setHours(DAY_END);
   }
 
-  const logoPick = useDay ? logoDay : logoNight;
+  const large = useDay ? logoDay : logoNight;
+  const small = useDay ? logoDaySmall : logoNightSmall;
   return {
-    image: `url(${logoPick})`,
-    refreshInMsec: refreshIn.getTime() - currentTime.getTime()
+    large,
+    small,
+    refreshInMsec: refreshIn.getTime() - currentTime.getTime(),
   };
 }
