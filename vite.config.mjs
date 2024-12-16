@@ -20,6 +20,7 @@ export default defineConfig({
     rollupOptions: {
       input: getInputHtmlFiles(),
     },
+    emptyOutDir: true,
   },
   define: {
     BUILD_COMMIT_HASH: JSON.stringify(env.BUILD_COMMIT_HASH),
