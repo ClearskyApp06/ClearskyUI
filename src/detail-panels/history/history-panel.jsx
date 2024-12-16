@@ -42,7 +42,7 @@ export default function HistoryPanel() {
                         uk: 'просить приховати свої повідомлення від неавтентифікованих користувачів',
                       }
                     )}
-                    <Tooltip title="To enable this for your profile you can do it in the bsky app via: Settings > Moderation > Logged-out visibility">
+                    <Tooltip title="To enable this for your profile you can do it in the bsky app via: Settings > Privacy and Security > Logged-out visibility">
                       <IconButton>
                         <InfoIcon />
                       </IconButton>
