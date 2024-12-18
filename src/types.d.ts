@@ -1,8 +1,5 @@
 /// <reference types="@atproto/api" />
-
-declare module '*.png' {
-  export default '' as string;
-}
+/// <reference types="vite/client" />
 
 type AccountInfo = {
   shortDID: string;
