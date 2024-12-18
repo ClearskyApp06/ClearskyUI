@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Statement</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
     <style>
         body {
             font-family: Verdana, Geneva, sans-serif;
@@ -51,7 +52,7 @@
 <body>
     <div class="container">
         <a href="/">
-        <img src="./assets/CleardayLarge.png" alt="Logo" class="logo">
+            <img id="logoImage" alt="Logo" class="logo">
         </a>
         <h1>In regard to the recent events surrounding ClearSky</h1>
         <h2>March 21, 2024</h2>
@@ -62,5 +63,10 @@
       <h3>Justin, Creator of ClearSky</h3>
         <div class="copyright">&copy; 2024 Bluethernal LLC</div>
     </div>
+    <script type="module">
+        import { setLogo } from "./logo-images";
+        // Call setLogo function when the page loads
+        setLogo(document.getElementById('logoImage'));
+    </script>
 </body>
 </html>

@@ -29,7 +29,7 @@ export const v1APIPrefix = '/api/v1/anon/';
 /**
  * @param {string} apiURL
  */
-function unwrapClearSkyURL(apiURL) {
+export function unwrapClearskyURL(apiURL) {
   const runStaging = location.hostname !== 'clearsky.app';
   const useBaseURL = runStaging ? baseStagingURL : baseURL;
 
@@ -43,7 +43,7 @@ function unwrapClearSkyURL(apiURL) {
  * @returns
  */
 export function fetchClearskyApi(apiVer, apiPath) {
-  const apiUrl = unwrapClearSkyURL(v1APIPrefix + apiPath);
+  const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
   return fetch(apiUrl).then((x) => x.json());
 }
 
