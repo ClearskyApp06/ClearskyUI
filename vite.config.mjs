@@ -19,8 +19,14 @@ export default defineConfig({
     outDir: resolve(__dirname, 'static'),
     rollupOptions: {
       input: getInputHtmlFiles(),
+      // output: {
+      //   manualChunks: {
+      //     mui: ['@mui/material'],
+      //   },
+      // },
     },
     emptyOutDir: true,
+    sourcemap: true,
   },
   define: {
     BUILD_COMMIT_HASH: JSON.stringify(env.BUILD_COMMIT_HASH),
