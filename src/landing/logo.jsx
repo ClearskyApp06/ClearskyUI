@@ -40,7 +40,8 @@ export function Logo({ className, ...rest }) {
         {...rest}
         alt="clearsky logo"
         src={images.large}
-        srcSet={`${images.small} (max-width: 800px), ${images.large}`}
+        srcSet={`${images.small} 800w, ${images.large} 1700w`}
+        sizes="(max-width: 800px) 50vw, 100vw"
       />
     </figure>
   );
