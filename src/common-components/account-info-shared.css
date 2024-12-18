@@ -1,0 +1,61 @@
+.account-banner {
+  height: 150px;
+  background: no-repeat center center;
+  background-size: cover;
+}
+
+.account-avatar-and-displayName-line {
+  display: grid;
+  margin-top: -1em;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 1fr 1fr;
+}
+
+.account-avatar-and-displayName-line .account-banner-overlay {
+  grid-row: 1/2;
+  grid-column: 1/4;
+  background: linear-gradient(0.8deg, white -0.25em, transparent 1.15em);
+}
+
+.account-avatar-and-displayName-line .account-avatar {
+  grid-row: 1/3;
+  grid-column: 1/2;
+  width: 2em;
+  height: 2em;
+  border-radius: 200%;
+  background: white;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  background: no-repeat center center;
+  background-size: cover;
+  border: solid 0.07em white;
+}
+
+.account-avatar-and-displayName-line .account-displayName {
+  grid-row: 1/2;
+  grid-column: 2/4;
+  text-shadow: 1px 1px 13px white, 1px 1px 2px #fffffff2,
+    -1px -1px 2px #ffffffe6;
+  font-size: 90%;
+  white-space: nowrap;
+  position: relative;
+  top: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-avatar-and-displayName-line .account-handle {
+  grid-row: 2/3;
+  grid-column: 2/3;
+  font-size: 45%;
+  font-weight: normal;
+  color: #5c85cf;
+}
+
+.account-avatar-and-displayName-line .account-handle .account-handle-at {
+  color: #adadad;
+}
+
+.account-avatar-and-displayName-line .account-handle .account-handle-suffix {
+  color: #979797;
+}
