@@ -1,6 +1,7 @@
 .account-info-panel-blocked-timestamp {
   font-size: 80%;
-  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white,
+    0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
   border-top: solid 1px #ededed;
   padding-top: 0.5em;
 }
@@ -52,7 +53,8 @@
 
 li.blocking-list-entry:nth-child(even) {
   background-color: #0000000a;
-  background-image: linear-gradient(to top, #00000024, transparent 1px), linear-gradient(to bottom, #0000000a, transparent 1px);
+  background-image: linear-gradient(to top, #00000024, transparent 1px),
+    linear-gradient(to bottom, #0000000a, transparent 1px);
 }
 
 .blocking-list-entry .blocking-account-link {
@@ -60,7 +62,7 @@ li.blocking-list-entry:nth-child(even) {
   text-decoration: inherit;
 }
 
-.blocking-list-entry .blocking-account-link:hover {
+.blocking-list-entry a.blocking-account-link:hover {
   text-decoration: underline;
 }
 
@@ -70,7 +72,10 @@ li.blocking-list-entry:nth-child(even) {
   grid-template-columns: auto 1fr;
 }
 
-.blocking-list-entry .account-short-entry-content .account-short-entry-handle .account-short-entry-display-name {
+.blocking-list-entry
+  .account-short-entry-content
+  .account-short-entry-handle
+  .account-short-entry-display-name {
   opacity: 0.7;
 }
 
