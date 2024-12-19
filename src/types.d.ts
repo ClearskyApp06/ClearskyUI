@@ -1,4 +1,5 @@
 /// <reference types="@atproto/api" />
+/// <reference types="vite/client" />
 
 type AccountInfo = {
   shortDID: string;

@@ -1,25 +1,25 @@
 // @ts-check
 
-import { useBlocklist } from '../../api';
+import { useSingleBlocklist } from '../../api';
 import { BlockPanelGeneric } from '../block-panel-generic';
 import { localise } from '../../localisation';
-import { useBlocklistCount } from '../../api/blocklist';
+import { useSingleBlocklistCount } from '../../api/blocklist';
 import { useAccountResolver } from '../account-resolver';
 
-export function BlockingPanel() {
+export default function BlockedByPanel() {
   const accountQuery = useAccountResolver();
   const did = accountQuery.data?.shortDID;
-  const blocklistQuery = useBlocklist(did);
-  const totalQuery = useBlocklistCount(did);
+  const blocklistQuery = useSingleBlocklist(did);
+  const totalQuery = useSingleBlocklistCount(did);
   return (
     <BlockPanelGeneric
-      className="blocking-panel"
+      className="blocked-by-panel"
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
       header={({ count }) => (
         <>
-          {localise(`Blocking ${count.toLocaleString()}`, {
-            uk: `Блокує ${count.toLocaleString()}`,
+          {localise(`Blocked by ${count.toLocaleString()}`, {
+            uk: `Блокують ${count.toLocaleString()}`,
           })}
         </>
       )}

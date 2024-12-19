@@ -8,8 +8,11 @@ import { version } from '../../../package.json';
 
 import './about.css';
 
+/**
+ * @type {string}
+ */
 // @ts-ignore
-const builtFromCommit = window.BUILD_COMMIT_HASH || null;
+const builtFromCommit = BUILD_COMMIT_HASH || null;
 
 export function About({ onToggleAbout }) {
   return (

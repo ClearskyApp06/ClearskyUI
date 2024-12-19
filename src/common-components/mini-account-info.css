@@ -1,3 +1,5 @@
+@import './account-info-shared.css';
+
 .mini-account-info h3 {
   font-size: inherit;
   padding: 0;
@@ -8,7 +10,7 @@
   height: 4em;
 }
 
-.mini-account-info .account-avatar-and-displayName-line  {
+.mini-account-info .account-avatar-and-displayName-line {
   font-size: 150%;
 }
 

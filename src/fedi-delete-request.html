@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fediverse Delete Request</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
     <style>
         /* Style adjustments for mobile devices */
         body {
@@ -134,7 +135,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <a href="fediverse">
+        <a href="/">
             <img id="logoImage" alt="ClearSky Logo" style="width: 350px; height: auto;">
         </a>
     </div>
@@ -164,27 +165,12 @@
 
     <div class="copyright">&copy; 2024 Bluethernal LLC</div>
 
-    <script>
-        // Function to get API domain based on server's domain
-        function getAPIDomain() {
-            const currentDomain = window.location.hostname;
-            if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
-                return window.location.origin + '/api/v1/anon/data-transaction/';
-            } else {
-                return 'https://api.staging.clearsky.services/api/v1/anon/data-transaction/';
-            }
-        }
+    <script type="module">
+        import { fetchClearskyApi } from "./api/core";
 
         // Fetch list options from the API and populate the dropdown
         function populateListOptions() {
-            fetch(getAPIDomain() + 'query?list=true')
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Failed to fetch list options.');
-                    }
-                })
+            fetchClearskyApi("v1", 'data-transaction/query?list=true')
                 .then(data => {
                     const listSelect = document.getElementById('list');
                     for (const filename in data.data) {
@@ -201,7 +187,7 @@
         }
 
         // Function to handle form submission
-        function handleSubmit(event) {
+        window.handleSubmit = function handleSubmit(event) {
             event.preventDefault();
             const formData = new FormData(document.getElementById('deleteRequestForm'));
             const requestData = Object.fromEntries(formData.entries());
@@ -214,26 +200,16 @@
             window.location.href = mailtoURL;
         }
 
-        function updateCharsLeft(inputId, maxLength) {
+        window.updateCharsLeft = function updateCharsLeft(inputId, maxLength) {
             const input = document.getElementById(inputId);
             const charsLeftSpan = document.getElementById(inputId + 'CharsLeft');
             const charsLeft = maxLength - input.value.length;
             charsLeftSpan.textContent = charsLeft + ' characters left';
         }
 
-        // Function to set the logo based on current time
-        function setLogo() {
-            const currentTime = new Date().getHours();
-            const logoImage = document.getElementById('logoImage');
-            if (currentTime >= 6 && currentTime < 18) {
-                logoImage.src = 'CleardayLarge.png'; // Daytime logo
-            } else {
-                logoImage.src = 'ClearnightLarge.png'; // Nighttime logo
-            }
-        }
-
+        import { setLogo } from "./logo-images";
         // Call setLogo function when the page loads
-        setLogo();
+        setLogo(document.getElementById('logoImage'));
 
         // Call populateListOptions function when the page loads
         populateListOptions();
