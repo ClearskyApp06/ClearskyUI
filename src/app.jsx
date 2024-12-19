@@ -20,12 +20,21 @@ function showApp() {
   `;
   document.body.appendChild(root);
 
+  const RedirectToClearSky = () => {
+    if (window.location.href.includes('bsky.thieflord.dev')) {
+      window.location.href = 'https://clearsky.app';
+      return null;
+    }
+    return null;
+  };
+
   const router = createBrowserRouter([
     { path: '/', element: <Home /> },
     { path: '/index.html', element: <Home /> },
     { path: '/stable/*', element: <Home /> },
     { path: '/:handle', element: <AccountView /> },
     { path: '/:handle/:tab', element: <AccountView /> },
+    { path: '*', element: <RedirectToClearSky /> },
   ]);
 
   const theme = createTheme({
