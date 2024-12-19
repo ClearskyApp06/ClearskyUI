@@ -34,18 +34,16 @@ import './account-short-entry.css';
  */
 export function AccountShortEntry({ account, ...rest }) {
   const resolved = useResolveHandleOrDid(account);
-  if (!resolved) return undefined;
-  
+
   if (resolved.isLoading) return (
-    <LoadingAccount  {...rest} handle={account} />
+    <LoadingAccount {...rest} handle={account} />
   );
-  else if (resolved.isError) return (
-    <ErrorAccount {...rest} error={resolved.error} handle={account} />
+  else if (resolved.isError || !resolved.data) return (
+    <ErrorAccount {...rest} error={resolved.error || { message: "not found" }} handle={account} />
   );
   else {
-    const { did, handle } = distinguishDidFromHandle(account);
     return (
-      <ResolvedAccount {...rest} account={resolved.data || { shortDID: did || '', shortHandle: handle || '' }} />
+      <ResolvedAccount {...rest} account={resolved.data} />
     );
   }
 }

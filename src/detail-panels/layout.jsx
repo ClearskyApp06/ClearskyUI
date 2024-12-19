@@ -25,7 +25,7 @@ export const accountTabs = /** @type {const} */ ([
 ]);
 
 export function AccountLayout() {
-  const account = useAccountResolver();
+  const { handle } = useParams();
   let { tab } = useParams();
   if (!tab) tab = accountTabs[0];
 
@@ -36,10 +36,7 @@ export function AccountLayout() {
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
         navigate(
-          '/' +
-            unwrapShortHandle(account.data?.shortHandle) +
-            '/' +
-            selectedTab,
+          `/${handle}/` + selectedTab,
           { replace: true }
         );
       }}
