@@ -68,6 +68,7 @@ export function BlockPanelGeneric({
         setQ
       /> */}
       <PanelHeader
+        loading={isLoading}
         count={count}
         blocklist={blocklist}
         header={header}
@@ -109,8 +110,8 @@ class PanelHeader extends React.Component {
   direction = +1;
 
   render() {
-    let count = this.props.count;
-    if (typeof this.props.count !== 'number') {
+    let count = this.props.count || 0;
+    if (this.props.loading) {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => this.forceUpdate(), 10);
       count = this.state?.count || 0;
