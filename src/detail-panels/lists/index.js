@@ -1,3 +1,3 @@
 // @ts-check
 
-export { Lists } from './lists';
+export { Lists as default } from './lists';

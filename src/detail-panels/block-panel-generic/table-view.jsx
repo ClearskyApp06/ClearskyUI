@@ -1,7 +1,7 @@
 // @ts-check
 
 import React from 'react';
-import { AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from '../../common-components/ag-grid';
 
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 
@@ -11,24 +11,24 @@ import './table-view.css';
 const columnDefs = [
   {
     field: 'handle',
-    cellRenderer: HandleCellRenderer
+    cellRenderer: HandleCellRenderer,
   },
   {
     headerName: 'Blocked Date',
-    field: 'blocked_date'
-  }
+    field: 'blocked_date',
+  },
 ];
 
 /**
  * @param {{
  *  account: AccountInfo | { shortHandle: String, loading: true };
  *  blocklist: BlockedByRecord[];
- * }} _ 
+ * }} _
  */
 export function TableView({ account, blocklist }) {
   return (
     <AgGridReact
-      className='block-panel-table-view'
+      className="block-panel-table-view"
       rowData={blocklist}
       columnDefs={columnDefs}
     />

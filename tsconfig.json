@@ -1,18 +1,15 @@
 {
-    "compilerOptions": {
-        "lib": ["DOM", "ES2020"],
-        "target": "es2018",
-        "jsx": "react-jsx",
-        "module": "NodeNext",
-        "moduleResolution": "nodenext",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "noEmit": true
-    },
-    "files": [
-        "src/app.js",
-        "src/types.d.ts"
-    ]
+  "compilerOptions": {
+    "lib": ["DOM", "ES2020"],
+    "target": "es2018",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "files": ["src/app.jsx", "src/logo-images.js", "src/types.d.ts"]
 }

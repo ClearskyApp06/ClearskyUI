@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fediverse Upload/Download</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
     <style>
         /* Style adjustments for mobile devices */
         body {
@@ -125,7 +126,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <a href="index.html">
+        <a href="/">
             <img id="logoImage" alt="ClearSky Logo" style="width: 350px; height: auto;">
         </a>
     </div>
@@ -158,19 +159,11 @@
 
     <div class="copyright">&copy; 2024 Bluethernal LLC</div>
 
-    <script>
-        // Function to get API domain based on server's domain
-        function getAPIDomain() {
-            const currentDomain = window.location.hostname;
-            if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
-                return window.location.origin + '/api/v1/anon/data-transaction/';
-            } else {
-                return 'https://api.staging.clearsky.services/api/v1/anon/data-transaction/';
-            }
-        }
+    <script type="module">
+        import { unwrapClearskyURL } from "./api/core";
 
         // Function to upload file
-        function uploadFile() {
+        window.uploadFile = function uploadFile() {
             const formData = new FormData();
             const fileInput = document.querySelector('input[type="file"]');
             const file = fileInput.files[0];
@@ -183,7 +176,7 @@
             formData.append('appealsProcess', document.getElementById('appealsProcess').value);
             formData.append('listType', listType);
 
-            fetch(getAPIDomain() + 'receive', {
+            fetch(unwrapClearskyURL('/api/v1/anon/data-transaction/receive'), {
                 method: 'POST',
                 body: formData
             })
@@ -215,7 +208,7 @@
             const button = document.createElement('button');
             button.textContent = `${filename}`;
             button.addEventListener('click', () => {
-                fetch(getAPIDomain() + `retrieve?retrieveLists=true&file=${filename}`)
+                fetch(unwrapClearskyURL(`/api/v1/anon/data-transaction/retrieve?retrieveLists=true&file=${filename}`))
                     .then(response => {
                         if (response.ok) {
                             // If response is successful, initiate file download
@@ -312,8 +305,8 @@
 
 
         // Function to fetch file list
-        function getFileList() {
-            fetch(getAPIDomain() + 'query?list=true')
+        window.getFileList = function getFileList() {
+            fetch(unwrapClearskyURL('/api/v1/anon/data-transaction/query?list=true'))
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -335,26 +328,16 @@
                 });
         }
 
-        function updateCharsLeft(inputId, maxLength) {
+        window.updateCharsLeft = function updateCharsLeft(inputId, maxLength) {
             const input = document.getElementById(inputId);
             const charsLeftSpan = document.getElementById(inputId + 'CharsLeft');
             const charsLeft = maxLength - input.value.length;
             charsLeftSpan.textContent = charsLeft + ' characters left';
         }
 
-        // Function to set the logo based on current time
-        function setLogo() {
-            const currentTime = new Date().getHours();
-            const logoImage = document.getElementById('logoImage');
-            if (currentTime >= 6 && currentTime < 18) {
-                logoImage.src = 'CleardayLarge.png'; // Daytime logo
-            } else {
-                logoImage.src = 'ClearnightLarge.png'; // Nighttime logo
-            }
-        }
-
+        import { setLogo } from "./logo-images";
         // Call setLogo function when the page loads
-        setLogo();
+        setLogo(document.getElementById('logoImage'));
     </script>
 </body>
 </html>
