@@ -62,10 +62,13 @@ export function AccountHeader({
         }
 
         <div className='account-banner' style={{
-          backgroundImage: resolved.data?.bannerUrl ? `url(${resolved.data?.bannerUrl})` : 'transparent'
+          backgroundImage: resolved.data?.bannerUrl ? `url(${resolved.data.bannerUrl})` : 'transparent'
         }}>
         </div>
 
+        {
+          resolved.isSuccess && !resolved.data
+            ? <span>Account not found</span> :
         <span className='account-avatar-and-displayName-line'>
           <span className='account-banner-overlay'></span>
           <span className='account-avatar' style={{
@@ -95,6 +98,7 @@ export function AccountHeader({
             <span className='info-icon'></span>
           </Button>
         </span>
+        }
       </h1>
       <div>
       </div>
