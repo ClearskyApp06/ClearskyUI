@@ -63,14 +63,15 @@
         </div>
     </div>
 
-    <script>
-        const apiServerEndpoint = "{{ api_server_endpoint }}";
+    <script type="module">
+        import {fetchClearskyApi} from './api/core';
+
+        const dataEndpoint = 'status/time-behind'
 
         async function fetchData() {
             try {
-                const response = await fetch(`${apiServerEndpoint}/api/v1/anon/status/time-behind`);
-                if (response.ok) {
-                    const data = await response.json();
+                const data = await fetchClearskyApi('v1', dataEndpoint);
+                if (data) {
                     console.log(data);
                     displayData(data);
                 } else {
