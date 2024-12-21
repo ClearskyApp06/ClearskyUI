@@ -1,7 +1,7 @@
 // @ts-check
 
 import { unwrapShortHandle } from '.';
-import { fetchClearskyApi } from './core';
+import { fetchClearskyApi, unwrapClearskyURL } from './core';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
@@ -23,6 +23,7 @@ export function useList(handleOrDID) {
 }
 
 /**
+ * Look up the total number of lists to which a given handle/DID belongs
  * @param {string} handleOrDID
  */
 export function useListTotal(handleOrDID) {
@@ -32,6 +33,18 @@ export function useListTotal(handleOrDID) {
     enabled: !!shortHandle,
     queryKey: ['list-total', shortHandle],
     queryFn: () => getListTotal(shortHandle),
+  });
+}
+
+/**
+ * Gets the size (length) of a given user list
+ * @param {string} listUrl
+ */
+export function useListSize(listUrl) {
+  return useQuery({
+    enabled: !!listUrl,
+    queryKey: ['list-size', listUrl],
+    queryFn: () => getListSize(listUrl),
   });
 }
 
@@ -68,6 +81,7 @@ async function getList(shortHandle, currentPage = 1) {
 }
 
 /**
+ * Gets the total number of lists to which a given handle belongs
  * @param {string} shortHandle
  */
 async function getListTotal(shortHandle) {
@@ -76,4 +90,25 @@ async function getListTotal(shortHandle) {
   /** @type {{ data: { count: number; pages: number } }} */
   const re = await fetchClearskyApi('v1', handleURL);
   return re.data;
+}
+
+/**
+ * Gets the size (length) of a given user list
+ * @param {string} listUrl
+ * @returns {Promise<{ count: number } | null>} null if response is a 400/404
+ */
+async function getListSize(listUrl) {
+  const apiUrl = unwrapClearskyURL(
+    `/api/v1/anon/get-list/specific/total/${encodeURIComponent(listUrl)}`
+  );
+  const resp = await fetch(apiUrl);
+  if (resp.ok) {
+    /** @type {{ data: { count: number }, list_uri: string }} */
+    const respData = await resp.json();
+    return respData.data;
+  }
+  if (resp.status === 400 || resp.status === 404) {
+    return null;
+  }
+  throw new Error('getListSize error: ' + resp.statusText);
 }
