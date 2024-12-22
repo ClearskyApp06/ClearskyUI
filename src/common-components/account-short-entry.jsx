@@ -139,8 +139,7 @@ function getAvatarDelay(account) {
   const hash = calcHash(avatarUrl) / delayRandomBase + delayRandomBase;
   const rnd = Math.abs(hash) - Math.floor(Math.abs(hash));
   delay = (rnd * 40).toFixed(3) + 's';
-  avatarDelays[avatarUrl] = delay;
-  console.log('Avatar delay', account.shortHandle, { delay, hash, rnd });
+  avatarDelays[avatarUrl] = delay; 
   return delay;
 }
 
