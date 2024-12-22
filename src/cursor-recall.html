@@ -44,11 +44,11 @@
 <body>
     <div class="logo-container">
         <a href="index.html">
-        <img src="{{ url_for('static', filename='CleardayLarge.png') }}" alt="Clearsky Logo" class="logo">
+        <img src="./assets/CleardayLarge.png" alt="Clearsky Logo" class="logo">
         </a>
     </div>
     <div class="container">
-        <div class="section" id="current-section">
+        <div class="section hidden" id="current-section">
             <h2>Current Cursor</h2>
             <table>
                 <thead>
@@ -62,7 +62,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="section" id="start-section">
+        <div class="section hidden" id="start-section">
             <h2>Start Cursor</h2>
             <table>
                 <thead>
@@ -76,7 +76,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="section" id="other-intervals-section">
+        <div class="section hidden" id="other-intervals-section">
             <h2>Intervals</h2>
             <table id="data-table">
                 <thead>
@@ -92,8 +92,32 @@
         </div>
     </div>
 
-    <script>
-        const jsonData = {{ data|tojson }};
+    <script type="module">
+        import {fetchClearskyApi} from './api/core';
+
+        const dataEndpoint = 'cursor-recall/status';
+
+        async function fetchData() {
+            try {
+                let data = await fetchClearskyApi('v1', dataEndpoint);
+
+                if (data) {
+                    if ('data' in data) {
+                        console.log(data);
+                        displayData(data);
+                    } else {
+                        console.error(data.error);
+                        displayError('Failed to fetch data: ' + data.error);
+                    }
+                } else {
+                    console.error('Failed to fetch data');
+                    displayError('Failed to fetch data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                displayError('Failed to fetch data:');
+            }
+        }
 
         function displayData(data) {
             const intervals = data.data; // Access the nested 'data' object
@@ -167,7 +191,14 @@
             }
         }
 
-        displayData(jsonData);
+        function displayError(errorMessage) {
+            const errorContainer = document.createElement('div');
+            errorContainer.style.color = 'red';
+            errorContainer.textContent = errorMessage;
+            document.body.appendChild(errorContainer);
+        }
+
+        fetchData();
     </script>
 </body>
 </html>
