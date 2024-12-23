@@ -106,7 +106,8 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
 
 function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   if (!text) return undefined;
-  const lines = text.split('\n');
+  const textWithSpaces = text.replace(/  /g, ' \u00a0');
+  const lines = textWithSpaces.split('\n');
   const lineElements = [];
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
