@@ -108,15 +108,25 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   if (!text) return undefined;
   const lines = text.split('\n');
   const lineElements = [];
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
   for (const ln of lines) {
-    if (!ln) lineElements.push(<div key={lineElements.length} style={{ height: '0.5em' }}></div>);
-    else lineElements.push(<Line key={lineElements.length} text={ln} className={lineClassName} />);
+    if (!ln) {
+      lineElements.push(<div key={lineElements.length} style={{ height: '0.5em' }}></div>);
+    } else {
+      const parts = ln.split(urlRegex).map((part, index) => {
+        if (urlRegex.test(part)) {
+          return <a key={index} href={part} target="_blank" rel="noopener noreferrer">{part}</a>;
+        }
+        return part;
+      });
+      lineElements.push(<Line key={lineElements.length} text={parts} className={lineClassName} />);
+    }
   }
 
   return lineElements;
 }
 
 function Line({ text, className }) {
-  const textWithSpaces = text.replace(/  /g, ' \u00a0');
-  return <div className={className}>{textWithSpaces}</div>
+  return <div className={className}>{text}</div>
 }
