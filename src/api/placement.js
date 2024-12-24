@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 
 /**
  * @param {string} handleOrDID
+ * @returns {{data:{placement:number}}}
  */
 export function usePlacement(handleOrDID) {
     const profileQuery = useResolveHandleOrDid(handleOrDID);
