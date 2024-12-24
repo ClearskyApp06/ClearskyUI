@@ -12,6 +12,7 @@ import { localise } from '../../localisation';
 import { Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
+import {usePlacement} from '../../api/placement';
 
 /**
  * @param {{
@@ -30,6 +31,10 @@ export function AccountHeader({
   
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+
+  const placementquery = usePlacement(resolved.data?.shortDID) ;
+  const placement = placementquery.data?.placement ?? "";
+  console.log(placement);
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
@@ -87,6 +92,10 @@ export function AccountHeader({
                 <a href={`https://bsky.app/profile/${unwrapShortHandle(resolved.data?.shortHandle)}`} target="_blank">
                   <FullHandle shortHandle={resolved.data?.shortHandle} />
                 </a>
+                {
+                  placement &&
+                  <span className='account-place-number'>{placement}</span>
+                  } 
               </span>
           }
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
