@@ -38,3 +38,9 @@
   border-radius: 200%;
   margin: -1em 0;
 }
+
+.handle-history-handle {
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-all;
+}
