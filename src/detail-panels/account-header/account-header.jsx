@@ -84,20 +84,22 @@ export function AccountHeader({
               resolved.data?.displayName ||
               <span style={{ opacity: '0.5' }}><FullHandle shortHandle={resolved.data?.shortHandle} /></span>
             }
-          </span>
+          </span><span className='account-handle'>
           {
-            !resolved.data?.displayName ? undefined :
-              <span className='account-handle'>
+            !resolved.data?.displayName ?  <>
+                <span className='account-handle-at'> </span>
+                  <i> handle unconfigured</i>                
+                </>  
+              :
+                <>
                 <span className='account-handle-at'>@</span>
                 <a href={`https://bsky.app/profile/${unwrapShortHandle(resolved.data?.shortHandle)}`} target="_blank">
                   <FullHandle shortHandle={resolved.data?.shortHandle} />
                 </a>
-                {
-                  placement &&
-                  <span className='account-place-number'>{placement}</span>
-                  } 
-              </span>
+                </> 
           }
+          <span className='account-place-number'>{placement}</span>
+           </span>
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
             {
               handleHistory?.length > 0 && handleHistory[handleHistory.length - 1][1]
