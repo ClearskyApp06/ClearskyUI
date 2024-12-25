@@ -28,12 +28,12 @@ export function AccountHeader({
   const [isCopied, setIsCopied] = useState(false);
   const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  
+  console.log(resolved.data)
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
   const placementquery = usePlacement(resolved.data?.shortDID) ;
-  const placement = placementquery.data?.placement ?? ""; 
+  const placement = placementquery.data?.placement.toLocaleString() ?? ""; 
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
