@@ -33,8 +33,7 @@ export function AccountHeader({
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
   const placementquery = usePlacement(resolved.data?.shortDID) ;
-  const placement = placementquery.data?.placement ?? "";
-  console.log(placement);
+  const placement = placementquery.data?.placement ?? ""; 
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
@@ -53,8 +52,7 @@ export function AccountHeader({
     setTimeout(() => {
       setIsCopied(false);
     }, 3000);
-  };
-
+  }; 
   return (
     <div className={className}>
       <h1 style={{ margin: 0 }}>
@@ -87,8 +85,8 @@ export function AccountHeader({
           </span><span className='account-handle'>
           {
             !resolved.data?.displayName ?  <>
-                <span className='account-handle-at'> </span>
-                  <i> handle unconfigured</i>                
+                <span className='account-handle-at-empty'> </span>
+                                
                 </>  
               :
                 <>
