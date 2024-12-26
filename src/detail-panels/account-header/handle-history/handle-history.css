@@ -18,6 +18,10 @@
 
 .handle-history-handle {
   color: cornflowerblue;
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .handle-history-handle .handle-at-sign {
@@ -37,10 +41,4 @@
   padding: 0.1em;
   border-radius: 200%;
   margin: -1em 0;
-}
-
-.handle-history-handle {
-  word-wrap: break-word;
-  white-space: normal;
-  word-break: break-all;
 }
