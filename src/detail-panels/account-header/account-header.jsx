@@ -33,7 +33,7 @@ export function AccountHeader({
   const handleHistory = handleHistoryQuery.data?.handle_history;
  
   const placementquery = usePlacement(resolved.data?.shortDID) ;
-  const placement = placementquery.data?.placement ? placementquery.data?.placement.toLocaleString() : ""; 
+  const placement = placementquery.data?.placement?.toLocaleString() ?? ""; 
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
