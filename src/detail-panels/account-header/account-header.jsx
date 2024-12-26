@@ -12,6 +12,7 @@ import { localise } from '../../localisation';
 import { Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
+import {usePlacement} from '../../api/placement';
 
 /**
  * @param {{
@@ -27,9 +28,12 @@ export function AccountHeader({
   const [isCopied, setIsCopied] = useState(false);
   const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  
+  console.log(resolved.data)
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+
+  const placementquery = usePlacement(resolved.data?.shortDID) ;
+  const placement = placementquery.data?.placement.toLocaleString() ?? ""; 
 
   const handleShortDIDClick = () => {
     // Copy the shortDID to the clipboard
@@ -48,8 +52,7 @@ export function AccountHeader({
     setTimeout(() => {
       setIsCopied(false);
     }, 3000);
-  };
-
+  }; 
   return (
     <div className={className}>
       <h1 style={{ margin: 0 }}>
@@ -79,16 +82,22 @@ export function AccountHeader({
               resolved.data?.displayName ||
               <span style={{ opacity: '0.5' }}><FullHandle shortHandle={resolved.data?.shortHandle} /></span>
             }
-          </span>
+          </span><span className='account-handle'>
           {
-            !resolved.data?.displayName ? undefined :
-              <span className='account-handle'>
+            !resolved.data?.displayName ?  <>
+                <span className='account-handle-at-empty'> </span>
+                                
+                </>  
+              :
+                <>
                 <span className='account-handle-at'>@</span>
                 <a href={`https://bsky.app/profile/${unwrapShortHandle(resolved.data?.shortHandle)}`} target="_blank">
                   <FullHandle shortHandle={resolved.data?.shortHandle} />
                 </a>
-              </span>
+                </> 
           }
+          <span className='account-place-number'>{placement}</span>
+           </span>
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
             {
               handleHistory?.length > 0 && handleHistory[handleHistory.length - 1][1]
