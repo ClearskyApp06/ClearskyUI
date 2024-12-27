@@ -71,30 +71,32 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
 
   // getting elapsed time
   function getRelativeTime(dateString) {
-    const newDate = new Date(dateString); //converts sring to Date obj
+    const newDate = new Date(dateString);
     const now = new Date();
-    const timeDiffInMillis = now.getTime() - newDate.getTime();
+    const timeDiffInMillis = newDate.getTime() - now.getTime();
     const daysDiff = Math.round(timeDiffInMillis / (1000 * 60 * 60 * 24));
 
     const inferred = new Intl.RelativeTimeFormat(undefined, {
       numeric: 'auto',
     });
-    return inferred.format(daysDiff, 'day');
+    return inferred.format(daysDiff, 'days');
   }
 
   if (isCreated)
     return (
       <div className="event-entry">
-        {date ? getRelativeTime(date) : 'unknown date '}
-        <span className="event-label event-label-registered">
-          {localise('registered ', { uk: 'зареєстровано ' })}
-        </span>
         {!handle ? undefined : (
           <>
-            {localise('as ', { uk: 'як ' })}
+            {localise('User ', { uk: 'як ' })}
             <AtAndHandle shortHandle={handle} />
           </>
         )}
+        <span className="event-label event-label-registered">
+          {localise(' registered ', { uk: 'зареєстровано ' })}
+        </span>
+
+        {date ? getRelativeTime(date) : 'unknown date '}
+
         {!pds ? undefined : (
           <>
             {localise(' at ', { uk: ' на ' })}
@@ -121,16 +123,18 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
   const handlePart = !isHandleChanged ? undefined : (
     <>
       <span className="event-label event-label-handle-changed">
-        {localise('changed handle to ', { uk: 'псевдоним ' })}
+        {localise('User changed handle to ', { uk: 'псевдоним ' })}
       </span>
+
       <AtAndHandle shortHandle={handle} />
+      <> </>
     </>
   );
 
   const pdsPart = !isPdsChanged ? undefined : isMigratedToMushroom ? (
     <>
       <span className="event-label event-label-pds-changed event-label-pds-migrated-to-mushroom">
-        {localise('mushroom migration ', { uk: 'переселення до грибів ' })}
+        {localise(' mushroom migration to ', { uk: 'переселення до грибів ' })}
       </span>
       <PDSName pds={pds} />
     </>
@@ -152,13 +156,9 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
 
   return (
     <div className="event-entry">
-      {date ? (
-        <FormatTimestamp className="event-timestamp" timestamp={date} />
-      ) : (
-        'unknown date'
-      )}
       {handlePart}
       {handlePart && pdsPart ? ' ' : undefined}
+      {date ? getRelativeTime(date) : 'unknown date '}
       {pdsPart}
     </div>
   );
