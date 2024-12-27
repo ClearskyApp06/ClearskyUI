@@ -106,17 +106,44 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
 
 function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   if (!text) return undefined;
-  const lines = text.split('\n');
+  const textWithSpaces = text.replace(/  /g, ' \u00a0');
+  const lines = textWithSpaces.split('\n');
   const lineElements = [];
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const atRegex = /(^|\s)@([\w.]+)/g;
+  const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+
   for (const ln of lines) {
-    if (!ln) lineElements.push(<div key={lineElements.length} style={{ height: '0.5em' }}></div>);
-    else lineElements.push(<Line key={lineElements.length} text={ln} className={lineClassName} />);
+    if (!ln) {
+      lineElements.push(<div key={lineElements.length} style={{ height: '0.5em' }}></div>);
+    } else {
+      const parts = ln.split(urlRegex).map((part, index) => {
+        if (urlRegex.test(part)) {
+          return <a key={index} href={part} target="_blank" rel="noopener noreferrer">{part}</a>;
+        } else if (atRegex.test(part)) {
+          return part.split(atRegex).map((subPart, subIndex) => {
+            if (atRegex.test(`@${subPart}`)) {
+              return <a key={subIndex} href={`https://clearsky.app/${subPart}`} rel="noopener noreferrer">@{subPart}</a>;
+            }
+            return subPart;
+          });
+        } else if (emailRegex.test(part)) {
+          return part.split(emailRegex).map((subPart, subIndex) => {
+            if (emailRegex.test(subPart)) {
+              return <a key={subIndex} href={`mailto:${subPart}`} rel="noopener noreferrer">{subPart}</a>;
+            }
+            return subPart;
+          });
+        }
+        return part;
+      });
+      lineElements.push(<Line key={lineElements.length} text={parts} className={lineClassName} />);
+    }
   }
 
   return lineElements;
 }
 
 function Line({ text, className }) {
-  const textWithSpaces = text.replace(/  /g, ' \u00a0');
-  return <div className={className}>{textWithSpaces}</div>
+  return <div className={className}>{text}</div>
 }
