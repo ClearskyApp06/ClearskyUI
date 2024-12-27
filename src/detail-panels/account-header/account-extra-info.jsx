@@ -110,6 +110,8 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   const lines = textWithSpaces.split('\n');
   const lineElements = [];
   const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const atRegex = /(^|\s)@([\w.]+)/g;
+  const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
 
   for (const ln of lines) {
     if (!ln) {
@@ -118,6 +120,20 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
       const parts = ln.split(urlRegex).map((part, index) => {
         if (urlRegex.test(part)) {
           return <a key={index} href={part} target="_blank" rel="noopener noreferrer">{part}</a>;
+        } else if (atRegex.test(part)) {
+          return part.split(atRegex).map((subPart, subIndex) => {
+            if (atRegex.test(`@${subPart}`)) {
+              return <a key={subIndex} href={`https://clearsky.app/${subPart}`} rel="noopener noreferrer">@{subPart}</a>;
+            }
+            return subPart;
+          });
+        } else if (emailRegex.test(part)) {
+          return part.split(emailRegex).map((subPart, subIndex) => {
+            if (emailRegex.test(subPart)) {
+              return <a key={subIndex} href={`mailto:${subPart}`} rel="noopener noreferrer">{subPart}</a>;
+            }
+            return subPart;
+          });
         }
         return part;
       });

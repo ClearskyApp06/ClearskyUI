@@ -56,6 +56,16 @@
   color: #adadad;
 }
 
+.account-avatar-and-displayName-line .account-handle .account-handle-at-empty {
+  min-width:100px;
+}
+
+.account-avatar-and-displayName-line .account-place-number {
+  padding-left:5px;
+  color: #000000;
+  font-size: inherit;
+}
+
 .account-avatar-and-displayName-line .account-handle .account-handle-suffix {
   color: #979797;
 }
