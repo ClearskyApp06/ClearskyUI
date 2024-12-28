@@ -1,11 +1,13 @@
 // @ts-check
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AgGridReact } from '../../common-components/ag-grid';
 
 import { ViewList } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import './home-stats-table.css';
 import { localise } from '../../localisation';
@@ -20,7 +22,57 @@ export default function HomeStatsTable({
   stats,
   onToggleTable,
 }) {
-  const { rows } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
+  const { allBlockedStats, topBlocked, topBlocked24, topBlockers, topBlockers24 } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
+
+  const [activeTab, setActiveTab] = useState(0);
+  const tableData = [
+    { id: 1, name: localise('Overall Stats', {}), data: allBlockedStats, columnDefs: [
+        { field: 'category', headerName: 'Stats' },
+        { field: 'value'}
+      ]
+    },
+    { id: 2, name: localise('Top Blocked', {}), data: topBlocked, columnDefs: [
+        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        {
+          field: 'block_count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ]
+    },
+    { id: 3, name: localise('Top Blocked Last 24h', {}), data: topBlocked24, columnDefs: [
+        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        {
+          field: 'block_count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ]
+    },
+    { id: 4, name: localise('Top Blockers', {}), data: topBlockers, columnDefs: [
+        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        {
+          field: 'block_count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ]
+    },
+    { id: 5, name: localise('Top Blockers Last 24h', {}), data: topBlockers24, columnDefs: [
+        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        {
+          field: 'block_count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ]
+    }
+  ];
+  const handleChange = (event, newValue) => setActiveTab(newValue);
 
   return (
     <div
@@ -33,6 +85,24 @@ export default function HomeStatsTable({
           style={{ fontSize: '60%', color: 'silver' }}
         >
           <i>{asofFormatted}</i>
+        </div>
+
+        <div className="tabs">
+          <Box sx={{ width: '100%' }}>
+            <Tabs
+              value={activeTab}
+              onChange={handleChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              textColor="primary"
+              indicatorColor="primary"
+              aria-label="primary scrollable block-stats tabs"
+            >
+              {tableData.map((table, index) => (
+                <Tab key={table.id} value={index} label={table.name} />
+              ))}
+            </Tabs>
+          </Box>
         </div>
 
         {loading ? undefined : (
@@ -48,29 +118,12 @@ export default function HomeStatsTable({
 
         <div className="home-stats-table-host">
           <AgGridReact
+            autoSizeStrategy={{type: 'fitCellContents', colIds: ['category', 'did']}}
             defaultColDef={{
-              sortable: false,
+              sortable: false
             }}
-            columnDefs={[
-              { field: 'Handle' },
-              {
-                field: 'block_count',
-                headerName: 'Count',
-                cellStyle: { textAlign: 'right' },
-              },
-              { field: 'ProfileURL', headerName: 'Profile URL' },
-              { field: 'did', headerName: 'DID' },
-            ]}
-            getRowClass={(params) =>
-              !params?.data?.title
-                ? undefined
-                : /blocked/i.test(params?.data?.Handle || '')
-                ? 'home-stats-table-title home-stats-table-title-blocked'
-                : /blockers/i.test(params?.data?.Handle || '')
-                ? 'home-stats-table-title home-stats-table-title-blockers'
-                : 'home-stats-table-title'
-            }
-            rowData={rows}
+            columnDefs={tableData[activeTab].columnDefs}
+            rowData={tableData[activeTab].data}
           />
         </div>
       </div>
@@ -78,39 +131,39 @@ export default function HomeStatsTable({
   );
 }
 
-/** @param {DashboardStats} stats */
+/** 
+ * @param {DashboardStats} stats
+ */
 function getGridRowsAndColumns(stats) {
-  /** @type {Partial<Omit<DashboardBlockListEntry, "block_count"> & { title: boolean, block_count?: string }>[]} */
-  const rows = [];
-
-  rows.push({ Handle: localise('Stats', {}), title: true });
+  const blockedData = {'allBlockedStats': [], 'topBlocked': [], 'topBlocked24': [], 'topBlockers': [], 'topBlockers24': []};
 
   if (stats.totalUsers) {
     /** @type {ValueWithDisplayName[]} */
     const totalStats = Object.values(stats.totalUsers);
     for (const stat of totalStats) {
-      rows.push({
-        Handle: stat.displayName,
-        block_count: stat.value?.toLocaleString(),
+      if (typeof stat.displayName === "undefined") {
+        continue
+      }
+      blockedData['allBlockedStats'].push({
+        category: stat.displayName,
+        value: stat.value?.toLocaleString(),
       });
     }
   }
 
   if (stats.blockStats) {
     for (const [key, value] of Object.entries(stats.blockStats)) {
-      rows.push({
+      blockedData['allBlockedStats'].push({
         // @ts-ignore would like a cast here
-        Handle: getLabelForStatKey(key),
-        block_count: value.toLocaleString(),
+        category: getLabelForStatKey(key),
+        value: value.toLocaleString(),
       });
     }
   }
 
   if (stats.topLists.blocked?.length) {
-    rows.push({ Handle: localise('Blocked', {}), title: true });
-
     for (const blocked of stats.topLists.blocked) {
-      rows.push({
+      blockedData['topBlocked'].push({
         ...blocked,
         block_count: blocked.block_count.toLocaleString(),
       });
@@ -118,10 +171,8 @@ function getGridRowsAndColumns(stats) {
   }
 
   if (stats.topLists.blocked24?.length) {
-    rows.push({ Handle: localise('Blocked 24h', {}), title: true });
-
     for (const blocked of stats.topLists.blocked24) {
-      rows.push({
+      blockedData['topBlocked24'].push({
         ...blocked,
         block_count: blocked.block_count.toLocaleString(),
       });
@@ -129,34 +180,29 @@ function getGridRowsAndColumns(stats) {
   }
 
   if (stats.topLists.blockers?.length) {
-    rows.push({ Handle: localise('Blockers', {}), title: true });
-
     for (const blocked of stats.topLists.blockers) {
-      rows.push({
-        ...blocked,
+      blockedData['topBlockers'].push({
+        Handle: blocked.Handle,
         block_count: blocked.block_count.toLocaleString(),
+        ProfileURL: blocked.ProfileURL,
+        did: blocked.did
       });
     }
   }
 
   if (stats.topLists.blockers24?.length) {
-    rows.push({ Handle: localise('Blockers 24h', {}), title: true });
-
     for (const blocked of stats.topLists.blockers24) {
-      rows.push({
+      blockedData['topBlockers24'].push({
         ...blocked,
         block_count: blocked.block_count.toLocaleString(),
       });
     }
   }
 
-  return {
-    rows,
-  };
+  return blockedData;
 }
 
 /**
- *
  * @param {keyof BlockStats} key
  */
 function getLabelForStatKey(key) {
@@ -210,4 +256,17 @@ function getLabelForStatKey(key) {
     case 'totalUsers':
       return localise('Total Users', {});
   }
+}
+
+/**
+ * @param {import('ag-grid-community').ICellRendererParams} params
+ * 
+ * @returns {JSX.Element | string}
+ */
+function HandleLinkRenderer(params) {
+    try{
+      return (<a href={new URL(params.data.ProfileURL).href} target="_blank">{params.data.Handle}</a>);
+    }catch(error){
+      return params.data.Handle
+    }
 }
