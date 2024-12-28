@@ -22,6 +22,8 @@ export const accountTabs = /** @type {const} */ ([
   'blocked-by',
   'lists',
   'history',
+  'packsCreated',
+  'packsPopulated',
 ]);
 
 export function AccountLayout() {
