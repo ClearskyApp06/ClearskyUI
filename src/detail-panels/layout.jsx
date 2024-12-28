@@ -9,7 +9,7 @@ const BlockedByPanel = lazy(() => import('./blocked-by'));
 const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
-
+const Packs = lazy(()=>import('./packs') );
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
 import { useAccountResolver } from './account-resolver';
@@ -22,8 +22,8 @@ export const accountTabs = /** @type {const} */ ([
   'blocked-by',
   'lists',
   'history',
-  'packsCreated',
-  'packsPopulated',
+  'packs',
+  'packed',
 ]);
 
 export function AccountLayout() {
@@ -124,6 +124,12 @@ function renderTabContent(tab) {
       return <Lists />;
     case 'history':
       return <HistoryPanel />;
+    case 'packs':
+      console.log("packs");
+      return <Packs />;
+    case 'packed':
+      console.log("packed");
+      return <Packs />;
 
     default:
       return (

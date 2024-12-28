@@ -28,13 +28,13 @@ export function TabSelector({ className, tab, onTabSelected }) {
       <VerticalTab key='history' className='tab-history'>
         {localise('History', { uk: 'Історія' })}
       </VerticalTab>,
-    'packsCreated':
-    <VerticalTab key='packsCreated' className='tab-packsCreated'>
+    'packs':
+    <VerticalTab key='packs' className='packs'>
       {localise('Packs made', { uk: 'Історія' })}
     </VerticalTab>,
-    'packsPopulated':
-    <VerticalTab key='packsPopulated' className='tab-packsPopulated'>
-      {localise('In Packs', { uk: 'Історія' })}
+    'packed':
+    <VerticalTab key='packed' className='packed'>
+      {localise('Packs In', { uk: 'Історія' })}
     </VerticalTab>,
   };
 
