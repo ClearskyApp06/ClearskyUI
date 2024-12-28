@@ -28,7 +28,6 @@ export function AccountHeader({
   const [isCopied, setIsCopied] = useState(false);
   const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  console.log(resolved.data)
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
  
