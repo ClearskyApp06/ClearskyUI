@@ -125,11 +125,9 @@ function renderTabContent(tab) {
     case 'history':
       return <HistoryPanel />;
     case 'packs':
-      console.log("packs");
-      return <Packs />;
+      return <Packs created={true}/>;
     case 'packed':
-      console.log("packed");
-      return <Packs />;
+      return <Packs created={false}/>;
 
     default:
       return (
