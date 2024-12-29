@@ -93,7 +93,8 @@ export default function HomeStatsTable({
               value={activeTab}
               onChange={handleChange}
               variant="scrollable"
-              scrollButtons="auto"
+              scrollButtons
+              allowScrollButtonsMobile            
               textColor="primary"
               indicatorColor="primary"
               aria-label="primary scrollable block-stats tabs"
@@ -120,6 +121,7 @@ export default function HomeStatsTable({
           <AgGridReact
             autoSizeStrategy={{type: 'fitCellContents', colIds: ['category', 'did']}}
             defaultColDef={{
+              resizable: true,
               sortable: false
             }}
             columnDefs={tableData[activeTab].columnDefs}
