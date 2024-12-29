@@ -55,6 +55,8 @@
   padding: 10px;
 }
 
-.MuiTabs-scrollButtons.Mui-disabled {
-  opacity: 0.3;
+@media (max-width: 1655px) {
+  .MuiTabs-scrollButtons.Mui-disabled {
+    opacity: 0.3;
+  }
 }
