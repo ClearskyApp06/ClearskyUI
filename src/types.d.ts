@@ -114,6 +114,13 @@ type DashboardBlockListEntry = {
   did: string;
 };
 
+type DashboardAllBlockListEntry = {
+  /** Average Number of Users Blocked */
+  category: string;
+  /** 9.80 */
+  value: string;
+};
+
 type AccountListEntry = {
   created_date: string;
   date_added: string;
