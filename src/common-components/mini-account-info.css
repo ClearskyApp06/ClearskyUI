@@ -12,6 +12,9 @@
 
 .mini-account-info .account-avatar-and-displayName-line {
   font-size: 150%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to the left */
 }
 
 .mini-account-info .account-info-panel-description {
@@ -22,4 +25,10 @@
 
 .mini-account-info .account-info-panel-children {
   padding: 0.4em;
+}
+
+.mini-account-info .account-did-line {
+  font-size: 70%;
+  color: gray;
+  margin-top: 0.2em;
 }
