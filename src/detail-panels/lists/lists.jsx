@@ -75,7 +75,8 @@ export function Lists() {
               }
             </span>
           </> :
-          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
+          listsTotal === null || listsTotal === 0 ?
+            localise('Not a member of any lists', { uk: 'Не входить до жодного списку' }) : null
         }
       </h3>
 
