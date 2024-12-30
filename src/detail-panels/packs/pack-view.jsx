@@ -39,14 +39,11 @@ export function PackView({className, packs}){
   * }} _
   */
   function PackViewEntry({className="", entry}){
+    console.log(entry)
     return(
       <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
-        <AccountShortEntry
-          className='list-owner'
-          withDisplayName
-          account={entry.did}
-        />
+        
         <FormatTimestamp
           timestamp={entry.created_date}
           noTooltip

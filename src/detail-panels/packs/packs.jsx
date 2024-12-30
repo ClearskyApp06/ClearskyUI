@@ -13,31 +13,28 @@ import { PackView } from './pack-view';
 
 
 /**
- * @param {{
- * created?:boolean;
- * }}
- * 
+ * @param {Boolean | undefined} created 
  */
-export function Packs({created=false}){
+export function Packs(created=false){
 
   const NOPACK = created ? "No Starter Packs Created" : "Not in Any Starter Packs";
 
   const accountQuery = useAccountResolver();  
-  const DID = "did:plc:"+ (accountQuery.data?.shortDID ?? "");    
-  const { data, fetchNextPage, hasNextPage, isLoading, isPending} = created ? usePacksCreated(DID):
-  usePacksPopulated(DID);
+  const fullDID = "did:plc:"+ (accountQuery.data?.shortDID ?? "");    
+  const { data, fetchNextPage, hasNextPage, isLoading, isPending} = created ? usePacksCreated(fullDID):
+  usePacksPopulated(fullDID);
 
   const { data: totalData, isLoading: isLoadingTotal } = created ?
-   usePacksCreatedTotal(DID): 
-   usePacksPopulatedTotal(DID);
+   usePacksCreatedTotal(fullDID): 
+   usePacksPopulatedTotal(fullDID);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
   const [tick, setTick] = useState(0);
   const [showSearch, setShowSearch] = useState(!!search);
    
-  const packsTotal=totalData?.count ?? 0;
-  if (isLoading) {
+  const packsTotal= totalData?.data?.count ;
+  if (isLoading ) {
     // show loading screen
       return (
         <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
@@ -47,13 +44,15 @@ export function Packs({created=false}){
           </div>
         </div>
       );
+    }else{
+
     } 
       
       const Packlist = data?.pages || [];
       const allPacks = Packlist.flatMap((page)=>page.lists);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
       const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);
-    
+      console.log("Packs:",Packlist,packsTotal,totalData);
         return (
           <>
             <div className='Packs Created'>

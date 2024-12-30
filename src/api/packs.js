@@ -53,7 +53,7 @@ export function usePacksPopulatedTotal(fullDid){
   return useQuery({
     enabled: !!fullDid,
     queryKey: ['single-starter-pack-total', fullDid],
-    queryFn: () => getListTotal(fullDid),
+    queryFn: () => getPacksPopulatedTotal(fullDid),
   });
 }
 
@@ -103,22 +103,11 @@ async function getPacksPopulatedTotal(fullDid){
 async function getPacksCreated(fullDid, currentPage=1){
     // packs I started  
     const URL ='starter-packs/' + fullDid  + (currentPage === 1 ? '' : '/' + currentPage); 
-    console 
-    const re = await fetchClearskyApi('v1', URL);
-
-    const packsCreated = re.data?.Date || [];
-
-    // Sort by date
-    packsCreated.sort((entry1, entry2) => {
-      const date1 = new Date(entry1.date_added).getTime();
-      const date2 = new Date(entry2.date_added).getTime();
-      return date2 - date1;
-    }); 
-    
-    return {
-        packsCreated, 
-        nextPage: lists.length >= PAGE_SIZE ? currentPage + 1 : null,
-    };
+ 
+    const re = (await fetchClearskyApi('v1', URL)).result();
+    console.lot("getPacksCreated",re);
+    return re;
+ 
 }
 
 /**
