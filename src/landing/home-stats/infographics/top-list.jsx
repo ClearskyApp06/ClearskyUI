@@ -30,12 +30,13 @@ export function TopList({
   const [expanded, setExpanded] = useState(/** @type {boolean | undefined } */(undefined));
   const [see24, setSee24] = useState(/** @type {boolean | undefined } */(undefined));
 
-  const useList = see24 ? list24 : list;
+  // const useList = see24 ? list24 : list;
+  const useList = see24 ? list24 || [] : list || [];
 
   const blockedSlice =
-    !useList ? [] :
-      expanded ? useList :
-        useList?.slice(0, limit);
+  Array.isArray(useList)
+    ? (expanded ? useList : useList.slice(0, limit))
+    : [];
 
   return (
     <div className={'top-list ' + (className || '')}>
