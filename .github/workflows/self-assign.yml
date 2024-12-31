@@ -1,55 +1,64 @@
 name: Allow Self-Assign for Good First Issues and Comments
 
 on:
-  issues:
-    types:
-      - labeled
   issue_comment:
     types:
-      - created
+      - created  # Trigger when a comment is made
 
 jobs:
   self-assign:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Allow Self-Assign on "good first issue"
+      - name: Allow Self-Assign on "good first issue" via Comment
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issue = context.payload.issue || context.payload.comment.issue; // Get issue context
-            const label = context.payload.label;
-            const commentBody = context.payload.comment?.body;
+            const issue = context.payload.issue; // Get issue context
+            const commentBody = context.payload.comment.body;
             
-            // Check if the event is due to the label "good first issue"
-            const allowedLabel = "good first issue";
-            if (label && label.name === allowedLabel) {
-              const assignees = issue.assignees.map(a => a.login);
-              
-              // Assign the user who added the label if not already an assignee
-              if (!assignees.includes(issue.user.login)) {
-                await github.issues.addAssignees({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issue.number,
-                  assignees: [issue.user.login],
-                });
-              }
-            }
-
-            // Check if the event is triggered by a comment
+            // Check if the comment is "/assign"
             if (commentBody && commentBody.trim() === "/assign") {
               const commentAuthor = context.payload.comment.user.login;
               const assignees = issue.assignees.map(a => a.login);
+              
+              // Check if "good first issue" label exists
+              const hasLabel = issue.labels.some(label => label.name === "good first issue");
+              
+              if (hasLabel) {
+                // Assign the commenter if not already an assignee
+                if (!assignees.includes(commentAuthor)) {
+                  await github.issues.addAssignees({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    assignees: [commentAuthor],
+                  });
 
-              // Assign the commenter if not already an assignee
-              if (!assignees.includes(commentAuthor)) {
-                await github.issues.addAssignees({
+                  // Optional: Add a confirmation comment
+                  await github.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `You have been assigned to this issue! 🎉`,
+                  });
+                } else {
+                  // Optional: Add a comment if the user is already assigned
+                  await github.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `You are already assigned to this issue.`,
+                  });
+                }
+              } else {
+                // Optional: Notify if the label is missing
+                await github.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  assignees: [commentAuthor],
+                  body: `This issue does not have the "good first issue" label, so self-assignment is not allowed.`,
                 });
               }
             }
