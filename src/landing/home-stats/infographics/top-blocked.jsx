@@ -2,14 +2,13 @@
 
 /// <reference path="../../../types.d.ts" />
 
-import React, { useState } from 'react';
 import { TopList } from './top-list';
 import { localise } from '../../../localisation';
 
 /**
  * @param {{
- *  blocked: DashboardBlockListEntry[] | undefined,
- *  blocked24: DashboardBlockListEntry[] | undefined,
+ *  blocked: BlockList | undefined,
+ *  blocked24: BlockList | undefined,
  *  limit?: number
  * }} _
  */

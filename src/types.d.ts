@@ -80,20 +80,20 @@ interface BlockStats {
 }
 
 interface FunFacts {
-  blocked: DashboardBlockListEntry[];
-  blockers: DashboardBlockListEntry[];
+  blocked: BlockList;
+  blockers: BlockList;
 }
 
 interface FunnerFacts {
-  blocked24: DashboardBlockListEntry[];
-  blockers24: DashboardBlockListEntry[];
+  blocked24: BlockList;
+  blockers24: BlockList;
 }
 
 type DashboardStats = {
   asof: string | null;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
-  topLists: Partial<FunFacts> & Partial<FunnerFacts>;
+  topLists: FunFacts & FunnerFacts;
 };
 
 type StatsEndpointResp<Data> =
@@ -103,18 +103,22 @@ type StatsEndpointResp<Data> =
     }
   | { timeLeft: string };
 
-type DashboardBlockListEntry = {
-  /** mailia.bsky.social */
-  Handle: string;
-  /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
-  ProfileURL: string;
-  /** 1589 */
-  block_count: number;
-  /** did:plc:i3bauhmsixt5j33pnr5g7475 */
-  did: string;
-};
+interface BlockData {
+  count: number;
+  handle: string;
+}
 
-type DashboardAllBlockListEntry = {
+interface BlockList {
+  [did: string]: BlockData;
+}
+
+interface DashboardBlockListEntry {
+  count: number;
+  did: string;
+  handle: string;
+}
+
+type DashboardBlockOverallEntry = {
   /** Average Number of Users Blocked */
   category: string;
   /** 9.80 */

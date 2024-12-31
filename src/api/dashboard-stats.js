@@ -46,14 +46,22 @@ async function dashboardStatsApi() {
 
   const asof = blockStats['as of'] || initialData.asof;
 
+   /** @type {FunFacts} */
+  const funFactsData = 'data' in funFacts ? funFacts.data : null
+
+  /** @type {FunnerFacts} */
+  const funnerFactsData = 'data' in funnerFacts ? funnerFacts.data : null
+
   /** @type {DashboardStats} */
   const result = {
     asof,
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      ...('data' in funFacts ? funFacts.data : {}),
-      ...('data' in funnerFacts ? funnerFacts.data : {}),
+      blocked: funFactsData ? funFactsData.blocked: null,
+      blockers: funFactsData ? funFactsData.blockers : null,
+      blocked24: funnerFactsData ? funnerFactsData.blocked24 : null,
+      blockers24: funnerFactsData ? funnerFactsData.blockers24: null
     },
   };
   return result;

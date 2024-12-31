@@ -41,128 +41,88 @@
     "totalUsers": 5399765
   },
   "topLists": {
-    "blocked": [
-      {
-        "Handle": "jordanbpeterson.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:aeuetvb7vac3xay76nkphbks",
-        "block_count": 17390,
-        "did": "did:plc:aeuetvb7vac3xay76nkphbks"
+    "blocked": {
+      "did:plc:aeuetvb7vac3xay76nkphbks": {
+        "handle": "jordanbpeterson.bsky.social",
+        "count": 17390
       },
-      {
-        "Handle": "aify.co",
-        "ProfileURL": "https://bsky.app/profile/did:plc:s3kgjpyoec2fd7ztruqiaxwx",
-        "block_count": 13646,
-        "did": "did:plc:s3kgjpyoec2fd7ztruqiaxwx"
+      "did:plc:s3kgjpyoec2fd7ztruqiaxwx": {
+        "handle": "aify.co",
+        "count": 13646
       },
-      {
-        "Handle": "endwokeness.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:byet53dwfmr5at7xk56zwmxv",
-        "block_count": 12078,
-        "did": "did:plc:byet53dwfmr5at7xk56zwmxv"
+      "did:plc:byet53dwfmr5at7xk56zwmxv": {
+        "handle": "endwokeness.bsky.social",
+        "count": 12078
       },
-      {
-        "Handle": "shortcovid.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:rjlu6npi554qkz2jcvdt7mc3",
-        "block_count": 9815,
-        "did": "did:plc:rjlu6npi554qkz2jcvdt7mc3"
+      "did:plc:rjlu6npi554qkz2jcvdt7mc3": {
+        "handle": "shortcovid.bsky.social",
+        "count": 9815
       },
-      {
-        "Handle": "anonymous.expectus.fyi",
-        "ProfileURL": "https://bsky.app/profile/did:plc:xfqcsi7wuwedeqaa5m7aih44",
-        "block_count": 8890,
-        "did": "did:plc:xfqcsi7wuwedeqaa5m7aih44"
+      "did:plc:xfqcsi7wuwedeqaa5m7aih44": {
+        "handle": "anonymous.expectus.fyi",
+        "count": 8890
       },
-      {
-        "Handle": "90sanime.pics",
-        "ProfileURL": "https://bsky.app/profile/did:plc:5krm4pb5gecb5uawvgr7uxuu",
-        "block_count": 8542,
-        "did": "did:plc:5krm4pb5gecb5uawvgr7uxuu"
+      "did:plc:5krm4pb5gecb5uawvgr7uxuu": {
+        "handle": "90sanime.pics",
+        "count": 8542
       },
-      {
-        "Handle": "mdbreathe.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:cmo3ypyyvybcgyi2tg2x4sge",
-        "block_count": 8339,
-        "did": "did:plc:cmo3ypyyvybcgyi2tg2x4sge"
+      "did:plc:cmo3ypyyvybcgyi2tg2x4sge": {
+        "handle": "mdbreathe.bsky.social",
+        "count": 8339
       },
-      {
-        "Handle": "thedevil.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:k2weqoffrljoi7d45jjhjaqk",
-        "block_count": 7927,
-        "did": "did:plc:k2weqoffrljoi7d45jjhjaqk"
+      "did:plc:k2weqoffrljoi7d45jjhjaqk": {
+        "handle": "thedevil.bsky.social",
+        "count": 7927
       },
-      {
-        "Handle": "catswithaura.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:wwakmfq74pvducx2pbbdxhlg",
-        "block_count": 7521,
-        "did": "did:plc:wwakmfq74pvducx2pbbdxhlg"
+      "did:plc:wwakmfq74pvducx2pbbdxhlg": {
+        "handle": "catswithaura.bsky.social",
+        "count": 7521
       },
-      {
-        "Handle": "9gag.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:56eikwlvdd4htq727624spkg",
-        "block_count": 7369,
-        "did": "did:plc:56eikwlvdd4htq727624spkg"
+      "did:plc:56eikwlvdd4htq727624spkg": {
+        "handle": "9gag.bsky.social",
+        "count": 7369
       },
-      {
-        "Handle": "afdberlin.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:vzakzcxo3dqgjvlgmqlakcb5",
-        "block_count": 7184,
-        "did": "did:plc:vzakzcxo3dqgjvlgmqlakcb5"
+      "did:plc:vzakzcxo3dqgjvlgmqlakcb5": {
+        "handle": "afdberlin.bsky.social",
+        "count": 7184
       },
-      {
-        "Handle": "womensart1.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:jfpub26kfrtponcqzi7i7udl",
-        "block_count": 6361,
-        "did": "did:plc:jfpub26kfrtponcqzi7i7udl"
+      "did:plc:jfpub26kfrtponcqzi7i7udl": {
+        "handle": "womensart1.bsky.social",
+        "count": 6361
       },
-      {
-        "Handle": "artificial.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:gr3zsqab63cfvv7nao4mrh7v",
-        "block_count": 6016,
-        "did": "did:plc:gr3zsqab63cfvv7nao4mrh7v"
+      "did:plc:gr3zsqab63cfvv7nao4mrh7v": {
+        "handle": "artificial.bsky.social",
+        "count": 6016
       },
-      {
-        "Handle": "ewerickson.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:2gwoe546lp565vxmzzy2emsl",
-        "block_count": 5993,
-        "did": "did:plc:2gwoe546lp565vxmzzy2emsl"
+      "did:plc:2gwoe546lp565vxmzzy2emsl": {
+        "handle": "ewerickson.bsky.social",
+        "count": 5993
       },
-      {
-        "Handle": "poeticalphotos.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:ha5tvry6kkxiujam6kyjgagg",
-        "block_count": 5871,
-        "did": "did:plc:ha5tvry6kkxiujam6kyjgagg"
+      "did:plc:ha5tvry6kkxiujam6kyjgagg": {
+        "handle": "poeticalphotos.bsky.social",
+        "count": 5871
       },
-      {
-        "Handle": "julianreichelt.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:hwbjiajbxxij27fzdxwgp7h7",
-        "block_count": 5867,
-        "did": "did:plc:hwbjiajbxxij27fzdxwgp7h7"
+      "did:plc:hwbjiajbxxij27fzdxwgp7h7": {
+        "handle": "julianreichelt.bsky.social",
+        "count": 5867
       },
-      {
-        "Handle": "funnyordie.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:m4wkkbc4k5e46hus7zy3tijd",
-        "block_count": 5773,
-        "did": "did:plc:m4wkkbc4k5e46hus7zy3tijd"
+      "did:plc:m4wkkbc4k5e46hus7zy3tijd": {
+        "handle": "funnyordie.bsky.social",
+        "count": 5773
       },
-      {
-        "Handle": "culture-crit.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:uvsztbhnf2gcplblz5hitxc7",
-        "block_count": 5700,
-        "did": "did:plc:uvsztbhnf2gcplblz5hitxc7"
+      "did:plc:uvsztbhnf2gcplblz5hitxc7": {
+        "handle": "culture-crit.bsky.social",
+        "count": 5700
       },
-      {
-        "Handle": "aisky.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:kazwkrel3bvgeqm3wdiydwdf",
-        "block_count": 5615,
-        "did": "did:plc:kazwkrel3bvgeqm3wdiydwdf"
+      "did:plc:kazwkrel3bvgeqm3wdiydwdf": {
+        "handle": "aisky.bsky.social",
+        "count": 5615
       },
-      {
-        "Handle": "othingstodo.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:i6r2cszqypv2qkp5wvppkndo",
-        "block_count": 5601,
-        "did": "did:plc:i6r2cszqypv2qkp5wvppkndo"
+      "did:plc:i6r2cszqypv2qkp5wvppkndo": {
+        "handle": "othingstodo.bsky.social",
+        "count": 5601
       }
-    ],
+    },
     "blocked_aid": {
       "did:plc:2gwoe546lp565vxmzzy2emsl": "bafkreigkyri2ge24a2gjvbyfqhpv72ean3kqdr5im6e3njdgfcosgtaly4",
       "did:plc:56eikwlvdd4htq727624spkg": "bafkreic2xkbo646nxl44z3zk2zeighlvsgltoqjoolc3ihc26p4sdxityu",
@@ -185,128 +145,88 @@
       "did:plc:wwakmfq74pvducx2pbbdxhlg": "bafkreieeqwlz7l4lk6eztvyfnowockjstvksrqsfveb7hk2rv5rkfuihtm",
       "did:plc:xfqcsi7wuwedeqaa5m7aih44": "bafkreic6auduax3rkmtm6xgaetan5osdm454a4y5wc5ryfcjkg5gnfqhmu"
     },
-    "blockers": [
-      {
-        "Handle": "godemperorof.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
-        "block_count": 538414,
-        "did": "did:plc:aaelnwlxvflllswegmearbwo"
+    "blockers": {
+      "did:plc:aaelnwlxvflllswegmearbwo": {
+        "handle": "godemperorof.bsky.social",
+        "count": 538414
       },
-      {
-        "Handle": "chiefkeef.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:e4fsmjcj33khuqi6prspceiy",
-        "block_count": 32919,
-        "did": "did:plc:e4fsmjcj33khuqi6prspceiy"
+      "did:plc:e4fsmjcj33khuqi6prspceiy": {
+        "handle": "chiefkeef.bsky.social",
+        "count": 32919
       },
-      {
-        "Handle": "joshuajoy.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:vvzu3m7xgl6nldqjbp25pitj",
-        "block_count": 11337,
-        "did": "did:plc:vvzu3m7xgl6nldqjbp25pitj"
+      "did:plc:vvzu3m7xgl6nldqjbp25pitj": {
+        "handle": "joshuajoy.bsky.social",
+        "count": 11337
       },
-      {
-        "Handle": "reishoku.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:yjxotndhnf4jsldpzh3dbbhe",
-        "block_count": 8618,
-        "did": "did:plc:yjxotndhnf4jsldpzh3dbbhe"
+      "did:plc:yjxotndhnf4jsldpzh3dbbhe": {
+        "handle": "reishoku.bsky.social",
+        "count": 8618
       },
-      {
-        "Handle": "benclombardo.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:4plzygasgydhuirdrlflqbjo",
-        "block_count": 8353,
-        "did": "did:plc:4plzygasgydhuirdrlflqbjo"
+      "did:plc:4plzygasgydhuirdrlflqbjo": {
+        "handle": "benclombardo.bsky.social",
+        "count": 8353
       },
-      {
-        "Handle": "populuxe.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:cgxxlxuypmkdqdcpioqny5r6",
-        "block_count": 7787,
-        "did": "did:plc:cgxxlxuypmkdqdcpioqny5r6"
+      "did:plc:cgxxlxuypmkdqdcpioqny5r6": {
+        "handle": "populuxe.bsky.social",
+        "count": 7787
       },
-      {
-        "Handle": "thewrittentevs.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:mauk6khnlclkr5k2hnezgmja",
-        "block_count": 5400,
-        "did": "did:plc:mauk6khnlclkr5k2hnezgmja"
+      "did:plc:mauk6khnlclkr5k2hnezgmja": {
+        "handle": "thewrittentevs.bsky.social",
+        "count": 5400
       },
-      {
-        "Handle": "likeamilkdud.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:d2c3m3xnz4e3x774bq7w43pc",
-        "block_count": 5251,
-        "did": "did:plc:d2c3m3xnz4e3x774bq7w43pc"
+      "did:plc:d2c3m3xnz4e3x774bq7w43pc": {
+        "handle": "likeamilkdud.bsky.social",
+        "count": 5251
       },
-      {
-        "Handle": "csam.okconfirmed.com",
-        "ProfileURL": "https://bsky.app/profile/did:plc:o6p7fbjv2xyijweh5uexdeun",
-        "block_count": 4569,
-        "did": "did:plc:o6p7fbjv2xyijweh5uexdeun"
+      "did:plc:o6p7fbjv2xyijweh5uexdeun": {
+        "handle": "csam.okconfirmed.com",
+        "count": 4569
       },
-      {
-        "Handle": "fresh-newlook.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:6odst3452scxthx7w3v2tiav",
-        "block_count": 4346,
-        "did": "did:plc:6odst3452scxthx7w3v2tiav"
+      "did:plc:6odst3452scxthx7w3v2tiav": {
+        "handle": "fresh-newlook.bsky.social",
+        "count": 4346
       },
-      {
-        "Handle": "sunsetsnow.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:axrs65zc6hj3m5axp3fth6pw",
-        "block_count": 4263,
-        "did": "did:plc:axrs65zc6hj3m5axp3fth6pw"
+      "did:plc:axrs65zc6hj3m5axp3fth6pw": {
+        "handle": "sunsetsnow.bsky.social",
+        "count": 4263
       },
-      {
-        "Handle": "pupgamer.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:mafslxu4vgugbybjzsuqxdqr",
-        "block_count": 4243,
-        "did": "did:plc:mafslxu4vgugbybjzsuqxdqr"
+      "did:plc:mafslxu4vgugbybjzsuqxdqr": {
+        "handle": "pupgamer.bsky.social",
+        "count": 4243
       },
-      {
-        "Handle": "itwont.run",
-        "ProfileURL": "https://bsky.app/profile/did:plc:nyykk5p7laar725gdnypopsh",
-        "block_count": 4160,
-        "did": "did:plc:nyykk5p7laar725gdnypopsh"
+      "did:plc:nyykk5p7laar725gdnypopsh": {
+        "handle": "itwont.run",
+        "count": 4160
       },
-      {
-        "Handle": "sunagimochan.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:lsoslz2tnl5rudrd7toaxly3",
-        "block_count": 3554,
-        "did": "did:plc:lsoslz2tnl5rudrd7toaxly3"
+      "did:plc:lsoslz2tnl5rudrd7toaxly3": {
+        "handle": "sunagimochan.bsky.social",
+        "count": 3554
       },
-      {
-        "Handle": "hamandegger.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:wgiw4zvjhfhhubf6dtocjern",
-        "block_count": 3462,
-        "did": "did:plc:wgiw4zvjhfhhubf6dtocjern"
+      "did:plc:wgiw4zvjhfhhubf6dtocjern": {
+        "handle": "hamandegger.bsky.social",
+        "count": 3462
       },
-      {
-        "Handle": "blueotter.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:yq6oqday6xtoqcgigdotnglw",
-        "block_count": 3376,
-        "did": "did:plc:yq6oqday6xtoqcgigdotnglw"
+      "did:plc:yq6oqday6xtoqcgigdotnglw": {
+        "handle": "blueotter.bsky.social",
+        "count": 3376
       },
-      {
-        "Handle": "palomar.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:2col443nxnlr3qxmlh53u2oi",
-        "block_count": 3321,
-        "did": "did:plc:2col443nxnlr3qxmlh53u2oi"
+      "did:plc:2col443nxnlr3qxmlh53u2oi": {
+        "handle": "palomar.bsky.social",
+        "count": 3321
       },
-      {
-        "Handle": "nanamiasari.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:ptlddkaqekq5xj4icqh3btu3",
-        "block_count": 3320,
-        "did": "did:plc:ptlddkaqekq5xj4icqh3btu3"
+      "did:plc:ptlddkaqekq5xj4icqh3btu3": {
+        "handle": "nanamiasari.bsky.social",
+        "count": 3320
       },
-      {
-        "Handle": "elaxor.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:ofca62ov5uoae3j772j5vxkx",
-        "block_count": 3210,
-        "did": "did:plc:ofca62ov5uoae3j772j5vxkx"
+      "did:plc:ofca62ov5uoae3j772j5vxkx": {
+        "handle": "elaxor.bsky.social",
+        "count": 3210
       },
-      {
-        "Handle": "john88.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:nhfzuw3qpspigcbhopyjyoxg",
-        "block_count": 2987,
-        "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg"
+      "did:plc:nhfzuw3qpspigcbhopyjyoxg": {
+        "handle": "john88.bsky.social",
+        "count": 2987
       }
-    ],
+    },
     "blockers_aid": {
       "did:plc:2col443nxnlr3qxmlh53u2oi": "",
       "did:plc:4plzygasgydhuirdrlflqbjo": "bafkreidmvofs6nmkoqadp4vkvh26jzh73bzvf5s2ajvt5ztnkqxneyayvq",
@@ -329,250 +249,169 @@
       "did:plc:yjxotndhnf4jsldpzh3dbbhe": "bafkreifomfskzqebqe2h7as2m2e3g6tmnmzintulxgw7gdvvdmhesdbq4u",
       "did:plc:yq6oqday6xtoqcgigdotnglw": "bafkreif7yd74dsurrjboyvrqwmwdbhpqs3w4eku36gmcw2vfqk4vncrnyq"
     },
-
-    "blocked24": [
-      {
-        "Handle": "william1ng.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:srszfyoy7rnvbayspnvo6gzk",
-        "block_count": 472,
-        "did": "did:plc:srszfyoy7rnvbayspnvo6gzk"
+    "blocked24": {
+      "did:plc:srszfyoy7rnvbayspnvo6gzk" : {
+        "handle": "william1ng.bsky.social",
+        "count": 472
       },
-      {
-        "Handle": "permabanned.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:lq27lgik3ku2qg6zfxmil5xo",
-        "block_count": 301,
-        "did": "did:plc:lq27lgik3ku2qg6zfxmil5xo"
+      "did:plc:lq27lgik3ku2qg6zfxmil5xo" : {
+        "handle": "permabanned.bsky.social",
+        "count": 301
       },
-      {
-        "Handle": "whstancil.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:7umvpuxe2vbrc3zrzuquzniu",
-        "block_count": 242,
-        "did": "did:plc:7umvpuxe2vbrc3zrzuquzniu"
+      "did:plc:7umvpuxe2vbrc3zrzuquzniu": {
+        "handle": "whstancil.bsky.social",
+        "count": 242
       },
-      {
-        "Handle": "nihilinterit.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:gvgcih7d6m3e2hvyq46igazf",
-        "block_count": 222,
-        "did": "did:plc:gvgcih7d6m3e2hvyq46igazf"
+      "did:plc:gvgcih7d6m3e2hvyq46igazf": {
+        "handle": "nihilinterit.bsky.social",
+        "count": 222
       },
-      {
-        "Handle": "thallus.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:3j6zhuwhlaq6ce3whn6psuzf",
-        "block_count": 202,
-        "did": "did:plc:3j6zhuwhlaq6ce3whn6psuzf"
+      "did:plc:3j6zhuwhlaq6ce3whn6psuzf": {
+        "handle": "thallus.bsky.social",
+        "count": 202
       },
-      {
-        "Handle": "terfslayer.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:inbqnvflb7h2yiiaz7csx3wc",
-        "block_count": 174,
-        "did": "did:plc:inbqnvflb7h2yiiaz7csx3wc"
+      "did:plc:inbqnvflb7h2yiiaz7csx3wc": {
+        "handle": "terfslayer.bsky.social",
+        "count": 174
       },
-      {
-        "Handle": "saltyserpent.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:aev34tr3qek5p4xpgkqte7ve",
-        "block_count": 127,
-        "did": "did:plc:aev34tr3qek5p4xpgkqte7ve"
+      "did:plc:aev34tr3qek5p4xpgkqte7ve": {
+        "handle": "saltyserpent.bsky.social",
+        "count": 127
       },
-      {
-        "Handle": "therealericg765.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:6m3d4kvetsgyuv63fal2nfeh",
-        "block_count": 126,
-        "did": "did:plc:6m3d4kvetsgyuv63fal2nfeh"
+      "did:plc:6m3d4kvetsgyuv63fal2nfeh": {
+        "handle": "therealericg765.bsky.social",
+        "count": 126
       },
-      {
-        "Handle": "bargdaffy.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:k5igcriqmplffxazxux36dk3",
-        "block_count": 124,
-        "did": "did:plc:k5igcriqmplffxazxux36dk3"
+      "did:plc:k5igcriqmplffxazxux36dk3": {
+        "handle": "bargdaffy.bsky.social",
+        "count": 124
       },
-      {
-        "Handle": "sarahiscute.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:kkwgudwujvnik2wwohuxr36q",
-        "block_count": 111,
-        "did": "did:plc:kkwgudwujvnik2wwohuxr36q"
+      "did:plc:kkwgudwujvnik2wwohuxr36q": {
+        "handle": "sarahiscute.bsky.social",
+        "count": 111
       },
-      {
-        "Handle": "rexs1gma.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:qdriunexx3nobe5kpltycouy",
-        "block_count": 106,
-        "did": "did:plc:qdriunexx3nobe5kpltycouy"
+      "did:plc:qdriunexx3nobe5kpltycouy": {
+        "handle": "rexs1gma.bsky.social",
+        "count": 106
       },
-      {
-        "Handle": "schierkujaschierk.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:pbeh735amil4zwnwfidbwawx",
-        "block_count": 101,
-        "did": "did:plc:pbeh735amil4zwnwfidbwawx"
+      "did:plc:pbeh735amil4zwnwfidbwawx": {
+        "handle": "schierkujaschierk.bsky.social",
+        "count": 101
       },
-      {
-        "Handle": "lofibaby.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:jq6adp6xpuywzmkkq5xhgsli",
-        "block_count": 101,
-        "did": "did:plc:jq6adp6xpuywzmkkq5xhgsli"
+      "did:plc:jq6adp6xpuywzmkkq5xhgsli": {
+        "handle": "lofibaby.bsky.social",
+        "count": 101
       },
-      {
-        "Handle": "navin5u.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:izwkrpapa4baoz4cfxkyri3t",
-        "block_count": 100,
-        "did": "did:plc:izwkrpapa4baoz4cfxkyri3t"
+      "did:plc:izwkrpapa4baoz4cfxkyri3t": {
+        "handle": "navin5u.bsky.social",
+        "count": 100
       },
-      {
-        "Handle": "contexthuman5u.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:3w6lqhoiwb4oyxkq4vkezmoh",
-        "block_count": 100,
-        "did": "did:plc:3w6lqhoiwb4oyxkq4vkezmoh"
+      "did:plc:3w6lqhoiwb4oyxkq4vkezmoh": {
+        "handle": "contexthuman5u.bsky.social",
+        "count": 100
       },
-      {
-        "Handle": "200motels.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:7hdkruwu4o5ctjvgasmoq7kz",
-        "block_count": 95,
-        "did": "did:plc:7hdkruwu4o5ctjvgasmoq7kz"
+      "did:plc:7hdkruwu4o5ctjvgasmoq7kz": {
+        "handle": "200motels.bsky.social",
+        "count": 95
       },
-      {
-        "Handle": "nowarbutclasswar.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:l4yavyh246boe7uzo4cua2ns",
-        "block_count": 91,
-        "did": "did:plc:l4yavyh246boe7uzo4cua2ns"
+      "did:plc:l4yavyh246boe7uzo4cua2ns": {
+        "handle": "nowarbutclasswar.bsky.social",
+        "count": 91
       },
-      {
-        "Handle": "sdesk.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:4mbllyfo5h6macrye35rg2dv",
-        "block_count": 90,
-        "did": "did:plc:4mbllyfo5h6macrye35rg2dv"
+      "did:plc:4mbllyfo5h6macrye35rg2dv": {
+        "handle": "sdesk.bsky.social",
+        "count": 90
       },
-      {
-        "Handle": "meginstarlight.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:3le6pwxcgwunzz6o77x2z7ar",
-        "block_count": 84,
-        "did": "did:plc:3le6pwxcgwunzz6o77x2z7ar"
+      "did:plc:3le6pwxcgwunzz6o77x2z7ar": {
+        "handle": "meginstarlight.bsky.social",
+        "count": 84
       },
-      {
-        "Handle": "lukemaskwalker.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:cnjc3bgo6werfibdv7ztbwbs",
-        "block_count": 82,
-        "did": "did:plc:cnjc3bgo6werfibdv7ztbwbs"
+      "did:plc:cnjc3bgo6werfibdv7ztbwbs": {
+        "handle": "lukemaskwalker.bsky.social",
+        "count": 82
       }
-    ],
-    "blockers24": [
-      {
-        "Handle": "godemperorof.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
-        "block_count": 6419,
-        "did": "did:plc:aaelnwlxvflllswegmearbwo"
+    },
+    "blockers24": {
+      "did:plc:aaelnwlxvflllswegmearbwo": {
+        "handle": "godemperorof.bsky.social",
+        "count": 6419
       },
-      {
-        "Handle": "hatac009.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:d7pkd2naqqxa6eutobyokvp5",
-        "block_count": 1080,
-        "did": "did:plc:d7pkd2naqqxa6eutobyokvp5"
+      "did:plc:d7pkd2naqqxa6eutobyokvp5": {
+        "handle": "hatac009.bsky.social",
+        "count": 1080
       },
-      {
-        "Handle": "whydoilikethis.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:g2xshwj4o33b5wzxs3xspfxk",
-        "block_count": 539,
-        "did": "did:plc:g2xshwj4o33b5wzxs3xspfxk"
+      "did:plc:g2xshwj4o33b5wzxs3xspfxk": {
+        "handle": "whydoilikethis.bsky.social",
+        "count": 539
       },
-      {
-        "Handle": "cynanthrope.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:5gspcix3gh6xlpq7cpud3igc",
-        "block_count": 409,
-        "did": "did:plc:5gspcix3gh6xlpq7cpud3igc"
+      "did:plc:5gspcix3gh6xlpq7cpud3igc": {
+        "handle": "cynanthrope.bsky.social",
+        "count": 409
       },
-      {
-        "Handle": "jeanbath.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:nsf5dhzypf4e3j4ujlxsw6mj",
-        "block_count": 299,
-        "did": "did:plc:nsf5dhzypf4e3j4ujlxsw6mj"
+      "did:plc:nsf5dhzypf4e3j4ujlxsw6mj": {
+        "handle": "jeanbath.bsky.social",
+        "count": 299
       },
-      {
-        "Handle": "fierydarkstar.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:ni3wjvylk76d5q7mk665bgac",
-        "block_count": 245,
-        "did": "did:plc:ni3wjvylk76d5q7mk665bgac"
+      "did:plc:ni3wjvylk76d5q7mk665bgac": {
+        "handle": "fierydarkstar.bsky.social",
+        "count": 245
       },
-      {
-        "Handle": "joshaustin.tech",
-        "ProfileURL": "https://bsky.app/profile/did:plc:ejn42lyctdwfin3ymjoenebs",
-        "block_count": 236,
-        "did": "did:plc:ejn42lyctdwfin3ymjoenebs"
+      "did:plc:ejn42lyctdwfin3ymjoenebs": {
+        "handle": "joshaustin.tech",
+        "count": 236
       },
-      {
-        "Handle": "john88.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:nhfzuw3qpspigcbhopyjyoxg",
-        "block_count": 221,
-        "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg"
+      "did:plc:nhfzuw3qpspigcbhopyjyoxg": {
+        "handle": "john88.bsky.social",
+        "count": 221
       },
-      {
-        "Handle": "pyritohedron.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:kc6b7l5qnaylgnrkpo4apnms",
-        "block_count": 190,
-        "did": "did:plc:kc6b7l5qnaylgnrkpo4apnms"
+      "did:plc:kc6b7l5qnaylgnrkpo4apnms": {
+        "handle": "pyritohedron.bsky.social",
+        "count": 190
       },
-      {
-        "Handle": "murxibald.vegantifa.de",
-        "ProfileURL": "https://bsky.app/profile/did:plc:3tahovyvo3t2cp5rshxalw33",
-        "block_count": 190,
-        "did": "did:plc:3tahovyvo3t2cp5rshxalw33"
+      "did:plc:3tahovyvo3t2cp5rshxalw33": {
+        "handle": "murxibald.vegantifa.de",
+        "count": 190
       },
-      {
-        "Handle": "shisuiten.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:afiyi64xi7t2jppwbfwujvrl",
-        "block_count": 173,
-        "did": "did:plc:afiyi64xi7t2jppwbfwujvrl"
+      "did:plc:afiyi64xi7t2jppwbfwujvrl": {
+        "handle": "shisuiten.bsky.social",
+        "count": 173
       },
-      {
-        "Handle": "helinon.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:mjllre6n522jmm6wfaguifuw",
-        "block_count": 160,
-        "did": "did:plc:mjllre6n522jmm6wfaguifuw"
+      "did:plc:mjllre6n522jmm6wfaguifuw": {
+        "handle": "helinon.bsky.social",
+        "count": 160
       },
-      {
-        "Handle": "limbischessystem.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:laox4youuo2r5bw2nxlfkxla",
-        "block_count": 149,
-        "did": "did:plc:laox4youuo2r5bw2nxlfkxla"
+      "did:plc:laox4youuo2r5bw2nxlfkxla": {
+        "handle": "limbischessystem.bsky.social",
+        "count": 149
       },
-      {
-        "Handle": "enyantiomer.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:rcpdouakmhwfitbxf4wlf73g",
-        "block_count": 134,
-        "did": "did:plc:rcpdouakmhwfitbxf4wlf73g"
+      "did:plc:rcpdouakmhwfitbxf4wlf73g": {
+        "handle": "enyantiomer.bsky.social",
+        "count": 134
       },
-      {
-        "Handle": "kristianharstad.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:aui4nwz642bg4edbkvexogcw",
-        "block_count": 114,
-        "did": "did:plc:aui4nwz642bg4edbkvexogcw"
+      "did:plc:aui4nwz642bg4edbkvexogcw": {
+        "handle": "kristianharstad.bsky.social",
+        "count": 114
       },
-      {
-        "Handle": "simomo.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:bsfkrvkgspgv7nx7yyvn6kfy",
-        "block_count": 103,
-        "did": "did:plc:bsfkrvkgspgv7nx7yyvn6kfy"
+      "did:plc:bsfkrvkgspgv7nx7yyvn6kfy": {
+        "handle": "simomo.bsky.social",
+        "count": 103
       },
-      {
-        "Handle": "nationalist.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:vpaoviy4grvnajgaze6642tf",
-        "block_count": 100,
-        "did": "did:plc:vpaoviy4grvnajgaze6642tf"
+      "did:plc:vpaoviy4grvnajgaze6642tf": {
+        "handle": "nationalist.bsky.social",
+        "count": 100
       },
-      {
-        "Handle": "lunastarlight123.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:j5azar2i2m33clf4gx6s3q5l",
-        "block_count": 99,
-        "did": "did:plc:j5azar2i2m33clf4gx6s3q5l"
+      "did:plc:j5azar2i2m33clf4gx6s3q5l": {
+        "handle": "lunastarlight123.bsky.social",
+        "count": 99
       },
-      {
-        "Handle": "666naberius666.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:kyj73ifujf6tnhe7s5wpoam4",
-        "block_count": 97,
-        "did": "did:plc:kyj73ifujf6tnhe7s5wpoam4"
+      "did:plc:kyj73ifujf6tnhe7s5wpoam4": {
+        "handle": "666naberius666.bsky.social",
+        "count": 97
       },
-      {
-        "Handle": "ponderosa121.bsky.social",
-        "ProfileURL": "https://bsky.app/profile/did:plc:6icr4tipspgctwsl24lv5r3y",
-        "block_count": 95,
-        "did": "did:plc:6icr4tipspgctwsl24lv5r3y"
+      "did:plc:6icr4tipspgctwsl24lv5r3y": {
+        "handle": "ponderosa121.bsky.social",
+        "count": 95
       }
-    ]
+    }
   }
 }

@@ -11,6 +11,8 @@ import Tab from '@mui/material/Tab';
 
 import './home-stats-table.css';
 import { localise } from '../../localisation';
+import { unwrapShortHandle } from '../../api';
+import { Link } from 'react-router-dom';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -32,9 +34,9 @@ export default function HomeStatsTable({
       ]
     },
     { id: 2, name: localise('Top Blocked', {}), data: topBlocked, columnDefs: [
-        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        { field: 'handle', cellRenderer: HandleLinkRenderer},
         {
-          field: 'block_count',
+          field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
         },
@@ -42,9 +44,9 @@ export default function HomeStatsTable({
       ]
     },
     { id: 3, name: localise('Top Blocked Last 24h', {}), data: topBlocked24, columnDefs: [
-        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        { field: 'handle', cellRenderer: HandleLinkRenderer},
         {
-          field: 'block_count',
+          field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
         },
@@ -52,9 +54,9 @@ export default function HomeStatsTable({
       ]
     },
     { id: 4, name: localise('Top Blockers', {}), data: topBlockers, columnDefs: [
-        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        { field: 'handle', cellRenderer: HandleLinkRenderer},
         {
-          field: 'block_count',
+          field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
         },
@@ -62,9 +64,9 @@ export default function HomeStatsTable({
       ]
     },
     { id: 5, name: localise('Top Blockers Last 24h', {}), data: topBlockers24, columnDefs: [
-        { field: 'Handle', cellRenderer: HandleLinkRenderer},
+        { field: 'handle', cellRenderer: HandleLinkRenderer},
         {
-          field: 'block_count',
+          field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
         },
@@ -163,42 +165,56 @@ function getGridRowsAndColumns(stats) {
     }
   }
 
-  if (stats.topLists.blocked?.length) {
-    for (const blocked of stats.topLists.blocked) {
+  if (stats.topLists.blocked && Object.keys(stats.topLists.blocked).length) {
+    for (const [key, value] of Object.entries(stats.topLists.blocked)) {
       blockedData['topBlocked'].push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
+        did: key,
+        profile_url: null,
+        handle: value.handle,
+        count: value.count.toLocaleString()
       });
     }
+
+    blockedData['topBlocked'].sort((a, b) => parseInt(b.count) - parseInt(a.count))
   }
 
-  if (stats.topLists.blocked24?.length) {
-    for (const blocked of stats.topLists.blocked24) {
+  if (stats.topLists.blocked24 && Object.keys(stats.topLists.blocked24).length) {
+    for (const [key, value] of Object.entries(stats.topLists.blocked24)) {
       blockedData['topBlocked24'].push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
+        did: key,
+        profile_url: null,
+        handle: value.handle,
+        count: value.count.toLocaleString()
       });
     }
+
+    blockedData['topBlocked24'].sort((a, b) => parseInt(b.count) - parseInt(a.count))
   }
 
-  if (stats.topLists.blockers?.length) {
-    for (const blocked of stats.topLists.blockers) {
+  if (stats.topLists.blockers && Object.keys(stats.topLists.blockers).length) {
+    for (const [key, value] of Object.entries(stats.topLists.blockers)) {
       blockedData['topBlockers'].push({
-        Handle: blocked.Handle,
-        block_count: blocked.block_count.toLocaleString(),
-        ProfileURL: blocked.ProfileURL,
-        did: blocked.did
+        did: key,
+        profile_url: null,
+        handle: value.handle,
+        count: value.count.toLocaleString()
       });
     }
+
+    blockedData['topBlockers'].sort((a, b) => parseInt(b.count) - parseInt(a.count))
   }
 
-  if (stats.topLists.blockers24?.length) {
-    for (const blocked of stats.topLists.blockers24) {
+  if (stats.topLists.blockers24 && Object.keys(stats.topLists.blockers24).length) {
+    for (const [key, value] of Object.entries(stats.topLists.blockers24)) {
       blockedData['topBlockers24'].push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
+        did: key,
+        profile_url: null,
+        handle: value.handle,
+        count: value.count.toLocaleString()
       });
     }
+
+    blockedData['topBlockers24'].sort((a, b) => parseInt(b.count) - parseInt(a.count))
   }
 
   return blockedData;
@@ -267,8 +283,10 @@ function getLabelForStatKey(key) {
  */
 function HandleLinkRenderer(params) {
     try{
-      return (<a href={new URL(params.data.ProfileURL).href} target="_blank">{params.data.Handle}</a>);
+      return (<Link to={`/${unwrapShortHandle(params.data.handle)}/history`} className={'account-short-entry'}>
+        {params.data.handle}
+        </Link>)
     }catch(error){
-      return params.data.Handle
+      return params.data.handle
     }
 }
