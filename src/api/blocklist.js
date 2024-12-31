@@ -9,7 +9,7 @@ import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 /**
- * @param {string | undefined} did
+ * @param {string} did
  */
 export function useBlocklist(did) {
   const fullDid = unwrapShortDID(did);
@@ -19,7 +19,8 @@ export function useBlocklist(did) {
   return useInfiniteQuery({
     enabled: !!(pdsUrl && fullDid),
     queryKey: ['blocks-from-pds', pdsUrl, fullDid],
-    queryFn: ({ pageParam }) => getBlocksFromPds(pdsUrl, fullDid, pageParam),
+    queryFn: ({ pageParam }) =>
+      getBlocksFromPds(/** @type {string} */ (pdsUrl), fullDid, pageParam),
     initialPageParam: '',
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -52,7 +53,7 @@ async function getBlocksFromPds(pdsHost, fullDid, cursor) {
 }
 
 /**
- * @param {string | undefined} did
+ * @param {string} did
  */
 export function useSingleBlocklist(did) {
   const fullDid = unwrapShortDID(did);
@@ -68,7 +69,7 @@ export function useSingleBlocklist(did) {
 
 /**
  *
- * @param {string | undefined} did
+ * @param {string} did
  */
 export function useBlocklistCount(did) {
   const fullDid = unwrapShortDID(did);
@@ -80,7 +81,7 @@ export function useBlocklistCount(did) {
 }
 /**
  *
- * @param {string | undefined} did
+ * @param {string } did
  */
 export function useSingleBlocklistCount(did) {
   const fullDid = unwrapShortDID(did);
@@ -94,10 +95,11 @@ export function useSingleBlocklistCount(did) {
 /**
  * @template Data
  * @typedef {{
- *  data: Data,
- *  identity: string,
- *  status: boolean
- * }} BlocklistResponse */
+ *   data: Data,
+ *   identity: string,
+ *   status: boolean
+ * }} BlocklistResponse
+ */
 
 /**
  * @typedef {{

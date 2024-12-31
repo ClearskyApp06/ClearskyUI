@@ -1,7 +1,7 @@
 /// <reference types="@atproto/api" />
 /// <reference types="vite/client" />
 
-type AccountInfo = {
+interface AccountInfo {
   shortDID: string;
   shortHandle: string;
   displayName?: string;
@@ -9,24 +9,24 @@ type AccountInfo = {
   avatarUrl?: string;
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
-};
+}
 
-type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {
+interface PostDetails extends AppBskyFeedPost.Record {
   uri: string;
   cid: string;
-};
+}
 
-type BlockedByRecord = {
+interface BlockedByRecord {
   blocked_date: string;
   did: string;
   status: boolean;
-};
+}
 
 type CompactHandleOrHandleDisplayName =
   | string
   | [shortHandle: string, displayName: string];
 
-type SearchMatch = {
+interface SearchMatch {
   rank: number;
 
   shortDID: string;
@@ -39,12 +39,12 @@ type SearchMatch = {
   displayNameMatches?: string;
 
   postID?: string;
-};
+}
 
-type ValueWithDisplayName = {
+interface ValueWithDisplayName {
   displayName?: string;
   value: string | number | undefined;
-};
+}
 
 interface TotalUsers {
   active_count: ValueWithDisplayName;
@@ -79,22 +79,33 @@ interface BlockStats {
   totalUsers: number;
 }
 
+interface DashboardBlockInstance {
+  count: number;
+  handle: string;
+}
+
+interface DashboardBlockData {
+  [key: `did:${string}` /* did */]: DashboardBlockInstance;
+}
+
 interface FunFacts {
-  blocked: DashboardBlockListEntry[];
-  blockers: DashboardBlockListEntry[];
+  blocked: DashboardBlockData;
+  blockers: DashboardBlockData;
 }
 
 interface FunnerFacts {
-  blocked24: DashboardBlockListEntry[];
-  blockers24: DashboardBlockListEntry[];
+  blocked24: DashboardBlockData;
+  blockers24: DashboardBlockData;
 }
 
-type DashboardStats = {
+type TopLists = FunFacts & FunnerFacts;
+
+interface DashboardStats {
   asof: string | null;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
-  topLists: Partial<FunFacts> & Partial<FunnerFacts>;
-};
+  topLists: Partial<TopLists>;
+}
 
 type StatsEndpointResp<Data> =
   | {
@@ -103,25 +114,7 @@ type StatsEndpointResp<Data> =
     }
   | { timeLeft: string };
 
-type DashboardBlockListEntry = {
-  /** mailia.bsky.social */
-  Handle: string;
-  /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
-  ProfileURL: string;
-  /** 1589 */
-  block_count: number;
-  /** did:plc:i3bauhmsixt5j33pnr5g7475 */
-  did: string;
-};
-
-type DashboardAllBlockListEntry = {
-  /** Average Number of Users Blocked */
-  category: string;
-  /** 9.80 */
-  value: string;
-};
-
-type AccountListEntry = {
+interface AccountListEntry {
   created_date: string;
   date_added: string;
   description: string;
@@ -129,4 +122,4 @@ type AccountListEntry = {
   name: string;
   status: boolean;
   url: string;
-};
+}

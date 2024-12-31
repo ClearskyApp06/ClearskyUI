@@ -44,6 +44,7 @@ export async function fetchDidDocument(fullDid, signal) {
  */
 export function usePdsUrl(did) {
   const { status, error, data } = useDidDocument(did);
+
   /** @type {string | undefined} */
   let pdsUrl;
   if (status === 'success') {
@@ -52,9 +53,6 @@ export function usePdsUrl(did) {
     );
     pdsUrl = pds?.serviceEndpoint;
   }
-  return {
-    status,
-    error,
-    pdsUrl,
-  };
+
+  return { status, error, pdsUrl };
 }

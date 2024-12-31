@@ -8,20 +8,24 @@ import { localise } from '../../../localisation';
 
 /**
  * @param {{
- *  blockers: DashboardBlockListEntry[] | undefined,
- *  blockers24: DashboardBlockListEntry[] | undefined,
+ *  blockers: DashboardBlockData | undefined,
+ *  blockers24: DashboardBlockData | undefined,
  *  limit?: number
  * }} _
  */
 export function TopBlockers({ blockers, blockers24, limit }) {
   return (
     <TopList
-      className='top-blockers'
-      header={(list) =>
-        localise(`Top ${list.length || ''} Blockers`,
-          { uk: `Топ ${list.length || ''} блок-берсеркерів` })}
-      list={blockers}
-      list24={blockers24}
-      limit={limit} />
+      className="top-blockers"
+      header={(data) => {
+        const count = Object.keys(data).length;
+        return localise(`Top ${count} Blockers`, {
+          uk: `Топ ${count} блок-берсеркерів`,
+        });
+      }}
+      block={blockers}
+      block24={blockers24}
+      limit={limit}
+    />
   );
 }
