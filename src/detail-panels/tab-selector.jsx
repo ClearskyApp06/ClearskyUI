@@ -24,6 +24,14 @@ export function TabSelector({ className, tab, onTabSelected }) {
       <VerticalTab key='lists' className='tab-lists'>
         {localise('Lists', { uk: 'У списках' })}
       </VerticalTab>,
+    'block-lists':
+    <VerticalTab key='block-lists' className='tab-block-lists'>
+      {localise('Block Lists', { uk: 'У списках' })}
+    </VerticalTab>,
+    'block-list-subs':
+    <VerticalTab key='block-list-subs' className='tab-block-list-subs'>
+      {localise('Block List Subs', { uk: 'У списках' })}
+    </VerticalTab>,
     'history':
       <VerticalTab key='history' className='tab-history'>
         {localise('History', { uk: 'Історія' })}

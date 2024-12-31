@@ -1,0 +1,10 @@
+.lists-header {
+  padding: 0.7em 0.5em;
+  margin: 0;
+}
+
+.panel-toggles {
+  float: right;
+  position: relative;
+  top: -0.4em;
+}

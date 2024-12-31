@@ -9,6 +9,8 @@ const BlockedByPanel = lazy(() => import('./blocked-by'));
 const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
+const BlockLists = lazy(() => import('./block-lists'));
+const BlockListSubs = lazy(() => import('./block-list-subs'));
 
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
@@ -21,6 +23,8 @@ export const accountTabs = /** @type {const} */ ([
   'blocking',
   'blocked-by',
   'lists',
+  'block-lists', //(aka what block lists is this user on?
+  'block-list-subs', //(aka what block lists is this user subscribed to?)
   'history',
 ]);
 
@@ -120,6 +124,10 @@ function renderTabContent(tab) {
       return <BlockingPanel />;
     case 'lists':
       return <Lists />;
+    case 'block-lists':
+      return <BlockLists />;
+    case 'block-list-subs':
+      return <BlockListSubs />;
     case 'history':
       return <HistoryPanel />;
 
