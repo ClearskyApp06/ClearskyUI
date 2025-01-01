@@ -97,20 +97,20 @@ function BlockListEntry({ entry }) {
 }
 
 /**
- * @param {Array | Object} listData
+ * @param {Array | Object | null} listData
  * @returns {DashboardBlockListEntry[]}
  */
   function getDashboardList(listData) {
       /** @type {DashboardBlockListEntry[]} */
       const dashboardBlockList = []
 
-      Object.keys(listData).forEach((key) => {
-        let allValues = listData[key]
-        allValues['did'] = key
-        dashboardBlockList.push(allValues)
-      })
-
-      dashboardBlockList.sort((a, b) => b.count - a.count)
-    
+      if(listData) {
+        Object.keys(listData).forEach((key) => {
+          let allValues = listData[key]
+          allValues['did'] = key
+          dashboardBlockList.push(allValues)
+        })
+        dashboardBlockList.sort((a, b) => b.count - a.count)
+      }
       return dashboardBlockList
   }
