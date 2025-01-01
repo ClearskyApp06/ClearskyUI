@@ -43,7 +43,7 @@ type SearchMatch = {
 
 type ValueWithDisplayName = {
   displayName?: string;
-  value: string | number | undefined;
+  value: number | undefined;
 };
 
 interface TotalUsers {

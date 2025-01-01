@@ -11,9 +11,6 @@ import Tab from '@mui/material/Tab';
 
 import './home-stats-table.css';
 import { localise } from '../../localisation';
-import { likelyDID, unwrapShortHandle, useResolveBatchDid, useResolveHandleOrDid } from '../../api';
-import { Link } from 'react-router-dom';
-import { FullHandle } from '../../common-components/full-short';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 
 /**
