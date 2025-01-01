@@ -3,15 +3,15 @@
   "totalUsers": {
     "active_count": {
       "displayName": "Active Users",
-      "value": "5,041,681"
+      "value": 5041681
     },
     "deleted_count": {
       "displayName": "Deleted Users",
-      "value": "358,084"
+      "value": 358084
     },
     "total_count": {
       "displayName": "Total Users",
-      "value": "5,399,765"
+      "value": 5399765
     }
   },
   "blockStats": {

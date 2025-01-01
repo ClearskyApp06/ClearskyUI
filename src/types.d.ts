@@ -120,7 +120,7 @@ type DashboardBlockOverallEntry = {
   /** Average Number of Users Blocked */
   category: string;
   /** 9.80 */
-  value: string;
+  value: number;
 };
 
 type AccountListEntry = {
