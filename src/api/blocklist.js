@@ -2,7 +2,6 @@
 
 import {
   fetchClearskyApi,
-  parseNumberWithCommas,
   unwrapShortDID,
 } from './core';
 import { usePdsUrl } from './pds';
@@ -102,7 +101,7 @@ export function useSingleBlocklistCount(did) {
 /**
  * @typedef {{
  *   blocklist: BlockedByRecord[],
- *   count: string,
+ *   count: number,
  *   pages: number
  * }} BlocklistPage
  */
@@ -125,7 +124,7 @@ async function blocklistCall(did, api, currentPage = 1) {
   /** @type {BlocklistResponse<BlocklistPage>} */
   const pageResponse = await fetchClearskyApi('v1', handleURL);
 
-  let count = parseNumberWithCommas(pageResponse.data.count) || 0;
+  let count = pageResponse.data.count || 0;
 
   const chunk = pageResponse.data.blocklist;
 

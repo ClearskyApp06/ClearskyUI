@@ -105,7 +105,6 @@ type StatsEndpointResp<Data> =
 
 interface BlockData {
   count: number;
-  handle: string;
 }
 
 interface BlockList {
@@ -115,7 +114,6 @@ interface BlockList {
 interface DashboardBlockListEntry {
   count: number;
   did: string;
-  handle: string;
 }
 
 type DashboardBlockOverallEntry = {

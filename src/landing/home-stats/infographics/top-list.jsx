@@ -5,7 +5,6 @@
 import React, { useState } from 'react';
 
 import { AccountShortEntry } from '../../../common-components/account-short-entry';
-import { parseNumberWithCommas } from '../../../api/core';
 
 import './top-list.css'
 import { Switch } from '@mui/material';
@@ -83,9 +82,6 @@ function defaultHeader(list) {
 
 /** @param {{ entry: DashboardBlockListEntry }} _ */
 function BlockListEntry({ entry }) {
-  const countStr =
-    parseNumberWithCommas(entry.count)?.toLocaleString();
-
   return (
     <div className='top-list-entry'>
       <AccountShortEntry
@@ -93,7 +89,7 @@ function BlockListEntry({ entry }) {
         contentClassName='top-list-entry-content'
         accountTooltipPanel >
         <span className='top-list-entry-count'>
-          {countStr}
+          {entry.count.toLocaleString()}
         </span>
       </AccountShortEntry>
     </div>
