@@ -40,7 +40,7 @@ export function AccountExtraInfo({ className, ...rest }) {
             <>
               <span className='handle-history-title'>
                 {
-                  localise('registration and history:', { uk: 'реєстрація та важливі події:'})
+                  localise('registration and history:', { uk: 'реєстрація та важливі події:' })
                 }
               </span>
               <HandleHistory handleHistory={handleHistory} />
@@ -59,32 +59,45 @@ export function AccountExtraInfo({ className, ...rest }) {
  */
 function DidWithCopyButton({ shortDID, handleHistory }) {
   const [isCopied, setIsCopied] = React.useState(false);
+  const [isPdsCopied, setIsPdsCopied] = React.useState(false);
 
-  const currentPds = handleHistory?.map(entry => entry[2]).filter(Boolean)[0];
+  const currentPds = handleHistory?.map((entry) => entry[2]).filter(Boolean)[0];
 
   return (
     <>
       <FullDID shortDID={shortDID} />
-      {isCopied ?
-        <div className='copied-to-clipboard'>Copied to Clipboard</div> :
-        <Button className='copy-did' onClick={() => handleCopyDid(shortDID)}>
+      {isCopied ? (
+        <div className="copied-to-clipboard">Copied to Clipboard</div>
+      ) : (
+        <Button
+          className="copy-did MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium"
+          onClick={() => handleCopyDid(shortDID)}
+        >
           <ContentCopy />
         </Button>
-      }
-      {
-        !currentPds ? undefined :
-        <div className='current-pds-line'>
-            <PDSName pds={currentPds} />
+      )}
+      {!currentPds ? undefined : (
+        <div className="current-pds-line">
+          <PDSName pds={currentPds} />
+          {isPdsCopied ? (
+            <div className="copied-to-clipboard">Copied to Clipboard</div>
+          ) : (
+            <Button
+              className="copy-did MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium"
+              onClick={() => handleCopyPds(currentPds)}
+            >
+              <ContentCopy />
+            </Button>
+          )}
         </div>
-      }
+      )}
     </>
   );
 
   /**
-   * @param {string} shortDID 
+   * @param {string} shortDID
    */
   function handleCopyDid(shortDID) {
-    // Copy the shortDID to the clipboard
     const modifiedShortDID = unwrapShortDID(shortDID);
     const textField = document.createElement('textarea');
     textField.innerText = modifiedShortDID;
@@ -93,16 +106,29 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
     document.execCommand('copy');
     textField.remove();
 
-    // Show the "Copied to Clipboard" message
     setIsCopied(true);
-
-    // Hide the message after a delay (e.g., 3 seconds)
     setTimeout(() => {
       setIsCopied(false);
     }, 3000);
   }
-}
 
+  /**
+   * @param {string} pds
+   */
+  function handleCopyPds(pds) {
+    const textField = document.createElement('textarea');
+    textField.innerText = pds;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+
+    setIsPdsCopied(true);
+    setTimeout(() => {
+      setIsPdsCopied(false);
+    }, 3000);
+  }
+}
 
 function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   if (!text) return undefined;
@@ -145,5 +171,5 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
 }
 
 function Line({ text, className }) {
-  return <div className={className}>{text}</div>
+  return <div className={className}>{text}</div>;
 }
