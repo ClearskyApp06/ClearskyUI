@@ -4,7 +4,6 @@ import { useState, lazy } from 'react';
 
 import { HomeStatsMain } from './home-stats-main';
 import { useDashboardStats } from '../../api';
-import { parseNumberWithCommas } from '../../api/core';
 
 const HomeStatsTable = lazy(() => import('./home-stats-table'));
 
@@ -34,12 +33,8 @@ export function HomeStats({ className }) {
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
-  const activeAccounts = parseNumberWithCommas(
-    stats?.totalUsers?.active_count?.value
-  );
-  const deletedAccounts = parseNumberWithCommas(
-    stats?.totalUsers?.deleted_count?.value
-  );
+  const activeAccounts = stats?.totalUsers?.active_count?.value
+  const deletedAccounts = stats?.totalUsers?.deleted_count?.value
   const percentNumberBlocked1 = stats?.blockStats?.percentNumberBlocked1;
   const percentNumberBlocking1 = stats?.blockStats?.percentNumberBlocking1;
 
