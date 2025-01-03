@@ -97,11 +97,22 @@ export function shortenHandle(input) {
 const _shortenHandle_Regex = /\.bsky\.social$/;
 
 /**
+ * @overload
+ * @param {string} shortHandle
+ * @return {string}
+ */
+/**
+ * @overload
  * @param {string | undefined} shortHandle
+ * @return {string | undefined}
+ */
+/**
+ * @param {string | undefined} shortHandle
+ * @return {string | undefined}
  */
 export function unwrapShortHandle(shortHandle) {
   shortHandle = cheapNormalizeHandle(shortHandle);
-  return !shortHandle
+  return typeof shortHandle !== 'string'
     ? undefined
     : shortHandle.indexOf('.') < 0
     ? shortHandle.toLowerCase() + '.bsky.social'

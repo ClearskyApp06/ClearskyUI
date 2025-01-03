@@ -27,7 +27,7 @@ export function FullHandle({ shortHandle, ...rest }) {
       <span {...rest}>
         {shortHandle}
         <span className="handle-std-suffix">
-          {fullHandle.slice(shortHandle.length)}
+          {fullHandle ? fullHandle.slice(shortHandle.length) : shortHandle}
         </span>
       </span>
     );

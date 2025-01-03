@@ -51,20 +51,20 @@ export function useResolveHandleOrDid(handleOrDID) {
   return useResolveDidToProfile(did || handleQuery.data);
 }
 
-const queryKeyForHandle = (/** @type {string} */ fullHandle) => [
-  'resolve-handle-to-did',
-  fullHandle,
-];
+const queryKeyForHandle = (
+  /** @type {string | undefined | null} */ fullHandle
+) => ['resolve-handle-to-did', fullHandle];
 /**
  *
  * @param {string | undefined | null} handle
  * @returns the corresponding DID
  */
 function useResolveHandleToDid(handle) {
-  const fullHandle = unwrapShortHandle(handle);
+  const fullHandle = unwrapShortHandle(handle ?? undefined);
   return useQuery({
     enabled: !!fullHandle,
     queryKey: queryKeyForHandle(fullHandle),
+    // @ts-expect-error fullHandle will be a string because the query will be disabled otherwise
     queryFn: () => resolveHandleToDid(fullHandle),
   });
 }

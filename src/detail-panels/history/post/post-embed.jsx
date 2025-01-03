@@ -93,9 +93,8 @@ function PostEmbedRecord({ embed, disableEmbedQT, level }) {
  * }} _
  */
 function PostEmbedImages({ post, embed }) {
-  if (!embed.images?.length) return null;
-
   const postUri = breakFeedUri(post.uri);
+  if (!embed.images?.length || !postUri) return null;
 
   if (embed.images.length === 1) {
     return (
@@ -184,6 +183,7 @@ function PostEmbedRecordWithMedia({ post, embed }) {
     );
   const postUri = breakFeedUri(post.uri);
   const { data } = usePostByUri(embed.record.record.uri);
+  if (!postUri) return null;
   return (
     <div className="post-content-embed">
       {!images?.length ? null : images.length === 1 ? (
@@ -227,6 +227,8 @@ function PostEmbedRecordWithMedia({ post, embed }) {
  */
 function PostEmbedExternal({ post, embed }) {
   const postUri = breakFeedUri(post.uri);
+  if (!postUri) return null;
+
   return (
     <div className="post-content-embed">
       <a
