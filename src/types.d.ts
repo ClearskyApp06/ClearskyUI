@@ -80,13 +80,13 @@ interface BlockStats {
 }
 
 interface FunFacts {
-  blocked: BlockList;
-  blockers: BlockList;
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 interface FunnerFacts {
-  blocked24: BlockList;
-  blockers24: BlockList;
+  blocked24: BlockList | null;
+  blockers24: BlockList | null;
 }
 
 type DashboardStats = {

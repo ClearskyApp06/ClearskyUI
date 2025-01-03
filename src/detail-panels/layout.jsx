@@ -33,12 +33,10 @@ export function AccountLayout() {
 
   return (
     <AccountLayoutCore
+      // @ts-expect-error no guarantee that the url param is one of our known tabs
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
-        navigate(
-          `/${handle}/` + selectedTab,
-          { replace: true }
-        );
+        navigate(`/${handle}/` + selectedTab, { replace: true });
       }}
       onCloseClick={() => {
         navigate('/');
@@ -50,7 +48,7 @@ export function AccountLayout() {
 /**
  *
  * @param {{
- *   selectedTab: string,
+ *   selectedTab: import('./tab-selector').AnyTab,
  * onCloseClick: () => void,
  * onSetSelectedTab: (tab:string) => void,
  * }} param0

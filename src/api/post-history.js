@@ -3,14 +3,14 @@
 
 import { BskyAgent } from '@atproto/api';
 import { breakFeedUri, unwrapShortDID } from '.';
-import { atClient, patchBskyAgent, publicAtClient } from './core';
+import { atClient, patchBskyAgent } from './core';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
 import { usePdsUrl } from './pds';
 import { useMemo } from 'react';
 
 /**
- * @param {string} did
+ * @param {string | undefined} did
  * @returns
  */
 export function usePostHistory(did) {
@@ -26,8 +26,10 @@ export function usePostHistory(did) {
     enabled: !!fullDid && pdsStatus !== 'pending',
     queryKey: ['post-history', pdsUrl, fullDid],
     queryFn: async ({ pageParam }) =>
+      // @ts-expect-error fullDid should never be undefined since the query won't be enabled
       fetchPostHistory(pdsClient, fullDid, pageParam),
     getNextPageParam: (page) => page.cursor,
+    /** @type {string | undefined} */
     initialPageParam: undefined,
   });
 }
@@ -37,7 +39,6 @@ export function usePostHistory(did) {
  * @param {BskyAgent} pdsClient
  * @param {string} did
  * @param {string | undefined} cursor
- * @returns
  */
 async function fetchPostHistory(pdsClient, did, cursor) {
   const history = await pdsClient.com.atproto.repo.listRecords({
@@ -99,8 +100,13 @@ async function fetchPostByUri(uri) {
   const uriEntity = breakFeedUri(uri);
   if (!uriEntity) throw new Error('Invalid post URI: ' + uri);
 
+  const fullDid = unwrapShortDID(uriEntity.shortDID);
+  if (!fullDid) {
+    throw new Error('Could not find valid DID in URI');
+  }
+
   const postRecord = await atClient.com.atproto.repo.getRecord({
-    repo: unwrapShortDID(uriEntity.shortDID),
+    repo: fullDid,
     collection: 'app.bsky.feed.post',
     rkey: uriEntity.postID,
   });
@@ -112,15 +118,19 @@ async function fetchPostByUri(uri) {
   };
 }
 
-const queryKeyForPost = (/** @type {string} */ uri) => ['post-by-uri', uri];
+const queryKeyForPost = (/** @type {string | null | undefined} */ uri) => [
+  'post-by-uri',
+  uri,
+];
 
 /**
- * @param {string} uri
+ * @param {string | null | undefined} uri
  */
 export function usePostByUri(uri) {
   return useQuery({
     enabled: !!uri,
     queryKey: queryKeyForPost(uri),
+    // @ts-expect-error uri will be a string since query is disabled otherwise
     queryFn: () => fetchPostByUri(uri),
   });
 }

@@ -20,7 +20,7 @@ import { queryClient } from './query-client';
 
 /**
  * @deprecated DO NOT USE THIS. Always prefer the hook version `useResolveHandleOrDid`
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export async function resolveHandleOrDID(handleOrDID) {
   let { handle, did } = distinguishDidFromHandle(handleOrDID);
@@ -31,7 +31,10 @@ export async function resolveHandleOrDID(handleOrDID) {
       queryFn: () => resolveHandleToDid(fullHandle),
     });
   }
-  did = unwrapShortDID(did);
+  did = unwrapShortDID(did) || null;
+  if (!did) {
+    return null;
+  }
   return queryClient.fetchQuery({
     queryKey: queryKeyForDid(did),
     queryFn: () => batchedDIDLookup.fetch(did),
@@ -40,7 +43,7 @@ export async function resolveHandleOrDID(handleOrDID) {
 
 /**
  *
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export function useResolveHandleOrDid(handleOrDID) {
   const { handle, did } = distinguishDidFromHandle(handleOrDID);
@@ -54,7 +57,7 @@ const queryKeyForHandle = (/** @type {string} */ fullHandle) => [
 ];
 /**
  *
- * @param {string} handle
+ * @param {string | undefined | null} handle
  * @returns the corresponding DID
  */
 function useResolveHandleToDid(handle) {
@@ -66,13 +69,13 @@ function useResolveHandleToDid(handle) {
   });
 }
 
-const queryKeyForDid = (/** @type {string} */ fullDID) => [
+const queryKeyForDid = (/** @type {string | undefined | null} */ fullDID) => [
   'resolve-did-to-profile',
-  fullDID,
+  fullDID || '',
 ];
 /**
  *
- * @param {string} did
+ * @param {string | undefined} did
  * @returns the profile data for a given DID
  */
 function useResolveDidToProfile(did) {
@@ -80,7 +83,10 @@ function useResolveDidToProfile(did) {
   return useQuery({
     enabled: !!fullDID,
     queryKey: queryKeyForDid(fullDID),
-    queryFn: () => batchedDIDLookup.fetch(fullDID),
+    queryFn: () => {
+      if (!fullDID) return null;
+      return batchedDIDLookup.fetch(fullDID);
+    },
   });
 }
 
@@ -126,12 +132,14 @@ const batchedDIDLookup = createBatchingFetch({
 });
 
 async function resolveDIDs(/** @type {string[]} */ dids) {
+  /** @type {string[]} */
+  // @ts-ignore
   const fullDIDs = dids.map(unwrapShortDID);
 
   /** @type {import("@atproto/api").AppBskyActorGetProfiles.OutputSchema} */
   const resp = await fetch(
     'https://public.api.bsky.app/xrpc/app.bsky.actor.getProfiles?actors=' +
-      fullDIDs.map(encodeURIComponent).join('&actors=')
+      fullDIDs.map((did) => encodeURIComponent(did)).join('&actors=')
   ).then((x) => x.json());
 
   // const describePromise = atClient.com.atproto.repo.describeRepo({
@@ -188,6 +196,10 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
   return detailsArray;
 }
 
+/**
+ *
+ * @param {import('@atproto/api/dist/client/types/app/bsky/actor/defs').ProfileViewDetailed} profileRecord
+ */
 function detectObscurePublicRecordsFlag(profileRecord) {
   if (profileRecord?.labels?.length) {
     for (const label of profileRecord.labels) {
