@@ -82,10 +82,3 @@ export function nextRandom(rnd) {
   rnd = rnd - Math.floor(rnd);
   return rnd;
 }
-
-/** @deprecated we should stop returning comma-formatted numbers from the backend */
-export function parseNumberWithCommas(numOrStr) {
-  if (!numOrStr) return undefined;
-  if (typeof numOrStr === 'number') return numOrStr;
-  return Number(String(numOrStr).replace(/,/g, ''));
-}

@@ -27,7 +27,8 @@ export function About({ onToggleAbout }) {
           <a href="mailto:support@clearsky.app">Contact Us</a> |{' '}
           <a href="https://ko-fi.com/thieflord">Donate</a> |{' '}
           <a href="/privacy-policy.html">Privacy Policy</a> |{' '}
-          <a href="/terms-and-conditions.html">Terms and Conditions</a>
+          <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
+          <a href="https://status.clearsky.app">Status</a>
         </span>
         {localise('Version', {uk: 'Версія'})}: {version}{' '}
         {builtFromCommit && `(${builtFromCommit})`}

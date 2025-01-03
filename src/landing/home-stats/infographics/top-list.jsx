@@ -5,7 +5,6 @@
 import React, { useState } from 'react';
 
 import { AccountShortEntry } from '../../../common-components/account-short-entry';
-import { parseNumberWithCommas } from '../../../api/core';
 
 import './top-list.css'
 import { Switch } from '@mui/material';
@@ -17,8 +16,8 @@ const DEFAULT_LIMIT = 5;
  * @param {{
  *  className?: string,
  *  header?: React.ReactNode | ((list: DashboardBlockListEntry[]) => React.ReactNode),
- *  list: DashboardBlockListEntry[] | undefined,
- *  list24: DashboardBlockListEntry[] | undefined,
+ *  list: BlockList | undefined,
+ *  list24: BlockList | undefined,
  *  limit?: number
  * }} _
  */
@@ -30,7 +29,7 @@ export function TopList({
   const [expanded, setExpanded] = useState(/** @type {boolean | undefined } */(undefined));
   const [see24, setSee24] = useState(/** @type {boolean | undefined } */(undefined));
 
-  const useList = see24 ? list24 : list;
+  const useList = getDashboardList(see24 ? list24 : list);
 
   const blockedSlice =
     !useList ? [] :
@@ -83,9 +82,6 @@ function defaultHeader(list) {
 
 /** @param {{ entry: DashboardBlockListEntry }} _ */
 function BlockListEntry({ entry }) {
-  const countStr =
-    parseNumberWithCommas(entry.block_count)?.toLocaleString();
-
   return (
     <div className='top-list-entry'>
       <AccountShortEntry
@@ -93,9 +89,28 @@ function BlockListEntry({ entry }) {
         contentClassName='top-list-entry-content'
         accountTooltipPanel >
         <span className='top-list-entry-count'>
-          {countStr}
+          {entry.count.toLocaleString()}
         </span>
       </AccountShortEntry>
     </div>
   );
 }
+
+/**
+ * @param {Array | Object | null} listData
+ * @returns {DashboardBlockListEntry[]}
+ */
+  function getDashboardList(listData) {
+      /** @type {DashboardBlockListEntry[]} */
+      const dashboardBlockList = []
+
+      if(listData) {
+        Object.keys(listData).forEach((key) => {
+          let allValues = listData[key]
+          allValues['did'] = key
+          dashboardBlockList.push(allValues)
+        })
+        dashboardBlockList.sort((a, b) => b.count - a.count)
+      }
+      return dashboardBlockList
+  }
