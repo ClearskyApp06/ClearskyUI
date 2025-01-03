@@ -31,6 +31,13 @@ export function TopList({
 
   const useList = getDashboardList(see24 ? list24 : list);
 
+  // const blockedSlice =
+  //   !useList || Array.isArray(useList)
+  //     ? []
+  //     : expanded
+  //     ? useList
+  //     : useList?.slice(0, limit);
+
   const blockedSlice =
     !useList ? [] :
       expanded ? useList :
@@ -104,7 +111,7 @@ function BlockListEntry({ entry }) {
       /** @type {DashboardBlockListEntry[]} */
       const dashboardBlockList = []
 
-      if(listData) {
+      if(listData && typeof listData === 'object' && !Array.isArray(listData)) {
         Object.keys(listData).forEach((key) => {
           let allValues = listData[key]
           allValues['did'] = key
