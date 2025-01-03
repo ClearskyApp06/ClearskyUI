@@ -117,7 +117,7 @@ function getDashboardList(listData) {
   /** @type {DashboardBlockListEntry[]} */
   const dashboardBlockList = [];
 
-  if (listData) {
+  if (listData && typeof listData === 'object' && !Array.isArray(listData)) {
     Object.keys(listData).forEach((key) => {
       let allValues = listData[key];
       dashboardBlockList.push({
