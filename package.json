@@ -15,7 +15,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@atproto/api": "^0.10.4",
+    "@atproto/api": "^0.13.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
