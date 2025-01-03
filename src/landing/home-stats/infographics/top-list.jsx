@@ -31,13 +31,6 @@ export function TopList({
 
   const useList = getDashboardList(see24 ? list24 : list);
 
-  // const blockedSlice =
-  //   !useList || Array.isArray(useList)
-  //     ? []
-  //     : expanded
-  //     ? useList
-  //     : useList?.slice(0, limit);
-
   const blockedSlice =
     !useList ? [] :
       expanded ? useList :
