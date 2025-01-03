@@ -1,13 +1,21 @@
 // @ts-check
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './api/query-client';
 
-const Home = React.lazy(() => import('./landing/home'));
-const AccountView = React.lazy(() => import('./detail-panels'));
+import { queryClient } from './api/query-client';
+import { ErrorBoundary } from './common-components/error-boundary';
+
+async function homeLoader() {
+  const { Home } = await import('./landing/home');
+  return { Component: Home };
+}
 
 import './app.css';
 
@@ -20,13 +28,36 @@ function showApp() {
   `;
   document.body.appendChild(root);
 
-  const router = createBrowserRouter([
-    { path: '/', element: <Home /> },
-    { path: '/index.html', element: <Home /> },
-    { path: '/stable/*', element: <Home /> },
-    { path: '/:handle', element: <AccountView /> },
-    { path: '/:handle/:tab', element: <AccountView /> },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        ErrorBoundary,
+        children: [
+          { index: true, lazy: homeLoader },
+          { path: 'index.html', element: <Navigate to="/" replace /> },
+          { path: 'stable/*', element: <Navigate to="/" replace /> },
+          {
+            path: ':handle/:tab?',
+            lazy: async () => {
+              const { AccountLayout } = await import('./detail-panels');
+              return {
+                Component: AccountLayout,
+              };
+            },
+          },
+        ],
+      },
+    ],
+    {
+      future: {
+        v7_relativeSplatPath: true,
+        v7_fetcherPersist: true,
+        v7_normalizeFormMethod: true,
+        v7_partialHydration: true,
+        v7_skipActionErrorRevalidation: true,
+      },
+    }
+  );
 
   const theme = createTheme({
     components: {
