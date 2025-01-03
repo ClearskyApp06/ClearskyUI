@@ -104,7 +104,7 @@ function BlockListEntry({ entry }) {
       /** @type {DashboardBlockListEntry[]} */
       const dashboardBlockList = []
 
-      if(listData) {
+      if(listData && typeof listData === 'object' && !Array.isArray(listData)) {
         Object.keys(listData).forEach((key) => {
           let allValues = listData[key]
           allValues['did'] = key
