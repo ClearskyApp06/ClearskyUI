@@ -12,11 +12,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api/query-client';
 import { ErrorBoundary } from './common-components/error-boundary';
 
-async function homeLoader() {
-  const { Home } = await import('./landing/home');
-  return { Component: Home };
-}
-
 import './app.css';
 
 function showApp() {
@@ -33,12 +28,18 @@ function showApp() {
       {
         ErrorBoundary,
         children: [
-          { index: true, lazy: homeLoader },
+          {
+            index: true,
+            async lazy() {
+              const { Home } = await import('./landing/home');
+              return { Component: Home };
+            },
+          },
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
           {
             path: ':handle/:tab?',
-            lazy: async () => {
+            async lazy() {
               const { AccountLayout } = await import('./detail-panels');
               return {
                 Component: AccountLayout,
