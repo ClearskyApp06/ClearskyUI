@@ -59,6 +59,7 @@ export function AccountExtraInfo({ className, ...rest }) {
  */
 function DidWithCopyButton({ shortDID, handleHistory }) {
   const [isCopied, setIsCopied] = React.useState(false);
+  const [isCopiedPDS, setIsCopiedPDS] = React.useState(false);
 
   const currentPds = handleHistory?.map(entry => entry[2]).filter(Boolean)[0];
 
@@ -75,6 +76,13 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
         !currentPds ? undefined :
         <div className='current-pds-line'>
             <PDSName pds={currentPds} />
+            {
+              isCopiedPDS ?
+              <div className='copied-to-clipboard'>Copied to Clipboard</div> :
+              <Button className='copy-did' onClick={() => handleCopyPds(currentPds)}>
+                <ContentCopy />
+              </Button>
+            }
         </div>
       }
     </>
@@ -101,6 +109,28 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
       setIsCopied(false);
     }, 3000);
   }
+
+   /**
+   * @param {string} currentPds 
+   */
+  function handleCopyPds(currentPds) {
+    // Copy the shortDID to the clipboard
+    const textField = document.createElement('textarea');
+    textField.innerText = currentPds;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+
+    // Show the "Copied to Clipboard" message
+    setIsCopiedPDS(true);
+
+    // Hide the message after a delay (e.g., 3 seconds)
+    setTimeout(() => {
+      setIsCopiedPDS(false);
+    }, 3000);
+  }
+  
 }
 
 
