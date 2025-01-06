@@ -15,7 +15,7 @@ export async function getLabeled(fullDid, lablerDids) {
 
   const data = await fetch(queryUrl,{
     headers: {
-      'atproto-content-labelers': lablerDids.join(',')
+      'Atproto-Content-Labelers': lablerDids.join(',')
     },
   }).then((r) =>
     r.json()
@@ -36,14 +36,13 @@ export async function getLabeled(fullDid, lablerDids) {
  * @returns {Promise<Labeler[]>} A promise that resolves to an array of labelers.
  */
 async function getLabelers(){
-  //https://staging.api.clearsky.services/api/v1/anon/get-labelers
-  const data = await fetchClearskyApi('v1', 'get-labelers')
+  const data = await fetchClearskyApi('v1', 'get-labelers/dids')
   return data.data;
 }
 
 export function useLabelers() {
   return useQuery({
-    queryKey: ['v1','get-labelers'],
+    queryKey: ['v1','get-labelers','dids'],
     queryFn: () => getLabelers(),
   });
 }
@@ -52,21 +51,19 @@ export function useLabelers() {
 /**
  *
  * @param {string|undefined} did
+ * @param {string[]|undefined} lablerDids
  * @returns
  */
-export function useLabeled(did){
+export function useLabeled(did,lablerDids){
   const fullDid = unwrapShortDID(did);
+  // @TODO use a loop
+  lablerDids = [];
 
   return useQuery({
-    enabled: !!( fullDid ),
+    enabled: !!fullDid && lablerDids && lablerDids.length > 0,
     queryKey: ['labeled', fullDid],
     // @ts-expect-error pdsUrl will be a string because the query will be disabled otherwise
-    queryFn: () => getLabeled(fullDid,[
-        //TTRPG
-        'did:plc:hysbs7znfgxyb4tsvetzo4sk',
-        //skywatch.blue
-        'did:plc:e4elbtctnfqocyfcml6h2lf7'
-    ]),
+    queryFn: () => getLabeled(fullDid,lablerDids),
   });
 
 }

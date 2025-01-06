@@ -1,12 +1,16 @@
-.account-info-panel-labeled-timestamp {
-  font-size: 80%;
-  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white,
-    0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
-  border-top: solid 1px #ededed;
-  padding-top: 0.5em;
+
+.labeled-panel{
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+.labeled-header, .labeled-view {
+  padding: 0.7em 0.5em;
+  margin: 0;
 }
 
-.account-info-panel-labeled-timestamp-full {
-  zoom: 80%;
-  transform: scaleY(1.1);
+.panel-toggles {
+  float: right;
+  position: relative;
+  top: -0.4em;
 }
