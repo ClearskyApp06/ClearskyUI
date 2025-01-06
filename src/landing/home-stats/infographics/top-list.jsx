@@ -114,10 +114,10 @@ function BlockListEntry({ entry }) {
  * @returns {DashboardBlockListEntry[]}
  */
 function getDashboardList(listData) {
-  /** @type {DashboardBlockListEntry[]} */
-  const dashboardBlockList = [];
-
-  if (listData && typeof listData === 'object' && !Array.isArray(listData)) {
+  // TODO remove this first case after prod migrates top blocked format
+  if (listData && !Array.isArray(listData)) {
+    /** @type {DashboardBlockListEntry[]} */
+    const dashboardBlockList = [];
     Object.keys(listData).forEach((key) => {
       let allValues = listData[key];
       dashboardBlockList.push({
@@ -126,6 +126,9 @@ function getDashboardList(listData) {
       });
     });
     dashboardBlockList.sort((a, b) => b.count - a.count);
+    return dashboardBlockList;
+  } else if (listData && Array.isArray(listData)) {
+    return listData;
   }
-  return dashboardBlockList;
+  return [];
 }

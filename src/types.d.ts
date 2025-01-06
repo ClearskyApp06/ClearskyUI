@@ -108,12 +108,15 @@ type StatsEndpointResp<Data> =
   | { timeLeft: string };
 
 interface BlockData {
+  did: string;
   count: number;
 }
 
-interface BlockList {
-  [did: string]: BlockData;
-}
+type BlockList =
+  | Array<BlockData>
+  | /* old format, to be deleted after migration*/ {
+      [did: string]: { count: number };
+    };
 
 interface DashboardBlockListEntry {
   count: number;
