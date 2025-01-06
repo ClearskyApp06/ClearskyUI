@@ -6,8 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList, useListTotal } from '../../api/lists';
-import { ListView } from './list-view';
+import { useList, useListSize, useListTotal } from '../../api/lists';
+import { ListViewEntry } from './list-view';
 
 import './lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
@@ -15,6 +15,9 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import {FixedSizeList as List} from 'react-window'
+import {  useEffect } from 'react';
+
 
 export function Lists() {
   const accountQuery = useAccountResolver();
@@ -79,19 +82,27 @@ export function Lists() {
         }
       </h3>
 
-      <ListView
-        list={filteredLists} />
-
-      {shouldShowLoadMore && (
-        <VisibleWithDelay
-          delayMs={300}
-          onVisible={() => !isFetching && fetchNextPage()}
+      <ul className={'lists-as-list-view '}>
+        <List
+          itemData={filteredLists}
+          height={1200}
+          itemCount={filteredLists?.length}
+          itemSize={60}
+          width={600}
         >
-          <p style={{ padding: '0.5em', opacity: '0.5' }}>
-            <CircularProgress size="1em" /> Loading more...
-          </p>
-        </VisibleWithDelay>
-      )}
+          {({ index, data, style }) => {
+            const entry = data[index];
+            const count = useListSize(entry.url) 
+            return (
+              <ListViewEntry
+                entry={entry}
+                style={style}
+                listcount={count?.data?.count}    
+              />
+            );
+          }}
+        </List>
+      </ul>
     </>
   );
 }

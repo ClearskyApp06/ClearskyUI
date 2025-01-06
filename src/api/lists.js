@@ -4,6 +4,7 @@ import { unwrapShortHandle } from '.';
 import { fetchClearskyApi, unwrapClearskyURL } from './core';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import throttle from 'lodash.throttle'
 
 const PAGE_SIZE = 100;
 
@@ -44,7 +45,7 @@ export function useListSize(listUrl) {
   return useQuery({
     enabled: !!listUrl,
     queryKey: ['list-size', listUrl],
-    queryFn: () => getListSize(listUrl),
+    queryFn: () => throttledGetListSize(listUrl),
   });
 }
 
@@ -86,7 +87,6 @@ async function getList(shortHandle, currentPage = 1) {
  */
 async function getListTotal(shortHandle) {
   const handleURL = 'get-list/total/' + unwrapShortHandle(shortHandle);
-
   /** @type {{ data: { count: number; pages: number } }} */
   const re = await fetchClearskyApi('v1', handleURL);
   return re.data;
@@ -112,3 +112,5 @@ async function getListSize(listUrl) {
   }
   throw new Error('getListSize error: ' + resp.statusText);
 }
+
+const throttledGetListSize = throttle(getListSize,500)

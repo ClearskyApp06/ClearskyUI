@@ -22,16 +22,20 @@
     "@mui/material": "^5.14.20",
     "@mui/styles": "^5.14.20",
     "@tanstack/react-query": "^5.61.4",
+    "@types/react-window": "^1.8.8",
     "@yornaath/batshit": "^0.10.1",
     "ag-grid-community": "^31.0.2",
     "ag-grid-react": "^31.0.3",
     "fuse.js": "^7.0.0",
     "iso-web": "^1.0.6",
+    "lodash.throttle": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "react-window": "^1.8.11"
   },
   "devDependencies": {
+    "@types/lodash.throttle": "^4.1.9",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5",
     "vite": "^6.0.1"
