@@ -174,14 +174,10 @@ function getGridRowsAndColumns(stats) {
   const blockedData = {
     /** @type {Array<{category: string, value: string | undefined }>} */
     allBlockedStats: [],
-    /** @type {Array<{did: string, count: number }>} */
-    topBlocked: [],
-    /** @type {Array<{did: string, count: number }>} */
-    topBlocked24: [],
-    /** @type {Array<{did: string, count: number }>} */
-    topBlockers: [],
-    /** @type {Array<{did: string, count: number }>} */
-    topBlockers24: [],
+    topBlocked: blockListToArray(stats.topLists.blocked),
+    topBlocked24: blockListToArray(stats.topLists.blocked24),
+    topBlockers: blockListToArray(stats.topLists.blockers),
+    topBlockers24: blockListToArray(stats.topLists.blockers24),
   };
 
   if (stats.totalUsers) {
@@ -208,57 +204,24 @@ function getGridRowsAndColumns(stats) {
     }
   }
 
-  if (stats.topLists.blocked && Object.keys(stats.topLists.blocked).length) {
-    for (const [key, value] of Object.entries(stats.topLists.blocked)) {
-      blockedData['topBlocked'].push({
-        did: key,
-        count: value.count,
-      });
-    }
-
-    blockedData['topBlocked'].sort((a, b) => b.count - a.count);
-  }
-
-  if (
-    stats.topLists.blocked24 &&
-    Object.keys(stats.topLists.blocked24).length
-  ) {
-    for (const [key, value] of Object.entries(stats.topLists.blocked24)) {
-      blockedData['topBlocked24'].push({
-        did: key,
-        count: value.count,
-      });
-    }
-
-    blockedData['topBlocked24'].sort((a, b) => b.count - a.count);
-  }
-
-  if (stats.topLists.blockers && Object.keys(stats.topLists.blockers).length) {
-    for (const [key, value] of Object.entries(stats.topLists.blockers)) {
-      blockedData['topBlockers'].push({
-        did: key,
-        count: value.count,
-      });
-    }
-
-    blockedData['topBlockers'].sort((a, b) => b.count - a.count);
-  }
-
-  if (
-    stats.topLists.blockers24 &&
-    Object.keys(stats.topLists.blockers24).length
-  ) {
-    for (const [key, value] of Object.entries(stats.topLists.blockers24)) {
-      blockedData['topBlockers24'].push({
-        did: key,
-        count: value.count,
-      });
-    }
-
-    blockedData['topBlockers24'].sort((a, b) => b.count - a.count);
-  }
-
   return blockedData;
+}
+
+function blockListToArray(/** @type {BlockList | null} */ list) {
+  if (!list) return [];
+  if (Array.isArray(list)) return list;
+
+  /** @type {BlockData[]} */
+  const ret = [];
+  for (const [key, value] of Object.entries(list)) {
+    ret.push({
+      did: key,
+      count: value.count,
+    });
+  }
+
+  ret.sort((a, b) => b.count - a.count);
+  return ret;
 }
 
 /**
