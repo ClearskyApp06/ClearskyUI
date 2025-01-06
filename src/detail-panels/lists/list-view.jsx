@@ -51,14 +51,14 @@ export function ListViewEntry({ className, entry, style, listcount }) {
       </div>
       <div className="row">
         {entry.description && (
-          <span className="list-count-no-desc">{listcount}</span>
+          <span className="list-count-no-desc">{listcount && listcount}</span>
         )}
         <span className="list-name">{entry.name}</span>
         <span className="list-description">
           {entry.description && ' ' + entry.description}
         </span>
         {!entry.description && (
-          <span className="list-count">{' ' + listcount}</span>
+          <span className="list-count">{listcount && ' ' + listcount}</span>
         )}
       </div>
     </li>
