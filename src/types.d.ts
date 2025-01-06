@@ -1,6 +1,10 @@
 /// <reference types="@atproto/api" />
 /// <reference types="vite/client" />
 
+declare module 'punycode2/to-ascii' {
+  export default function toASCII(input: string): string;
+}
+
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
