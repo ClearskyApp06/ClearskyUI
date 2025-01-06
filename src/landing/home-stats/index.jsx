@@ -16,7 +16,7 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
  *  percentNumberBlocked1: number | undefined;
  *  percentNumberBlocking1: number | undefined;
  *  loading: boolean;
- *  stats: DashboardStats | undefined;
+ *  stats: DashboardStats;
  *  onToggleTable?: () => void;
  * }} HomeStatsDetails
  */
@@ -31,13 +31,14 @@ export function HomeStats({ className }) {
 
   const { data: stats, isLoading } = useDashboardStats();
 
-  const asofFormatted = stats?.asof && new Date(stats.asof) + '';
+  const asofFormatted = stats.asof && new Date(stats.asof) + '';
 
-  const activeAccounts = stats?.totalUsers?.active_count?.value
-  const deletedAccounts = stats?.totalUsers?.deleted_count?.value
-  const percentNumberBlocked1 = stats?.blockStats?.percentNumberBlocked1;
-  const percentNumberBlocking1 = stats?.blockStats?.percentNumberBlocking1;
+  const activeAccounts = stats.totalUsers?.active_count?.value;
+  const deletedAccounts = stats.totalUsers?.deleted_count?.value;
+  const percentNumberBlocked1 = stats.blockStats?.percentNumberBlocked1;
+  const percentNumberBlocking1 = stats.blockStats?.percentNumberBlocking1;
 
+  /** @type {HomeStatsDetails} */
   const arg = {
     className,
     asofFormatted,
@@ -47,9 +48,11 @@ export function HomeStats({ className }) {
     percentNumberBlocking1,
     loading: isLoading,
     stats,
+    onToggleTable() {
+      setAsTable((prev) => !prev);
+    },
   };
 
-  if (asTable)
-    return <HomeStatsTable {...arg} onToggleTable={() => setAsTable(false)} />;
-  else return <HomeStatsMain {...arg} onToggleTable={() => setAsTable(true)} />;
+  if (asTable) return <HomeStatsTable {...arg} />;
+  else return <HomeStatsMain {...arg} />;
 }

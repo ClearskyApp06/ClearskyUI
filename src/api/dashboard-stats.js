@@ -44,13 +44,13 @@ async function dashboardStatsApi() {
     blockStatsPromise,
   ]);
 
-  const asof = blockStats['as of'] || initialData.asof;
+  const asof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
 
-   /** @type {FunFacts} */
-  const funFactsData = 'data' in funFacts ? funFacts.data : null
+  /** @type {FunFacts | null} */
+  const funFactsData = 'data' in funFacts ? funFacts.data : null;
 
-  /** @type {FunnerFacts} */
-  const funnerFactsData = 'data' in funnerFacts ? funnerFacts.data : null
+  /** @type {FunnerFacts | null} */
+  const funnerFactsData = 'data' in funnerFacts ? funnerFacts.data : null;
 
   /** @type {DashboardStats} */
   const result = {
@@ -58,10 +58,10 @@ async function dashboardStatsApi() {
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      blocked: funFactsData ? funFactsData.blocked: null,
+      blocked: funFactsData ? funFactsData.blocked : null,
       blockers: funFactsData ? funFactsData.blockers : null,
       blocked24: funnerFactsData ? funnerFactsData.blocked24 : null,
-      blockers24: funnerFactsData ? funnerFactsData.blockers24: null
+      blockers24: funnerFactsData ? funnerFactsData.blockers24 : null,
     },
   };
   return result;

@@ -1,6 +1,10 @@
 /// <reference types="@atproto/api" />
 /// <reference types="vite/client" />
 
+declare module 'punycode2/to-ascii' {
+  export default function toASCII(input: string): string;
+}
+
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
@@ -80,13 +84,13 @@ interface BlockStats {
 }
 
 interface FunFacts {
-  blocked: BlockList;
-  blockers: BlockList;
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 interface FunnerFacts {
-  blocked24: BlockList;
-  blockers24: BlockList;
+  blocked24: BlockList | null;
+  blockers24: BlockList | null;
 }
 
 type DashboardStats = {
@@ -104,12 +108,15 @@ type StatsEndpointResp<Data> =
   | { timeLeft: string };
 
 interface BlockData {
+  did: string;
   count: number;
 }
 
-interface BlockList {
-  [did: string]: BlockData;
-}
+type BlockList =
+  | Array<BlockData>
+  | /* old format, to be deleted after migration*/ {
+      [did: string]: { count: number };
+    };
 
 interface DashboardBlockListEntry {
   count: number;

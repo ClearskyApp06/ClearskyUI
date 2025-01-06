@@ -1,24 +1,23 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import { BskyAgent } from '@atproto/api';
+import { AtpAgent } from '@atproto/api';
 
 export const oldXrpc = 'https://bsky.social/xrpc';
 export const newXrpc = 'https://bsky.network/xrpc';
 export const publicXrpc = 'https://public.api.bsky.app/xrpc';
 
-export const atClient = new BskyAgent({ service: oldXrpc });
+export const atClient = new AtpAgent({ service: oldXrpc });
 patchBskyAgent(atClient);
 
-export const publicAtClient = new BskyAgent({ service: publicXrpc });
+export const publicAtClient = new AtpAgent({ service: publicXrpc });
 patchBskyAgent(publicAtClient);
 
 /** @param {typeof atClient} atClient */
 export function patchBskyAgent(atClient) {
-  atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput =
-    function () {
-      return true;
-    };
+  atClient.com.atproto.sync._client.lex.assertValidXrpcOutput = function () {
+    return true;
+  };
 }
 
 let baseURL = 'https://api.clearsky.services/';
@@ -47,10 +46,13 @@ export function fetchClearskyApi(apiVer, apiPath) {
   return fetch(apiUrl).then((x) => x.json());
 }
 
+/**
+ * @param {string | undefined | null} shortDID
+ * @returns
+ */
 export function unwrapShortDID(shortDID) {
-  return !shortDID
-    ? undefined
-    : shortDID.indexOf(':') < 0
+  if (!shortDID) return;
+  return shortDID.indexOf(':') < 0
     ? 'did:plc:' + shortDID.toLowerCase()
     : shortDID.toLowerCase();
 }

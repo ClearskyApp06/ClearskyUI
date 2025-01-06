@@ -15,7 +15,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@atproto/api": "^0.10.4",
+    "@atproto/api": "^0.13.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
@@ -27,11 +27,13 @@
     "ag-grid-react": "^31.0.3",
     "fuse.js": "^7.0.0",
     "iso-web": "^1.0.6",
+    "punycode2": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5",
     "vite": "^6.0.1"
