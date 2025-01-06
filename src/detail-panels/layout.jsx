@@ -1,27 +1,27 @@
 // @ts-check
 
-import { useState, lazy } from 'react';
+import { lazy, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { unwrapShortHandle } from '../api';
 
 const BlockedByPanel = lazy(() => import('./blocked-by'));
 const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
+const LabeledPanel = lazy(() => import('./labeled'));
 
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
-import { useAccountResolver } from './account-resolver';
 
-import './layout.css';
 import { AccountExtraInfo } from './account-header';
+import './layout.css';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
   'blocked-by',
   'lists',
   'history',
+  'labeled',
 ]);
 
 export function AccountLayout() {
@@ -120,6 +120,9 @@ function renderTabContent(tab) {
       return <Lists />;
     case 'history':
       return <HistoryPanel />;
+    case 'labeled':
+      return <LabeledPanel />;
+
 
     default:
       return (

@@ -1,0 +1,12 @@
+.account-info-panel-labeled-timestamp {
+  font-size: 80%;
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white,
+    0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
+  border-top: solid 1px #ededed;
+  padding-top: 0.5em;
+}
+
+.account-info-panel-labeled-timestamp-full {
+  zoom: 80%;
+  transform: scaleY(1.1);
+}
