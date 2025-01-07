@@ -1,6 +1,6 @@
 // @ts-check
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 
 import { useLabeled, useLabelers } from '../../api/labled';
@@ -55,10 +55,19 @@ export default function LabeledPanel({
 }) {
   const accountQuery = useAccountResolver();
   const did = accountQuery.data?.shortDID;
-  const labelers = useLabelers();
+  const {data:labelers,isLoading:isLoadingLabelers} = useLabelers();
 
   const {data:labels,isLoading} = useLabeled(did,labelers);
-  console.log({labels})
+  //Reduce pages to array of labels
+  const flatLabels = useMemo(()  => {
+    if(!labels){
+      return [];
+    }
+    if(labels.pages){
+      return labels.pages.filter(Boolean).flat();
+    }
+  },[labels]);
+  console.log({labels,labelers,flatLabels})
 
   const count = 0;
   return (
@@ -71,13 +80,13 @@ export default function LabeledPanel({
       }}
     >
         <h3 className='labeled-header'>
-          Labeled
+          Labeled {flatLabels?.length} Times
         </h3>
 
-      {isLoading ? <div>Loading...</div>:(
+      {isLoadingLabelers || isLoading ? <div>Loading...</div>:(
         <>
-        {labels && labels.length ? (
-          <LabeledList labels={labels} />
+        {flatLabels && flatLabels.length ? (
+          <LabeledList labels={flatLabels} />
         ) : (
           <div className='labeled-view no-labels'>No labels</div>
         )}
