@@ -10,7 +10,6 @@ import { FullDID } from '../../common-components/full-short';
 import { localise } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import './account-extra-info.css';
-import AccountLabels from './account-labels';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
 
@@ -36,16 +35,6 @@ export function AccountExtraInfo({ className, ...rest }) {
           shortDID={account?.shortDID}
           handleHistory={handleHistory}
         />
-      </div>
-      <div className="account-labels-section">
-        {!account ? undefined : (
-          <>
-            <span className="account-labels-title">
-              Account Labels
-            </span>
-            <AccountLabels account={account} />
-          </>
-        )}
       </div>
       <div className="handle-history-section">
         {!handleHistory ? undefined : (

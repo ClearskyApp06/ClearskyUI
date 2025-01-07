@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 
 
 import { useLabeled, useLabelers } from '../../api/labled';
+import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
@@ -11,19 +12,33 @@ import './labeled.css';
 /**
  * @param {{
   * cts: string,
-  * val: string
+  * val: string,
+  * src: string,
  * }} _
  */
-function Labeled({ cts,val }){
+function Labeled({ cts,val,src }){
   return (
-    <li className='labeled'>
-      <span>Labeled: </span><span className='labeler-name'>{val}</span>
-      <span> on: </span>
-      <FormatTimestamp
-        timestamp={cts}
-        noTooltip
-        className='labeled-date' />
-    </li>
+    <>
+    <li className={'labeled'}>
+          <div className='row'>
+            <AccountShortEntry
+              className='labeler-owner'
+              withDisplayName
+              account={src}
+            />
+             <FormatTimestamp
+              timestamp={cts}
+              noTooltip
+              className='labeled-date'
+          />
+          </div>
+          <div>
+            <span className='label-name'>
+              {val}
+            </span>
+          </div>
+        </li>
+    </>
   );
 }
 
@@ -37,8 +52,8 @@ function Labeled({ cts,val }){
 function LabeledList({labels}) {
   return (
     <ul className='labeled-view'>
-      {labels.map((label) => (
-        <Labeled key={`${label.src}-${label.cts}`} cts={label.cts} val={label.val} />
+      {labels.map(({src,cts,val}) => (
+        <Labeled key={`${src}-$.cts}`} src={src} cts={cts} val={val} />
       ))}
     </ul>
   );
