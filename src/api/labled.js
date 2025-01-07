@@ -18,7 +18,7 @@ export async function getLabeled(fullDid, lablerDids) {
   }
   const data = await fetch(queryUrl,{
     headers: {
-      'Atproto-Content-Labelers': lablerDids.join(',')
+      'atproto-accept-labelers': lablerDids.join(',')
     },
   }).then((r) =>
     r.json()

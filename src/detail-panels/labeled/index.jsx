@@ -9,22 +9,22 @@ import './labeled.css';
 
 /**
  * @param {{
-  * ctx: string,
-  * value: string
+  * cts: string,
+  * val: string
  * }} _
  */
-function Labeled({ ctx,value }){
+function Labeled({ cts,val }){
   return (
     <li className='labeled'>
-      <span className='labeled-value'>{value}</span>
-      <span className='labeled-context'>Labeled On{ctx}</span>
+      <span>Labeled: </span><span className='labeled-val'>{val}</span>
+      <span> on: </span><span className='labeled-cts'>{cts}</span>
     </li>
   );
 }
 
 /**
  * @param {{
-  * labels: { ctx: string, value: string,uri:string }[]
+  * labels: { cts: string, val: string,uri:string,src:string }[]
   * }} _
   *
   * @returns {JSX.Element}
@@ -32,8 +32,8 @@ function Labeled({ ctx,value }){
 function LabeledList({labels}) {
   return (
     <ul className='labeled-view'>
-      {labels.map((label, i) => (
-        <Labeled key={label.uri} ctx={label.ctx} value={label.value} />
+      {labels.map((label) => (
+        <Labeled key={`${label.src}-${label.cts}`} cts={label.cts} val={label.val} />
       ))}
     </ul>
   );
