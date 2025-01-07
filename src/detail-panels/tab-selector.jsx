@@ -6,8 +6,8 @@ import { Tab, Tabs } from '@mui/material';
 
 import { accountTabs } from './layout';
 
-import './tab-selector.css';
 import { localise } from '../localisation';
+import './tab-selector.css';
 
 /** @typedef {accountTabs[number]} AnyTab */
 
@@ -38,6 +38,11 @@ export function TabSelector({ className, tab, onTabSelected }) {
         {localise('History', { uk: 'Історія' })}
       </VerticalTab>
     ),
+    labeled: (
+      <VerticalTab key="labeled" className="tab-labeled">
+        Labeled
+      </VerticalTab>
+    )
   };
 
   return (
