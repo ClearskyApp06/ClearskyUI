@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 
 
 import { useLabeled, useLabelers } from '../../api/labled';
+import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
 
@@ -16,8 +17,12 @@ import './labeled.css';
 function Labeled({ cts,val }){
   return (
     <li className='labeled'>
-      <span>Labeled: </span><span className='labeled-val'>{val}</span>
-      <span> on: </span><span className='labeled-cts'>{cts}</span>
+      <span>Labeled: </span><span className='labeler-name'>{val}</span>
+      <span> on: </span>
+      <FormatTimestamp
+        timestamp={cts}
+        noTooltip
+        className='labeled-date' />
     </li>
   );
 }
