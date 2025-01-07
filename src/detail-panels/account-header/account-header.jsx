@@ -95,7 +95,7 @@ export function AccountHeader({
                 </a>
                 </> 
           }
-          {placement && <div className='account-place-number'>Join Order: #{placement}</div>}
+          {placement && <div className='account-place-number'>User #{placement}</div>}
            </span>
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
             {
