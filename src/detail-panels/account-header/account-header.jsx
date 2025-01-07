@@ -115,7 +115,7 @@ export function AccountHeader({ className, onInfoClick, onCloseClick }) {
                   </a>
                 </>
               )}
-              <span className="account-place-number">{placement}</span>
+              {placement && <div className='account-place-number'>User #{placement}</div>}
             </span>
             <Button
               className="history-toggle"
