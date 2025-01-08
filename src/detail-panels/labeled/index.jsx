@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 
 import { useLabeled, useLabelers } from '../../api/labled';
@@ -95,16 +95,8 @@ function LabeledList({labels}) {
 
 /**
  * @this {never}
- * @param {{
- *  className?: string,
- *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
- *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
- *  header?: React.ReactNode | ((args: { count: number, blocklist: any[] }) => React.ReactNode)
- * }} _
  */
-export default function LabeledPanel({
-
-}) {
+export default function LabeledPanel({}) {
   const accountQuery = useAccountResolver();
   const did = accountQuery.data?.shortDID;
   const {data:labelers,isLoading:isLoadingLabelers} = useLabelers();
