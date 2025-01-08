@@ -25,12 +25,25 @@ let baseStagingURL = 'https://staging.api.clearsky.services/';
 
 export const v1APIPrefix = '/api/v1/anon/';
 
+const params = new URLSearchParams(location.search);
+const apiOverride = params.get('api');
+
+function getApiBase() {
+  switch (apiOverride) {
+    case 'staging':
+      return baseStagingURL;
+    case 'prod':
+      return baseURL;
+    default:
+      return location.hostname !== 'clearsky.app' ? baseStagingURL : baseURL;
+  }
+}
+
 /**
  * @param {string} apiURL
  */
 export function unwrapClearskyURL(apiURL) {
-  const runStaging = location.hostname !== 'clearsky.app';
-  const useBaseURL = runStaging ? baseStagingURL : baseURL;
+  const useBaseURL = getApiBase();
 
   return useBaseURL + apiURL.replace(/^\//, '');
 }
