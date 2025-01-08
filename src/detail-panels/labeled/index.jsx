@@ -53,7 +53,7 @@ function LabeledList({labels}) {
   return (
     <ul className='labeled-view'>
       {labels.map(({src,cts,val}) => (
-        <Labeled key={`${src}-$.cts}`} src={src} cts={cts} val={val} />
+        <Labeled key={`${src}-${val}-${cts}`} src={src} cts={cts} val={val} />
       ))}
     </ul>
   );
@@ -84,12 +84,12 @@ export default function LabeledPanel({
       return [];
     }
     if(labels.pages){
-      return labels.pages.filter(Boolean).flat();
+      return labels.pages.filter(Boolean).flat()
+        //unique label.val
+        .filter((label, i, arr) => arr.findIndex(l => l.val === label.val) === i);
     }
   },[labels]);
-  console.log({labels,labelers,flatLabels})
 
-  const count = 0;
   return (
     <div
       className={'labeled-panel'}
