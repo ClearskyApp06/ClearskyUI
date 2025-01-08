@@ -16,7 +16,34 @@ import './labeled.css';
   * src: string,
  * }} _
  */
-function Labeled({ cts,val,src }){
+function LabeledListItem({ cts,val,src }){
+  const value = useMemo(() => {
+    let v = val;
+    //https://docs.bsky.app/docs/advanced-guides/moderation#global-label-values
+    if(val.startsWith('!')){
+      switch (val) {
+        case '!hide':
+          return 'Hidden'
+        case '!warn':
+          return 'Warning'
+        case '!no-unauthenticated':
+          return 'Private Account'
+        default:
+          //This should never happen.
+          v = val.slice(1,2).toUpperCase() + val.slice(2);
+          break; //intenitionally not returning yet.
+      }
+    }
+
+    //has a  - in it?
+    if(v.includes('-')){
+      //split, uppercase first letter of each word, join with space
+      v = v.split('-').map((s) => s.slice(0, 1).toUpperCase() + s.slice(1)).join(' ');
+    }else{
+      v = v.slice(0, 1).toUpperCase() + v.slice(1);
+    }
+    return v;
+  },[val]);
   return (
     <>
     <li className={'labeled'}>
@@ -34,7 +61,7 @@ function Labeled({ cts,val,src }){
           </div>
           <div>
             <span className='label-name'>
-              {val}
+              {value}
             </span>
           </div>
         </li>
@@ -53,7 +80,12 @@ function LabeledList({labels}) {
   return (
     <ul className='labeled-view'>
       {labels.map(({src,cts,val}) => (
-        <Labeled key={`${src}-${val}-${cts}`} src={src} cts={cts} val={val} />
+        <LabeledListItem
+           key={`${src}-${val}-${cts}`}
+           src={src}
+           cts={cts}
+           val={val}
+        />
       ))}
     </ul>
   );
