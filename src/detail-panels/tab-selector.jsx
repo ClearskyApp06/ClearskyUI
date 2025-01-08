@@ -40,7 +40,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
     ),
     labeled: (
       <VerticalTab key="labeled" className="tab-labeled">
-        Labeled
+        Labels
       </VerticalTab>
     )
   };
