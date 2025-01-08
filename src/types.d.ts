@@ -112,11 +112,16 @@ interface BlockData {
   count: number;
 }
 
+/* old format, to be deleted after migration */
+interface LegacyBlockData {
+  did: string;
+  block_count: number;
+}
+
 type BlockList =
   | Array<BlockData>
-  | /* old format, to be deleted after migration*/ {
-      [did: string]: { count: number };
-    };
+  /* old format, to be deleted after migration*/
+  | Array<LegacyBlockData>;
 
 interface DashboardBlockListEntry {
   count: number;
