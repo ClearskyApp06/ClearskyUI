@@ -7,6 +7,7 @@ import { AccountShortEntry } from '../../../common-components/account-short-entr
 import './top-list.css';
 import { Switch } from '@mui/material';
 import { localise } from '../../../localisation';
+import { migrateOldBlocklistData } from './migration';
 
 const DEFAULT_LIMIT = 5;
 
@@ -33,7 +34,7 @@ export function TopList({
     /** @type {boolean | undefined } */ (undefined)
   );
 
-  const useList = getDashboardList(see24 ? list24 : list);
+  const useList = migrateOldBlocklistData(see24 ? list24 : list);
 
   const blockedSlice = !useList
     ? []
@@ -107,28 +108,4 @@ function BlockListEntry({ entry }) {
       </AccountShortEntry>
     </div>
   );
-}
-
-/**
- * @param {BlockList | null} listData
- * @returns {DashboardBlockListEntry[]}
- */
-function getDashboardList(listData) {
-  // TODO remove this first case after prod migrates top blocked format
-  if (listData && !Array.isArray(listData)) {
-    /** @type {DashboardBlockListEntry[]} */
-    const dashboardBlockList = [];
-    Object.keys(listData).forEach((key) => {
-      let allValues = listData[key];
-      dashboardBlockList.push({
-        ...allValues,
-        did: key,
-      });
-    });
-    dashboardBlockList.sort((a, b) => b.count - a.count);
-    return dashboardBlockList;
-  } else if (listData && Array.isArray(listData)) {
-    return listData;
-  }
-  return [];
 }
