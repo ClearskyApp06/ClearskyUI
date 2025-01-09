@@ -3,7 +3,6 @@
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
-
 import './list-view.css';
 
 /**
@@ -41,7 +40,7 @@ export function ListViewEntry({ className, entry, style, listcount }) {
         <AccountShortEntry
           className="list-owner"
           withDisplayName
-          account={entry.did}
+          account={entry?.did}
         />
         <FormatTimestamp
           timestamp={entry.date_added}
@@ -50,17 +49,19 @@ export function ListViewEntry({ className, entry, style, listcount }) {
         />
       </div>
       <div className="row">
-        {entry.description && (
-          <span className="list-count-no-desc">{listcount && listcount}</span>
+        {!!entry?.description && (
+          <span className="list-count-no-desc">{listcount}</span>
         )}
         <span className="list-name">{entry.name}</span>
         <span className="list-description">
-          {entry.description && ' ' + entry.description}
+          {!!entry?.description && ' ' + entry?.description}
         </span>
         {!entry.description && (
-          <span className="list-count">{listcount && ' ' + listcount}</span>
+          <span className="list-count">{' ' + listcount}</span>
         )}
       </div>
     </li>
   );
 }
+
+

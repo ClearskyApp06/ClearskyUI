@@ -7,7 +7,7 @@ import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
 import { useList, useListSize, useListTotal } from '../../api/lists';
-import { ListViewEntry } from './list-view';
+import {ListViewEntry}  from './list-view';
 
 import './lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
@@ -15,15 +15,17 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
-import {FixedSizeList as List} from 'react-window'
-import {  useEffect } from 'react';
-
+import { FixedSizeList as List } from 'react-window';
+import Autosizer from 'react-virtualized-auto-sizer';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 export function Lists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useList(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useListTotal(shortHandle);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useList(shortHandle);
+  const { data: totalData, isLoading: isLoadingTotal } =
+    useListTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -33,13 +35,15 @@ export function Lists() {
   const listsTotal = totalData?.count;
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.lists);
-  const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
+  const filteredLists = !search
+    ? allLists
+    : matchSearch(allLists, search, () => setTick(tick + 1));
 
   // Show loader for initial load
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
-        <CircularProgress size="1.5em" /> 
+        <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
           {localise('Loading lists...', { uk: 'Завантаження списків...' })}
         </div>
@@ -47,7 +51,8 @@ export function Lists() {
     );
   }
 
-  const shouldShowLoadMore = hasNextPage && (!search || filteredLists.length > 0);
+  const shouldShowLoadMore =
+    hasNextPage && (!search || filteredLists.length > 0);
 
   return (
     <>
@@ -55,54 +60,105 @@ export function Lists() {
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
             label={localise('Search', { uk: 'Пошук' })}
-            setQ />
+            setQ
+          />
         </div>
       </div>
 
-      <h3 className='lists-header'>
-        {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
-        {listsTotal ?
+      <h3 className="lists-header">
+        {isLoadingTotal && (
+          <span style={{ opacity: 0.5 }}>
+            {localise('Counting lists...', {})}
+          </span>
+        )}
+        {listsTotal ? (
           <>
             {localise(
-              'Member of ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', listsTotal) + ':',
+              'Member of ' +
+                listsTotal.toLocaleString() +
+                ' ' +
+                localiseNumberSuffix('list', listsTotal) +
+                ':',
               {
-                uk: 'Входить до ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('списку', listsTotal) + ':'
-              })}
-            <span className='panel-toggles'>
-              {!showSearch &&
-                <Button
-                  size='small'
-                  className='panel-show-search'
-                  title={localise('Search', { uk: 'Пошук' })}
-                  onClick={() => setShowSearch(true)}><SearchIcon /></Button>
+                uk:
+                  'Входить до ' +
+                  listsTotal.toLocaleString() +
+                  ' ' +
+                  localiseNumberSuffix('списку', listsTotal) +
+                  ':',
               }
+            )}
+            <span className="panel-toggles">
+              {!showSearch && (
+                <Button
+                  size="small"
+                  className="panel-show-search"
+                  title={localise('Search', { uk: 'Пошук' })}
+                  onClick={() => setShowSearch(true)}
+                >
+                  <SearchIcon />
+                </Button>
+              )}
             </span>
-          </> :
-          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
-        }
+          </>
+        ) : (
+          localise('Not a member of any lists', {
+            uk: 'Не входить до жодного списку',
+          })
+        )}
       </h3>
 
       <ul className={'lists-as-list-view '}>
-        <List
-          itemData={filteredLists}
-          height={1200}
-          itemCount={filteredLists?.length}
-          itemSize={60}
-          width={600}
-        >
-          {({ index, data, style }) => {
-            const entry = data[index];
-            const count = useListSize(entry.url) 
-            return (
-              <ListViewEntry
-                entry={entry}
-                style={style}
-                listcount={count?.data?.count}    
-              />
-            );
+        <div
+          style={{
+            height: '100vh',
+            width: 'inherit',
+            overflow:'hidden'
           }}
-        </List>
+        >
+          <Autosizer>
+            {({ height, width }) => (
+              <List
+                itemData={filteredLists}
+                height={height}
+                itemCount={filteredLists?.length}
+                itemSize={56}
+                width={width}
+                
+              >
+                {({ index, data, style }) => {
+                  console.log("render", index)
+                  const entry = data[index];
+                 
+                  const count = useListSize(entry.url);
+                  // const count = 999
+                  return (
+                    <ListViewEntry
+                      entry={entry}
+                      style={style}
+                      listcount={count?.data?.count}
+                      key={index}
+                
+                      //listcount={count}
+                    />
+                  );
+                }}
+              </List>
+            )}
+          </Autosizer>
+        </div>
       </ul>
+
+      {shouldShowLoadMore && (
+        <VisibleWithDelay
+          delayMs={300}
+          onVisible={() => !isFetching && fetchNextPage()}
+        >
+          <p style={{ padding: '0.5em', opacity: '0.5' }}>
+            <CircularProgress size="1em" /> Loading more...
+          </p>
+        </VisibleWithDelay>
+      )}
     </>
   );
 }
@@ -114,10 +170,11 @@ export function Lists() {
  */
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter(entry => {
+  const filtered = blocklist.filter((entry) => {
     // if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
-    if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
+    if ((entry.description || '').toLowerCase().includes(searchLowercase))
+      return true;
 
     resolveHandleOrDID(entry.did).then(redraw);
     return false;
