@@ -4,6 +4,8 @@ import { resolve, extname, join } from 'node:path';
 import { readdirSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import fixReactVirtualized from 'esbuild-plugin-react-virtualized'
+
 
 function getInputHtmlFiles() {
   const srcDir = resolve(__dirname, 'src');
@@ -14,6 +16,11 @@ function getInputHtmlFiles() {
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [fixReactVirtualized],
+    },
+  },
   root: 'src',
   build: {
     outDir: resolve(__dirname, 'static'),

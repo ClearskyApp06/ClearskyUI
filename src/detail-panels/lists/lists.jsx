@@ -1,13 +1,13 @@
 // @ts-check
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList, useListSize, useListTotal } from '../../api/lists';
-import {ListViewEntry}  from './list-view';
+import { useList, useListTotal } from '../../api/lists';
+import { ListViewEntry } from './list-view';
 
 import './lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
@@ -15,9 +15,7 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
-import { FixedSizeList as List } from 'react-window';
-import Autosizer from 'react-virtualized-auto-sizer';
-import InfiniteLoader from 'react-window-infinite-loader';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 
 export function Lists() {
   const accountQuery = useAccountResolver();
@@ -38,6 +36,17 @@ export function Lists() {
   const filteredLists = !search
     ? allLists
     : matchSearch(allLists, search, () => setTick(tick + 1));
+
+  const listRef = useRef(null);
+
+  const rowVirtualizer = useWindowVirtualizer({
+    count: filteredLists?.length,
+    estimateSize: () => 54,
+    overscan: 20,
+    gap: 50,
+    scrollMargin: listRef.current ? listRef.current.offsetTop : 0,
+  });
+
 
   // Show loader for initial load
   if (isLoading) {
@@ -111,41 +120,40 @@ export function Lists() {
       <ul className={'lists-as-list-view '}>
         <div
           style={{
-            height: '100vh',
-            width: 'inherit',
-            overflow:'hidden'
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            overflow: 'hidden',
           }}
+          ref={listRef}
         >
-          <Autosizer>
-            {({ height, width }) => (
-              <List
-                itemData={filteredLists}
-                height={height}
-                itemCount={filteredLists?.length}
-                itemSize={56}
-                width={width}
-                
-              >
-                {({ index, data, style }) => {
-                  console.log("render", index)
-                  const entry = data[index];
-                 
-                  const count = useListSize(entry.url);
-                  // const count = 999
-                  return (
-                    <ListViewEntry
-                      entry={entry}
-                      style={style}
-                      listcount={count?.data?.count}
-                      key={index}
-                
-                      //listcount={count}
-                    />
-                  );
-                }}
-              </List>
-            )}
-          </Autosizer>
+          <div
+            style={{
+              width: '100%',
+              position: 'relative',
+              height: `${rowVirtualizer.getTotalSize()}px`,
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                left: '0',
+                top: '0',
+                width: '100%',
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const entry = filteredLists[virtualRow.index];
+
+                return (
+                  
+                  <ListViewEntry
+                    entry={entry}
+                    style={{ width: '100%' }}
+                    key={virtualRow.key}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
       </ul>
 

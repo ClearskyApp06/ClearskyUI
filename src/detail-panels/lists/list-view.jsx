@@ -30,10 +30,12 @@ import './list-view.css';
  *  className?: string,
  *  entry: AccountListEntry,
  * style:any
- * listcount:number
  * }} _
  */
-export function ListViewEntry({ className, entry, style, listcount }) {
+export function ListViewEntry({ className, entry, style }) {
+  const listcount = useListSize(entry?.url);
+  const count  = listcount?.data?.count || ''
+
   return (
     <li className={'lists-entry ' + (className || '')} style={style}>
       <div className="row">
@@ -50,18 +52,16 @@ export function ListViewEntry({ className, entry, style, listcount }) {
       </div>
       <div className="row">
         {!!entry?.description && (
-          <span className="list-count-no-desc">{listcount}</span>
+          <span className="list-count-no-desc">{count}</span>
         )}
         <span className="list-name">{entry.name}</span>
         <span className="list-description">
           {!!entry?.description && ' ' + entry?.description}
         </span>
         {!entry.description && (
-          <span className="list-count">{' ' + listcount}</span>
+          <span className="list-count">{' ' + count}</span>
         )}
       </div>
     </li>
   );
 }
-
-
