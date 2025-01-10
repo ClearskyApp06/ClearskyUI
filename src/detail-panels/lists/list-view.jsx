@@ -50,10 +50,10 @@ export function ListViewEntry({ className, entry, style }) {
           className="list-add-date"
         />
       </div>
-      <div className="row">
-        {!!entry?.description && (
-          <span className="list-count-no-desc">{count}</span>
-        )}
+      <div className="bottom-row">
+          <span className="fixed-count-holder">{count}0</span>
+      
+        <div className="row">
         <span className="list-name">{entry.name}</span>
         <span className="list-description">
           {!!entry?.description && ' ' + entry?.description}
@@ -61,6 +61,7 @@ export function ListViewEntry({ className, entry, style }) {
         {!entry.description && (
           <span className="list-count">{' ' + count}</span>
         )}
+        </div>
       </div>
     </li>
   );
