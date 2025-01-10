@@ -41,12 +41,13 @@ export function Lists() {
 
   const rowVirtualizer = useWindowVirtualizer({
     count: filteredLists?.length,
-    estimateSize: () => 54,
-    overscan: 20,
+    estimateSize: () => 25,
+    overscan: 5,
     gap: 50,
     scrollMargin: listRef.current ? listRef.current.offsetTop : 0,
   });
 
+  console.log(rowVirtualizer.getVirtualItems().length)
 
   // Show loader for initial load
   if (isLoading) {
@@ -132,27 +133,33 @@ export function Lists() {
               height: `${rowVirtualizer.getTotalSize()}px`,
             }}
           >
-            <div
-              style={{
-                position: 'absolute',
-                left: '0',
-                top: '0',
-                width: '100%',
-              }}
-            >
+            
               {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                 const entry = filteredLists[virtualRow.index];
 
                 return (
+                  <div
+              key={virtualRow.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${
+                  virtualRow.start - rowVirtualizer.options.scrollMargin
+                }px)`,
+              }}
+            >
                   
                   <ListViewEntry
                     entry={entry}
                     style={{ width: '100%' }}
                     key={virtualRow.key}
                   />
+                  </div>
                 );
               })}
-            </div>
           </div>
         </div>
       </ul>

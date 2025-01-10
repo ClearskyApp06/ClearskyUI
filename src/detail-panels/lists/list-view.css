@@ -24,7 +24,8 @@
 }
 
 .lists-as-list-view .lists-entry .fixed-count-holder {
-  width: 40px;
+  max-width: 40px;
+  min-width: 20px;
 }
 
 .lists-as-list-view .lists-entry .row-with-desc {

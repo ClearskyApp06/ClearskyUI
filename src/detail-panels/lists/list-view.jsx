@@ -51,7 +51,7 @@ export function ListViewEntry({ className, entry, style }) {
         />
       </div>
       <div className="bottom-row">
-          <span className="fixed-count-holder">{count}0</span>
+          <span className="fixed-count-holder">{!!entry?.description && count}</span>
       
         <div className="row">
         <span className="list-name">{entry.name}</span>
