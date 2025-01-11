@@ -1,7 +1,7 @@
 // @ts-check
 
 import React from 'react';
-import { Tab, Tabs } from '@mui/material';
+import { Tab, tabClasses, Tabs } from '@mui/material';
 import { accountTabs } from './layout';
 import { localise } from '../localisation';
 import './tab-selector.css';
@@ -14,6 +14,7 @@ import './tab-selector.css';
  * @returns
  */
 export function TabSelector({ className, tab, onTabSelected }) {
+ 
   const tabHandlers = {
     'blocked-by': (
       <VerticalTab key="blocked-by" className="tab-blocked-by">
@@ -40,12 +41,12 @@ export function TabSelector({ className, tab, onTabSelected }) {
         Labels
       </VerticalTab>
     ),
-    'packsCreated':(
+    packs:(
     <VerticalTab key='packsCreated' className='tab-packsCreated'>
       {localise('Packs made', { })}
     </VerticalTab>
     ),
-    'packsPopulated':(
+    packed:(
     <VerticalTab key='packsPopulated' className='tab-packsPopulated'>
       {localise('In Packs', {  })}
     </VerticalTab>

@@ -87,7 +87,7 @@ export function AccountLayoutCore({
         />
 
         <div className="account-tabs-content">
-          {accountTabs.map((tab) => {
+          {accountTabs.map((tab) => { 
             if (tab === selectedTab)
               return (
                 <div
@@ -114,6 +114,7 @@ export function AccountLayoutCore({
  * @returns
  */
 function renderTabContent(tab) {
+  console.log("renderTabContent", tab)
   switch (tab) {
     case 'blocked-by':
       return <BlockedByPanel />;
@@ -133,19 +134,7 @@ function renderTabContent(tab) {
     default:
       return (
         <>
-          <button>123</button>
-          <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid
+          {tab}
         </>
       );
   }

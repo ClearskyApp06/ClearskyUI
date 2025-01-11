@@ -19,14 +19,14 @@ export function Packs({created=false}){
 
   const NOPACK = created ? "No Starter Packs Created" : "Not in Any Starter Packs";
 
-  const accountQuery = useAccountResolver();  
-  const fullDID = "did:plc:"+ (accountQuery.data?.shortDID ?? "");    
-  const { data, fetchNextPage, hasNextPage, isLoading, isPending} = created ? usePacksCreated(fullDID):
-  usePacksPopulated(fullDID);
+  const accountQuery = useAccountResolver();
+  const shortHandle = accountQuery.data?.shortHandle;   
+  const { data, fetchNextPage, hasNextPage, isLoading, isPending} = created ? usePacksCreated(shortHandle):
+  usePacksPopulated(shortHandle);
 
   const { data: totalData, isLoading: isLoadingTotal } = created ?
-   usePacksCreatedTotal(fullDID): 
-   usePacksPopulatedTotal(fullDID);
+   usePacksCreatedTotal(shortHandle): 
+   usePacksPopulatedTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
@@ -52,8 +52,7 @@ export function Packs({created=false}){
       // @ts-ignore
       const allPacks = Packlist.flatMap((page)=>page.lists);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
-      const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);
-      console.log("Packs:",Packlist,packsTotal,totalData);
+      const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0); 
         return (
           <>
             <div className='Packs Created'>

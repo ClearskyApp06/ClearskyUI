@@ -1,75 +1,88 @@
 import { fetchClearskyApi } from './core'; 
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-
+import { shortenDID, unwrapShortHandle } from '.';
+import { useResolveHandleOrDid } from './resolve-handle-or-did';
 const PAGE_SIZE = 100;
 
 /**
- * @param {string} fullDid 
+ * @param {string | undefined} handleOrDID
  */
-export function usePacksCreated(fullDid){ 
+export function usePacksCreated(handleOrDID){ 
+  
+    const profileQuery = useResolveHandleOrDid(handleOrDID);
+    const shortHandle = profileQuery.data?.shortHandle;
     return useInfiniteQuery({
-        enabled: !!fullDid,
-        queryKey: ['starter-packs', fullDid],
-        queryFn: ({ pageParam }) => getPacksCreated(fullDid, pageParam),
+        enabled: !!shortHandle,
+        queryKey: ['starter-packs', shortHandle],
+        queryFn: ({ pageParam }) => getPacksCreated(shortHandle, pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => lastPage.nextPage,
       });
 }
 
 /**
- * @param {string} fullDid
+ * @param {string | undefined} handleOrDID
  */
-export function usePacksCreatedTotal(fullDid){  
+export function usePacksCreatedTotal(handleOrDID){  
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+    const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!fullDid,
-    queryKey: ['starter-packs-total', fullDid],
-    queryFn: () => getPacksCreatedTotal(fullDid),
+    enabled: !!shortHandle,
+    queryKey: ['starter-packs-total', shortHandle],
+    queryFn: () => getPacksCreatedTotal(shortHandle),
   });
 
 }
 
 
 /**
- * @param {string} fullDid
- * @param {number} currentPage
+ * @param {string | undefined} handleOrDID
 
  */
-export function usePacksPopulated(fullDid){ 
-  
-  console.log("fullDid",fullDid);
+export function usePacksPopulated(handleOrDID){ 
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+    const shortHandle = profileQuery.data?.shortHandle;
+ 
   return useInfiniteQuery({
-      enabled: !!fullDid,
-      queryKey: ['single-starter-pack', fullDid],
-      queryFn: ({ pageParam }) => getPacksPopulated(fullDid, pageParam),
+      enabled: !!shortHandle,
+      queryKey: ['single-starter-pack', shortHandle],
+      queryFn: ({ pageParam }) => getPacksPopulated(shortHandle, pageParam),
       initialPageParam: 1,
       getNextPageParam: (lastPage) => lastPage.nextPage,
     });
 } 
 
 /**
- * @param {string} fullDid
+ * @param {string | undefined} handleOrDID
+ * @returns number
  */
-export function usePacksPopulatedTotal(fullDid){ 
-  return useQuery({
-    enabled: !!fullDid,
-    queryKey: ['single-starter-pack-total', fullDid],
-    queryFn: () => getPacksPopulatedTotal(fullDid),
-  });
+export async function usePacksPopulatedTotal(handleOrDID){ 
+  const URL = 'starter-pack/total/' + unwrapShortHandle(shortHandle);
+  
+    /** @type {{ data: { count: number; pages: number } }} */
+    const re = await fetchClearskyApi('v1', URL);
+    return re.data.count;
+   
 }
 
 /**
- * @param {string} fullDid
+ * @param {string} shortHandle
  * @param {number} currentPage
  * @returns {Promise<{
-*    lists: PackList[],
+*    starter_packs: PackList[],
 *    nextPage: number | null
 * }>}
 */
-async function getPacksPopulated (fullDid){
+async function getPacksPopulated (shortHandle){
   //single-starter-pack
-  const URL ='single-starter-pack/' + fullDid +
-  (currentPage === 1 ? '' : '/' + currentPage); 
+  console.log("getPacksPopulated", shortHandle);
+  const URL ='single-starter-pack/' + 
+    unwrapShortHandle(shortHandle) +
+   (currentPage === 1 ? '' : '/' + currentPage); 
   const re = await fetchClearskyApi('v1', URL);
+
+  console.log('returned data' , re.data);
+    /*
   const packsCreated = re.data?.Date || [];
 
   // Sort by date
@@ -82,40 +95,47 @@ async function getPacksPopulated (fullDid){
       packsCreated, 
       nextPage: lists.length >= PAGE_SIZE ? currentPage + 1 : null,
   };
+  */
+ console.log("getPacksPopulated",re.data);
+ return re.data;
 }
 
-async function getPacksPopulatedTotal(fullDid){ 
-  const URL = 'single-starter-pack/total/' + fullDid;
+/**
+ * @param {string} shortHandle
+ * @returns number
+ */
+async function getPacksPopulatedTotal(shortHandle){ 
+  const URL = 'single-starter-pack/total/' + unwrapShortHandle(shortHandle);
   
     /** @type {{ data: { count: number; pages: number } }} */
     const re = await fetchClearskyApi('v1', URL);
-    return re.data;
+    return re.data.count;
 }
 
 /**
- * @param {string} fullDid
+ * @param {string} shortHandle
  * @param {number} currentPage
  * @returns {Promise<{
-*    lists: PackListEntry[],
+*    starter_packs: PackListEntry[],
 *    nextPage: number | null
 * }>}
 */
-async function getPacksCreated(fullDid, currentPage=1){
+async function getPacksCreated(shortHandle, currentPage=1){
     // packs I started  
-    const URL ='starter-packs/' + fullDid  + (currentPage === 1 ? '' : '/' + currentPage); 
+    const URL ='starter-packs/' + unwrapShortHandle(shortHandle)  + (currentPage === 1 ? '' : '/' + currentPage); 
  
     const re = (await fetchClearskyApi('v1', URL)).result();
-    console.lot("getPacksCreated",re);
-    return re;
+   
+    return re.data;
  
 }
 
 /**
- * @param {string} fullDid
+ * @param {string} shortHandle
  */
-async function getPacksCreatedTotal(fullDid){ 
-  const URL = 'starter-packs/total/' + fullDid;  
+async function getPacksCreatedTotal(shortHandle){ 
+  const URL = 'starter-packs/total/' + unwrapShortHandle(shortHandle);  
   /** @type {{ data: { count: number; pages: number } }} */
-  return await fetchClearskyApi('v1', URL);
- 
+  const re = await fetchClearskyApi('v1', URL);
+  return re.data;
 }

@@ -158,9 +158,11 @@ type PackList={
   status:boolean;
 };
 
+ 
 type PackListEntry ={
   created_date:string;
   description:string;
   did:string;
   name:string;
+  url:string;
 };
