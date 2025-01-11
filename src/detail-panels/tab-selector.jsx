@@ -1,11 +1,8 @@
 // @ts-check
 
 import React from 'react';
-
 import { Tab, Tabs } from '@mui/material';
-
 import { accountTabs } from './layout';
-
 import { localise } from '../localisation';
 import './tab-selector.css';
 
@@ -42,7 +39,17 @@ export function TabSelector({ className, tab, onTabSelected }) {
       <VerticalTab key="labeled" className="tab-labeled">
         Labels
       </VerticalTab>
-    )
+    ),
+    'packsCreated':(
+    <VerticalTab key='packsCreated' className='tab-packsCreated'>
+      {localise('Packs made', { })}
+    </VerticalTab>
+    ),
+    'packsPopulated':(
+    <VerticalTab key='packsPopulated' className='tab-packsPopulated'>
+      {localise('In Packs', {  })}
+    </VerticalTab>
+    ),
   };
 
   return (
@@ -57,7 +64,9 @@ export function TabSelector({ className, tab, onTabSelected }) {
             : (event, newValue) => onTabSelected(accountTabs[newValue])
         }
       >
-        {accountTabs.map((tabKey) => tabHandlers[tabKey])}
+        {accountTabs.map((tabKey) => 
+// @ts-ignore
+        tabHandlers[tabKey])}
       </Tabs>
 
       <div className="bluethernal-llc-watermark">Bluethernal LLC</div>

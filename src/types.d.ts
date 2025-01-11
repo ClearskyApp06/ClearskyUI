@@ -151,3 +151,16 @@ type AccountListEntry = {
   status: boolean;
   url: string;
 };
+
+type PackList={
+  starter_packs:Array<PackListEntry>;
+  identity:string;
+  status:boolean;
+};
+
+type PackListEntry ={
+  created_date:string;
+  description:string;
+  did:string;
+  name:string;
+};
