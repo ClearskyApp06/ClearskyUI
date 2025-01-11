@@ -2,6 +2,11 @@
 
 import { useQuery } from '@tanstack/react-query';
 import {
+  create as createBatchingFetch,
+  windowedFiniteBatchScheduler,
+} from '@yornaath/batshit';
+import toASCII from 'punycode2/to-ascii';
+import {
   distinguishDidFromHandle,
   shortenDID,
   shortenHandle,
@@ -9,11 +14,6 @@ import {
   unwrapShortHandle,
 } from '.';
 import { atClient } from './core';
-import {
-  create as createBatchingFetch,
-  windowedFiniteBatchScheduler,
-} from '@yornaath/batshit';
-import toASCII from 'punycode2/to-ascii';
 import { queryClient } from './query-client';
 
 /** @typedef {import('@tanstack/react-query').QueryClient} QueryClient */
@@ -204,7 +204,7 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
     const displayName = profileRecord.displayName;
     const description = profileRecord.description;
     const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRecord);
-
+    const labels = profileRecord.labels || [];
     /** @type {AccountInfo} */
     const profileDetails = {
       shortDID,
@@ -214,6 +214,7 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
       displayName,
       description,
       obscurePublicRecords,
+      labels,
     };
 
     queryClient.setQueryData(queryKeyForDid(profileRecord.did), profileDetails);

@@ -5,6 +5,12 @@ declare module 'punycode2/to-ascii' {
   export default function toASCII(input: string): string;
 }
 
+type AccountLabel = {
+  cts:string;//date added
+  src: string;//did
+  uri: string;
+  val: string;//name of label
+}
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
@@ -13,6 +19,7 @@ type AccountInfo = {
   avatarUrl?: string;
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
+  labels: AccountLabel[];
 };
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {

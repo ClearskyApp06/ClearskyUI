@@ -2,16 +2,16 @@
 
 import React from 'react';
 
-import './account-extra-info.css';
-import { FullDID } from '../../common-components/full-short';
-import { Button } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import { unwrapShortDID } from '../../api';
-import { HandleHistory } from './handle-history';
-import { PDSName } from './handle-history/pds-name';
+import { useHandleHistory } from '../../api/handle-history';
+import { FullDID } from '../../common-components/full-short';
 import { localise } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
-import { useHandleHistory } from '../../api/handle-history';
+import './account-extra-info.css';
+import { HandleHistory } from './handle-history';
+import { PDSName } from './handle-history/pds-name';
 
 /**
  * @param {{
