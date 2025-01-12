@@ -153,7 +153,9 @@ type AccountListEntry = {
 };
 
 type PackList={
-  starter_packs:Array<PackListEntry>;
+  data:{
+    starter_packs:Array<PackListEntry>;
+    }
   identity:string;
   status:boolean;
 };
