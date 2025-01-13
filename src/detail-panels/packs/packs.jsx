@@ -33,14 +33,14 @@ export function Packs({created=false}){
   const [tick, setTick] = useState(0);
   const [showSearch, setShowSearch] = useState(!!search);
    
-  const packsTotal= totalData?.data?.count ;
+  const packsTotal= totalData?.count;
   if (isLoading ) {
     // show loading screen
       return (
         <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
           <CircularProgress size="1.5em" /> 
           <div style={{ marginTop: '0.5em' }}>
-            {localise('Loading Packs...', { uk: 'Завантаження списків...' })}
+            {localise('Loading Packs...', { })}
           </div>
         </div>
       );
@@ -53,12 +53,13 @@ export function Packs({created=false}){
       const allPacks = Packlist.flatMap((page)=>page.lists);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
       const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0); 
+      console.log(allPacks)
         return (
           <>
             <div className='Packs Created'>
               <div style={showSearch ? undefined : { display: 'none' }}>
                 <SearchHeaderDebounced
-                  label={localise('Search', { uk: 'Пошук' })}
+                  label={localise('Search', { })}
                   setQ />
               </div>
             </div>
@@ -67,11 +68,9 @@ export function Packs({created=false}){
 
             {packsTotal ?
               <>
-                {localise(
-                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', packsTotal) + ':',
-                  {
-                    uk: 'Входить до ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('списку', packsTotal) + ':'
-                  })}
+                { 
+                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', packsTotal) + ':'
+                   }
                 <span className='panel-toggles'>
                   {!showSearch &&
                     <Button
@@ -86,7 +85,7 @@ export function Packs({created=false}){
             }
           </h3>
             
-          <PackView packs={filteredPacks} />
+          <PackView packs={allPacks} />
         </>
       );
       

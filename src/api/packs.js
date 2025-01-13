@@ -119,8 +119,8 @@ async function getPacksCreated(shortHandle, currentPage=1){
     // packs I started  
     const URL ='starter-packs/' + unwrapShortHandle(shortHandle)  + (currentPage === 1 ? '' : '/' + currentPage); 
  
-    const re = (await fetchClearskyApi('v1', URL)).result();
-   
+    const re = (await fetchClearskyApi('v1', URL));
+    console.log("get Packs created", re);
     return re;
  
 }

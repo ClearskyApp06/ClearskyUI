@@ -21,8 +21,8 @@ import { useAccountResolver } from '../account-resolver';
 *  packs?: PackListEntry[]
 * }}_
 */
-export function PackView({className, packs}){
- 
+export function PackView({packs, className=""}){
+  console.log("PackView", packs )
   return (
     <ul className={"packs-as-pack-view "+ (className || '')}>
       {packs && packs?.length>0 &&  packs.map( (pack,i)=> 
@@ -39,19 +39,19 @@ export function PackView({className, packs}){
   * }} _
   */
   function PackViewEntry({className="", entry}){
-    console.log(entry)
+    console.log("PackViewEntry", entry)
     return(
       <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
         
         <FormatTimestamp
-          timestamp={entry.created_date}
+          timestamp={entry.created_date ??""}
           noTooltip
           className='list-add-date' />
       </div>
       <div className='row'>      
         <span className='list-name'>
-          <a href={entry.name} target='__blank'>
+          <a href={entry.name??""} target='__blank'>
           {entry.name}
           </a>
         </span>

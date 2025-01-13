@@ -113,8 +113,7 @@ export function AccountLayoutCore({
  * @param {string} tab
  * @returns
  */
-function renderTabContent(tab) {
-  console.log("renderTabContent", tab)
+function renderTabContent(tab) { 
   switch (tab) {
     case 'blocked-by':
       return <BlockedByPanel />;
