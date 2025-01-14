@@ -2,7 +2,7 @@
 
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
-
+import { useListSize } from '../../api/lists';
 import './list-view.css';
 
 /**
@@ -15,9 +15,7 @@ export function ListView({ className, list }) {
   return (
     <ul className={'lists-as-list-view ' + (className || '')}>
       {(list || []).map((entry, i) => (
-        <ListViewEntry
-          key={i}
-          entry={entry} />
+        <ListViewEntry key={i} entry={entry} style={{}} />
       ))}
     </ul>
   );
@@ -26,31 +24,41 @@ export function ListView({ className, list }) {
 /**
  * @param {{
  *  className?: string,
- *  entry: AccountListEntry
+ *  entry: AccountListEntry,
+ * style:any
  * }} _
  */
-function ListViewEntry({ className, entry }) {
+export function ListViewEntry({ className, entry, style }) {
+  const listcount = useListSize(entry?.url);
+  const count = listcount?.data?.count || '';
+
   return (
     <li className={'lists-entry ' + (className || '')}>
-      <div className='row'>
+      <div className="row">
         <AccountShortEntry
-          className='list-owner'
+          className="list-owner"
           withDisplayName
           account={entry.did}
         />
         <FormatTimestamp
           timestamp={entry.date_added}
           noTooltip
-          className='list-add-date' />
+          className="list-add-date"
+        />
       </div>
-      <div className='row'>
-        <span className='list-name'>
-          {entry.name}
+      <div className="row">
+        <span className="list-name">
+          <a href={entry.url} target="__blank">
+            {entry.name}
+          </a>
         </span>
-        <span className='list-description'>
-          {entry.description && ' ' + entry.description}
-        </span>
+        <span className="list-count">{count}</span>
       </div>
+      {entry.description && (
+        <div className="row">
+          <span className="list-description">{' ' + entry.description}</span>
+        </div>
+      )}
     </li>
   );
 }
