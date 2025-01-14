@@ -6,8 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 /**
  *
- * @param {string} did
- * @returns {import('@tanstack/react-query').UseQueryResult<PlcRecord>}
+ * @param {string | undefined} did
  */
 export function useDidDocument(did) {
   return useQuery({
@@ -18,10 +17,17 @@ export function useDidDocument(did) {
 }
 
 /**
- * @param {string} fullDid
+ * @param {string | undefined} fullDid
  * @param {AbortSignal} signal
+ * @returns {Promise<PlcRecord>}
  */
 export async function fetchDidDocument(fullDid, signal) {
+  if (!fullDid) {
+    return {
+      alsoKnownAs: [],
+      service: [],
+    };
+  }
   /** @type {Response} */
   let req;
   if (fullDid.startsWith('did:plc:')) {
@@ -40,7 +46,7 @@ export async function fetchDidDocument(fullDid, signal) {
 
 /**
  *
- * @param {string} did
+ * @param {string | undefined} did
  */
 export function usePdsUrl(did) {
   const { status, error, data } = useDidDocument(did);

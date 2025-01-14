@@ -1,5 +1,4 @@
 // @ts-check
-/// <reference path="../../types.d.ts" />
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
@@ -56,6 +55,9 @@ export function ListView({ blocklist }) {
  * }} _
  */
 function ListViewEntry({ blocked_date, handle, did, className, ...rest }) {
+  const account = handle || did;
+  if (!account) return null;
+
   const result = (
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
       <AccountShortEntry
@@ -71,7 +73,7 @@ function ListViewEntry({ blocked_date, handle, did, className, ...rest }) {
             </div>
           )
         }
-        account={handle || did}
+        account={account}
       >
         <FormatTimestamp
           timestamp={blocked_date}

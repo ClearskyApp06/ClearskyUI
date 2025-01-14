@@ -9,12 +9,12 @@ import { useSearchParams } from 'react-router-dom';
 import { useList, useListTotal } from '../../api/lists';
 import { ListView } from './list-view';
 
-import './lists.css';
-import { SearchHeaderDebounced } from '../history/search-header';
-import { localise, localiseNumberSuffix } from '../../localisation';
-import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
+import { VisibleWithDelay } from '../../common-components/visible';
+import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
+import { SearchHeaderDebounced } from '../history/search-header';
+import './lists.css';
 
 export function Lists() {
   const accountQuery = useAccountResolver();
@@ -36,7 +36,7 @@ export function Lists() {
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
-        <CircularProgress size="1.5em" /> 
+        <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
           {localise('Loading lists...', { uk: 'Завантаження списків...' })}
         </div>
@@ -55,7 +55,6 @@ export function Lists() {
             setQ />
         </div>
       </div>
-
       <h3 className='lists-header'>
         {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
         {listsTotal ?
@@ -75,7 +74,8 @@ export function Lists() {
               }
             </span>
           </> :
-          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
+          listsTotal === null || listsTotal === 0 ?
+            localise('Not a member of any lists', { uk: 'Не входить до жодного списку' }) : null
         }
       </h3>
 

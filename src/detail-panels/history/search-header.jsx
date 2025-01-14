@@ -1,6 +1,4 @@
 // @ts-check
-import React from 'react';
-
 import { TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -16,15 +14,17 @@ export function SearchHeader({ className, label, ...props }) {
     <div className={'history-header ' + (className || '')}>
       <TextField
         aria-label={typeof label === 'string' ? label : undefined}
-        name='q'
-        className='history-search-text-field'
+        name="q"
+        className="history-search-text-field"
         label={
           <>
-            <span className='history-search-text-search-icon'><SearchIcon /></span>
-            <span className='history-search-text-search-label'>{label}</span>
+            <span className="history-search-text-search-icon">
+              <SearchIcon />
+            </span>
+            <span className="history-search-text-search-label">{label}</span>
           </>
         }
-        variant='standard'
+        variant="standard"
         {...props}
       />
     </div>
@@ -34,21 +34,33 @@ export function SearchHeader({ className, label, ...props }) {
 /**
  * @param {Parameters<typeof TextField>[0] & { delay?: number, setQ?: boolean | string }} _
  */
-export function SearchHeaderDebounced({ value, onChange, delay, setQ, ...props }) {
+export function SearchHeaderDebounced({
+  value,
+  onChange,
+  delay,
+  setQ,
+  ...props
+}) {
   const [searchParams, setSearchParams] = useSearchParams();
   return (
     <OnChangeDebounced
       component={SearchHeader}
-      value={/** @type {string} */(value ?? (searchParams.get('q') || ''))}
-      onChange={e => {
-        /** @type {*} */(onChange)?.(e);
+      value={/** @type {string} */ (value ?? (searchParams.get('q') || ''))}
+      onChange={(e) => {
+        /** @type {*} */ (onChange)?.(e);
         if (setQ) {
-          const text = typeof e.target?.value === 'string' ? e.target.value : String(e.target?.value ?? '');
-          const q = setQ === true ? 'q' : setQ;
-          const params = { ...searchParams };
-          if (text) params[q] = text;
-          else delete params[q];
-          setSearchParams(params);
+          const text =
+            typeof e.target?.value === 'string'
+              ? e.target.value
+              : String(e.target?.value ?? '');
+          setSearchParams((prev) => {
+            if (text) {
+              prev.set('q', text);
+            } else {
+              prev.delete('q');
+            }
+            return prev;
+          });
         }
       }}
       delay={delay}

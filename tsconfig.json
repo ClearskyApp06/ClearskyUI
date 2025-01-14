@@ -6,10 +6,11 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowJs": true,
+    "strict": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "noEmit": true
   },
-  "files": ["src/app.jsx", "src/logo-images.js", "src/types.d.ts"]
+  "include": ["src/**/*"]
 }

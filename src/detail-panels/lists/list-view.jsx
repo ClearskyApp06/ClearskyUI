@@ -11,7 +11,7 @@ import './list-view.css';
  *  list?: AccountListEntry[]
  * }} _
  */
-export function ListView({ className, list }) { 
+export function ListView({ className, list }) {
   return (
     <ul className={'lists-as-list-view ' + (className || '')}>
       {(list || []).map((entry, i) => (
@@ -29,7 +29,7 @@ export function ListView({ className, list }) {
  *  entry: AccountListEntry
  * }} _
  */
-function ListViewEntry({ className, entry }) { 
+function ListViewEntry({ className, entry }) {
   return (
     <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
@@ -43,16 +43,18 @@ function ListViewEntry({ className, entry }) {
           noTooltip
           className='list-add-date' />
       </div>
-      <div className='row'>      
+      <div className='row'>
         <span className='list-name'>
           <a href={entry.url} target='__blank'>
           {entry.name}
           </a>
         </span>
-        <span className='list-description'>
-          {entry.description && ' ' + entry.description}
-        </span>
       </div>
+      {entry.description && <div className='row'>
+        <span className='list-description'>
+          {' ' + entry.description}
+        </span>
+      </div>}
     </li>
   );
 }

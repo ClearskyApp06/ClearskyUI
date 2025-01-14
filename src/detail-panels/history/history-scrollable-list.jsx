@@ -11,6 +11,7 @@ import { localise } from '../../localisation';
 
 const BLOCK_ADD_INFINITE_SCROLLING = 15;
 
+/** @type {import('./search/cached-search').SearchCacheEntry[]} */
 const globalSearchCache = [];
 
 /**
@@ -83,6 +84,9 @@ export function HistoryScrollableList({ searchText, history }) {
   );
 }
 
+/**
+ * @param {{ historySize: number }} _
+ */
 function CompleteHistoryFooter({ historySize }) {
   return (
     historySize +
@@ -90,6 +94,9 @@ function CompleteHistoryFooter({ historySize }) {
   );
 }
 
+/**
+ * @param {{ historySize: number }} _
+ */
 function LoadingHistoryFooter({ historySize }) {
   return (
     historySize +
@@ -99,6 +106,9 @@ function LoadingHistoryFooter({ historySize }) {
   );
 }
 
+/**
+ * @param {{ historySize: number, onClick(): void }} _
+ */
 function LoadMoreHistoryFooter({ historySize, onClick }) {
   return (
     <span onClick={onClick}>

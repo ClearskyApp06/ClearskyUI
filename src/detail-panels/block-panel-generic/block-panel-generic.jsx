@@ -23,7 +23,7 @@ import { localise } from '../../localisation';
  *  className?: string,
  *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
  *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
- *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
+ *  header?: React.ReactNode | ((args: { count: number, blocklist: any[] }) => React.ReactNode)
  * }} _
  */
 export function BlockPanelGeneric({

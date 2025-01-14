@@ -1,6 +1,5 @@
 // @ts-check
 
-import React from 'react';
 import { AgGridReact } from '../../common-components/ag-grid';
 
 import { AccountShortEntry } from '../../common-components/account-short-entry';
@@ -35,6 +34,9 @@ export function TableView({ account, blocklist }) {
   );
 }
 
+/**
+ * @param {{ value: string }} _
+ */
 export function HandleCellRenderer({ value }) {
   return <AccountShortEntry account={value} />;
 }

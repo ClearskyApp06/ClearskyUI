@@ -15,34 +15,51 @@ import { localise } from '../../localisation';
 const AUTOCOMPLETE_POPULATE_BATCH = 20;
 
 /**
- * @extends {React.Component<{
+ * @typedef {{
+ *    label: string,
+ *    account?: Partial<AccountInfo & SearchMatch>,
+ *    postID?: string
+ * }} AutocompleteItem
+ */
+
+/**
+ * @typedef {{
  *  className?: string,
  *  searchText?: string,
  *  onSearchTextChanged?: (text: string) => void,
  *  onAccountSelected?: (account: Partial<AccountInfo & SearchMatch>) => void,
  *  onResolveAccount?: (text: string) => Promise<AccountInfo[]>
- * }, { 
+ * }} AutocompleteProps
+ **/
+/**
+ * @typedef {{
+ * searchText: string,
+ * placeholder: string,
  *  max: number,
  *  options: {
- *    label: string,
- *    render: (props, option) => React.ReactNode,
- *    account?: Partial<AccountInfo & SearchMatch>,
- *    postID?: string
- * }[] }>}
+ *    render: (props: React.HTMLAttributes<HTMLLIElement>, option: AutocompleteItem) => React.ReactNode,
+ *    item: AutocompleteItem,
+ * }[] }} AutocompleteState
  */
 
+/**
+ * @extends {React.Component<AutocompleteProps, AutocompleteState>}
+ */
 export class SearchAutoComplete extends Component {
+  /** @param {AutocompleteProps} props */
   constructor(props) {
     super(props);
+    /** @type {AutocompleteState} */
     this.state = {
       searchText: '',
       placeholder: localise('Enter handle or DID', { uk: ' ' }),
       max: 20,
-      options: []
+      options: [],
     };
     this.highlight = null;
     this.renderedBefore = false;
-    this.resolveTimeout = null;
+    /** @type {number} */
+    this.resolveTimeout = 0;
   }
 
   render() {
@@ -60,19 +77,20 @@ export class SearchAutoComplete extends Component {
 
     if (first20Options.length < options?.length) {
       first20Options.push({
-        label: '...',
+        item: { label: '...' },
         render: (props) => (
-          <li {...props} className='search-entry more-results-item'>
+          <li {...props} className="search-entry more-results-item">
             <Visible
               onVisible={() => {
                 this.setState({
-                  max: showMax + AUTOCOMPLETE_POPULATE_BATCH
+                  max: showMax + AUTOCOMPLETE_POPULATE_BATCH,
                 });
-              }}>
+              }}
+            >
               ...
             </Visible>
           </li>
-        )
+        ),
       });
     }
 
@@ -82,36 +100,42 @@ export class SearchAutoComplete extends Component {
         className={'search-autocomplete ' + (className || '')}
         options={first20Options}
         value={searchText}
-        filterOptions={options => options}
+        filterOptions={(options) => options}
         onChange={(event, newValue) => {
-          if (typeof newValue !== 'string' && newValue?.account && typeof this.props.onAccountSelected === 'function') {
-            if (newValue?.account) {
-              this.props.onAccountSelected(newValue.postID ? { ...newValue.account, postID: newValue.postID } : newValue.account);
-            }
+          if (
+            typeof newValue !== 'string' &&
+            newValue?.item.account &&
+            typeof this.props.onAccountSelected === 'function'
+          ) {
+            this.props.onAccountSelected(newValue.item.account);
           }
         }}
         onHighlightChange={(event, newValue) => {
           this.highlight = {
             searchText: this.props.searchText,
-            value: newValue
+            value: newValue,
           };
         }}
-        getOptionLabel={option => {
+        getOptionLabel={(option) => {
           if (typeof option === 'string') return option;
-          return option.label || String(option) || '';
+          return option.item.label || String(option) || '';
         }}
         renderOption={(params, option) =>
-          first20Options &&
-          option.render(params, option)}
-        renderInput={(params) =>
+          first20Options && option.render(params, option.item)
+        }
+        renderInput={(params) => (
           <TextField
             {...params}
-            onChange={event => this.handleTextChange(event.target.value)}
+            onChange={(event) => this.handleTextChange(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' && this.state?.options?.[0]?.account && typeof this.props.onAccountSelected === 'function') {
+              if (
+                event.key === 'Enter' &&
+                this.state?.options?.[0]?.item.account &&
+                typeof this.props.onAccountSelected === 'function'
+              ) {
                 event.preventDefault();
                 event.stopPropagation();
-                const account = this.state?.options[0]?.account;
+                const account = this.state?.options[0]?.item.account;
                 if (account) {
                   this.props.onAccountSelected(account);
                 }
@@ -119,16 +143,17 @@ export class SearchAutoComplete extends Component {
             }}
             label={localise('Find an account:', { uk: 'Кого шукаємо?' })}
             placeholder={this.state.placeholder}
-            variant="standard" />}
+            variant="standard"
+          />
+        )}
       />
     );
   }
 
-  handleTextChange = (newValue) => {
+  handleTextChange = (/** @type {string} */ newValue) => {
     clearTimeout(this.resolveTimeout);
-    if (newValue) this.resolveTimeout = setTimeout(
-      this.debouncedTextChange, 500,
-      newValue);
+    if (newValue)
+      this.resolveTimeout = setTimeout(this.debouncedTextChange, 500, newValue);
 
     const { onSearchTextChanged } = this.props;
 
@@ -141,14 +166,18 @@ export class SearchAutoComplete extends Component {
       // @ts-ignore
       searchText: newValue,
       placeholder,
-      options: !newValue ? [] : [{
-        label: newValue,
-        render: (props) => <Resolving {...props} key='resolving' />
-      }]
+      options: !newValue
+        ? []
+        : [
+            {
+              item: { label: newValue },
+              render: (props) => <Resolving {...props} key="resolving" />,
+            },
+          ],
     });
   };
 
-  debouncedTextChange = async (newValue) => {
+  debouncedTextChange = async (/** @type {string} */ newValue) => {
     if (this.props.searchText !== newValue) return;
 
     try {
@@ -157,24 +186,35 @@ export class SearchAutoComplete extends Component {
       if (this.props.searchText !== newValue) return;
 
       this.setState({
-        options: searchResults.map(entry => {
+        options: searchResults.map((entry) => {
           const accountOrPromise = resolveHandleOrDID(entry.shortDID);
-          const option = {
-            label: entry.shortHandle,
-            account: isPromise(accountOrPromise) ? entry : accountOrPromise,
-            postID: entry.postID,
-            render: (props) => <SearchEntryDisplay {...props} key={entry.shortDID} entry={entry} />
+          return {
+            item: {
+              label: entry.shortHandle,
+              account: isPromise(accountOrPromise) ? entry : accountOrPromise,
+              postID: entry.postID,
+            },
+            render: (props) => (
+              <SearchEntryDisplay
+                {...props}
+                key={entry.shortDID}
+                entry={entry}
+              />
+            ),
           };
-          return option;
-        })
+        }),
       });
     } catch (err) {
       console.log('resolving did/handle ', err);
       this.setState({
-        options: [{
-          label: newValue, render:
-            (props) => <ResolvingFailure {...props} key='failure' error={err} />
-        }]
+        options: [
+          {
+            item: { label: newValue },
+            render: (props) => (
+              <ResolvingFailure {...props} key="failure" error={err} />
+            ),
+          },
+        ],
       });
     }
   };
@@ -183,20 +223,39 @@ export class SearchAutoComplete extends Component {
 function Resolving({ ...rest }) {
   return (
     <li {...rest} className="resolving-item">
-      <span className='at-sign'>@</span>
-      <span className='resolving-handle'>{localise('Resolving...', { uk: 'Пошук...' })}</span>
+      <span className="at-sign">@</span>
+      <span className="resolving-handle">
+        {localise('Resolving...', { uk: 'Пошук...' })}
+      </span>
     </li>
   );
 }
 
-function ResolvingFailure({ error, ...rest }) {
+/**
+ *
+ * @param {{ error: unknown }} param0
+ * @returns
+ */
+function ResolvingFailure({ error: maybeError }) {
+  /** @type {Error | null} */
+  // @ts-ignore
+  const error = maybeError;
   return (
-    <div className='resolve-failure-item'>
+    <div className="resolve-failure-item">
       <>
-        {error?.constructor?.name ? <span className='error-constructor-name'>{error.constructor.name}</span> : undefined}
-        {error?.message ? <span className='error-message'>{error.message}</span> : undefined}
-        {error?.stack && error.stack !== error.message ?
-          <span className='error-stack'>{error.stack.replace(error.message || '', '')}</span> : undefined}
+        {error?.constructor?.name ? (
+          <span className="error-constructor-name">
+            {error.constructor.name}
+          </span>
+        ) : undefined}
+        {error?.message ? (
+          <span className="error-message">{error.message}</span>
+        ) : undefined}
+        {error?.stack && error.stack !== error.message ? (
+          <span className="error-stack">
+            {error.stack.replace(error.message || '', '')}
+          </span>
+        ) : undefined}
       </>
     </div>
   );

@@ -1,18 +1,26 @@
 // @ts-check
 
 import React from 'react';
-
 import './face-svg.css';
 
+/**
+ *
+ * @param {React.SVGProps<SVGSVGElement>} _
+ * @returns
+ */
 export function FaceSvg({ className, ...props }) {
-
   return (
     <svg
       {...props}
-      className={'MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root SvgIcon-FaceSvg ' + (className || '')}
-      viewBox="0 0 24 24" data-testid="FaceSvg"
+      className={
+        'MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root SvgIcon-FaceSvg ' +
+        (className || '')
+      }
+      viewBox="0 0 24 24"
+      data-testid="FaceSvg"
       aria-hidden="true"
-      focusable="false">
+      focusable="false"
+    >
       <path d="M 12 2 C 6.48 2 2 6.48 2 12 C 2 17.52 6.48 22 12 22 C 17.52 22 22 17.52 22 12 C 22 6.48 17.52 2 12 2 Z M 12 20 C 7.59 20 4 16.41 4 12 L 4 11.97 C 6.31 11.75 4.112 9.608 5.577 8.196 C 6.094 7.697 8.453 7.785 9.24 8 C 11.753 8.418 12.676 8.377 14.77 8 C 15.696 7.851 17.871 7.747 18.455 8.434 C 19.757 9.968 17.65 11.74 20 11.96 L 20 11.99 C 20 16.41 16.41 20 12 20 Z"></path>
       <circle cx="9" cy="13" r="1.25"></circle>
       <circle cx="15" cy="13" r="1.25"></circle>

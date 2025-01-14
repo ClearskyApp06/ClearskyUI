@@ -1,8 +1,7 @@
 // @ts-check
 
-import React from 'react';
 import { facetByteLength, overlapFacetsAndHighlights } from './facet-slice';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 /**
  * @param {{
@@ -14,7 +13,14 @@ import { Fragment } from 'react';
  *  textLightHighlights?: string
  * }} _
  */
-export function PostContentText({ className, highlightClassNameBase, text, facets, textHighlights, textLightHighlights }) {
+export function PostContentText({
+  className,
+  highlightClassNameBase,
+  text,
+  facets,
+  textHighlights,
+  textLightHighlights,
+}) {
   const breakLines = (text || '').split(/\r|\n/g);
 
   /** @type {({ charOffset: number, byteOffset: number, byteLength: number, line: string }[] | null)[]} */
@@ -38,7 +44,8 @@ export function PostContentText({ className, highlightClassNameBase, text, facet
       blocks.push([{ charOffset, byteOffset, byteLength, line }]);
     } else {
       let paragraph = !blocks.length ? undefined : blocks[blocks.length - 1];
-      if (!paragraph) blocks.push([{ charOffset, byteOffset, byteLength, line }]);
+      if (!paragraph)
+        blocks.push([{ charOffset, byteOffset, byteLength, line }]);
       else {
         paragraph.push({ charOffset, byteOffset, byteLength, line });
       }
@@ -52,58 +59,126 @@ export function PostContentText({ className, highlightClassNameBase, text, facet
   let blockCount = 0;
 
   let nextFacet = 0;
-  if (facets && facets.length > 1) // sort facets by byteStart
-    facets = facets.slice().sort((f1, f2) => f1.index?.byteStart - f2.index?.byteStart);
+  if (facets && facets.length > 1)
+    // sort facets by byteStart
+    facets = facets
+      .slice()
+      .sort((f1, f2) => f1.index?.byteStart - f2.index?.byteStart);
 
   const blockElements = blocks.map((entry, iBlock) => {
     if (!entry) return <br key={iBlock} />;
 
-    const lineElements = entry.map(({ charOffset, byteOffset, byteLength, line }, lineIndex) => {
-      const lineHighlights = overlapFacetsAndHighlights(
-        line,
-        byteOffset,
-        facets,
-        textHighlights,
-        textLightHighlights
-      );
+    const lineElements = entry.map(
+      ({ charOffset, byteOffset, byteLength, line }, lineIndex) => {
+        const lineHighlights = overlapFacetsAndHighlights(
+          line,
+          byteOffset,
+          facets,
+          textHighlights,
+          textLightHighlights
+        );
 
-      const lineChunks = lineHighlights.map((chunk, iChunk) => {
-        if (typeof chunk === 'string') return chunk;
-        if (chunk.facet) return <RenderFacet key={iChunk} className={highlightClassNameBase} facet={chunk.facet} isHighlight={chunk.isHighlight} isLightHighlight={chunk.isLightHighlight}>{chunk.text}</RenderFacet>;
-        else return <RenderHighlight key={iChunk} className={highlightClassNameBase} isHighlight={chunk.isHighlight} isLightHighlight={chunk.isLightHighlight}>{chunk.text}</RenderHighlight>;
-      });
+        const lineChunks = lineHighlights.map((chunk, iChunk) => {
+          if (typeof chunk === 'string') return chunk;
+          if (chunk.facet)
+            return (
+              <RenderFacet
+                key={iChunk}
+                className={highlightClassNameBase}
+                facet={chunk.facet}
+                isHighlight={chunk.isHighlight}
+                isLightHighlight={chunk.isLightHighlight}
+              >
+                {chunk.text}
+              </RenderFacet>
+            );
+          else
+            return (
+              <RenderHighlight
+                key={iChunk}
+                className={highlightClassNameBase}
+                isHighlight={chunk.isHighlight}
+                isLightHighlight={chunk.isLightHighlight}
+              >
+                {chunk.text}
+              </RenderHighlight>
+            );
+        });
 
-      return <Fragment key={lineIndex}>{lineChunks}</Fragment>;
-    });
+        return <Fragment key={lineIndex}>{lineChunks}</Fragment>;
+      }
+    );
 
     blockCount++;
     return (
-      <p key={iBlock} className={className ? className + ' ' + className + '-' + blockCount : undefined}>
+      <p
+        key={iBlock}
+        className={
+          className ? className + ' ' + className + '-' + blockCount : undefined
+        }
+      >
         {lineElements}
       </p>
     );
   });
 
+  return <>{blockElements}</>;
+}
+
+/**
+ *
+ * @param {{
+ * className?: string | undefined;
+ * facet?: boolean;
+ * isHighlight?: boolean;
+ * isLightHighlight?: boolean;
+ * children: React.ReactNode }} param0
+ * @returns
+ */
+function RenderFacet({
+  className = '',
+  facet,
+  isHighlight,
+  isLightHighlight,
+  children,
+}) {
   return (
-    <>{blockElements}</>
+    <a
+      target="_blank"
+      className={
+        (!facet ? '' : className + '-facet ') +
+        (!isHighlight ? '' : className + '-highlight ') +
+        (!isLightHighlight ? '' : className + '-light-highlight ')
+      }
+    >
+      {children}
+    </a>
   );
 }
 
-function RenderFacet({ className, facet, isHighlight, isLightHighlight, children }) {
+/**
+ *
+ * @param {{
+ * className?: string | undefined;
+ * isHighlight?: boolean;
+ * isLightHighlight?: boolean;
+ * children: React.ReactNode }} param0
+ * @returns
+ */
+function RenderHighlight({
+  className = '',
+  isHighlight,
+  isLightHighlight,
+  children,
+}) {
   return (
-    <a target='_blank' className={
-      (!facet ? '' : className + '-facet ') +
-      (!isHighlight ? '' : className + '-highlight ') +
-      (!isLightHighlight ? '' : className + '-light-highlight ')
-    }>{children}</a>
-  );
-}
-
-function RenderHighlight({ className, isHighlight, isLightHighlight, children }) {
-  return (
-    <span className={
-      (!isHighlight ? '' : className + '-highlight ') +
-      (!isLightHighlight ? '' : className + '-light-highlight ')
-    }>{children}</span>
+    <span
+      className={
+        (!isHighlight ? '' : className + '-highlight ') +
+        (!isLightHighlight ? '' : className + '-light-highlight ')
+      }
+    >
+      {children}
+    </span>
   );
 }
