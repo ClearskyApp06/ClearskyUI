@@ -43,9 +43,9 @@ export function PackView({packs, className=""}){
     return(
       <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
-        
+       
         <FormatTimestamp
-          timestamp={entry.created_date ??""}
+          timestamp={entry.created_date ?? ""}
           noTooltip
           className='list-add-date' />
       </div>
