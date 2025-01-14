@@ -53,7 +53,7 @@ export function usePacksPopulated(handleOrDID){
 /**
  * @param {string | undefined} handleOrDID 
  */
-export async function usePacksPopulatedTotal(handleOrDID){  
+export  function usePacksPopulatedTotal(handleOrDID){  
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
     return useQuery({
