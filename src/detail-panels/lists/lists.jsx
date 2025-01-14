@@ -1,13 +1,13 @@
 // @ts-check
 
-import { useState, useRef, useCallback } from 'react';
+import { useState} from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
 import { useList, useListTotal } from '../../api/lists';
-import { ListViewEntry } from './list-view';
+import { ListView} from './list-view';
 
 import './lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
@@ -15,7 +15,6 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
 
 export function Lists() {
   const accountQuery = useAccountResolver();
@@ -36,18 +35,6 @@ export function Lists() {
   const filteredLists = !search
     ? allLists
     : matchSearch(allLists, search, () => setTick(tick + 1));
-
-  const listRef = useRef(null);
-
-  const rowVirtualizer = useWindowVirtualizer({
-    count: filteredLists?.length,
-    estimateSize: () => 25,
-    overscan: 5,
-    gap: 50,
-    scrollMargin: listRef.current ? listRef.current.offsetTop : 0,
-  });
-
-  console.log(rowVirtualizer.getVirtualItems().length)
 
   // Show loader for initial load
   if (isLoading) {
@@ -118,51 +105,7 @@ export function Lists() {
         )}
       </h3>
 
-      <ul className={'lists-as-list-view '}>
-        <div
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-            overflow: 'hidden',
-          }}
-          ref={listRef}
-        >
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              height: `${rowVirtualizer.getTotalSize()}px`,
-            }}
-          >
-            
-              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const entry = filteredLists[virtualRow.index];
-
-                return (
-                  <div
-              key={virtualRow.key}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: `${virtualRow.size}px`,
-                transform: `translateY(${
-                  virtualRow.start - rowVirtualizer.options.scrollMargin
-                }px)`,
-              }}
-            >
-                  
-                  <ListViewEntry
-                    entry={entry}
-                    style={{ width: '100%' }}
-                    key={virtualRow.key}
-                  />
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </ul>
+      <ListView list={filteredLists} className="" />
 
       {shouldShowLoadMore && (
         <VisibleWithDelay

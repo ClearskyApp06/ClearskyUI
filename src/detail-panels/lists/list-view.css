@@ -5,7 +5,7 @@
 
 .lists-as-list-view .lists-entry {
   list-style-type: none;
-  height: 3.5em;
+  height: auto;
   border-top: solid 1px #dbdbdb;
   padding-top: 0.4em;
   padding-left: 0.7em;
@@ -63,19 +63,14 @@
   grid-row: 1 / 2;
   grid-column: 2 / 3;
   opacity: 0.6;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 0.5em;
+  padding-left: 1.7em;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .lists-as-list-view .lists-entry .list-count {
-  grid-row: 1 / 2;
-  grid-column: 2 / 3;
-  opacity: 0.6;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 0.5em;
-  color: darkred;
+  padding-left: 0.3em;
+  color: green;
 }
 
 .lists-as-list-view .lists-entry .list-count-no-desc {

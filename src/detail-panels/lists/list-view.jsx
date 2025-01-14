@@ -11,19 +11,15 @@ import './list-view.css';
  *  list?: AccountListEntry[]
  * }} _
  */
-// export function ListView({ className, list }) {
-//   return (
-//     <ul className={'lists-as-list-view ' + (className || '')}>
-//       {(list || []).map((entry, i) => (
-//         <ListViewEntry
-//           key={i}
-//           entry={entry}
-//           style={{}}
-//            />
-//       ))}
-//     </ul>
-//   );
-// }
+export function ListView({ className, list }) {
+  return (
+    <ul className={'lists-as-list-view ' + (className || '')}>
+      {(list || []).map((entry, i) => (
+        <ListViewEntry key={i} entry={entry} style={{}} />
+      ))}
+    </ul>
+  );
+}
 
 /**
  * @param {{
@@ -34,15 +30,15 @@ import './list-view.css';
  */
 export function ListViewEntry({ className, entry, style }) {
   const listcount = useListSize(entry?.url);
-  const count  = listcount?.data?.count || ''
+  const count = listcount?.data?.count || '';
 
   return (
-    <li className={'lists-entry ' + (className || '')} style={style}>
+    <li className={'lists-entry ' + (className || '')}>
       <div className="row">
         <AccountShortEntry
           className="list-owner"
           withDisplayName
-          account={entry?.did}
+          account={entry.did}
         />
         <FormatTimestamp
           timestamp={entry.date_added}
@@ -50,19 +46,19 @@ export function ListViewEntry({ className, entry, style }) {
           className="list-add-date"
         />
       </div>
-      <div className="bottom-row">
-          <span className="fixed-count-holder">{!!entry?.description && count}</span>
-      
-        <div className="row">
-        <span className="list-name">{entry.name}</span>
-        <span className="list-description">
-          {!!entry?.description && ' ' + entry?.description}
+      <div className="row">
+        <span className="list-name">
+          <a href={entry.url} target="__blank">
+            {entry.name}
+          </a>
         </span>
-        {!entry.description && (
-          <span className="list-count">{' ' + count}</span>
-        )}
-        </div>
+        <span className="list-count">{count}</span>
       </div>
+      {entry.description && (
+        <div className="row">
+          <span className="list-description">{' ' + entry.description}</span>
+        </div>
+      )}
     </li>
   );
 }
