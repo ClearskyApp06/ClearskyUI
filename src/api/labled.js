@@ -1,7 +1,7 @@
 // @ts-check
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchClearskyApi, unwrapShortDID } from './core';
+import { fetchClearskyApi, unwrapShortDID, publicAtClient } from './core';
 
 /**
  *
@@ -13,14 +13,17 @@ export async function getLabeled(fullDid, lablerDids, signal) {
   if (!fullDid) {
     return [];
   }
-  let queryUrl = `https://api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${fullDid}`;
-  const data = await fetch(queryUrl, {
-    headers: {
-      'atproto-accept-labelers': lablerDids.join(','),
-    },
-    signal,
-  }).then((r) => r.json());
-  return data.labels || [];
+  const req = await publicAtClient.getProfile(
+    { actor: fullDid },
+    {
+      headers: {
+        'atproto-accept-labelers': lablerDids.join(','),
+      },
+      signal,
+    }
+  );
+
+  return req.data.labels || [];
 }
 
 /**
