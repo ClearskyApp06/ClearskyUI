@@ -7,8 +7,9 @@ import { fetchClearskyApi, unwrapShortDID } from './core';
  *
  * @param {string|undefined} fullDid
  * @param {string[]} lablerDids
+ * @param {AbortSignal} signal
  */
-export async function getLabeled(fullDid, lablerDids) {
+export async function getLabeled(fullDid, lablerDids, signal) {
   if (!fullDid) {
     return [];
   }
@@ -17,6 +18,7 @@ export async function getLabeled(fullDid, lablerDids) {
     headers: {
       'atproto-accept-labelers': lablerDids.join(','),
     },
+    signal,
   }).then((r) => r.json());
   return data.labels || [];
 }
@@ -52,9 +54,10 @@ const BATCH_SIZE = 17;
  * Get sets of 18 dids at a time from the lablerDids array to query.
  * @param {string} fullDid
  * @param {string[]|undefined} lablerDids
+ * @param {AbortSignal} signal
  * @returns
  */
-function* getDidSlices(fullDid, lablerDids) {
+function* getDidSlices(fullDid, lablerDids, signal) {
   if (!lablerDids) {
     return [];
   }
@@ -64,7 +67,11 @@ function* getDidSlices(fullDid, lablerDids) {
     if (start >= lablerDids.length) {
       return;
     }
-    yield getLabeled(fullDid, lablerDids.slice(start, start + BATCH_SIZE));
+    yield getLabeled(
+      fullDid,
+      lablerDids.slice(start, start + BATCH_SIZE),
+      signal
+    );
     page += 1;
   }
 }
@@ -81,6 +88,7 @@ export function useLabeled(did, lablerDids) {
   return useQuery({
     enabled: !!fullDid && !!lablerDids?.length,
     queryKey: ['labeled', fullDid, lablerDids],
-    queryFn: () => Promise.all(getDidSlices(fullDid || '', lablerDids)),
+    queryFn: ({ signal }) =>
+      Promise.all(getDidSlices(fullDid || '', lablerDids, signal)),
   });
 }
