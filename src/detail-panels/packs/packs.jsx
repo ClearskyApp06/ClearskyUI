@@ -43,9 +43,7 @@ export function Packs({created=false}){
       // @ts-ignore
       const allPacks = Packlist.flatMap((page)=>page.starter_packs);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
-      const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0); 
-      
-  console.log("allPacks", allPacks)
+      const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);  
       
         return (
           <>

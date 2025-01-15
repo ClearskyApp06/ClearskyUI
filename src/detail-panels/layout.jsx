@@ -16,6 +16,7 @@ import { TabSelector } from './tab-selector';
 
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
+import { Packed } from './packs/packed';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -126,9 +127,9 @@ function renderTabContent(tab) {
     case 'labeled':
       return <LabeledPanel />;
     case 'packs':
-      return <Packs created={true}/>;
+      return <Packs/>;
     case 'packed':
-      return <Packs created={false}/>;
+      return <Packed/>;
 
     default:
       return (

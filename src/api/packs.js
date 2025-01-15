@@ -74,11 +74,9 @@ export  function usePacksPopulatedTotal(handleOrDID){
 */
 async function getPacksPopulated (shortHandle, currentPage){
   // in PACK
-  const URL = 'single-starter-pack/' + unwrapShortHandle(shortHandle) ;
-  console.log("URL")  
+  const URL = 'single-starter-pack/' + unwrapShortHandle(shortHandle) ; 
   // @type PackList 
-  const re = await fetchClearskyApi('v1', URL); 
-  console.log( "getPacksPopulated", re);
+  const re = await fetchClearskyApi('v1', URL);  
 
   const starter_packs = re.data?.starter_packs || [];
 
@@ -118,8 +116,7 @@ async function getPacksCreated(shortHandle, currentPage=1){
     // packs I started  
     const URL ='starter-packs/' + unwrapShortHandle(shortHandle)  + (currentPage === 1 ? '' : '/' + currentPage); 
  
-    const re = (await fetchClearskyApi('v1', URL));
-    console.log("get Packs created", re);
+    const re = (await fetchClearskyApi('v1', URL)); 
     const starter_packs = re.data?.starter_packs || [];
 
   // Sort by date
@@ -127,8 +124,7 @@ async function getPacksCreated(shortHandle, currentPage=1){
     const date1 = new Date(entry1.date_added).getTime();
     const date2 = new Date(entry2.date_added).getTime();
     return date2 - date1;
-  });
-    console.log("getPacksCreated.starter_packs",starter_packs)
+  }); 
     return {
       starter_packs, 
       nextPage: starter_packs.length >= PAGE_SIZE ? currentPage + 1 : null};

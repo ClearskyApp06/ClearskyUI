@@ -21,8 +21,7 @@ import { useAccountResolver } from '../account-resolver';
 *  packs?: PackListEntry[]
 * }}_
 */
-export function PackView({packs, className=""}){
-  console.log("PackView", packs )
+export function PackView({packs, className=""}){ 
   return (
     <ul className={"packs-as-pack-view "+ (className || '')}>
       {packs && packs?.length>0 &&  packs.map( (pack,i)=> 
@@ -38,8 +37,7 @@ export function PackView({packs, className=""}){
   *  entry: PackListEntry
   * }} _
   */
-  function PackViewEntry({className="", entry}){
-    console.log("PackViewEntry", entry)
+  function PackViewEntry({className="", entry}){ 
     return(
       <li className={'lists-entry ' + (className || '')}>
       <div className='row'>
