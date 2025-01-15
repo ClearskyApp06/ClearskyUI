@@ -102,8 +102,7 @@
                 let data = await fetchClearskyApi('v1', dataEndpoint);
 
                 if (data) {
-                    if ('data' in data) {
-                        console.log(data);
+                    if ('data' in data) { 
                         displayData(data);
                     } else {
                         console.error(data.error);

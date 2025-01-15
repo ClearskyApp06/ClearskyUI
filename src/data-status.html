@@ -71,8 +71,7 @@
         async function fetchData() {
             try {
                 const data = await fetchClearskyApi('v1', dataEndpoint);
-                if (data) {
-                    console.log(data);
+                if (data) { 
                     displayData(data);
                 } else {
                     console.error('Failed to fetch data');

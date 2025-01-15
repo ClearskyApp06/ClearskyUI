@@ -17,6 +17,7 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import './lists.css';
 
 export function Lists() {
+  
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useList(shortHandle);
