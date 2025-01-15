@@ -72,16 +72,14 @@ export  function usePacksPopulatedTotal(handleOrDID){
 *    nextPage: number | null
 * }>}
 */
-async function getPacksPopulated (shortHandle){
-  const URL =
-    'single-starter-pack/' + 
-    unwrapShortHandle(shortHandle) +
-   (currentPage === 1 ? '' : '/' + currentPage); 
-
+async function getPacksPopulated (shortHandle, currentPage){
+  const URL = 'single-starter-pack/' + unwrapShortHandle(shortHandle) ;
+  console.log("URL")  
   // @type PackList 
   const re = await fetchClearskyApi('v1', URL); 
   console.log( "getPacksPopulated", re);
-  const starter_packs = re.data?.Date || [];
+
+  const starter_packs = re.data?.pack_list || [];
 
   // Sort by date
   starter_packs.sort((entry1, entry2) => {
@@ -90,8 +88,8 @@ async function getPacksPopulated (shortHandle){
     return date2 - date1;
   });
   return {
-      starter_packs, 
-      nextPage: lists.length >= PAGE_SIZE ? currentPage + 1 : null,
+      starter_packs,
+      nextPage: starter_packs.length >= PAGE_SIZE ? currentPage + 1 : null,
   };
   
 }
@@ -121,7 +119,17 @@ async function getPacksCreated(shortHandle, currentPage=1){
  
     const re = (await fetchClearskyApi('v1', URL));
     console.log("get Packs created", re);
-    return re;
+    const starter_packs = re.data?.starter_packs || [];
+
+  // Sort by date
+  starter_packs.sort((entry1, entry2) => {
+    const date1 = new Date(entry1.date_added).getTime();
+    const date2 = new Date(entry2.date_added).getTime();
+    return date2 - date1;
+  });
+    return {
+      starter_packs, 
+      nextPage: starter_packs.length >= PAGE_SIZE ? currentPage + 1 : null};
  
 }
 
