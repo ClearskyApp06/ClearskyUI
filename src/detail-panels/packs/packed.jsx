@@ -57,7 +57,7 @@ export function Packed(){
             {packsTotal ?
               <>
                 { 
-                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('packs', packsTotal) + ':'
+                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('pack', packsTotal) + ':'
                    }
                 <span className='panel-toggles'>
                   {!showSearch &&

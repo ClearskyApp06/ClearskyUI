@@ -1,0 +1,47 @@
+ul{    
+    padding-inline-start: 2px;
+    margin:none;
+    text-decoration:none;
+}
+a{ 
+    text-decoration:none;
+    color:black;
+    text-decoration-color: black;
+
+}
+.pack-add-date{
+    width:20%;
+    text-align: right;
+}
+.pack-name{
+    width:80%;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+.pack-entry{
+    display:flex;
+    flex-direction: column;
+    padding-bottom:3px;
+    padding-top:2px;
+}
+
+.row{
+    display:flex;
+    flex-direction: row;
+}
+
+.pack-name , .pack-add-date, .pack-description{
+    display:flex;
+}
+
+.pack-description{
+    width:80%;
+    margin-left:5px;
+}
+.pack-entry:nth-child(even){
+    background-color: #0000000a;
+    background-image: linear-gradient(to top, #00000024, transparent 1px), linear-gradient(to bottom, #0000000a, transparent 1px);
+}

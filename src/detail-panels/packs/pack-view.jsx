@@ -13,7 +13,7 @@ import { Button, CircularProgress } from '@mui/material';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { SearchHeaderDebounced } from '../history/search-header';
 import { useAccountResolver } from '../account-resolver';
-
+import "./list-packs.css"
 
 /**
  * @param {{
@@ -39,21 +39,21 @@ export function PackView({packs, className=""}){
   */
   function PackViewEntry({className="", entry}){ 
     return(
-      <li className={'lists-entry ' + (className || '')}>
+      <li className={'pack-entry ' + (className || '')}>
       <div className='row'>
-       
-        <FormatTimestamp
-          timestamp={entry.created_date ?? ""}
-          noTooltip
-          className='list-add-date' />
-      </div>
-      <div className='row'>      
-        <span className='list-name'>
+       <span className='pack-name'>
           <a href={entry.name??""} target='__blank'>
           {entry.name}
           </a>
         </span>
-        <span className='list-description'>
+        <FormatTimestamp
+          timestamp={entry.created_date ?? ""}
+          noTooltip
+          className='pack-add-date' />
+      </div>
+      <div className='row'>      
+        
+        <span className='pack-description'>
           {entry.description && ' ' + entry.description}
         </span>
       </div>

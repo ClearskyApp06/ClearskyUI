@@ -10,6 +10,7 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { SearchHeaderDebounced } from '../history/search-header';
 import { useAccountResolver } from '../account-resolver';  
 import { PackView } from './pack-view';
+import './packs.css'
 
 export function Packs({created=false}){
   // STARTER PACKS CREATED
@@ -44,7 +45,7 @@ export function Packs({created=false}){
       const allPacks = Packlist.flatMap((page)=>page.starter_packs);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
       const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);  
-      
+
         return (
           <>
             <div className='Packs Created'>
