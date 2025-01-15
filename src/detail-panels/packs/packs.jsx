@@ -11,12 +11,7 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { useAccountResolver } from '../account-resolver';  
 import { PackView } from './pack-view';
 
-
-/**
- *  
- */
 export function Packs({created=false}){
-
   // STARTER PACKS CREATED
   const NOPACK =  "No Starter Packs Created" ;
 

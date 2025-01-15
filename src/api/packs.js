@@ -73,13 +73,14 @@ export  function usePacksPopulatedTotal(handleOrDID){
 * }>}
 */
 async function getPacksPopulated (shortHandle, currentPage){
+  // in PACK
   const URL = 'single-starter-pack/' + unwrapShortHandle(shortHandle) ;
   console.log("URL")  
   // @type PackList 
   const re = await fetchClearskyApi('v1', URL); 
   console.log( "getPacksPopulated", re);
 
-  const starter_packs = re.data?.pack_list || [];
+  const starter_packs = re.data?.starter_packs || [];
 
   // Sort by date
   starter_packs.sort((entry1, entry2) => {
@@ -88,7 +89,7 @@ async function getPacksPopulated (shortHandle, currentPage){
     return date2 - date1;
   });
   return {
-      starter_packs,
+      starter_packs, 
       nextPage: starter_packs.length >= PAGE_SIZE ? currentPage + 1 : null,
   };
   
@@ -127,6 +128,7 @@ async function getPacksCreated(shortHandle, currentPage=1){
     const date2 = new Date(entry2.date_added).getTime();
     return date2 - date1;
   });
+    console.log("getPacksCreated.starter_packs",starter_packs)
     return {
       starter_packs, 
       nextPage: starter_packs.length >= PAGE_SIZE ? currentPage + 1 : null};

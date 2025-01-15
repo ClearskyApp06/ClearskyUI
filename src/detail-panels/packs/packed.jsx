@@ -11,10 +11,6 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { useAccountResolver } from '../account-resolver';  
 import { PackView } from './pack-view';
 
-
-/**
- * 
- */
 export function Packed(){
   // STARTER PACKS CONTAINING USERS
   const NOPACK = "Not in Any Starter Packs";
@@ -24,7 +20,7 @@ export function Packed(){
   const { data, fetchNextPage, hasNextPage, isLoading, isPending}=usePacksPopulated(shortHandle);
   const { data: totalData, isLoading: isLoadingTotal } =  usePacksPopulatedTotal(shortHandle); 
 
-  console.log("packed", data)
+  console.log("packed.data", data)
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
@@ -42,13 +38,10 @@ export function Packed(){
           </div>
         </div>
       );
-    }else{
-
-    } 
-      
+    }else{ 
       const Packlist = data?.pages || [];
-      // @ts-ignore
-      const allPacks = Packlist.flatMap((page)=>page.data.starter_packs);
+      console.log("Packed.Packlist",Packlist);
+      const allPacks = Packlist.flatMap((page)=>page.starter_packs);
       const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
       const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0); 
       console.log("allPacks", allPacks)
@@ -67,7 +60,7 @@ export function Packed(){
             {packsTotal ?
               <>
                 { 
-                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', packsTotal) + ':'
+                  'Member of ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('packs', packsTotal) + ':'
                    }
                 <span className='panel-toggles'>
                   {!showSearch &&
@@ -86,7 +79,7 @@ export function Packed(){
           <PackView packs={allPacks} />
         </>
       );
-      
+    } 
 } 
 
 /**
