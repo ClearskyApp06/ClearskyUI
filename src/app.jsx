@@ -91,7 +91,7 @@ function showApp() {
             />
           </React.Suspense>
           <div className="bluethernal-llc-watermark">
-            © 2024 Bluethernal LLC
+            © 2025 Bluethernal LLC
           </div>
         </QueryClientProvider>
       </ThemeProvider>

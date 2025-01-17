@@ -14,22 +14,22 @@ Install dependencies with `npm install`
 
 `npm run build && npm run preview` will serve a production-type build locally
 
-## Deployment:
+## Deployment
 
 Deploys are automatically handled by Cloudflare Pages
 
-## Code Contributions:
+## Code Contributions
 
-We appreciate and welcome any code contributions. To make a PR you must first fork the repo and then make a PR from the 
+We appreciate and welcome any code contributions. To make a PR you must first fork the repo and then make a PR from the
 branch you created.
 
 Rules:
 
 - Make a comment on the ticket you would like to work on so we can assign it to you and to prevent duplicate efforts
 - Check for existing issues before making a new one
-- We may close an issue or PR without much feedback 
+- We may close an issue or PR without much feedback
 - Stay away from PRs that:
-  - Refactor large parts of the codebase 
-  - Add entirely new features without prior discussion 
-  - Change the tooling or frameworks used without prior discussion 
+  - Refactor large parts of the codebase
+  - Add entirely new features without prior discussion
+  - Change the tooling or frameworks used without prior discussion
   - Introduce new unnecessary dependencies
