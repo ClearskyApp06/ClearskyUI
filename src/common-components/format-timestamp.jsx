@@ -27,7 +27,9 @@ export function FormatTimestamp({
   const date = new Date(timestamp);
   const now = Date.now();
 
+  /** @type {string} */
   let dateStr;
+  /** @type {number} */
   let updateDelay;
 
   const dateTime = date.getTime();

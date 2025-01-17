@@ -14,7 +14,7 @@ export function localise(english, languageMap) {
  */
 export function localiseNumberSuffix(word, num) {
   return localise(localiseNumberSuffixEnglish(word, num), {
-    uk: localiseNumberSuffixUkrainian(word, num)
+    uk: localiseNumberSuffixUkrainian(word, num),
   });
 }
 
@@ -30,10 +30,11 @@ function localiseNumberSuffixEnglish(word, num) {
   return word + 's';
 }
 
+/** @type {Record<string, string | undefined>} */
 const enWordPluralisations = {
   fish: 'fish',
   sheep: 'sheep',
-  child: 'children'
+  child: 'children',
 };
 
 /**
@@ -47,6 +48,7 @@ function localiseNumberSuffixUkrainian(word, num) {
   return word + 'и';
 }
 
+/** @type {Record<string, string | undefined>} */
 const ukWordPluralisations = {
-  'списку': 'списків',
+  списку: 'списків',
 };

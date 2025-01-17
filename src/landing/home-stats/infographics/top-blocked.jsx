@@ -2,26 +2,28 @@
 
 /// <reference path="../../../types.d.ts" />
 
-import React, { useState } from 'react';
 import { TopList } from './top-list';
 import { localise } from '../../../localisation';
 
 /**
  * @param {{
- *  blocked: DashboardBlockListEntry[] | undefined,
- *  blocked24: DashboardBlockListEntry[] | undefined,
+ *  blocked: BlockList | null,
+ *  blocked24: BlockList | null,
  *  limit?: number
  * }} _
  */
 export function TopBlocked({ blocked, blocked24, limit }) {
   return (
     <TopList
-      className='top-blocked'
+      className="top-blocked"
       header={(list) =>
-        localise(`Top ${list.length || ''} Blocked`,
-          { uk: `Топ ${list.length || ''} заблокованих` })}
+        localise(`Top ${list.length || ''} Blocked`, {
+          uk: `Топ ${list.length || ''} заблокованих`,
+        })
+      }
       list={blocked}
       list24={blocked24}
-      limit={limit} />
+      limit={limit}
+    />
   );
 }

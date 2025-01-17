@@ -1,14 +1,18 @@
 // @ts-check
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AgGridReact } from '../../common-components/ag-grid';
 
 import { ViewList } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import './home-stats-table.css';
 import { localise } from '../../localisation';
+import { AccountShortEntry } from '../../common-components/account-short-entry';
+import { migrateOldBlocklistData } from './infographics/migration';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -20,7 +24,87 @@ export default function HomeStatsTable({
   stats,
   onToggleTable,
 }) {
-  const { rows } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
+  const {
+    allBlockedStats,
+    topBlocked,
+    topBlocked24,
+    topBlockers,
+    topBlockers24,
+  } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
+
+  const [activeTab, setActiveTab] = useState(0);
+  const tableData = [
+    {
+      id: 1,
+      name: localise('Overall Stats', {}),
+      data: allBlockedStats,
+      /** @type {import('ag-grid-community').GridOptions['columnDefs']} */
+      columnDefs: [
+        { field: 'category', headerName: 'Stats' },
+        { field: 'value' },
+      ],
+    },
+    {
+      id: 2,
+      name: localise('Top Blocked', {}),
+      data: topBlocked,
+      /** @type {import('ag-grid-community').GridOptions['columnDefs']} */
+      columnDefs: [
+        { field: 'handle', cellRenderer: HandleLinkRenderer },
+        {
+          field: 'count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ],
+    },
+    {
+      id: 3,
+      name: localise('Top Blocked Last 24h', {}),
+      data: topBlocked24,
+      /** @type {import('ag-grid-community').GridOptions['columnDefs']} */
+      columnDefs: [
+        { field: 'handle', cellRenderer: HandleLinkRenderer },
+        {
+          field: 'count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ],
+    },
+    {
+      id: 4,
+      name: localise('Top Blockers', {}),
+      data: topBlockers,
+      /** @type {import('ag-grid-community').GridOptions['columnDefs']} */
+      columnDefs: [
+        { field: 'handle', cellRenderer: HandleLinkRenderer },
+        {
+          field: 'count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ],
+    },
+    {
+      id: 5,
+      name: localise('Top Blockers Last 24h', {}),
+      data: topBlockers24,
+      /** @type {import('ag-grid-community').GridOptions['columnDefs']} */
+      columnDefs: [
+        { field: 'handle', cellRenderer: HandleLinkRenderer },
+        {
+          field: 'count',
+          headerName: 'Count',
+          cellStyle: { textAlign: 'right' },
+        },
+        { field: 'did', headerName: 'DID' },
+      ],
+    },
+  ];
 
   return (
     <div
@@ -33,6 +117,25 @@ export default function HomeStatsTable({
           style={{ fontSize: '60%', color: 'silver' }}
         >
           <i>{asofFormatted}</i>
+        </div>
+
+        <div className="tabs">
+          <Box sx={{ width: '100%' }}>
+            <Tabs
+              value={activeTab}
+              onChange={(event, newValue) => setActiveTab(newValue)}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              textColor="primary"
+              indicatorColor="primary"
+              aria-label="primary scrollable block-stats tabs"
+            >
+              {tableData.map((table, index) => (
+                <Tab key={table.id} value={index} label={table.name} />
+              ))}
+            </Tabs>
+          </Box>
         </div>
 
         {loading ? undefined : (
@@ -48,29 +151,16 @@ export default function HomeStatsTable({
 
         <div className="home-stats-table-host">
           <AgGridReact
+            autoSizeStrategy={{
+              type: 'fitCellContents',
+              colIds: ['category', 'did'],
+            }}
             defaultColDef={{
+              resizable: true,
               sortable: false,
             }}
-            columnDefs={[
-              { field: 'Handle' },
-              {
-                field: 'block_count',
-                headerName: 'Count',
-                cellStyle: { textAlign: 'right' },
-              },
-              { field: 'ProfileURL', headerName: 'Profile URL' },
-              { field: 'did', headerName: 'DID' },
-            ]}
-            getRowClass={(params) =>
-              !params?.data?.title
-                ? undefined
-                : /blocked/i.test(params?.data?.Handle || '')
-                ? 'home-stats-table-title home-stats-table-title-blocked'
-                : /blockers/i.test(params?.data?.Handle || '')
-                ? 'home-stats-table-title home-stats-table-title-blockers'
-                : 'home-stats-table-title'
-            }
-            rowData={rows}
+            columnDefs={tableData[activeTab].columnDefs}
+            rowData={tableData[activeTab].data}
           />
         </div>
       </div>
@@ -78,85 +168,47 @@ export default function HomeStatsTable({
   );
 }
 
-/** @param {DashboardStats} stats */
+/**
+ * @param {DashboardStats} stats
+ */
 function getGridRowsAndColumns(stats) {
-  /** @type {Partial<Omit<DashboardBlockListEntry, "block_count"> & { title: boolean, block_count?: string }>[]} */
-  const rows = [];
-
-  rows.push({ Handle: localise('Stats', {}), title: true });
+  const blockedData = {
+    /** @type {Array<{category: string, value: string | undefined }>} */
+    allBlockedStats: [],
+    topBlocked: migrateOldBlocklistData(stats.topLists.blocked),
+    topBlocked24: migrateOldBlocklistData(stats.topLists.blocked24),
+    topBlockers: migrateOldBlocklistData(stats.topLists.blockers),
+    topBlockers24: migrateOldBlocklistData(stats.topLists.blockers24),
+  };
 
   if (stats.totalUsers) {
     /** @type {ValueWithDisplayName[]} */
     const totalStats = Object.values(stats.totalUsers);
     for (const stat of totalStats) {
-      rows.push({
-        Handle: stat.displayName,
-        block_count: stat.value?.toLocaleString(),
+      if (typeof stat.displayName === 'undefined') {
+        continue;
+      }
+      blockedData['allBlockedStats'].push({
+        category: stat.displayName,
+        value: stat.value?.toLocaleString(),
       });
     }
   }
 
   if (stats.blockStats) {
     for (const [key, value] of Object.entries(stats.blockStats)) {
-      rows.push({
+      blockedData['allBlockedStats'].push({
         // @ts-ignore would like a cast here
-        Handle: getLabelForStatKey(key),
-        block_count: value.toLocaleString(),
+        category: getLabelForStatKey(key),
+        value: value.toLocaleString(),
       });
     }
   }
 
-  if (stats.topLists.blocked?.length) {
-    rows.push({ Handle: localise('Blocked', {}), title: true });
-
-    for (const blocked of stats.topLists.blocked) {
-      rows.push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
-      });
-    }
-  }
-
-  if (stats.topLists.blocked24?.length) {
-    rows.push({ Handle: localise('Blocked 24h', {}), title: true });
-
-    for (const blocked of stats.topLists.blocked24) {
-      rows.push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
-      });
-    }
-  }
-
-  if (stats.topLists.blockers?.length) {
-    rows.push({ Handle: localise('Blockers', {}), title: true });
-
-    for (const blocked of stats.topLists.blockers) {
-      rows.push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
-      });
-    }
-  }
-
-  if (stats.topLists.blockers24?.length) {
-    rows.push({ Handle: localise('Blockers 24h', {}), title: true });
-
-    for (const blocked of stats.topLists.blockers24) {
-      rows.push({
-        ...blocked,
-        block_count: blocked.block_count.toLocaleString(),
-      });
-    }
-  }
-
-  return {
-    rows,
-  };
+  return blockedData;
 }
 
 /**
- *
  * @param {keyof BlockStats} key
  */
 function getLabelForStatKey(key) {
@@ -210,4 +262,13 @@ function getLabelForStatKey(key) {
     case 'totalUsers':
       return localise('Total Users', {});
   }
+}
+
+/**
+ * @param {import('ag-grid-community').ICellRendererParams} params
+ *
+ * @returns {JSX.Element | string}
+ */
+function HandleLinkRenderer(params) {
+  return <AccountShortEntry account={params.data.did} />;
 }

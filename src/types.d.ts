@@ -1,6 +1,16 @@
 /// <reference types="@atproto/api" />
 /// <reference types="vite/client" />
 
+declare module 'punycode2/to-ascii' {
+  export default function toASCII(input: string): string;
+}
+
+type AccountLabel = {
+  cts:string;//date added
+  src: string;//did
+  uri: string;
+  val: string;//name of label
+}
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
@@ -9,6 +19,7 @@ type AccountInfo = {
   avatarUrl?: string;
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
+  labels: AccountLabel[];
 };
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {
@@ -43,7 +54,7 @@ type SearchMatch = {
 
 type ValueWithDisplayName = {
   displayName?: string;
-  value: string | number | undefined;
+  value: number | undefined;
 };
 
 interface TotalUsers {
@@ -80,20 +91,20 @@ interface BlockStats {
 }
 
 interface FunFacts {
-  blocked: DashboardBlockListEntry[];
-  blockers: DashboardBlockListEntry[];
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 interface FunnerFacts {
-  blocked24: DashboardBlockListEntry[];
-  blockers24: DashboardBlockListEntry[];
+  blocked24: BlockList | null;
+  blockers24: BlockList | null;
 }
 
 type DashboardStats = {
   asof: string | null;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
-  topLists: Partial<FunFacts> & Partial<FunnerFacts>;
+  topLists: FunFacts & FunnerFacts;
 };
 
 type StatsEndpointResp<Data> =
@@ -103,15 +114,32 @@ type StatsEndpointResp<Data> =
     }
   | { timeLeft: string };
 
-type DashboardBlockListEntry = {
-  /** mailia.bsky.social */
-  Handle: string;
-  /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
-  ProfileURL: string;
-  /** 1589 */
-  block_count: number;
-  /** did:plc:i3bauhmsixt5j33pnr5g7475 */
+interface BlockData {
   did: string;
+  count: number;
+}
+
+/* old format, to be deleted after migration */
+interface LegacyBlockData {
+  did: string;
+  block_count: number;
+}
+
+type BlockList =
+  | Array<BlockData>
+  /* old format, to be deleted after migration*/
+  | Array<LegacyBlockData>;
+
+interface DashboardBlockListEntry {
+  count: number;
+  did: string;
+}
+
+type DashboardBlockOverallEntry = {
+  /** Average Number of Users Blocked */
+  category: string;
+  /** 9.80 */
+  value: number;
 };
 
 type AccountListEntry = {
