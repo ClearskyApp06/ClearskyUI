@@ -9,11 +9,11 @@ import { fetchClearskyApi, unwrapShortDID, publicAtClient } from './core';
  * @param {string[]} lablerDids
  * @param {AbortSignal} signal
  */
-export async function getLabeled(fullDid, lablerDids, signal) {
+async function getLabeled(fullDid, lablerDids, signal) {
   if (!fullDid) {
     return [];
   }
-  const req = await publicAtClient.getProfile(
+  const res = await publicAtClient.getProfile(
     { actor: fullDid },
     {
       headers: {
@@ -23,7 +23,7 @@ export async function getLabeled(fullDid, lablerDids, signal) {
     }
   );
 
-  return req.data.labels || [];
+  return res.data.labels || [];
 }
 
 /**
@@ -70,11 +70,8 @@ function* getDidSlices(fullDid, lablerDids, signal) {
     if (start >= lablerDids.length) {
       return;
     }
-    yield getLabeled(
-      fullDid,
-      lablerDids.slice(start, start + BATCH_SIZE),
-      signal
-    );
+    const labelers = lablerDids.slice(start, start + BATCH_SIZE);
+    yield getLabeled(fullDid, labelers, signal);
     page += 1;
   }
 }
@@ -84,14 +81,22 @@ function* getDidSlices(fullDid, lablerDids, signal) {
  *
  * @param {string|undefined} did
  * @param {string[]|undefined} lablerDids
- * @returns
  */
 export function useLabeled(did, lablerDids) {
   const fullDid = unwrapShortDID(did);
   return useQuery({
     enabled: !!fullDid && !!lablerDids?.length,
     queryKey: ['labeled', fullDid, lablerDids],
-    queryFn: ({ signal }) =>
-      Promise.all(getDidSlices(fullDid || '', lablerDids, signal)),
+    queryFn: async ({ signal }) => {
+      const labels = await Promise.all(
+        getDidSlices(fullDid || '', lablerDids, signal)
+      );
+      const vals = new Set();
+      return labels.flat().filter((label) => {
+        if (vals.has(label.val)) return false;
+        vals.add(label.val);
+        return true;
+      });
+    },
   });
 }

@@ -96,22 +96,6 @@ export default function LabeledPanel({}) {
   const { data: labelers, isLoading: isLoadingLabelers } = useLabelers();
 
   const { data: labels, isLoading } = useLabeled(did, labelers);
-  //Reduce pages to array of labels
-  const flatLabels = useMemo(() => {
-    if (!labels) {
-      return [];
-    }
-    if (labels) {
-      return (
-        labels
-          .flat()
-          //unique label.val
-          .filter(
-            (label, i, arr) => arr.findIndex((l) => l.val === label.val) === i
-          )
-      );
-    }
-  }, [labels]);
 
   return (
     <div
@@ -122,14 +106,14 @@ export default function LabeledPanel({}) {
         minHeight: '100%',
       }}
     >
-      <h3 className="labeled-header">Labeled {flatLabels?.length} Times</h3>
+      <h3 className="labeled-header">Labeled {labels?.length} Times</h3>
 
       {isLoadingLabelers || isLoading ? (
         <div>Loading...</div>
       ) : (
         <>
-          {flatLabels && flatLabels.length ? (
-            <LabeledList labels={flatLabels} />
+          {labels?.length ? (
+            <LabeledList labels={labels} />
           ) : (
             <div className="labeled-view no-labels">No labels</div>
           )}
