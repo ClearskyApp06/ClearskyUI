@@ -12,7 +12,6 @@ import Tab from '@mui/material/Tab';
 import './home-stats-table.css';
 import { localise } from '../../localisation';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
-import { migrateOldBlocklistData } from './infographics/migration';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -175,10 +174,10 @@ function getGridRowsAndColumns(stats) {
   const blockedData = {
     /** @type {Array<{category: string, value: string | undefined }>} */
     allBlockedStats: [],
-    topBlocked: migrateOldBlocklistData(stats.topLists.total.blocked),
-    topBlockers: migrateOldBlocklistData(stats.topLists.total.blockers),
-    topBlocked24: migrateOldBlocklistData(stats.topLists['24h'].blocked),
-    topBlockers24: migrateOldBlocklistData(stats.topLists['24h'].blockers),
+    topBlocked: stats.topLists.total.blocked,
+    topBlockers: stats.topLists.total.blockers,
+    topBlocked24: stats.topLists['24h'].blocked,
+    topBlockers24: stats.topLists['24h'].blockers,
   };
 
   if (stats.totalUsers) {
