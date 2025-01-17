@@ -32,6 +32,7 @@ export default function HomeStatsTable({
     topBlockers24,
   } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
 
+  
   const [activeTab, setActiveTab] = useState(0);
   const tableData = [
     {
@@ -55,6 +56,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -70,6 +72,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -85,6 +88,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -100,6 +104,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
