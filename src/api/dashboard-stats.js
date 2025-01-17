@@ -58,10 +58,8 @@ async function dashboardStatsApi() {
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      blocked: funFactsData ? funFactsData.blocked : null,
-      blockers: funFactsData ? funFactsData.blockers : null,
-      blocked24: funnerFactsData ? funnerFactsData.blocked24 : null,
-      blockers24: funnerFactsData ? funnerFactsData.blockers24 : null,
+      total: funFactsData || { blocked: null, blockers: null },
+      '24h': funnerFactsData || { blocked: null, blockers: null },
     },
   };
   return result;

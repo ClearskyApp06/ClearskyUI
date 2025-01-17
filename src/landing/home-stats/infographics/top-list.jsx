@@ -7,7 +7,6 @@ import { AccountShortEntry } from '../../../common-components/account-short-entr
 import './top-list.css';
 import { Switch } from '@mui/material';
 import { localise } from '../../../localisation';
-import { migrateOldBlocklistData } from './migration';
 
 const DEFAULT_LIMIT = 5;
 
@@ -34,7 +33,7 @@ export function TopList({
     /** @type {boolean | undefined } */ (undefined)
   );
 
-  const useList = migrateOldBlocklistData(see24 ? list24 : list);
+  const useList = see24 ? list24 : list;
 
   const blockedSlice = !useList
     ? []

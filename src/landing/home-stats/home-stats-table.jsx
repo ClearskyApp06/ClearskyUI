@@ -12,7 +12,6 @@ import Tab from '@mui/material/Tab';
 import './home-stats-table.css';
 import { localise } from '../../localisation';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
-import { migrateOldBlocklistData } from './infographics/migration';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -32,6 +31,7 @@ export default function HomeStatsTable({
     topBlockers24,
   } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
 
+  
   const [activeTab, setActiveTab] = useState(0);
   const tableData = [
     {
@@ -55,6 +55,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -70,6 +71,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -85,6 +87,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -100,6 +103,7 @@ export default function HomeStatsTable({
           field: 'count',
           headerName: 'Count',
           cellStyle: { textAlign: 'right' },
+          valueFormatter: (e)=>{return new Intl.NumberFormat().format(e.value);},
         },
         { field: 'did', headerName: 'DID' },
       ],
@@ -175,10 +179,10 @@ function getGridRowsAndColumns(stats) {
   const blockedData = {
     /** @type {Array<{category: string, value: string | undefined }>} */
     allBlockedStats: [],
-    topBlocked: migrateOldBlocklistData(stats.topLists.blocked),
-    topBlocked24: migrateOldBlocklistData(stats.topLists.blocked24),
-    topBlockers: migrateOldBlocklistData(stats.topLists.blockers),
-    topBlockers24: migrateOldBlocklistData(stats.topLists.blockers24),
+    topBlocked: stats.topLists.total.blocked,
+    topBlockers: stats.topLists.total.blockers,
+    topBlocked24: stats.topLists['24h'].blocked,
+    topBlockers24: stats.topLists['24h'].blockers,
   };
 
   if (stats.totalUsers) {
