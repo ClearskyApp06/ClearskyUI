@@ -175,10 +175,10 @@ function getGridRowsAndColumns(stats) {
   const blockedData = {
     /** @type {Array<{category: string, value: string | undefined }>} */
     allBlockedStats: [],
-    topBlocked: migrateOldBlocklistData(stats.topLists.blocked),
-    topBlocked24: migrateOldBlocklistData(stats.topLists.blocked24),
-    topBlockers: migrateOldBlocklistData(stats.topLists.blockers),
-    topBlockers24: migrateOldBlocklistData(stats.topLists.blockers24),
+    topBlocked: migrateOldBlocklistData(stats.topLists.total.blocked),
+    topBlockers: migrateOldBlocklistData(stats.topLists.total.blockers),
+    topBlocked24: migrateOldBlocklistData(stats.topLists['24h'].blocked),
+    topBlockers24: migrateOldBlocklistData(stats.topLists['24h'].blockers),
   };
 
   if (stats.totalUsers) {
