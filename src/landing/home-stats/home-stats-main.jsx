@@ -51,13 +51,13 @@ export function HomeStatsMain({
       {stats && (
         <>
           <TopBlocked
-            blocked={stats.topLists.blocked}
-            blocked24={stats.topLists.blocked24}
+            blocked={stats.topLists.total.blocked}
+            blocked24={stats.topLists['24h'].blocked}
           />
 
           <TopBlockers
-            blockers={stats.topLists.blockers}
-            blockers24={stats.topLists.blockers24}
+            blockers={stats.topLists.total.blockers}
+            blockers24={stats.topLists['24h'].blockers}
           />
         </>
       )}
