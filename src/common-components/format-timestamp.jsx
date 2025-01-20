@@ -14,14 +14,16 @@ import { localise } from '../localisation';
  *  tooltipExtra?: import('react').ReactNode
  *  target?: string;
  *  href?: string;
- * }} _ 
+ * }} _
  */
+
 export function FormatTimestamp({
   timestamp,
   Component = 'span',
   noTooltip,
   tooltipExtra,
-  ...props }) {
+  ...props
+}) {
   const [_, setState] = useState(0);
 
   const date = new Date(timestamp);
@@ -35,14 +37,16 @@ export function FormatTimestamp({
   const dateTime = date.getTime();
   if (dateTime > now || date.getTime() < now - 1000 * 60 * 60 * 24 * 30) {
     dateStr = date.toLocaleDateString();
-  }
-  else {
+  } else {
     const timeAgo = now - dateTime;
     if (timeAgo > 1000 * 60 * 60 * 48) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60 * 24)) + localise('d', { uk: 'д' });
+      dateStr =
+        Math.round(timeAgo / (1000 * 60 * 60 * 24)) +
+        localise('d', { uk: 'д' });
       updateDelay = 1000 * 60 * 60 * 24;
     } else if (timeAgo > 1000 * 60 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
+      dateStr =
+        Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
       updateDelay = 1000 * 60 * 60;
     } else if (timeAgo > 1000 * 60 * 2) {
       dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
@@ -65,21 +69,23 @@ export function FormatTimestamp({
     return () => clearTimeout(timeout);
   });
 
-  const core =
-    <Component {...props}>{dateStr}</Component>;
+  const core = <Component {...props}>{dateStr}</Component>;
 
-  if (noTooltip)
-    return core;
+  if (noTooltip) return core;
 
   return (
-    <Tooltip title={
-      tooltipExtra ?
-        <>
-          {date.toString()}
-          {tooltipExtra}
-        </> :
-        date.toString()
-    }>
+    <Tooltip
+      title={
+        tooltipExtra ? (
+          <>
+            {date.toString()}
+            {tooltipExtra}
+          </>
+        ) : (
+          date.toString()
+        )
+      }
+    >
       {core}
     </Tooltip>
   );

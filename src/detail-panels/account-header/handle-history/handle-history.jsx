@@ -69,25 +69,25 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
     lastPds.endsWith('bsky.social');
   const isMigratedExternally = isPdsChanged && !pds.endsWith('bsky.network');
 
-  // getting elapsed time
-  function getRelativeTime(dateString) {
-    const newDate = new Date(dateString);
-    const now = new Date();
-    const timeDiffInMillis = newDate.getTime() - now.getTime();
-    const daysDiff = Math.round(timeDiffInMillis / (1000 * 60 * 60 * 24));
+  // // getting elapsed time
+  // function getRelativeTime(dateString) {
+  //   const newDate = new Date(dateString);
+  //   const now = new Date();
+  //   const timeDiffInMillis = newDate.getTime() - now.getTime();
+  //   const daysDiff = Math.round(timeDiffInMillis / (1000 * 60 * 60 * 24));
 
-    const inferred = new Intl.RelativeTimeFormat(undefined, {
-      numeric: 'auto',
-    });
-    return inferred.format(daysDiff, 'days');
-  }
+  //   const inferred = new Intl.RelativeTimeFormat(undefined, {
+  //     numeric: 'auto',
+  //   });
+  //   return inferred.format(daysDiff, 'days');
+  // }
 
   if (isCreated)
     return (
       <div className="event-entry">
         {!handle ? undefined : (
           <>
-            {localise('User ', { uk: 'як ' })}
+            {localise('User ', {})}
             <AtAndHandle shortHandle={handle} />
           </>
         )}
@@ -95,7 +95,11 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
           {localise(' registered ', { uk: 'зареєстровано ' })}
         </span>
 
-        {date ? getRelativeTime(date) : 'unknown date '}
+        {date ? (
+          <FormatTimestamp className="event-timestamp" timestamp={date} />
+        ) : (
+          'unknown date'
+        )}
 
         {!pds ? undefined : (
           <>
@@ -158,7 +162,11 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
     <div className="event-entry">
       {handlePart}
       {handlePart && pdsPart ? ' ' : undefined}
-      {date ? getRelativeTime(date) : 'unknown date '}
+      {date ? (
+        <FormatTimestamp className="event-timestamp" timestamp={date} />
+      ) : (
+        'unknown date'
+      )}
       {pdsPart}
     </div>
   );
