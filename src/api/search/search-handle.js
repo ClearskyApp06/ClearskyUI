@@ -1,8 +1,12 @@
 // @ts-check
-/// <reference path="../../types.d.ts" />
 
-import { breakFeedUri, breakPostURL, isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '..';
-import { performSearchOverBuckets } from './perform-search-over-buckets';
+import {
+  breakFeedUri,
+  breakPostURL,
+  resolveHandleOrDID,
+  shortenDID,
+  shortenHandle,
+} from '..';
 
 /**
  * @typedef {{ [shortDID: string]: CompactHandleOrHandleDisplayName }} IndexedBucket
@@ -13,38 +17,46 @@ const cachedSearches = {};
 
 /**
  * @param {string} searchText
- * @return {SearchMatch[] | Promise<SearchMatch[]>}
+ * @return {Promise<SearchMatch[]>}
  */
-export function searchHandle(searchText) {
+export async function searchHandle(searchText) {
   if (cachedSearches[searchText]) return cachedSearches[searchText];
 
-  const directResolvesOrPromises = searchText.split(/\s+/).filter(word => !!word).map(word => {
-    const postLink = breakPostURL(word) || breakFeedUri(word);
-    if (postLink) {
-      let accountOrPromise = resolveHandleOrDID(postLink.shortDID);
-      if (isPromise(accountOrPromise))
-        return accountOrPromise.catch(() => undefined).then(account =>
-          expandResolvedAccountToSearchMatch(word, account, postLink.postID));
-      else
-        return expandResolvedAccountToSearchMatch(word, accountOrPromise, postLink.postID);
-    }
+  const directResolvesOrPromises = searchText
+    .split(/\s+/)
+    .filter((word) => !!word)
+    .map(async (word) => {
+      const postLink = breakPostURL(word) || breakFeedUri(word);
+      if (postLink) {
+        let authorAccount = await resolveHandleOrDID(postLink.shortDID);
+        if (!authorAccount) return null;
+        return expandResolvedAccountToSearchMatch(
+          word,
+          authorAccount,
+          postLink.postID
+        );
+      }
 
-    /** @type {Promise<AccountInfo | undefined> | AccountInfo | undefined} */
-    let accountOrPromise = resolveHandleOrDID(word);
-    if (isPromise(accountOrPromise))
-      return accountOrPromise.catch(() => undefined).then(account =>
-        expandResolvedAccountToSearchMatch(word, account));
-    else
-      return expandResolvedAccountToSearchMatch(word, accountOrPromise);
-  });
+      let account = await resolveHandleOrDID(word);
+      if (!account) return null;
+      return expandResolvedAccountToSearchMatch(word, account);
+    });
 
-  const wordStarts = [...new Set([...searchText.split(/\s+/g).filter(chunk=>chunk.length>=3), searchText])]
+  const wordStarts = [
+    ...new Set([
+      ...searchText.split(/\s+/g).filter((chunk) => chunk.length >= 3),
+      searchText,
+    ]),
+  ];
   if (!wordStarts.length) return [];
 
-  const wordPublicSearchPromises = wordStarts.map(w =>
-    fetch('https://public.api.bsky.app/xrpc/app.bsky.actor.searchActorsTypeahead?term=' + encodeURIComponent(w))
-      .then(x => x.json())
-      .catch(x => { })
+  const wordPublicSearchPromises = wordStarts.map((w) =>
+    fetch(
+      'https://public.api.bsky.app/xrpc/app.bsky.actor.searchActorsTypeahead?term=' +
+        encodeURIComponent(w)
+    )
+      .then((x) => x.json())
+      .catch((x) => {})
   );
 
   // const bucketsOrPromises = wordStarts.map(wordStart => getBucket(wordStart));
@@ -65,30 +77,32 @@ export function searchHandle(searchText) {
   //   return searchMatches;
   // }
 
-  return (async () => {
-    const wordPublicSearches = await Promise.all(wordPublicSearchPromises);
+  const wordPublicSearches = await Promise.all(wordPublicSearchPromises);
 
-    // const buckets = await Promise.all(bucketsOrPromises);
-    const directResolves = (await Promise.all(directResolvesOrPromises)).filter(Boolean);
-    let searchMatches = []; // Part of hack to get rid of coldsky
-    for (let searchWordResult of wordPublicSearches) {
-      if (searchWordResult?.actors?.length) {
-        for (const ac of searchWordResult.actors) {
-          searchMatches.push({
-            ...ac,
-            shortDID: shortenDID(ac.did),
-            shortHandle: shortenHandle(ac.handle)
-          });
-        }
+  // const buckets = await Promise.all(bucketsOrPromises);
+  const directResolves = (await Promise.all(directResolvesOrPromises)).filter(
+    Boolean
+  );
+  let searchMatches = []; // Part of hack to get rid of coldsky
+  for (let searchWordResult of wordPublicSearches) {
+    if (searchWordResult?.actors?.length) {
+      for (const ac of searchWordResult.actors) {
+        searchMatches.push({
+          ...ac,
+          shortDID: shortenDID(ac.did),
+          shortHandle: shortenHandle(ac.handle),
+        });
       }
     }
+  }
 
-    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves);
-    searchMatches = combineAndLimit(exactMatches, searchMatches);
+  const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */ (
+    directResolves
+  );
+  searchMatches = combineAndLimit(exactMatches, searchMatches);
 
-    cachedSearches[searchText] = searchMatches;
-    return searchMatches;
-  })();
+  cachedSearches[searchText] = searchMatches;
+  return searchMatches;
 }
 
 var wordStartRegExp = /[A-Z]*[a-z]*/g;
@@ -102,8 +116,12 @@ function getWordStartsLowerCase(str, count, wordStarts) {
   if (!wordStarts) wordStarts = [];
   str.replace(wordStartRegExp, function (match) {
     const wordStart = match && match.slice(0, count).toLowerCase();
-    if (wordStart && wordStart.length === count && /** @type {string[]} */(wordStarts).indexOf(wordStart) < 0)
-        /** @type {string[]} */(wordStarts).push(wordStart);
+    if (
+      wordStart &&
+      wordStart.length === count &&
+      /** @type {string[]} */ (wordStarts).indexOf(wordStart) < 0
+    )
+      /** @type {string[]} */ (wordStarts).push(wordStart);
     return match;
   });
   return wordStarts;
@@ -127,7 +145,7 @@ function combineAndLimit(exactMatches, searchMatches) {
     resultShortDIDs.add(sm.shortDID);
   }
 
-  return result.slice(0,60);
+  return result.slice(0, 60);
 }
 
 // /** @type {{ [threeLetterPrefix: string]: Promise<IndexedBucket> | IndexedBucket }} */
@@ -161,21 +179,27 @@ function combineAndLimit(exactMatches, searchMatches) {
 // }
 
 /**
- * 
+ *
  * @param {string} handleOrDID
  * @param {AccountInfo | undefined} account
  * @param {string | undefined} [postID]
  * @returns {SearchMatch & AccountInfo | undefined}
  */
 function expandResolvedAccountToSearchMatch(handleOrDID, account, postID) {
-  return account && {
-    ...account,
-    rank: 2000,
-    shortDIDMatches:
-      shortenDID(handleOrDID) === account.shortDID ? account.shortDID : undefined,
-    shortHandleMatches:
-      shortenHandle(handleOrDID) === account.shortHandle ? account.shortHandle : undefined,
-    displayNameMatches: undefined,
-    postID
-  };
+  return (
+    account && {
+      ...account,
+      rank: 2000,
+      shortDIDMatches:
+        shortenDID(handleOrDID) === account.shortDID
+          ? account.shortDID
+          : undefined,
+      shortHandleMatches:
+        shortenHandle(handleOrDID) === account.shortHandle
+          ? account.shortHandle
+          : undefined,
+      displayNameMatches: undefined,
+      postID,
+    }
+  );
 }

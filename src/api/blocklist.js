@@ -1,10 +1,6 @@
 // @ts-check
 
-import {
-  fetchClearskyApi,
-  parseNumberWithCommas,
-  unwrapShortDID,
-} from './core';
+import { fetchClearskyApi, unwrapShortDID } from './core';
 import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
@@ -19,6 +15,7 @@ export function useBlocklist(did) {
   return useInfiniteQuery({
     enabled: !!(pdsUrl && fullDid),
     queryKey: ['blocks-from-pds', pdsUrl, fullDid],
+    // @ts-expect-error pdsUrl will be a string because the query will be disabled otherwise
     queryFn: ({ pageParam }) => getBlocksFromPds(pdsUrl, fullDid, pageParam),
     initialPageParam: '',
     getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -60,6 +57,7 @@ export function useSingleBlocklist(did) {
     enabled: !!fullDid,
     queryKey: ['single-blocklist', fullDid],
     queryFn: ({ pageParam }) =>
+      // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
       blocklistCall(fullDid, 'single-blocklist', pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
@@ -75,6 +73,7 @@ export function useBlocklistCount(did) {
   return useQuery({
     enabled: !!fullDid,
     queryKey: ['blocklist-count', fullDid],
+    // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
     queryFn: () => blocklistCountCall(fullDid, 'blocklist'),
   });
 }
@@ -87,6 +86,7 @@ export function useSingleBlocklistCount(did) {
   return useQuery({
     enabled: !!fullDid,
     queryKey: ['single-blocklist-count', fullDid],
+    // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
     queryFn: () => blocklistCountCall(fullDid, 'single-blocklist'),
   });
 }
@@ -97,12 +97,13 @@ export function useSingleBlocklistCount(did) {
  *  data: Data,
  *  identity: string,
  *  status: boolean
- * }} BlocklistResponse */
+ * }} BlocklistResponse
+ */
 
 /**
  * @typedef {{
  *   blocklist: BlockedByRecord[],
- *   count: string,
+ *   count: number,
  *   pages: number
  * }} BlocklistPage
  */
@@ -125,7 +126,7 @@ async function blocklistCall(did, api, currentPage = 1) {
   /** @type {BlocklistResponse<BlocklistPage>} */
   const pageResponse = await fetchClearskyApi('v1', handleURL);
 
-  let count = parseNumberWithCommas(pageResponse.data.count) || 0;
+  let count = pageResponse.data.count || 0;
 
   const chunk = pageResponse.data.blocklist;
 
