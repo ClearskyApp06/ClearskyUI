@@ -30,35 +30,62 @@ export function FormatTimestamp({
   const now = Date.now();
 
   /** @type {string} */
-  let dateStr;
+  let dateStr = '';
   /** @type {number} */
   let updateDelay;
 
   const dateTime = date.getTime();
-  if (dateTime > now || date.getTime() < now - 1000 * 60 * 60 * 24 * 30) {
-    dateStr = date.toLocaleDateString();
-  } else {
-    const timeAgo = now - dateTime;
-    if (timeAgo > 1000 * 60 * 60 * 48) {
-      dateStr =
-        Math.round(timeAgo / (1000 * 60 * 60 * 24)) +
-        localise('d', { uk: 'д' });
-      updateDelay = 1000 * 60 * 60 * 24;
-    } else if (timeAgo > 1000 * 60 * 60 * 2) {
-      dateStr =
-        Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
-      updateDelay = 1000 * 60 * 60;
-    } else if (timeAgo > 1000 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
-      updateDelay = 1000 * 60;
-    } else if (timeAgo > 1000 * 2) {
-      dateStr = Math.round(timeAgo / 1000) + localise('s', { uk: 'с' });
-      updateDelay = 1000;
-    } else {
-      dateStr = localise('now', { uk: 'тільки шо' });
-      updateDelay = 1000;
-    }
+
+  const msInDay = 1000 * 60 * 60 * 24;
+  const msInYear = msInDay * 365.25;
+
+  let years = Math.floor((dateTime - now) / msInYear + 1);
+  let days = Math.round(((dateTime - now) % msInYear) / msInDay);
+
+  if (years === 0) {
+    dateStr = new Intl.RelativeTimeFormat(undefined, {
+      numeric: 'auto',
+    }).format(Math.round((dateTime - now) / msInDay), 'days');
   }
+
+  if (years !== 0) {
+    dateStr += new Intl.RelativeTimeFormat(undefined, {
+      numeric: 'always',
+    })
+      .format(years, 'years')
+      .replace('ago', '');
+  }
+
+  if (days !== 0) {
+    if (dateStr) dateStr += ' and ';
+    dateStr += new Intl.RelativeTimeFormat(undefined, {
+      numeric: 'auto',
+    }).format(days, 'days');
+  }
+
+  //
+  // else {
+  //   const timeAgo = now - dateTime;
+  //   if (timeAgo > 1000 * 60 * 60 * 48) {
+  //     dateStr =
+  //       Math.round(timeAgo / (1000 * 60 * 60 * 24)) +
+  //       localise('d', { uk: 'д' });
+  //     updateDelay = 1000 * 60 * 60 * 24;
+  //   } else if (timeAgo > 1000 * 60 * 60 * 2) {
+  //     dateStr =
+  //       Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
+  //     updateDelay = 1000 * 60 * 60;
+  //   } else if (timeAgo > 1000 * 60 * 2) {
+  //     dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
+  //     updateDelay = 1000 * 60;
+  //   } else if (timeAgo > 1000 * 2) {
+  //     dateStr = Math.round(timeAgo / 1000) + localise('s', { uk: 'с' });
+  //     updateDelay = 1000;
+  //   } else {
+  //     dateStr = localise('now', { uk: 'тільки шо' });
+  //     updateDelay = 1000;
+  //   }
+  // }
 
   useEffect(() => {
     if (updateDelay) return;

@@ -69,19 +69,6 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
     lastPds.endsWith('bsky.social');
   const isMigratedExternally = isPdsChanged && !pds.endsWith('bsky.network');
 
-  // // getting elapsed time
-  // function getRelativeTime(dateString) {
-  //   const newDate = new Date(dateString);
-  //   const now = new Date();
-  //   const timeDiffInMillis = newDate.getTime() - now.getTime();
-  //   const daysDiff = Math.round(timeDiffInMillis / (1000 * 60 * 60 * 24));
-
-  //   const inferred = new Intl.RelativeTimeFormat(undefined, {
-  //     numeric: 'auto',
-  //   });
-  //   return inferred.format(daysDiff, 'days');
-  // }
-
   if (isCreated)
     return (
       <div className="event-entry">
