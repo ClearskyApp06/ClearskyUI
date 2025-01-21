@@ -1,7 +1,9 @@
 // @ts-check
 
-import { IconButton, Tooltip } from '@mui/material';
+import { useState } from 'react';
+import { IconButton, Tooltip, tooltipClasses } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 
@@ -33,6 +35,16 @@ export function ListView({ className, list }) {
  */
 function ListViewEntry({ className, entry }) {
 
+  const [open, setOpen] = useState(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
   const opacity = entry.spam? 0.4 : 1;
 
   return (
@@ -55,11 +67,31 @@ function ListViewEntry({ className, entry }) {
           {entry.name}
           </a>
           {entry.spam && (
-            <Tooltip title={`Flagged as spam. Source: ${entry.source || 'unknown'}`}>
-              <IconButton>
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
+            <ClickAwayListener onClickAway={handleTooltipClose}>
+              <Tooltip 
+                title={`Flagged as spam. Source: ${entry.source || 'unknown'}`}
+                onClose={handleTooltipClose}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                slotProps={{
+                  popper: {
+                    disablePortal: true,
+                    sx: {
+                      [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
+                        {
+                          marginTop: '0px',
+                        },
+                    },
+                  },
+                }}
+              >
+                <IconButton onClick={handleTooltipOpen}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            </ClickAwayListener>
           )}
         </span>
       </div>
