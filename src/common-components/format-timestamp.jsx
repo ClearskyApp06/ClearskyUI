@@ -46,6 +46,7 @@ export function FormatTimestamp({
     dateStr = new Intl.RelativeTimeFormat(undefined, {
       numeric: 'auto',
     }).format(Math.round((dateTime - now) / msInDay), 'days');
+    updateDelay = 1000 * 60 * 60 * 24;
   }
 
   if (years !== 0) {
@@ -61,6 +62,7 @@ export function FormatTimestamp({
     dateStr += new Intl.RelativeTimeFormat(undefined, {
       numeric: 'auto',
     }).format(days, 'days');
+    updateDelay = 1000 * 60 * 60;
   }
 
   //
