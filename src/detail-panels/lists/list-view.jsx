@@ -1,5 +1,7 @@
 // @ts-check
 
+import { IconButton, Tooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 
@@ -30,9 +32,12 @@ export function ListView({ className, list }) {
  * }} _
  */
 function ListViewEntry({ className, entry }) {
+
+  const opacity = entry.spam? 0.4 : 1;
+
   return (
     <li className={'lists-entry ' + (className || '')}>
-      <div className='row'>
+      <div className='row' style={{opacity}}>
         <AccountShortEntry
           className='list-owner'
           withDisplayName
@@ -43,14 +48,22 @@ function ListViewEntry({ className, entry }) {
           noTooltip
           className='list-add-date' />
       </div>
-      <div className='row'>
+      {/* <div className='row'  > */}
+      <div>
         <span className='list-name'>
-          <a href={entry.url} target='__blank'>
+          <a href={entry.url} target='__blank' style={{opacity}}>
           {entry.name}
           </a>
+          {entry.spam && (
+            <Tooltip title={`Flagged as spam. Source: ${entry.source || 'unknown'}`}>
+              <IconButton>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </span>
       </div>
-      {entry.description && <div className='row'>
+      {entry.description && <div className='row' style={{opacity}}>
         <span className='list-description'>
           {' ' + entry.description}
         </span>

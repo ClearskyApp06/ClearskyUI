@@ -144,4 +144,6 @@ type AccountListEntry = {
   name: string;
   status: boolean;
   url: string;
+  spam: boolean | null;
+  source: string | null;
 };
