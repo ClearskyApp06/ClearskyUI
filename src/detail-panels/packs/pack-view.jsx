@@ -42,7 +42,7 @@ export function PackView({packs, className=""}){
       <li className={'pack-entry ' + (className || '')}>
       <div className='row'>
        <span className='pack-name'>
-          <a href={entry.name??""} target='__blank'>
+          <a href={entry.url??""} target='__blank'>
           {entry.name}
           </a>
         </span>
