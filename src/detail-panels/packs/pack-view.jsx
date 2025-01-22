@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import {AccountShortEntry} from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
-
+ 
+import {useResolveDidToProfile} from '../../api/resolve-handle-or-did';
 import { useSearchParams } from 'react-router-dom';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -38,9 +39,12 @@ export function PackView({packs, className=""}){
   * }} _
   */
   function PackViewEntry({className="", entry}){ 
+
+    const originator = useResolveDidToProfile(entry.did);
     return(
       <li className={'pack-entry ' + (className || '')}>
       <div className='row'>
+      <img src={originator.data?.avatarUrl} className='account-short-entry-avatar'/>
        <span className='pack-name'>
           <a href={entry.url??""} target='__blank'>
           {entry.name}
