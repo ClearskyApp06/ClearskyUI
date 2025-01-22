@@ -83,7 +83,7 @@ export function AccountLayoutCore({
           onTabSelected={(selectedTab) => onSetSelectedTab(selectedTab)}
         />
 
-        <div className="account-tabs-content">
+        <div key={selectedTab} className="account-tabs-content">
           {accountTabs.map((tab) => {
             if (tab === selectedTab)
               return (
