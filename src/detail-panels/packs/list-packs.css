@@ -53,6 +53,8 @@ a:hover{
 .pack-description{
     width:80%;
     margin-left:5px;
+    padding-left:25px;
+    opacity:.5;
 }
 .pack-entry:nth-child(even){
     background-color: #0000000a;
