@@ -5,7 +5,7 @@ import { AtpAgent } from '@atproto/api';
 
 export const oldXrpc = 'https://bsky.social/xrpc';
 export const newXrpc = 'https://bsky.network/xrpc';
-export const publicXrpc = 'https://public.api.bsky.app/xrpc';
+export const publicXrpc = 'https://api.bsky.app/xrpc';
 
 export const atClient = new AtpAgent({ service: oldXrpc });
 patchBskyAgent(atClient);

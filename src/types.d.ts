@@ -6,11 +6,11 @@ declare module 'punycode2/to-ascii' {
 }
 
 type AccountLabel = {
-  cts:string;//date added
-  src: string;//did
+  cts: string; //date added
+  src: string; //did
   uri: string;
-  val: string;//name of label
-}
+  val: string; //name of label
+};
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
@@ -96,15 +96,18 @@ interface FunFacts {
 }
 
 interface FunnerFacts {
-  blocked24: BlockList | null;
-  blockers24: BlockList | null;
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 type DashboardStats = {
   asof: string | null;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
-  topLists: FunFacts & FunnerFacts;
+  topLists: {
+    total: FunFacts;
+    '24h': FunerFacts;
+  };
 };
 
 type StatsEndpointResp<Data> =
@@ -119,16 +122,7 @@ interface BlockData {
   count: number;
 }
 
-/* old format, to be deleted after migration */
-interface LegacyBlockData {
-  did: string;
-  block_count: number;
-}
-
-type BlockList =
-  | Array<BlockData>
-  /* old format, to be deleted after migration*/
-  | Array<LegacyBlockData>;
+type BlockList = Array<BlockData>;
 
 interface DashboardBlockListEntry {
   count: number;
@@ -150,6 +144,8 @@ type AccountListEntry = {
   name: string;
   status: boolean;
   url: string;
+  spam: boolean | null;
+  source: string | null;
 };
 
 type PackList={

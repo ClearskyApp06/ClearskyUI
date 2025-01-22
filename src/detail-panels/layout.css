@@ -222,6 +222,8 @@
     grid-column: 1 / 2;
     grid-row: 3 / 4;
     border-left: none;
+    max-height: 80em;
+    overflow-y: scroll;
   }
 
   .account-tabs-handles {
