@@ -150,7 +150,7 @@ type AccountListEntry = {
 
 type PackList={
   data:{
-    starter_packs:Array<PackListEntry>;
+    starter_packs:Array< >;
     }
   identity:string;
   status:boolean;

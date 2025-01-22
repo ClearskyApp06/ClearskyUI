@@ -68,7 +68,7 @@ export  function usePacksPopulatedTotal(handleOrDID){
  * @param {string} shortHandle
  * @param {number} currentPage
  * @returns {Promise<{
-*    starter_packs: PackList[],
+*    starter_packs: Array<PackListEntry>,
 *    nextPage: number | null
 * }>}
 */
@@ -108,7 +108,7 @@ async function getPacksPopulatedTotal(shortHandle){
  * @param {string} shortHandle
  * @param {number} currentPage
  * @returns {Promise<{
-*    starter_packs: PackListEntry[],
+*    starter_packs: Array<PackListEntry>,
 *    nextPage: number | null
 * }>}
 */

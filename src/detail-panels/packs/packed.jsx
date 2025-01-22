@@ -80,7 +80,7 @@ export function Packed(){
 } 
 
 /**
- * @param {PackListEntry[]} listToFilter
+ * @param {Array<PackListEntry>} listToFilter
  * @param {string} search
  * @param {() => void} [redraw]
  */

@@ -26,6 +26,10 @@ a:hover{
     flex-direction: column;
     padding-bottom:3px;
     padding-top:2px;
+    height:auto;
+    padding-left: 1.7em;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .row{
