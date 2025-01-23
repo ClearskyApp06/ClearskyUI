@@ -60,3 +60,14 @@ a:hover{
     background-color: #0000000a;
     background-image: linear-gradient(to top, #00000024, transparent 1px), linear-gradient(to bottom, #0000000a, transparent 1px);
 }
+
+.pack-creator-avatar{
+    
+  background-size: cover;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+  text-align: center;
+}
+ 

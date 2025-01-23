@@ -1,7 +1,7 @@
 // @ts-check
 
 import React, { useState } from 'react';
-import {AccountShortEntry} from '../../common-components/account-short-entry';
+import {AccountShortEntry, getAvatarDelay} from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
  
 import {useResolveDidToProfile} from '../../api/resolve-handle-or-did';
@@ -41,12 +41,33 @@ export function PackView({packs, className=""}){
   function PackViewEntry({className="", entry}){ 
 
     const originator = useResolveDidToProfile(entry.did);
+    const account  = useAccountResolver();
+    const avatarDelay =  originator.data ? getAvatarDelay(originator.data) : "100s";  
+ 
     return(
       <li className={'pack-entry ' + (className || '')}>
       <div className='row'>
-      <img src={originator.data?.avatarUrl} className='account-short-entry-avatar'/>
+      
        <span className='pack-name'>
           <a href={entry.url??""} target='__blank'>
+          <span 
+          className='pack-creator-avatar'
+          style={
+            !originator.data?.avatarUrl
+              ? { background:'none', 
+                  color:'cornflowerblue',
+                  textAlign:'center', 
+                  transform:'scale(1.5)'}
+              : { 
+                  backgroundPosition:'center',
+                  color:'transparent',
+                  borderRadius:"200%",
+                  backgroundImage: `url(${originator.data?.avatarUrl})`,
+                  animationDelay: avatarDelay,
+                }
+          }
+        >ⓓ
+        </span>
           {entry.name}
           </a>
         </span>
