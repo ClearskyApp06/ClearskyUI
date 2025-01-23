@@ -49,27 +49,11 @@ export function PackView({packs, className=""}){
       <div className='row'>
       
        <span className='pack-name'>
-          <a href={entry.url??""} target='__blank'>
-          <span 
-          className='pack-creator-avatar'
-          style={
-            !originator.data?.avatarUrl
-              ? { background:'none', 
-                  color:'cornflowerblue',
-                  textAlign:'center', 
-                  transform:'scale(1.5)'}
-              : { 
-                  backgroundPosition:'center',
-                  color:'transparent',
-                  borderRadius:"200%",
-                  backgroundImage: `url(${originator.data?.avatarUrl})`,
-                  animationDelay: avatarDelay,
-                }
-          }
-        >ⓓ
-        </span>
-          {entry.name}
-          </a>
+        {originator.data?.avatarUrl 
+          ? (<a href={entry.url??""} target='__blank'><AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} /> </a>) 
+          :( 
+          <AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} />) 
+        }
         </span>
         <FormatTimestamp
           timestamp={entry.created_date ?? ""}
@@ -83,6 +67,37 @@ export function PackView({packs, className=""}){
         </span>
       </div>
     </li>
+    );
+  }
+/**
+   * @param {{
+   *  avatarUrl?: string,
+    *  name: string
+    * }} _
+*/
+  function  AvatarAndName ({ avatarUrl, name}){
+    return (
+      <>
+        <span 
+          className='pack-creator-avatar'
+          style={
+            !avatarUrl
+              ? { background:'none', 
+                  color:'cornflowerblue',
+                  textAlign:'center', 
+                  transform:'scale(1.5)'}
+              : { 
+                  backgroundPosition:'center',
+                  color:'transparent',
+                  borderRadius:"200%",
+                  backgroundImage: `url(${avatarUrl})`,
+                  animationDelay: '10s',
+                }
+          }
+        >ⓓ
+        </span>
+        {name}
+      </>
     );
   }
 
@@ -108,3 +123,5 @@ export function PackView({packs, className=""}){
     );
     */
 }
+
+ 
