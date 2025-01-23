@@ -1,15 +1,19 @@
 // @ts-check
 
-import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useResolveHandleOrDid } from '../../api';
-import { usePacksCreated, usePacksCreatedTotal, usePacksPopulated, usePacksPopulatedTotal } from '../../api/packs';
+import { useState } from 'react';
+
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material'; 
-import { localise, localiseNumberSuffix } from '../../localisation';
-import { SearchHeaderDebounced } from '../history/search-header';
-import { useAccountResolver } from '../account-resolver';  
+import { useSearchParams } from 'react-router-dom';
+
+import { usePacksCreated, usePacksCreatedTotal} from '../../api/packs';
 import { PackView } from './pack-view';
+
+import { resolveHandleOrDID } from '../../api';
+import { VisibleWithDelay } from '../../common-components/visible';
+import { localise, localiseNumberSuffix } from '../../localisation';
+import { useAccountResolver } from '../account-resolver';  
+import { SearchHeaderDebounced } from '../history/search-header';
 import './packs.css'
 
 export function Packs({created=false}){
@@ -18,15 +22,19 @@ export function Packs({created=false}){
 
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;   
-  const { data, fetchNextPage, hasNextPage, isLoading, isPending} = usePacksCreated(shortHandle);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching} = usePacksCreated(shortHandle);
   const { data: totalData, isLoading: isLoadingTotal } = usePacksCreatedTotal(shortHandle);
  
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = (searchParams.get('q') || '').trim();
   const [tick, setTick] = useState(0);
+  const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
    
   const packsTotal= totalData?.count;
+  const Packlist = data?.pages || [];
+  const allPacks = Packlist.flatMap((page)=>page.starter_packs);
+  const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
+
   if (isLoading ) {
     // show loading screen
       return (
@@ -37,50 +45,57 @@ export function Packs({created=false}){
           </div>
         </div>
       );
-    }else{
+    }
  
-      const Packlist = data?.pages || [];
- 
-      // @ts-ignore
-      const allPacks = Packlist.flatMap((page)=>page.starter_packs);
-      const filteredPacks = !search ? allPacks : matchSearch(allPacks,search,()=>{setTick(tick+1)});
-      const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);  
+    const shouldShowLoadMore = hasNextPage && (!search || filteredPacks.length > 0);  
 
-        return (
+    return (
+      <>
+        <div className='Packs Created'>
+          <div style={showSearch ? undefined : { display: 'none' }}>
+            <SearchHeaderDebounced
+              label={localise('Search', { })}
+              setQ />
+          </div>
+        </div>
+        <h3 className='lists-header'>
+        {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting packs...", {})}</span>}
+        {packsTotal ?
           <>
-            <div className='Packs Created'>
-              <div style={showSearch ? undefined : { display: 'none' }}>
-                <SearchHeaderDebounced
-                  label={localise('Search', { })}
-                  setQ />
-              </div>
-            </div>
-            <h3 className='lists-header'>
-            {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting packs...", {})}</span>}
+            { localise(
+              'Creator of  ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('pack', packsTotal) + ':',{
+                  // todo : add language map
+              })}
+            <span className='panel-toggles'>
+              {!showSearch &&
+                <Button
+                  size='small'
+                  className='panel-show-search'
+                  title={localise('Search', { uk: 'Пошук' })}
+                  onClick={() => setShowSearch(true)}><SearchIcon /></Button>
+              }
+            </span>
+          </> :
+          localise(NOPACK, {   })        
+        }
+      </h3>
+        
+      <PackView 
+      packs={allPacks} />
 
-            {packsTotal ?
-              <>
-                { 
-                  'Creator of  ' + packsTotal.toLocaleString() + ' ' + localiseNumberSuffix('pack', packsTotal) + ':'
-                   }
-                <span className='panel-toggles'>
-                  {!showSearch &&
-                    <Button
-                      size='small'
-                      className='panel-show-search'
-                      title={localise('Search', { uk: 'Пошук' })}
-                      onClick={() => setShowSearch(true)}><SearchIcon /></Button>
-                  }
-                </span>
-              </> :
-              localise(NOPACK, {   })
-            }
-          </h3>
-            
-          <PackView packs={allPacks} />
-        </>
-      );
-    } 
+      {shouldShowLoadMore && (
+              <VisibleWithDelay
+                delayMs={300}
+                onVisible={() => !isFetching && fetchNextPage()}
+              >
+                <p style={{ padding: '0.5em', opacity: '0.5' }}>
+                  <CircularProgress size="1em" /> Loading more...
+                </p>
+              </VisibleWithDelay>
+        )}
+    </>
+  );
+  
 } 
 
 /**
@@ -95,8 +110,7 @@ function matchSearch(listToFilter, search, redraw) {
     if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
 
-    useResolveHandleOrDid(entry.did);
-    redraw;
+    resolveHandleOrDID(entry.did).then(redraw); 
     return false;
   });
   return filtered;
