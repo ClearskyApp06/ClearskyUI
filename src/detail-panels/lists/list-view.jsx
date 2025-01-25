@@ -1,5 +1,6 @@
 // @ts-check
 
+import { CircularProgress } from '@mui/material';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
@@ -29,8 +30,8 @@ export function ListView({ className, list }) {
  * }} _
  */
 export function ListViewEntry({ className, entry, style }) {
-  const listcount = useListSize(entry?.url);
-  const count = listcount?.data?.count || '';
+  const { data: sizeData, isLoading } = useListSize(entry?.url);
+  const count = sizeData?.count || '';
 
   return (
     <li className={'lists-entry ' + (className || '')}>
@@ -52,7 +53,13 @@ export function ListViewEntry({ className, entry, style }) {
             {entry.name}
           </a>
         </span>
-        <span className="list-count">{count}</span>
+        <span className="list-count">
+          {isLoading ? (
+            <CircularProgress color="inherit" size="0.75em" />
+          ) : (
+            count
+          )}
+        </span>
       </div>
       {entry.description && (
         <div className="row">
