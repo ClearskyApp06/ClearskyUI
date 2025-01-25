@@ -1,7 +1,11 @@
 // @ts-check
-/// <reference path="../types.d.ts" />
 
 import { useQuery } from '@tanstack/react-query';
+import {
+  create as createBatchingFetch,
+  windowedFiniteBatchScheduler,
+} from '@yornaath/batshit';
+import toASCII from 'punycode2/to-ascii';
 import {
   distinguishDidFromHandle,
   shortenDID,
@@ -10,28 +14,27 @@ import {
   unwrapShortHandle,
 } from '.';
 import { atClient } from './core';
-import {
-  create as createBatchingFetch,
-  windowedFiniteBatchScheduler,
-} from '@yornaath/batshit';
 import { queryClient } from './query-client';
 
 /** @typedef {import('@tanstack/react-query').QueryClient} QueryClient */
 
 /**
  * @deprecated DO NOT USE THIS. Always prefer the hook version `useResolveHandleOrDid`
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export async function resolveHandleOrDID(handleOrDID) {
   let { handle, did } = distinguishDidFromHandle(handleOrDID);
   if (handle) {
-    const fullHandle = unwrapShortHandle(handle);
+    const fullHandle = toASCII(unwrapShortHandle(handle));
     did = await queryClient.fetchQuery({
       queryKey: queryKeyForHandle(fullHandle),
-      queryFn: () => resolveHandleToDid(fullHandle),
+      queryFn: ({ signal }) => resolveHandleToDid(fullHandle, signal),
     });
   }
-  did = unwrapShortDID(did);
+  did = unwrapShortDID(did) || null;
+  if (!did) {
+    return null;
+  }
   return queryClient.fetchQuery({
     queryKey: queryKeyForDid(did),
     queryFn: () => batchedDIDLookup.fetch(did),
@@ -40,7 +43,7 @@ export async function resolveHandleOrDID(handleOrDID) {
 
 /**
  *
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export function useResolveHandleOrDid(handleOrDID) {
   const { handle, did } = distinguishDidFromHandle(handleOrDID);
@@ -48,31 +51,30 @@ export function useResolveHandleOrDid(handleOrDID) {
   return useResolveDidToProfile(did || handleQuery.data);
 }
 
-const queryKeyForHandle = (/** @type {string} */ fullHandle) => [
-  'resolve-handle-to-did',
-  fullHandle,
-];
+const queryKeyForHandle = (
+  /** @type {string | undefined | null} */ fullHandle
+) => ['resolve-handle-to-did', fullHandle];
 /**
  *
- * @param {string} handle
+ * @param {string | undefined | null} handle
  * @returns the corresponding DID
  */
 function useResolveHandleToDid(handle) {
-  const fullHandle = unwrapShortHandle(handle);
+  const fullHandle = toASCII(unwrapShortHandle(handle ?? undefined) || '');
   return useQuery({
     enabled: !!fullHandle,
     queryKey: queryKeyForHandle(fullHandle),
-    queryFn: () => resolveHandleToDid(fullHandle),
+    queryFn: ({ signal }) => resolveHandleToDid(fullHandle, signal),
   });
 }
 
-const queryKeyForDid = (/** @type {string} */ fullDID) => [
+const queryKeyForDid = (/** @type {string | undefined | null} */ fullDID) => [
   'resolve-did-to-profile',
-  fullDID,
+  fullDID || '',
 ];
 /**
  *
- * @param {string} did
+ * @param {string | undefined | null} did
  * @returns the profile data for a given DID
  */
 function useResolveDidToProfile(did) {
@@ -80,37 +82,72 @@ function useResolveDidToProfile(did) {
   return useQuery({
     enabled: !!fullDID,
     queryKey: queryKeyForDid(fullDID),
-    queryFn: () => batchedDIDLookup.fetch(fullDID),
+    queryFn: () => {
+      if (!fullDID) return null;
+      return batchedDIDLookup.fetch(fullDID);
+    },
   });
 }
 
-async function resolveHandleToDid(/** @type {string} */ handle) {
+async function resolveHandleToDid(
+  /** @type {string} */ handle,
+  /** @type {AbortSignal} */ signal
+) {
+  const resolved = await resolveHandleFromBsky(handle, signal);
+  return resolved ?? resolveHandleFromDns(handle, signal);
+}
+
+async function resolveHandleFromBsky(
+  /** @type {string} */ handle,
+  /** @type {AbortSignal} */ signal
+) {
   try {
-    return await resolveHandleFromBsky(handle);
-  } catch {
-    return await resolveHandleFromDns(handle);
+    const resolved = await atClient.com.atproto.identity.resolveHandle(
+      {
+        handle: unwrapShortHandle(handle),
+      },
+      { signal }
+    );
+
+    if (!resolved.data.did) {
+      console.debug(new Error('Handle did not resolve from bsky: ' + handle));
+      return null;
+    }
+    return shortenDID(resolved.data.did);
+  } catch (e) {
+    console.debug('Unable to resolve handle from bsky', e);
+    return null;
   }
 }
 
-async function resolveHandleFromBsky(/** @type {string} */ handle) {
-  const resolved = await atClient.com.atproto.identity.resolveHandle({
-    handle: unwrapShortHandle(handle),
-  });
-
-  if (!resolved.data.did) throw new Error('Handle did not resolve: ' + handle);
-  return shortenDID(resolved.data.did);
+function isValidDomainHandle(/** @type {string} */ handle) {
+  if (handle.match(/^([\w]+\.)+\w\w+$/)) {
+    return true;
+  }
+  return false;
 }
 
-async function resolveHandleFromDns(/** @type {string} */ handle) {
+async function resolveHandleFromDns(
+  /** @type {string} */ handle,
+  /** @type {AbortSignal} */ signal
+) {
+  if (!isValidDomainHandle(handle)) {
+    return null;
+  }
   const dohClient = await import('iso-web/doh');
-  const resolved = await dohClient.resolve(`_atproto.${handle}`, 'TXT');
+  const resolved = await dohClient.resolve(`_atproto.${handle}`, 'TXT', {
+    signal,
+  });
 
   const record = resolved.result?.find((record) =>
     record.startsWith('did=did:')
   );
   if (record) {
     return shortenDID(record.replace(/^did=/, ''));
-  } else throw new Error('Handle did not resolve: ' + handle);
+  } else {
+    console.debug(new Error('Handle did not resolve via dns: ' + handle));
+    return null;
+  }
 }
 
 const batchedDIDLookup = createBatchingFetch({
@@ -126,12 +163,14 @@ const batchedDIDLookup = createBatchingFetch({
 });
 
 async function resolveDIDs(/** @type {string[]} */ dids) {
+  /** @type {string[]} */
+  // @ts-ignore
   const fullDIDs = dids.map(unwrapShortDID);
 
   /** @type {import("@atproto/api").AppBskyActorGetProfiles.OutputSchema} */
   const resp = await fetch(
     'https://public.api.bsky.app/xrpc/app.bsky.actor.getProfiles?actors=' +
-      fullDIDs.map(encodeURIComponent).join('&actors=')
+      fullDIDs.map((did) => encodeURIComponent(did)).join('&actors=')
   ).then((x) => x.json());
 
   // const describePromise = atClient.com.atproto.repo.describeRepo({
@@ -165,7 +204,7 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
     const displayName = profileRecord.displayName;
     const description = profileRecord.description;
     const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRecord);
-
+    const labels = profileRecord.labels || [];
     /** @type {AccountInfo} */
     const profileDetails = {
       shortDID,
@@ -175,6 +214,7 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
       displayName,
       description,
       obscurePublicRecords,
+      labels,
     };
 
     queryClient.setQueryData(queryKeyForDid(profileRecord.did), profileDetails);
@@ -188,6 +228,10 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
   return detailsArray;
 }
 
+/**
+ *
+ * @param {import('@atproto/api/dist/client/types/app/bsky/actor/defs').ProfileViewDetailed} profileRecord
+ */
 function detectObscurePublicRecordsFlag(profileRecord) {
   if (profileRecord?.labels?.length) {
     for (const label of profileRecord.labels) {

@@ -1,9 +1,8 @@
 // @ts-check
 
-import { useState, lazy } from 'react';
+import { lazy, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { unwrapShortHandle } from '../api';
 
 const BlockedByPanel = lazy(() => import('./blocked-by'));
 const BlockingPanel = lazy(() => import('./blocking'));
@@ -11,13 +10,13 @@ const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
 const BlockLists = lazy(() => import('./block-lists'));
 const BlockListSubs = lazy(() => import('./block-list-subs'));
+const LabeledPanel = lazy(() => import('./labeled'));
 
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
-import { useAccountResolver } from './account-resolver';
 
-import './layout.css';
 import { AccountExtraInfo } from './account-header';
+import './layout.css';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -26,6 +25,7 @@ export const accountTabs = /** @type {const} */ ([
   'block-lists', //(aka what block lists is this user on?
   'block-list-subs', //(aka what block lists is this user subscribed to?)
   'history',
+  'labeled',
 ]);
 
 export function AccountLayout() {
@@ -37,12 +37,10 @@ export function AccountLayout() {
 
   return (
     <AccountLayoutCore
+      // @ts-expect-error no guarantee that the url param is one of our known tabs
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
-        navigate(
-          `/${handle}/` + selectedTab,
-          { replace: true }
-        );
+        navigate(`/${handle}/` + selectedTab, { replace: true });
       }}
       onCloseClick={() => {
         navigate('/');
@@ -54,7 +52,7 @@ export function AccountLayout() {
 /**
  *
  * @param {{
- *   selectedTab: string,
+ *   selectedTab: import('./tab-selector').AnyTab,
  * onCloseClick: () => void,
  * onSetSelectedTab: (tab:string) => void,
  * }} param0
@@ -89,7 +87,7 @@ export function AccountLayoutCore({
           onTabSelected={(selectedTab) => onSetSelectedTab(selectedTab)}
         />
 
-        <div className="account-tabs-content">
+        <div key={selectedTab} className="account-tabs-content">
           {accountTabs.map((tab) => {
             if (tab === selectedTab)
               return (
@@ -130,6 +128,9 @@ function renderTabContent(tab) {
       return <BlockListSubs />;
     case 'history':
       return <HistoryPanel />;
+    case 'labeled':
+      return <LabeledPanel />;
+
 
     default:
       return (

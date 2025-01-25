@@ -10,7 +10,7 @@ import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
 
-export default function Home() {
+export function Home() {
   const [searchText, setSearchText] = React.useState('');
   const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();

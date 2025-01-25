@@ -1,6 +1,16 @@
 /// <reference types="@atproto/api" />
 /// <reference types="vite/client" />
 
+declare module 'punycode2/to-ascii' {
+  export default function toASCII(input: string): string;
+}
+
+type AccountLabel = {
+  cts: string; //date added
+  src: string; //did
+  uri: string;
+  val: string; //name of label
+};
 type AccountInfo = {
   shortDID: string;
   shortHandle: string;
@@ -9,6 +19,7 @@ type AccountInfo = {
   avatarUrl?: string;
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
+  labels: AccountLabel[];
 };
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {
@@ -80,20 +91,23 @@ interface BlockStats {
 }
 
 interface FunFacts {
-  blocked: BlockList;
-  blockers: BlockList;
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 interface FunnerFacts {
-  blocked24: BlockList;
-  blockers24: BlockList;
+  blocked: BlockList | null;
+  blockers: BlockList | null;
 }
 
 type DashboardStats = {
   asof: string | null;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
-  topLists: FunFacts & FunnerFacts;
+  topLists: {
+    total: FunFacts;
+    '24h': FunerFacts;
+  };
 };
 
 type StatsEndpointResp<Data> =
@@ -104,12 +118,11 @@ type StatsEndpointResp<Data> =
   | { timeLeft: string };
 
 interface BlockData {
+  did: string;
   count: number;
 }
 
-interface BlockList {
-  [did: string]: BlockData;
-}
+type BlockList = Array<BlockData>;
 
 interface DashboardBlockListEntry {
   count: number;
@@ -131,4 +144,6 @@ type AccountListEntry = {
   name: string;
   status: boolean;
   url: string;
+  spam: boolean | null;
+  source: string | null;
 };
