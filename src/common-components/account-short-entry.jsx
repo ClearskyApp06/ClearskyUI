@@ -153,7 +153,7 @@ const delayRandomBase = Math.random() * 400;
 /**
  * @param {AccountInfo} account
  */
-export function getAvatarDelay(account) {
+function getAvatarDelay(account) {
   const avatarUrl = account?.avatarUrl;
   if (!avatarUrl) return undefined;
   let delay = avatarDelays[avatarUrl];

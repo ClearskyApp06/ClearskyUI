@@ -1,19 +1,7 @@
 // @ts-check
-
-import React, { useState } from 'react';
-import {AccountShortEntry, getAvatarDelay} from '../../common-components/account-short-entry';
-import { FormatTimestamp } from '../../common-components/format-timestamp';
  
-import {useResolveDidToProfile} from '../../api/resolve-handle-or-did';
-import { useSearchParams } from 'react-router-dom';
-
-import SearchIcon from '@mui/icons-material/Search';
-import { Button, CircularProgress } from '@mui/material'; 
-
-
-import { localise, localiseNumberSuffix } from '../../localisation';
-import { SearchHeaderDebounced } from '../history/search-header';
-import { useAccountResolver } from '../account-resolver';
+import { FormatTimestamp } from '../../common-components/format-timestamp';
+import {useResolveDidToProfile} from '../../api/resolve-handle-or-did'; 
 import "./list-packs.css"
 
 /**
@@ -41,8 +29,6 @@ export function PackView({packs, className=""}){
   function PackViewEntry({className="", entry}){ 
 
     const originator = useResolveDidToProfile(entry.did);
-    const account  = useAccountResolver();
-    const avatarDelay =  originator.data ? getAvatarDelay(originator.data) : "100s";  
  
     return(
       <li className={'pack-entry ' + (className || '')}>
