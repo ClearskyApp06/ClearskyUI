@@ -65,8 +65,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
             : (event, newValue) => onTabSelected(accountTabs[newValue])
         }
       >
-        {accountTabs.map((tabKey) => 
-// @ts-ignore
+        {accountTabs.map((tabKey) =>  
         tabHandlers[tabKey])}
       </Tabs>
 
