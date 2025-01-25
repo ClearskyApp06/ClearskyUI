@@ -204,8 +204,7 @@ export class SearchAutoComplete extends Component {
           };
         }),
       });
-    } catch (err) {
-      console.log('resolving did/handle ', err);
+    } catch (err) { 
       this.setState({
         options: [
           {
