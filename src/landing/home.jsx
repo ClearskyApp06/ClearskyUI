@@ -25,8 +25,7 @@ export function Home() {
         onSearchTextChanged={(searchText) => {
           setSearchText(searchText);
         }}
-        onAccountSelected={(account) => {
-          console.log('Account selected ', account);
+        onAccountSelected={(account) => { 
           if (account.shortHandle) {
             if (account.postID)
               navigate(

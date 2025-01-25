@@ -21,7 +21,7 @@
 
 .tab-selector-root .MuiTab-root {
   min-width: 0;
-  padding: 2em 0.8em;
+  padding: 1em 0.4em;
   margin-bottom: 0.5em;
   background: linear-gradient(to right, #dfdfdf, #f3f3f3 0.4em);
   box-shadow: inset -1px 0px 1px #00000059;
