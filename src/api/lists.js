@@ -4,7 +4,7 @@ import { unwrapShortHandle } from '.';
 import { fetchClearskyApi, unwrapClearskyURL } from './core';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import throttle from 'lodash.throttle'
+import PQueue from 'p-queue';
 
 const PAGE_SIZE = 100;
 
@@ -45,7 +45,7 @@ export function useListSize(listUrl) {
   return useQuery({
     enabled: !!listUrl,
     queryKey: ['list-size', listUrl],
-    queryFn: () => throttledGetListSize(listUrl),
+    queryFn: () => getListSize(listUrl),
   });
 }
 
@@ -101,7 +101,9 @@ async function getListSize(listUrl) {
   const apiUrl = unwrapClearskyURL(
     `/api/v1/anon/get-list/specific/total/${encodeURIComponent(listUrl)}`
   );
-  const resp = await fetch(apiUrl);
+  const resp = await listSizeQueue.add(() => fetch(apiUrl), {
+    throwOnTimeout: true,
+  });
   if (resp.ok) {
     /** @type {{ data: { count: number }, list_uri: string }} */
     const respData = await resp.json();
@@ -113,4 +115,13 @@ async function getListSize(listUrl) {
   throw new Error('getListSize error: ' + resp.statusText);
 }
 
-const throttledGetListSize = throttle(getListSize,500)
+/**
+ * create a queue where only one request can be in flight at a time,
+ * and at most 1 may be sent in any 500 millisecond interval
+ */
+const listSizeQueue = new PQueue({
+  concurrency: 1,
+  intervalCap: 1,
+  interval: 500,
+  timeout: 500,
+});
