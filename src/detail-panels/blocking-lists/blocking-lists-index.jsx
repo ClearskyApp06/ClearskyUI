@@ -6,21 +6,21 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList, useListTotal } from '../../api/lists';
-import { ListView } from '../lists/list-view';
+import { useBlockingLists, useBlockingListsTotal } from '../../api/lists';
+import { BlockListsView } from '../../common-components/block-lists-view';
 
-import './lists.css';
+import './blocking-lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
 
-export function BlockListSubs() {
+export function BlockingLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useList(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useListTotal(shortHandle);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockingLists(shortHandle);
+  const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -29,7 +29,7 @@ export function BlockListSubs() {
 
   const listsTotal = totalData?.count;
   const listPages = data?.pages || [];
-  const allLists = listPages.flatMap((page) => page.lists);
+  const allLists = listPages.flatMap((page) => page.blocklist);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
 
   // Show loader for initial load
@@ -79,7 +79,7 @@ export function BlockListSubs() {
         }
       </h3>
 
-      <ListView
+      <BlockListsView
         list={filteredLists} />
 
       {shouldShowLoadMore && (
@@ -97,18 +97,16 @@ export function BlockListSubs() {
 }
 
 /**
- * @param {AccountListEntry[]} blocklist
+ * @param {BlockListEntry[]} blocklist
  * @param {string} search
  * @param {() => void} [redraw]
  */
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
   const filtered = blocklist.filter(entry => {
-    // if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
-    if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
-    if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
+    if ((entry.list_name || '').toLowerCase().includes(searchLowercase)) return true;
 
-    resolveHandleOrDID(entry.did).then(redraw);
+    resolveHandleOrDID(entry.list_owner).then(redraw);
     return false;
   });
   return filtered;

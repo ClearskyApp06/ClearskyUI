@@ -8,8 +8,8 @@ const BlockedByPanel = lazy(() => import('./blocked-by'));
 const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
-const BlockLists = lazy(() => import('./block-lists'));
-const BlockListSubs = lazy(() => import('./block-list-subs'));
+const BlockingLists = lazy(() => import('./blocking-lists'));
+const BlockedByLists = lazy(() => import('./blocked-by-lists'));
 const LabeledPanel = lazy(() => import('./labeled'));
 
 import { AccountHeader } from './account-header';
@@ -22,8 +22,8 @@ export const accountTabs = /** @type {const} */ ([
   'blocking',
   'blocked-by',
   'lists',
-  'block-lists', //(aka what block lists is this user on?
-  'block-list-subs', //(aka what block lists is this user subscribed to?)
+  'blocking-lists',
+  'blocked-by-lists',
   'history',
   'labeled',
 ]);
@@ -122,10 +122,10 @@ function renderTabContent(tab) {
       return <BlockingPanel />;
     case 'lists':
       return <Lists />;
-    case 'block-lists':
-      return <BlockLists />;
-    case 'block-list-subs':
-      return <BlockListSubs />;
+    case 'blocking-lists':
+      return <BlockingLists />;
+    case 'blocked-by-lists':
+      return <BlockedByLists />;
     case 'history':
       return <HistoryPanel />;
     case 'labeled':

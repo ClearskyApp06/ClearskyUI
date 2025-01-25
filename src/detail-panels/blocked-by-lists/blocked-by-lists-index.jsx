@@ -6,22 +6,21 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useBlockList, useBlockListTotal, useBlockListTest } from '../../api/lists';
-import { ListView } from '../lists/list-view';
+import { useBlockedByLists, useBlockedByListsTotal } from '../../api/lists';
+import { BlockListsView } from '../../common-components/block-lists-view';
 
-import './lists.css';
+import './blocked-by-lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
 
-export function BlockLists() {
+export function BlockedByLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockList(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useBlockListTotal(shortHandle);
-  // const { data: totalDataTest, isLoading: isLoadingTotalTest } = useBlockListTest(shortHandle);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockedByLists(shortHandle);
+  const { data: totalData, isLoading: isLoadingTotal } = useBlockedByListsTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -80,7 +79,7 @@ export function BlockLists() {
         }
       </h3>
 
-      <ListView
+      <BlockListsView
         list={filteredLists} />
 
       {shouldShowLoadMore && (
@@ -98,18 +97,16 @@ export function BlockLists() {
 }
 
 /**
- * @param {AccountListEntry[]} blocklist
+ * @param {BlockListEntry[]} blocklist
  * @param {string} search
  * @param {() => void} [redraw]
  */
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
   const filtered = blocklist.filter(entry => {
-    // if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
-    if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
-    if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
+    if ((entry.list_name || '').toLowerCase().includes(searchLowercase)) return true;
 
-    resolveHandleOrDID(entry.did).then(redraw);
+    resolveHandleOrDID(entry.list_owner).then(redraw);
     return false;
   });
   return filtered;

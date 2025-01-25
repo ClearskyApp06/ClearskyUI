@@ -147,3 +147,11 @@ type AccountListEntry = {
   spam: boolean | null;
   source: string | null;
 };
+
+type BlockListEntry = {
+  date_added: string;
+  list_name: string;
+  list_owner: string;
+  list_uri: string;
+  list_url: string;
+}
