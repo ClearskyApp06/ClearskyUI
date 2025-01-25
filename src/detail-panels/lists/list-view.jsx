@@ -31,7 +31,7 @@ export function ListView({ className, list }) {
  */
 export function ListViewEntry({ className, entry, style }) {
   const { data: sizeData, isLoading } = useListSize(entry?.url);
-  const count = sizeData?.count || '';
+  const count = sizeData?.count?.toLocaleString() || '';
 
   return (
     <li className={'lists-entry ' + (className || '')}>
