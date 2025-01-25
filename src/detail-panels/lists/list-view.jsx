@@ -8,6 +8,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 import './list-view.css';
+import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 
 /**
  * @param {{
@@ -63,9 +64,9 @@ function ListViewEntry({ className, entry }) {
       {/* <div className='row'  > */}
       <div>
         <span className='list-name'>
-          <a href={entry.url} target='__blank' style={{opacity}}>
+          <ConditionalAnchor target='__blank' style={{opacity}} href={entry.url} condition={entry}>
           {entry.name}
-          </a>
+          </ConditionalAnchor> 
           {entry.spam && (
             <ClickAwayListener onClickAway={handleTooltipClose}>
               <Tooltip 

@@ -8,6 +8,7 @@ import React from "react";
 *  condition: boolean,
 *  className?: string,
 *  children?:React.ReactNode,
+*  style?:CSSProperties
 * }} 
 */
 
