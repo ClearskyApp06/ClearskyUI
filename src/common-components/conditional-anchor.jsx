@@ -18,18 +18,21 @@ export function ConditionalAnchor(props){
         href,
         condition,
         className,
-        children} = props;
-    
+        children,
+        style,} = props;
+    console.log(condition)
     if (condition){
         return(
-            <a href={href} target={target} className={className}>
+            <a href={href} target={target} className={className} style={style}>
                 {children}
             </a>
         )
     }else{
-            <>
+        return(
+            <span >
                 {children}
-            </>
+            </span>
+        );
     }
 
 

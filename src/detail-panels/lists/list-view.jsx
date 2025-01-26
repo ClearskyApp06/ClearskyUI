@@ -9,6 +9,7 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 import './list-view.css';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
+import { useResolveHandleOrDid } from '../../api';
 
 /**
  * @param {{
@@ -47,7 +48,9 @@ function ListViewEntry({ className, entry }) {
   };
 
   const opacity = entry.spam? 0.4 : 1;
-
+  console.log('list-view', entry.name, entry.url, entry.status, entry);
+  const resolved = useResolveHandleOrDid(entry.did);
+  console.log(resolved);
   return (
     <li className={'lists-entry ' + (className || '')}>
       <div className='row' style={{opacity}}>
@@ -64,7 +67,8 @@ function ListViewEntry({ className, entry }) {
       {/* <div className='row'  > */}
       <div>
         <span className='list-name'>
-          <ConditionalAnchor target='__blank' style={{opacity}} href={entry.url} condition={entry}>
+          
+          <ConditionalAnchor target='__blank' style={{opacity}} href={entry.url} condition={(!resolved.isError  && resolved.data)}>
           {entry.name}
           </ConditionalAnchor> 
           {entry.spam && (
