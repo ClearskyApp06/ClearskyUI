@@ -27,7 +27,7 @@
     "ag-grid-react": "^31.0.3",
     "fuse.js": "^7.0.0",
     "iso-web": "^1.0.6",
-    "p-queue": "8.1.0",
+    "p-queue": "npm:@nmann/p-queue@^8.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0"

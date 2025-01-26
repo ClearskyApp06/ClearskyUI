@@ -1,13 +1,13 @@
 // @ts-check
 
-import { useState} from 'react';
+import { useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList, useListTotal } from '../../api/lists';
-import { ListView} from './list-view';
+import { useList, useListCount } from '../../api/lists';
+import { ListView } from './list-view';
 
 import './lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
@@ -22,7 +22,7 @@ export function Lists() {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useList(shortHandle);
   const { data: totalData, isLoading: isLoadingTotal } =
-    useListTotal(shortHandle);
+    useListCount(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);

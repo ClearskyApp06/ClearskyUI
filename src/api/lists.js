@@ -27,15 +27,17 @@ export function useList(handleOrDID) {
  * Look up the total number of lists to which a given handle/DID belongs
  * @param {string} handleOrDID
  */
-export function useListTotal(handleOrDID) {
+export function useListCount(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
     enabled: !!shortHandle,
     queryKey: ['list-total', shortHandle],
-    queryFn: () => getListTotal(shortHandle),
+    queryFn: () => getListCount(shortHandle),
   });
 }
+
+const TWELVE_HOURS = 1000 * 60 * 60 * 12;
 
 /**
  * Gets the size (length) of a given user list
@@ -45,7 +47,9 @@ export function useListSize(listUrl) {
   return useQuery({
     enabled: !!listUrl,
     queryKey: ['list-size', listUrl],
-    queryFn: () => getListSize(listUrl),
+    queryFn: ({ signal }) => getListSize(listUrl, signal),
+    staleTime: TWELVE_HOURS,
+    gcTime: TWELVE_HOURS,
   });
 }
 
@@ -85,7 +89,7 @@ async function getList(shortHandle, currentPage = 1) {
  * Gets the total number of lists to which a given handle belongs
  * @param {string} shortHandle
  */
-async function getListTotal(shortHandle) {
+async function getListCount(shortHandle) {
   const handleURL = 'get-list/total/' + unwrapShortHandle(shortHandle);
   /** @type {{ data: { count: number; pages: number } }} */
   const re = await fetchClearskyApi('v1', handleURL);
@@ -95,13 +99,16 @@ async function getListTotal(shortHandle) {
 /**
  * Gets the size (length) of a given user list
  * @param {string} listUrl
+ * @param {AbortSignal} signal
  * @returns {Promise<{ count: number } | null>} null if response is a 400/404
  */
-async function getListSize(listUrl) {
+async function getListSize(listUrl, signal) {
   const apiUrl = unwrapClearskyURL(
     `/api/v1/anon/get-list/specific/total/${encodeURIComponent(listUrl)}`
   );
-  const resp = await listSizeQueue.add(() => fetch(apiUrl), {
+  signal.throwIfAborted;
+  const resp = await listSizeQueue.add(() => fetch(apiUrl, { signal }), {
+    signal,
     throwOnTimeout: true,
   });
   if (resp.ok) {
@@ -117,11 +124,11 @@ async function getListSize(listUrl) {
 
 /**
  * create a queue where only one request can be in flight at a time,
- * and at most 1 may be sent in any 500 millisecond interval
+ * and at most 1 may be sent in any 250 millisecond interval
  */
 const listSizeQueue = new PQueue({
   concurrency: 1,
   intervalCap: 1,
-  interval: 500,
+  interval: 200,
   timeout: 500,
 });
