@@ -37,7 +37,7 @@ export function BlockingLists() {
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
         <div style={{ marginTop: '0.5em' }}>
-          {'Loading lists...'}
+          {'Loading blocking lists...'}
         </div>
       </div>
     );
