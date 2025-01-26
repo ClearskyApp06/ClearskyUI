@@ -3,6 +3,7 @@
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import {useResolveDidToProfile} from '../../api/resolve-handle-or-did'; 
 import "./list-packs.css"
+import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 
 /**
  * @param {{
@@ -35,11 +36,12 @@ export function PackView({packs, className=""}){
       <div className='row'>
       
        <span className='pack-name'>
-        {originator.data?.avatarUrl 
-          ? (<a href={entry.url??""} target='__blank'><AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} /> </a>) 
-          :( 
-          <AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} />) 
-        }
+        <ConditionalAnchor 
+          condition={(originator.data?.avatarUrl)}
+          href={entry.url??""} 
+          target='__blank'>
+          <AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} />
+        </ConditionalAnchor>
         </span>
         <FormatTimestamp
           timestamp={entry.created_date ?? ""}
