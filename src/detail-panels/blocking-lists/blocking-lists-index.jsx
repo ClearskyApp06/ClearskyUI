@@ -32,7 +32,7 @@ export function BlockingLists() {
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
 
   // Show loader for initial load
-  if (isLoading || !listTotalBlocks) {
+  if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
