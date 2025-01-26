@@ -41,7 +41,7 @@ export default function BlockListSubscribersPanel({blockListEntry}) {
       blockListEntry={blockListEntry}
       header={({ blockListName, count }) => (
         <>
-          {`${blockListName} has ${count} subscribers`}
+          {`${blockListName} has ${Intl.NumberFormat().format(count)} subscribers`}
         </>
       )}
       onCloseClick={(handle) => (

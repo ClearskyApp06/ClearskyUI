@@ -59,7 +59,7 @@ export function BlockedByLists() {
         {(isLoadingTotal && !listsTotal) && <span style={{ opacity: 0.5 }}>{"Counting block lists..."}</span>}
         {listsTotal ?
           <>
-            {`Blocked by ${listsTotal} total users in lists`}
+            {`Blocked by ${Intl.NumberFormat().format(listsTotal)} total users in lists`}
             <span className='panel-toggles'>
               {!showSearch &&
                 <Button
