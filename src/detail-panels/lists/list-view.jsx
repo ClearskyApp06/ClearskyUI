@@ -5,6 +5,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
 import './list-view.css';
+import { ProgressiveRender } from '../../common-components/progressive-render';
 
 /**
  * @param {{
@@ -15,9 +16,10 @@ import './list-view.css';
 export function ListView({ className, list }) {
   return (
     <ul className={'lists-as-list-view ' + (className || '')}>
-      {(list || []).map((entry, i) => (
-        <ListViewEntry key={i} entry={entry} style={{}} />
-      ))}
+      <ProgressiveRender
+        items={list || []}
+        renderItem={(entry) => <ListViewEntry entry={entry} />}
+      />
     </ul>
   );
 }
@@ -25,11 +27,10 @@ export function ListView({ className, list }) {
 /**
  * @param {{
  *  className?: string,
- *  entry: AccountListEntry,
- * style:any
+ *  entry: AccountListEntry
  * }} _
  */
-export function ListViewEntry({ className, entry, style }) {
+export function ListViewEntry({ className, entry }) {
   const { data: sizeData, isLoading } = useListSize(entry?.url);
   const count = sizeData?.count?.toLocaleString() || '';
 
