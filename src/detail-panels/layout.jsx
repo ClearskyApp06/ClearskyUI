@@ -9,12 +9,14 @@ const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
 const LabeledPanel = lazy(() => import('./labeled'));
+const Packs = lazy(()=>import('./packs') );
 
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
 
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
+import { Packed } from './packs/packed';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -22,6 +24,8 @@ export const accountTabs = /** @type {const} */ ([
   'lists',
   'history',
   'labeled',
+  'packs',
+  'packed',
 ]);
 
 export function AccountLayout() {
@@ -110,7 +114,7 @@ export function AccountLayoutCore({
  * @param {string} tab
  * @returns
  */
-function renderTabContent(tab) {
+function renderTabContent(tab) { 
   switch (tab) {
     case 'blocked-by':
       return <BlockedByPanel />;
@@ -122,24 +126,15 @@ function renderTabContent(tab) {
       return <HistoryPanel />;
     case 'labeled':
       return <LabeledPanel />;
-
+    case 'packs':
+      return <Packs/>;
+    case 'packed':
+      return <Packed/>;
 
     default:
       return (
         <>
-          <button>123</button>
-          <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid
+          {tab}
         </>
       );
   }

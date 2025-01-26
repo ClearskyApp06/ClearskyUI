@@ -147,3 +147,20 @@ type AccountListEntry = {
   spam: boolean | null;
   source: string | null;
 };
+
+type PackList={
+  data:{
+    starter_packs:Array<PackListEntry>;
+    }
+  identity:string;
+  status:boolean;
+};
+
+ 
+type PackListEntry ={
+  created_date:string;
+  description:string;
+  did:string;
+  name:string;
+  url:string;
+};
