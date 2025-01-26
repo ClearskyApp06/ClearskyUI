@@ -11,7 +11,6 @@ import { BlockListsView } from '../../common-components/block-lists-view';
 
 import './blocked-by-lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
-import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
@@ -38,7 +37,7 @@ export function BlockedByLists() {
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
         <div style={{ marginTop: '0.5em' }}>
-          {localise('Loading lists...', { uk: 'Завантаження списків...' })}
+          {'Loading lists...'}
         </div>
       </div>
     );
@@ -51,13 +50,13 @@ export function BlockedByLists() {
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
-            label={localise('Search', { uk: 'Пошук' })}
+            label='Search'
             setQ />
         </div>
       </div>
 
       <h3 className='lists-header'>
-        {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
+        {(isLoadingTotal && !listsTotal) && <span style={{ opacity: 0.5 }}>{"Counting block lists..."}</span>}
         {listsTotal ?
           <>
             {`Blocked by ${listsTotal} total users in lists`}
@@ -66,12 +65,12 @@ export function BlockedByLists() {
                 <Button
                   size='small'
                   className='panel-show-search'
-                  title={localise('Search', { uk: 'Пошук' })}
+                  title='Search'
                   onClick={() => setShowSearch(true)}><SearchIcon /></Button>
               }
             </span>
-          </> :
-          'Not blocked by any users in lists'
+          </> : 
+          isLoadingTotal ? null : 'Not blocked by any users in lists'
         }
       </h3>
 

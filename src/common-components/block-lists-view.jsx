@@ -61,10 +61,10 @@ function BlockListsViewEntry({ className, entry, handle }) {
           </a>
         </span>
       </div>
-      <div className='list-followers'>
+      {handle && <div className='list-followers'>
         <span> - </span>
         <span className='list-followers-text' onClick={handleClick}>view subscribers</span>
-      </div>
+      </div>}
       {entry.description && <div className='row'>
         <span className='list-description'>
           {' ' + entry.description}

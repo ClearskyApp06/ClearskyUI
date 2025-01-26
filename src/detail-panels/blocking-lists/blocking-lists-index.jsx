@@ -11,7 +11,6 @@ import { BlockListsView } from '../../common-components/block-lists-view';
 
 import './blocking-lists.css';
 import { SearchHeaderDebounced } from '../history/search-header';
-import { localise, localiseNumberSuffix } from '../../localisation';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
@@ -33,12 +32,12 @@ export function BlockingLists() {
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
 
   // Show loader for initial load
-  if (isLoading) {
+  if (isLoading || !listTotalBlocks) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
         <div style={{ marginTop: '0.5em' }}>
-          {localise('Loading lists...', { uk: 'Завантаження списків...' })}
+          {'Loading lists...'}
         </div>
       </div>
     );
@@ -51,13 +50,13 @@ export function BlockingLists() {
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
-            label={localise('Search', { uk: 'Пошук' })}
+            label='Search'
             setQ />
         </div>
       </div>
 
       <h3 className='lists-header'>
-        {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
+        {(isLoadingTotal && !listTotalBlocks) && <span style={{ opacity: 0.5 }}>{"Counting lists..."}</span>}
         {listTotalBlocks ?
           <>
             {`Blocking ${listTotalBlocks} total users in lists`}
@@ -66,12 +65,12 @@ export function BlockingLists() {
                 <Button
                   size='small'
                   className='panel-show-search'
-                  title={localise('Search', { uk: 'Пошук' })}
+                  title='Search'
                   onClick={() => setShowSearch(true)}><SearchIcon /></Button>
               }
             </span>
-          </> :
-          'Not blocking any users in lists'
+          </> : 
+          isLoadingTotal ? null : 'Not blocking any users in lists'
         }
       </h3>
 
