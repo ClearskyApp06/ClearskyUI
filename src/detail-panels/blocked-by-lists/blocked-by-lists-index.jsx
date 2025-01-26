@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useBlockedByLists, useBlockedByListsTotal } from '../../api/lists';
+import { useBlockedByLists, useBlockedByListsTotal } from '../../api/blocklist';
 import { BlockListsView } from '../../common-components/block-lists-view';
 
 import './blocked-by-lists.css';
@@ -60,11 +60,7 @@ export function BlockedByLists() {
         {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
         {listsTotal ?
           <>
-            {localise(
-              'Member of ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', listsTotal) + ':',
-              {
-                uk: 'Входить до ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('списку', listsTotal) + ':'
-              })}
+            {`Blocked by ${listsTotal} total users in lists`}
             <span className='panel-toggles'>
               {!showSearch &&
                 <Button
@@ -75,12 +71,13 @@ export function BlockedByLists() {
               }
             </span>
           </> :
-          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
+          'Not blocked by any users in lists'
         }
       </h3>
 
       <BlockListsView
-        list={filteredLists} />
+        list={filteredLists}
+        handle={shortHandle} />
 
       {shouldShowLoadMore && (
         <VisibleWithDelay

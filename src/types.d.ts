@@ -154,6 +154,7 @@ type BlockListEntry = {
   list_owner: string;
   list_uri: string;
   list_url: string;
+  description: string;
 };
 
 type PackList={
@@ -171,4 +172,9 @@ type PackListEntry ={
   did:string;
   name:string;
   url:string;
+};
+
+type BlockListSubscriberEntry = {
+  date_added: string;
+  did: string;
 };

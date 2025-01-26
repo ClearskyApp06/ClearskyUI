@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useBlockingLists, useBlockingListsTotal } from '../../api/lists';
+import { useBlockingLists, useBlockingListsTotal } from '../../api/blocklist';
 import { BlockListsView } from '../../common-components/block-lists-view';
 
 import './blocking-lists.css';
@@ -27,7 +27,7 @@ export function BlockingLists() {
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
 
-  const listsTotal = totalData?.count;
+  const listTotalBlocks = totalData?.count;
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.blocklist);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
@@ -58,13 +58,9 @@ export function BlockingLists() {
 
       <h3 className='lists-header'>
         {isLoadingTotal && <span style={{ opacity: 0.5 }}>{localise("Counting lists...", {})}</span>}
-        {listsTotal ?
+        {listTotalBlocks ?
           <>
-            {localise(
-              'Member of ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('list', listsTotal) + ':',
-              {
-                uk: 'Входить до ' + listsTotal.toLocaleString() + ' ' + localiseNumberSuffix('списку', listsTotal) + ':'
-              })}
+            {`Blocking ${listTotalBlocks} total users in lists`}
             <span className='panel-toggles'>
               {!showSearch &&
                 <Button
@@ -75,7 +71,7 @@ export function BlockingLists() {
               }
             </span>
           </> :
-          localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })
+          'Not blocking any users in lists'
         }
       </h3>
 

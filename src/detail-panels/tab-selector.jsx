@@ -26,11 +26,6 @@ export function TabSelector({ className, tab, onTabSelected }) {
         Blocking
       </VerticalTab>
     ),
-    lists: (
-      <VerticalTab key="lists" className="tab-lists">
-        Lists
-      </VerticalTab>
-    ),
     'blocking-lists': (
       <VerticalTab key='blocking-lists' className='tab-blocking-lists'>
         Blocking Lists
@@ -39,6 +34,11 @@ export function TabSelector({ className, tab, onTabSelected }) {
     'blocked-by-lists': (
       <VerticalTab key='blocked-by-lists' className='tab-blocked-by-lists'>
         Blocked By Lists
+      </VerticalTab>
+    ),
+    lists: (
+      <VerticalTab key="lists" className="tab-lists">
+        Lists
       </VerticalTab>
     ),
     history: (
