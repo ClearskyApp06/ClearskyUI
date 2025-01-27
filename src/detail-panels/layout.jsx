@@ -80,7 +80,7 @@ export function AccountLayoutCore({
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
         />
-        <div>
+        <div className='detail-container'>
         <TabSelector
           className="account-tabs-handles"
           tab={selectedTab}

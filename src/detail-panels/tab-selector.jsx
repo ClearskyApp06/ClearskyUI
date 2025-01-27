@@ -17,49 +17,40 @@ export function TabSelector({ className, tab, onTabSelected }) {
  
   const tabHandlers = {
     'blocked-by': (
-      <VerticalTab key="blocked-by" className="tab-blocked-by">
-        {localise('Blocked By', { uk: 'Блокують' })}
-      </VerticalTab>
+      <Tab key="blocked-by" label={localise('Blocked By', { uk: 'Блокують' })} aria-label='blocked by'/>
     ),
     blocking: (
-      <VerticalTab key="blocking" className="tab-blocking">
-        {localise('Blocking', { uk: 'Блокує' })}
-      </VerticalTab>
+      <Tab key="blocking" label={localise('Blocking', { uk: 'Блокує' })} aria-label='blocking'/>
     ),
     lists: (
-      <VerticalTab key="lists" className="tab-lists">
-        {localise('Lists', { uk: 'У списках' })}
-      </VerticalTab>
+      <Tab key="lists" label={localise('Lists', { uk:'У списках' })} aria-label='lists'/>
     ),
     history: (
-      <VerticalTab key="history" className="tab-history">
-        {localise('History', { uk: 'Історія' })}
-      </VerticalTab>
+      <Tab key="history" label={localise('History', { uk: 'Історія' })} aria-label='history'/>
     ),
     labeled: (
-      <VerticalTab key="labeled" className="tab-labeled">
-        Labels
-      </VerticalTab>
+      <Tab key="labeled" label={localise('Lists', {  })} aria-label='labelled'/>
     ),
     packs:(
-    <VerticalTab key='packsCreated' className='tab-packsCreated'>
-      {localise('Packs made', { })}
-    </VerticalTab>
+    <Tab key='packsCreated' label={localise('Packs made', { })} aria-label='Packs made'/>
     ),
     packed:(
-    <VerticalTab key='packsPopulated' className='tab-packsPopulated'>
-      {localise('In Packs', {  })}
-    </VerticalTab>
+    <Tab key='packsPopulated' label={localise('In Packs', {  })} aria-label='Packs Inhabited'/>
     ),
-  };
+    };
 
   return (
     <div className={'tab-outer-container ' + (className || '')}>
       <Tabs
+        TabIndicatorProps={{
+          style: { display: 'none' }
+        }}
         className={'tab-selector-root selected-tab-' + tab}
         orientation="horizontal"
         variant='scrollable'
+        tabSelector='none'
         scrollButtons='auto'
+        style={{border:'none'}}
         value={accountTabs.indexOf(tab)}
         onChange={
           typeof onTabSelected !== 'function'
@@ -73,15 +64,5 @@ export function TabSelector({ className, tab, onTabSelected }) {
 
       <div className="bluethernal-llc-watermark">Bluethernal LLC</div>
     </div>
-  );
-}
-
-/** @param {Omit<import('@emotion/react').PropsOf<Tab>, "children"> & { children: React.ReactNode }} param0 */
-function VerticalTab({ children, ...rest }) {
-  return (
-    <Tab
-      label={<div style={{ writingMode: 'horizontal-rl' }}>{children}</div>}
-      {...rest}
-    />
   );
 }
