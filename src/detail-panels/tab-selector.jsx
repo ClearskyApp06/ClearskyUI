@@ -1,5 +1,3 @@
-// @ts-check
-
 import React from 'react';
 import { Tab, tabClasses, Tabs } from '@mui/material';
 import { accountTabs } from './layout';
