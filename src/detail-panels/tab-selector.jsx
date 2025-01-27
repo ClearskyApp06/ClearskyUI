@@ -45,8 +45,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
         }}
         className={'tab-selector-root selected-tab-' + tab}
         orientation="horizontal"
-        variant='scrollable'
-        tabSelector='none'
+        variant='scrollable' 
         scrollButtons='auto'
         style={{border:'none'}}
         value={accountTabs.indexOf(tab)}

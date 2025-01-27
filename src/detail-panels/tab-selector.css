@@ -27,11 +27,7 @@
   color:white;
 }
 
-@media (max-width: 800px) {
-  .tab-selector-root {
-    top: 7.5em;
-  }
-}
+
 
 .tab-selector-root .MuiTab-root {
   min-width: 0;
@@ -43,4 +39,10 @@
 }
 .tab-selector-root .MuiTab-root.Mui-selected {
   color: black;
+}
+
+@media (max-width: 800px) {
+  .tab-selector-root {
+    top: 7.5em;
+  }
 }
