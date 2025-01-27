@@ -57,7 +57,9 @@ export function TabSelector({ className, tab, onTabSelected }) {
     <div className={'tab-outer-container ' + (className || '')}>
       <Tabs
         className={'tab-selector-root selected-tab-' + tab}
-        orientation="vertical"
+        orientation="horizontal"
+        variant='scrollable'
+        scrollButtons='auto'
         value={accountTabs.indexOf(tab)}
         onChange={
           typeof onTabSelected !== 'function'
@@ -78,7 +80,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
 function VerticalTab({ children, ...rest }) {
   return (
     <Tab
-      label={<div style={{ writingMode: 'vertical-rl' }}>{children}</div>}
+      label={<div style={{ writingMode: 'horizontal-rl' }}>{children}</div>}
       {...rest}
     />
   );
