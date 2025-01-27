@@ -27,7 +27,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
       <Tab key="history" label={localise('History', { uk: 'Історія' })} aria-label='history'/>
     ),
     labeled: (
-      <Tab key="labeled" label={localise('Lists', {  })} aria-label='labelled'/>
+      <Tab key="labeled" label={localise('Labels', {  })} aria-label='labelled'/>
     ),
     packs:(
     <Tab key='packsCreated' label={localise('Packs made', { })} aria-label='Packs made'/>

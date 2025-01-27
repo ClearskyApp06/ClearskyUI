@@ -36,7 +36,8 @@ a:hover{
     padding-bottom:3px;
     padding-top:2px;
     height:auto;
-    padding-left: 1.7em;
+    margin-left:0px;
+    width: 98%;
     white-space: normal;
     word-wrap: break-word;
 }
