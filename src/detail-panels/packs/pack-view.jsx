@@ -37,7 +37,7 @@ export function PackView({packs, className=""}){
       
        <span className='pack-name'>
         <ConditionalAnchor 
-          condition={(originator.data?.avatarUrl)}
+          condition={(!originator.isError && originator.data)}
           href={entry.url??""} 
           target='__blank'>
           <AvatarAndName name={entry.name} avatarUrl={originator.data?.avatarUrl} />
