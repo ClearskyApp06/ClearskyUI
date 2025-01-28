@@ -8,6 +8,8 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 import './list-view.css';
+import { ConditionalAnchor } from '../../common-components/conditional-anchor';
+import { useResolveHandleOrDid } from '../../api';
 
 /**
  * @param {{
@@ -46,7 +48,9 @@ function ListViewEntry({ className, entry }) {
   };
 
   const opacity = entry.spam? 0.4 : 1;
-
+  console.log('list-view', entry.name, entry.url, entry.status, entry);
+  const resolved = useResolveHandleOrDid(entry.did);
+  console.log(resolved);
   return (
     <li className={'lists-entry ' + (className || '')}>
       <div className='row' style={{opacity}}>
@@ -63,9 +67,10 @@ function ListViewEntry({ className, entry }) {
       {/* <div className='row'  > */}
       <div>
         <span className='list-name'>
-          <a href={entry.url} target='__blank' style={{opacity}}>
+          
+          <ConditionalAnchor target='__blank' style={{opacity}} href={entry.url} condition={(!resolved.isError  && resolved.data)}>
           {entry.name}
-          </a>
+          </ConditionalAnchor> 
           {entry.spam && (
             <ClickAwayListener onClickAway={handleTooltipClose}>
               <Tooltip 
