@@ -42,12 +42,13 @@ export function TabSelector({ className, tab, onTabSelected }) {
       <Tabs
         TabIndicatorProps={{
           style: { display: 'none' }
-        }}
+        }} 
         className={'tab-selector-root selected-tab-' + tab}
         orientation="horizontal"
         variant='scrollable' 
-        scrollButtons='auto'
-        style={{border:'none'}}
+        scrollButtons={true} 
+        allowScrollButtonsMobile={true}
+        style={{border:'none', margin:0, padding:0}}
         value={accountTabs.indexOf(tab)}
         onChange={
           typeof onTabSelected !== 'function'
