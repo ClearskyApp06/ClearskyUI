@@ -17,13 +17,20 @@
 
 .MuiTabs-flexContainer{
   background:none;
+  height:40px;
 }
 .MuiTab-root {
   background:none;
 }
+.account-tabs-handles .MuiTab-root{
+ opacity:.8;
+  color:#d0d0d0;
+  
 
+}
 .account-tabs-handles .MuiTab-root.Mui-selected{
- 
+  opacity:1;
+  font-weight:600;
   color:white;
 }
 
@@ -45,4 +52,19 @@
   .tab-selector-root {
     top: 7.5em;
   }
+}
+
+button.MuiButtonBase-root {
+  position: relative;
+  top: -10px;
+  height: 25px; 
+}
+
+.MuiButtonBase-root {
+  height: 24px;
+}
+
+.tab-outer-container.account-tabs-handles { 
+  height: 36px;
+  margin-top:5px;
 }
