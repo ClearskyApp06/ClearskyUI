@@ -53,7 +53,10 @@
     top: 7.5em;
   }
 }
-
+.MuiButtonBase-root svg {
+position: relative ;
+top: 6px ; 
+}
 button.MuiButtonBase-root {
   position: relative;
   top: -10px;
