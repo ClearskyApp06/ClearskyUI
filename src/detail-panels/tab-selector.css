@@ -70,4 +70,8 @@ button.MuiButtonBase-root {
 .tab-outer-container.account-tabs-handles { 
   height: 36px;
   margin-top:5px;
+  overflow: hidden;
+  border: solid 1px white;
+  margin-bottom: 2px;
+}
 }
