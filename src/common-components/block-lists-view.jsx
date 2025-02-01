@@ -5,6 +5,8 @@ import { FormatTimestamp } from './format-timestamp';
 
 import './block-lists-view.css';
 import { useNavigate, useParams } from 'react-router-dom'
+import { ConditionalAnchor } from './conditional-anchor';
+import { useResolveHandleOrDid } from '../api';
 
 /**
  * @param {{
@@ -34,6 +36,7 @@ export function BlockListsView({ className, list, handle }) {
  * }} _
  */
 function BlockListsViewEntry({ className, entry, handle }) {
+  const resolved = useResolveHandleOrDid(entry.list_owner);
   const navigate = useNavigate();
   const { tab } = useParams();
 
@@ -56,9 +59,9 @@ function BlockListsViewEntry({ className, entry, handle }) {
       {/* <div className='row'  > */}
       <div className='list-name'>
         <span className='list-name-text'>
-          <a href={entry.list_url} target='__blank'>
-          {entry.list_name}
-          </a>
+          <ConditionalAnchor target='__blank' style={{opacity: 1}} href={entry.list_url} condition={(!resolved.isError  && resolved.data)}>
+            {entry.list_name}
+          </ConditionalAnchor>
         </span>
       </div>
       {handle && <div className='list-followers'>
