@@ -11,6 +11,13 @@
   .layout{
     flex-direction:column;
   }
+
+  
+}
+@media (min-width:801px){
+  .layout .account-info{
+    max-width:500px;
+  }
 }
 
 .account-title { 
