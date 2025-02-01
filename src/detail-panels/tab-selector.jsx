@@ -18,22 +18,32 @@ export function TabSelector({ className, tab, onTabSelected }) {
   const tabHandlers = {
     'blocked-by': (
       <VerticalTab key="blocked-by" className="tab-blocked-by">
-        {localise('Blocked By', { uk: 'Блокують' })}
+        Blocked By
       </VerticalTab>
     ),
     blocking: (
       <VerticalTab key="blocking" className="tab-blocking">
-        {localise('Blocking', { uk: 'Блокує' })}
+        Blocking
+      </VerticalTab>
+    ),
+    'blocking-lists': (
+      <VerticalTab key='blocking-lists' className='tab-blocking-lists'>
+        Blocking Lists
+      </VerticalTab>
+    ),
+    'blocked-by-lists': (
+      <VerticalTab key='blocked-by-lists' className='tab-blocked-by-lists'>
+        Blocked By Lists
       </VerticalTab>
     ),
     lists: (
       <VerticalTab key="lists" className="tab-lists">
-        {localise('Lists', { uk: 'У списках' })}
+        Lists
       </VerticalTab>
     ),
     history: (
       <VerticalTab key="history" className="tab-history">
-        {localise('History', { uk: 'Історія' })}
+        History
       </VerticalTab>
     ),
     labeled: (

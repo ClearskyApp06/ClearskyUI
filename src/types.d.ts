@@ -148,6 +148,15 @@ type AccountListEntry = {
   source: string | null;
 };
 
+type BlockListEntry = {
+  date_added: string;
+  list_name: string;
+  list_owner: string;
+  list_uri: string;
+  list_url: string;
+  description: string;
+};
+
 type PackList={
   data:{
     starter_packs:Array<PackListEntry>;
@@ -163,4 +172,9 @@ type PackListEntry ={
   did:string;
   name:string;
   url:string;
+};
+
+type BlockListSubscriberEntry = {
+  date_added: string;
+  did: string;
 };

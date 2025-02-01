@@ -78,43 +78,130 @@
   color: black;
 }
 
+/* tab-blocked-by */
 .account-tabs-handles .MuiTab-root.tab-blocked-by {
-  background: linear-gradient(to right, #f7c9c1, #fde4e0 0.4em);
+  background: linear-gradient(to right, #FDEAE4, #FEE8E0 0.4em);
 }
 
 .account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected {
-  background: linear-gradient(to right, #ffccc4, #f4b6ac 0.6em);
-  color: #a02d19;
+  background: linear-gradient(to right, #FFD7D0, #FDC0B8 0.6em);
+  color: #C95443; 
 }
 
 .account-tabs-handles.selected-tab-blocked-by .MuiTabs-indicator {
-  background-color: #a02d19;
+  background-color: #C95443;
 }
 
+/* tab-blocking */
 .account-tabs-handles .MuiTab-root.tab-blocking {
-  background: linear-gradient(to right, #efe5b2, #fff7d1 0.6em);
+  background: linear-gradient(to right, #FFF4D9, #FFFFE8 0.6em);
 }
 
 .account-tabs-handles .MuiTab-root.tab-blocking.Mui-selected {
-  background: linear-gradient(to right, #fff2af, #ffea81 0.6em);
-  color: #a26900;
+  background: linear-gradient(to right, #FFFFCB, #FFFDB8 0.6em);
+  color: #C49B36; 
 }
 
 .account-tabs-handles.selected-tab-blocking .MuiTabs-indicator {
-  background-color: #b87700;
+  background-color: #C49B36;
 }
 
+/* tab-blocking-lists */
+.account-tabs-handles .MuiTab-root.tab-blocking-lists {
+  background: linear-gradient(to right, #E8F5FF, #D0E5FF 0.6em); 
+}
+
+.account-tabs-handles .MuiTab-root.tab-blocking-lists.Mui-selected {
+  background: linear-gradient(to right, #D0E5FF, #A8C8FF 0.6em); 
+  color: #3A6DB7; 
+}
+
+.account-tabs-handles.selected-tab-blocking-lists .MuiTabs-indicator {
+  background-color: #3A6DB7;
+}
+
+/* tab-blocked-by-lists */
+.account-tabs-handles .MuiTab-root.tab-blocked-by-lists {
+  background: linear-gradient(to right, #FDE8FF, #F0D0FF 0.6em); 
+}
+
+.account-tabs-handles .MuiTab-root.tab-blocked-by-lists.Mui-selected {
+  background: linear-gradient(to right, #F5CAFF, #E6A8FF 0.6em); 
+  color: #995CBB; 
+}
+
+.account-tabs-handles.selected-tab-blocked-by-lists .MuiTabs-indicator {
+  background-color: #995CBB; 
+}
+
+/* tab-lists */
 .account-tabs-handles .MuiTab-root.tab-lists {
-  background: linear-gradient(to right, #c5d7f9, #e9f1ff 0.6em);
+  background: linear-gradient(to right, #E6F2FF, #F2F7FF 0.6em);
 }
 
 .account-tabs-handles .MuiTab-root.tab-lists.Mui-selected {
-  background: linear-gradient(to right, #c1d7ff, #a3c1f7 0.6em);
-  color: #27519b;
+  background: linear-gradient(to right, #D9E9FF, #C4D9FF 0.6em);
+  color: #4A73B7;
 }
 
 .account-tabs-handles.selected-tab-lists .MuiTabs-indicator {
-  background-color: #3c68b7;
+  background-color: #4A73B7;
+}
+
+/* tab-history */
+.account-tabs-handles .MuiTab-root.tab-history {
+  background: linear-gradient(to right, #FFF2E6, #FFF9F0 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-history.Mui-selected {
+  background: linear-gradient(to right, #FFE5CC, #FFF0D9 0.6em);
+  color: #B78B2A;
+}
+
+.account-tabs-handles.selected-tab-history .MuiTabs-indicator {
+  background-color: #B78B2A;
+}
+
+/* tab-labeled */
+.account-tabs-handles .MuiTab-root.tab-labeled {
+  background: linear-gradient(to right, #E6FFE6, #F2FFF2 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-labeled.Mui-selected {
+  background: linear-gradient(to right, #CCFFCC, #D9FFD9 0.6em);
+  color: #5CB75C;
+}
+
+.account-tabs-handles.selected-tab-labeled .MuiTabs-indicator {
+  background-color: #5CB75C;
+}
+
+/* tab-packsCreated */
+.account-tabs-handles .MuiTab-root.tab-packsCreated {
+  background: linear-gradient(to right, #FFE6F2, #FFF2F7 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-packsCreated.Mui-selected {
+  background: linear-gradient(to right, #FFCCDB, #FFD9E6 0.6em);
+  color: #B75C8B;
+}
+
+.account-tabs-handles.selected-tab-packsCreated .MuiTabs-indicator {
+  background-color: #B75C8B;
+}
+
+/* tab-packsPopulated */
+.account-tabs-handles .MuiTab-root.tab-packsPopulated {
+  background: linear-gradient(to right, #E6F2FF, #F2F7FF 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-packsPopulated.Mui-selected {
+  background: linear-gradient(to right, #D9E9FF, #C4D9FF 0.6em);
+  color: #5C8BB7;
+}
+
+.account-tabs-handles.selected-tab-packsPopulated .MuiTabs-indicator {
+  background-color: #5C8BB7;
 }
 
 .account-tabs-content {

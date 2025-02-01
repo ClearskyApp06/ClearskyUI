@@ -1,0 +1,115 @@
+.account-info-panel-blocked-timestamp {
+  font-size: 80%;
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white,
+    0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
+  border-top: solid 1px #ededed;
+  padding-top: 0.5em;
+}
+
+.account-info-panel-blocked-timestamp-full {
+  zoom: 80%;
+  transform: scaleY(1.1);
+}
+
+.block-account-info-panel .account-info-panel-description {
+  padding: 1em;
+}
+
+.block-panel-generic {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr;
+}
+
+.block-panel-header {
+  padding-left: 0.6em;
+}
+
+.block-list {
+  padding: 0;
+}
+
+.block-panel-generic .history-header {
+  background: inherit;
+  padding-top: 0.7em;
+  padding-bottom: 0;
+}
+
+@media (max-width: 800px) {
+  .block-panel-generic .history-header {
+    top: 6em;
+  }
+}
+
+.block-panel-generic .history-search-text-field {
+  background: transparent;
+}
+
+.blocking-list-entry {
+  list-style-type: none;
+  padding: 0.4em 0.6em;
+}
+
+li.blocking-list-entry:nth-child(even) {
+  background-color: #0000000a;
+  background-image: linear-gradient(to top, #00000024, transparent 1px),
+    linear-gradient(to bottom, #0000000a, transparent 1px);
+}
+
+.blocking-list-entry .blocking-account-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.blocking-list-entry a.blocking-account-link:hover {
+  text-decoration: underline;
+}
+
+.blocking-list-entry .account-short-entry-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
+}
+
+.blocking-list-entry
+  .account-short-entry-content
+  .account-short-entry-handle
+  .account-short-entry-display-name {
+  opacity: 0.7;
+}
+
+.blocking-list-entry .blocking-account-avatar {
+  background: no-repeat center center;
+  background-size: cover;
+  color: transparent;
+  border-radius: 200%;
+
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+
+.blocking-list-entry .blocking-date {
+  opacity: 0.6;
+  font-weight: 200;
+  font-size: 80%;
+  text-align: right;
+}
+
+.blocking-panel-header {
+  padding: 0.5em;
+  margin: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+.blocking-panel-header-loading * {
+  filter: blur(0.5px);
+  opacity: 0.7;
+}
+
+.blocking-panel-header .panel-toggles {
+  float: right;
+}
