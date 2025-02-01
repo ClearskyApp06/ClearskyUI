@@ -100,7 +100,10 @@
 
 .account-tabs-content { 
   position: relative;
-   
+  border-left: none;
+  max-height: 80em;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .account-tabs-content .account-tab { 
@@ -188,9 +191,7 @@
 
   .account-tabs-content {
     
-    border-left: none;
-    max-height: 80em;
-    overflow-y: scroll;
+
   }
  
 
