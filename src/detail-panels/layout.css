@@ -119,6 +119,7 @@
   margin-right:2px;
   padding-left:3px;
   padding-right:3px;
+  flex-grow:1;
 }
 .account-header { 
   position: sticky;
