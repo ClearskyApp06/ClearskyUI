@@ -73,5 +73,5 @@ button.MuiButtonBase-root {
   overflow: hidden;
   border: solid 1px white;
   margin-bottom: 2px;
-}
+  min-height:36px;
 }

@@ -4,15 +4,16 @@
   top: 0;
   width: 100%;
   height: 100%;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  grid-template-rows: auto 1fr;
+  display: flex; 
+  flex-direction:row;
+}
+@media (max-width: 800px) {
+  .layout{
+    flex-direction:column;
+  }
 }
 
-.account-title {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
+.account-title { 
   align-self: end;
 }
 
@@ -20,12 +21,7 @@
   display: none;
 }
 
-.account-extra-info {
-  grid-column: 1;
-  grid-row: 2;
-
-  display: grid;
-  grid-template-rows: 1fr;
+.account-extra-info {  
   padding-bottom: 1em;
 }
 
@@ -62,9 +58,7 @@
   border-left:none;
 }
 
-.account-tabs-handles {
-  grid-row: 1 / 3;
-  grid-column: 3 / 4;
+.account-tabs-handles { 
 }
 
 .account-tabs-handles .MuiTab-root {
@@ -97,18 +91,12 @@
   background-color: #3c68b7;
 }
 
-.account-tabs-content {
-  grid-row: 1 / 3;
-  grid-column: 2 / 3;
+.account-tabs-content { 
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;  
+   
 }
 
-.account-tabs-content .account-tab {
-  grid-row: 1 / 2;
-  grid-column: 1 / 2;
+.account-tabs-content .account-tab { 
   opacity: 0;
   pointer-events: none;
   position: relative;
@@ -132,9 +120,7 @@
   padding-left:3px;
   padding-right:3px;
 }
-.account-header {
-  grid-column: 1 / 3;
-  grid-row: 1 / 2;
+.account-header { 
   position: sticky;
   top: -7em;
   z-index: 20;
@@ -147,10 +133,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    min-height: 100%;
-
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto 1fr;
+    min-height: 100%; 
   }
 
 
@@ -158,9 +141,7 @@
     display: inline;
   }
 
-  .account-extra-info {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
+  .account-extra-info { 
     display: block;
     padding-bottom: 0;
   }
@@ -198,17 +179,12 @@
   }
 
   .account-tabs-content {
-    grid-column: 1 / 2;
-    grid-row: 3 / 4;
+    
     border-left: none;
     max-height: 80em;
     overflow-y: scroll;
   }
-
-  .account-tabs-handles {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
-  }
+ 
 
   .account-tabs-content .account-tab {
     overflow: unset;
