@@ -71,6 +71,7 @@ export function AccountLayoutCore({
   const result = (
     <>
       <div className="layout">
+        <div className="account-info">
         <AccountHeader
           className="account-header"
           onCloseClick={onCloseClick}
@@ -80,7 +81,8 @@ export function AccountLayoutCore({
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
         />
-
+        </div>
+        <div className='detail-container'>
         <TabSelector
           className="account-tabs-handles"
           tab={selectedTab}
@@ -103,6 +105,7 @@ export function AccountLayoutCore({
               );
           })}
         </div>
+        </div> 
       </div>
     </>
   );

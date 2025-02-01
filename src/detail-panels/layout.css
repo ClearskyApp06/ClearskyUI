@@ -4,15 +4,23 @@
   top: 0;
   width: 100%;
   height: 100%;
+  display: flex; 
+  flex-direction:row;
+}
+@media (max-width: 800px) {
+  .layout{
+    flex-direction:column;
+  }
 
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  grid-template-rows: auto 1fr;
+  
+}
+@media (min-width:801px){
+  .layout .account-info{
+    max-width:500px;
+  }
 }
 
-.account-title {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
+.account-title { 
   align-self: end;
 }
 
@@ -20,12 +28,7 @@
   display: none;
 }
 
-.account-extra-info {
-  grid-column: 1;
-  grid-row: 2;
-
-  display: grid;
-  grid-template-rows: 1fr;
+.account-extra-info {  
   padding-bottom: 1em;
 }
 
@@ -50,53 +53,40 @@
   pointer-events: all;
   opacity: 1;
 }
-
-.account-extra-info .handle-history-section {
+ 
+.MuiTabs-flexContainer button{
+  flex-grow:1;
+  min-width: 100px;
+  padding:10px;
+  border-left:black solid 1px;
 }
 
-.account-tabs-handles {
-  grid-row: 1 / 3;
-  grid-column: 3 / 4;
-  border-left: solid 1px #ededed;
-  background: linear-gradient(to right, #f1f1f1, #fcfcfc 0.6em);
+.MuiTabs-flexContainer button:first-child{
+  border-left:none;
+}
+
+.account-tabs-handles { 
 }
 
 .account-tabs-handles .MuiTab-root {
   min-width: 0;
   padding: 2em 0.8em;
-  margin-bottom: 0.5em;
-  background: linear-gradient(to right, #dfdfdf, #f3f3f3 0.4em);
-  box-shadow: inset -1px 0px 1px #00000059;
+  margin-bottom: 0.5em;  
 }
 
 .account-tabs-handles .MuiTabs-indicator {
   background-color: black;
 }
 
-.account-tabs-handles .MuiTab-root.Mui-selected {
-  background: linear-gradient(to right, #e8e5e5, #dadada 0.4em);
+.account-tabs-handles .MuiTab-root.Mui-selected { 
   color: black;
 }
 
-.account-tabs-handles .MuiTab-root.tab-blocked-by {
-  background: linear-gradient(to right, #f7c9c1, #fde4e0 0.4em);
-}
-
-.account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected {
-  background: linear-gradient(to right, #ffccc4, #f4b6ac 0.6em);
+.account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected { 
   color: #a02d19;
 }
 
-.account-tabs-handles.selected-tab-blocked-by .MuiTabs-indicator {
-  background-color: #a02d19;
-}
-
-.account-tabs-handles .MuiTab-root.tab-blocking {
-  background: linear-gradient(to right, #efe5b2, #fff7d1 0.6em);
-}
-
-.account-tabs-handles .MuiTab-root.tab-blocking.Mui-selected {
-  background: linear-gradient(to right, #fff2af, #ffea81 0.6em);
+.account-tabs-handles .MuiTab-root.tab-blocking.Mui-selected { 
   color: #a26900;
 }
 
@@ -104,43 +94,23 @@
   background-color: #b87700;
 }
 
-.account-tabs-handles .MuiTab-root.tab-lists {
-  background: linear-gradient(to right, #c5d7f9, #e9f1ff 0.6em);
-}
-
-.account-tabs-handles .MuiTab-root.tab-lists.Mui-selected {
-  background: linear-gradient(to right, #c1d7ff, #a3c1f7 0.6em);
-  color: #27519b;
-}
-
 .account-tabs-handles.selected-tab-lists .MuiTabs-indicator {
   background-color: #3c68b7;
 }
 
-.account-tabs-content {
-  grid-row: 1 / 3;
-  grid-column: 2 / 3;
-
+.account-tabs-content { 
   position: relative;
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-
-  border-left: solid 1px #ececec;
+  border-left: none;
+  max-height: 80em;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-.account-tabs-content .account-tab {
-  grid-row: 1 / 2;
-  grid-column: 1 / 2;
-
+.account-tabs-content .account-tab { 
   opacity: 0;
   pointer-events: none;
-  disabled: true;
   position: relative;
-
   transition: opacity 0.1s ease-in-out;
-
   overflow: auto;
 }
 
@@ -148,8 +118,24 @@
   z-index: 10;
   opacity: 1;
   pointer-events: auto;
-  position: relative;
-  disabled: false;
+  position: relative; 
+}
+
+.detail-container{
+  display:flex;
+  flex-direction: column;
+  min-width:300px;
+  margin-left:2px;
+  margin-right:2px;
+  padding-left:3px;
+  padding-right:3px;
+  flex-grow:1;
+}
+.account-header { 
+  position: sticky;
+  top: -7em;
+  z-index: 20;
+  background: white;
 }
 
 @media (max-width: 800px) {
@@ -158,30 +144,15 @@
     left: 0;
     top: 0;
     width: 100%;
-    min-height: 100%;
-
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto 1fr;
+    min-height: 100%; 
   }
 
-  .account-header {
-    grid-column: 1 / 3;
-    grid-row: 1 / 2;
-
-    position: sticky;
-    top: -7em;
-    z-index: 20;
-    background: white;
-  }
 
   .account-header .info-icon {
     display: inline;
   }
 
-  .account-extra-info {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
-
+  .account-extra-info { 
     display: block;
     padding-bottom: 0;
   }
@@ -219,19 +190,10 @@
   }
 
   .account-tabs-content {
-    grid-column: 1 / 2;
-    grid-row: 3 / 4;
-    border-left: none;
-    max-height: 80em;
-    overflow-y: scroll;
-  }
+    
 
-  .account-tabs-handles {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
-
-    border-top: solid 1px #edecec;
   }
+ 
 
   .account-tabs-content .account-tab {
     overflow: unset;

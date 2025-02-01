@@ -17,6 +17,7 @@
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
   white-space: nowrap;
+  max-width: 98%;
 }
 
 .lists-as-list-view .lists-entry .list-owner {
