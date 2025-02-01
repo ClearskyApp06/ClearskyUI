@@ -52,15 +52,21 @@
   .tab-selector-root {
     top: 7.5em;
   }
+
+svg.MuiSvgIcon-root {
+    height: 35px;
 }
 .MuiButtonBase-root svg {
-position: relative ;
-top: 6px ; 
+  position: relative;
+    height: inherit;
+    top: 7px;
 }
+
+
 button.MuiButtonBase-root {
   position: relative;
   top: -10px;
-  height: 25px; 
+  height: auto;
 }
 
 .MuiButtonBase-root {
