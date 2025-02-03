@@ -16,7 +16,6 @@ import { localise } from '../localisation';
  *  href?: string;
  * }} _
  */
-
 export function FormatTimestamp({
   timestamp,
   Component = 'span',
@@ -30,64 +29,51 @@ export function FormatTimestamp({
   const now = Date.now();
 
   /** @type {string} */
-  let dateStr = '';
+  let dateStr;
   /** @type {number} */
   let updateDelay;
 
   const dateTime = date.getTime();
+  const inferred = new Intl.RelativeTimeFormat(undefined, {
+    numeric: 'auto',
+  });
 
-  const msInDay = 1000 * 60 * 60 * 24;
-  const msInYear = msInDay * 365.25;
-
-  let years = Math.floor((dateTime - now) / msInYear + 1);
-  let days = Math.round(((dateTime - now) % msInYear) / msInDay);
-
-  if (years === 0) {
-    dateStr = new Intl.RelativeTimeFormat(undefined, {
-      numeric: 'auto',
-    }).format(Math.round((dateTime - now) / msInDay), 'days');
-    updateDelay = 1000 * 60 * 60 * 24;
+  // if the date is in the future or more than 30 days in the past, show the full date
+  if (dateTime > now || date.getTime() < now - 1000 * 60 * 60 * 24 * 30) {
+    dateStr = date.toLocaleDateString();
+  } else {
+    const timeAgo = now - dateTime;
+    // if the date is more than 2 days in the past, show the relative time
+    if (timeAgo > 1000 * 60 * 60 * 48) {
+      dateStr = inferred.format(
+        Math.round(timeAgo / (1000 * 60 * 60 * 48)),
+        'days'
+      );
+      updateDelay = 1000 * 60 * 60 * 24;
+      // if the date is more than 2 hours in the past, show the relative time
+    } else if (timeAgo > 1000 * 60 * 60 * 2) {
+      dateStr = inferred.format(
+        Math.round(timeAgo / (1000 * 60 * 60 * 2)),
+        'hours'
+      );
+      updateDelay = 1000 * 60 * 60;
+      // if the date is more than 2 minutes in the past, show the relative time
+    } else if (timeAgo > 1000 * 60 * 2) {
+      dateStr = inferred.format(
+        Math.round(timeAgo / (1000 * 60 * 2)),
+        'minutes'
+      );
+      updateDelay = 1000 * 60;
+      // if the date is more than 2 seconds in the past, show the relative time
+    } else if (timeAgo > 1000 * 2) {
+      dateStr = inferred.format(Math.round(timeAgo / (1000 * 2)), 'seconds');
+      updateDelay = 1000;
+      //  if the date is less than 2 seconds in the past, show "just now"
+    } else {
+      dateStr = localise('now', { uk: 'тільки шо' });
+      updateDelay = 1000;
+    }
   }
-
-  if (years !== 0) {
-    dateStr += new Intl.RelativeTimeFormat(undefined, {
-      numeric: 'always',
-    })
-      .format(years, 'years')
-      .replace('ago', '');
-  }
-
-  if (days !== 0) {
-    if (dateStr) dateStr += ' and ';
-    dateStr += new Intl.RelativeTimeFormat(undefined, {
-      numeric: 'auto',
-    }).format(days, 'days');
-    updateDelay = 1000 * 60 * 60;
-  }
-
-  //
-  // else {
-  //   const timeAgo = now - dateTime;
-  //   if (timeAgo > 1000 * 60 * 60 * 48) {
-  //     dateStr =
-  //       Math.round(timeAgo / (1000 * 60 * 60 * 24)) +
-  //       localise('d', { uk: 'д' });
-  //     updateDelay = 1000 * 60 * 60 * 24;
-  //   } else if (timeAgo > 1000 * 60 * 60 * 2) {
-  //     dateStr =
-  //       Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
-  //     updateDelay = 1000 * 60 * 60;
-  //   } else if (timeAgo > 1000 * 60 * 2) {
-  //     dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
-  //     updateDelay = 1000 * 60;
-  //   } else if (timeAgo > 1000 * 2) {
-  //     dateStr = Math.round(timeAgo / 1000) + localise('s', { uk: 'с' });
-  //     updateDelay = 1000;
-  //   } else {
-  //     dateStr = localise('now', { uk: 'тільки шо' });
-  //     updateDelay = 1000;
-  //   }
-  // }
 
   useEffect(() => {
     if (updateDelay) return;
