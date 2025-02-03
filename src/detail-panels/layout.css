@@ -20,11 +20,7 @@
   .layout{
     flex-direction:column;
   }
-
-  
 }
-
-
 .account-title { 
   align-self: end;
 }
@@ -68,9 +64,6 @@
 
 .MuiTabs-flexContainer button:first-child{
   border-left:none;
-}
-
-.account-tabs-handles { 
 }
 
 .account-tabs-handles .MuiTab-root {
