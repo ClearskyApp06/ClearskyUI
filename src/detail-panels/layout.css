@@ -137,15 +137,6 @@
 }
 
 @media (max-width: 800px) {
-  .layout {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    min-height: 100%; 
-  }
-
-
   .account-header .info-icon {
     display: inline;
   }
@@ -185,13 +176,7 @@
 
   .account-extra-info.account-extra-info-reveal .handle-history-section {
     display: block;
-  }
-
-  .account-tabs-content {
-    
-
-  }
- 
+  } 
 
   .account-tabs-content .account-tab {
     overflow: unset;
