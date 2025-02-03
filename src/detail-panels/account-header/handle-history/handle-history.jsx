@@ -79,7 +79,7 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
           </>
         )}
         <span className="event-label event-label-registered">
-          {localise(' registered ', { uk: 'зареєстровано ' })}
+          {localise(' registered on ', { uk: 'зареєстровано ' })}
         </span>
 
         {date ? (
