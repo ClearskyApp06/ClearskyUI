@@ -6,7 +6,8 @@
     "start": "vite --open",
     "preview": "vite preview --open",
     "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "stylelint": "stylelint \"src/**/*.css\""
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,8 @@
   "devDependencies": {
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0",
     "typescript": "^5",
     "vite": "^6.0.1"
   }
