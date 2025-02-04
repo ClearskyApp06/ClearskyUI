@@ -18,6 +18,7 @@
     
   }
 }
+
 @media (max-width: 800px) {
   .layout{
     flex-direction: column;
@@ -139,7 +140,7 @@
   background: white;
 }
 
-@media (max-width: 800px) {
+
   .account-header .info-icon {
     display: inline;
   }
@@ -184,4 +185,4 @@
   .account-tabs-content .account-tab {
     overflow: unset;
   }
-}
+
