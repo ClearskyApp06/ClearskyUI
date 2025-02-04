@@ -7,7 +7,8 @@
     "preview": "vite preview --open",
     "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
     "typecheck": "tsc --noEmit",
-    "stylelint": "stylelint \"src/**/*.css\""
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint:fix": "stylelint --fix \"src/**/*.css\""
   },
   "keywords": [],
   "author": "",
