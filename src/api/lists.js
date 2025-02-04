@@ -125,12 +125,9 @@ async function getListSize(listUrl, signal) {
 }
 
 /**
- * create a queue where only one request can be in flight at a time,
- * and at most 1 may be sent in any 250 millisecond interval
+ * create a queue where at most 1 may be sent in any 250 millisecond interval
  */
 const listSizeQueue = new PQueue({
-  concurrency: 1,
   intervalCap: 1,
   interval: 200,
-  timeout: 500,
 });
