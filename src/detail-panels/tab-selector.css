@@ -19,15 +19,18 @@
   background:none;
   height:40px;
 }
+
 .MuiTab-root {
   background:none;
 }
+
 .account-tabs-handles .MuiTab-root{
  opacity:.8;
   color:#d0d0d0;
   
 
 }
+
 .account-tabs-handles .MuiTab-root.Mui-selected{
   opacity:1;
   font-weight:600;
@@ -41,14 +44,16 @@
   padding: 1em 0.4em;
   margin-bottom: 0.5em;  
 }
+
 .tab-selector-root .MuiTabs-indicator {
   background-color: black;
 }
+
 .tab-selector-root .MuiTab-root.Mui-selected {
   color: black;
 }
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .tab-selector-root {
     top: 7.5em;
   }
@@ -56,6 +61,7 @@
 svg.MuiSvgIcon-root {
     height: 35px;
 }
+
 .MuiButtonBase-root svg {
   position: relative;
     height: inherit;
@@ -80,4 +86,5 @@ button.MuiButtonBase-root {
   border: solid 1px white;
   margin-bottom: 2px;
   min-height:36px;
+}
 }

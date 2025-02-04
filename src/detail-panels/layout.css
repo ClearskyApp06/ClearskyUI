@@ -7,10 +7,12 @@
   display: flex; 
  
 }
-@media (min-width:801px){
+
+@media (width >=801px){
   .layout {
     flex-direction: row;
   }
+
   .layout .account-info{
     max-width:500px;
     flex-grow: 1;
@@ -19,12 +21,13 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .layout{
     flex-direction: column;
     overflow-y: scroll;
   }
 }
+
 .account-title { 
   align-self: end;
 }
@@ -133,6 +136,7 @@
   padding-right:3px;
   flex-grow:1;
 }
+
 .account-header { 
   position: sticky;
   top: -7em;
