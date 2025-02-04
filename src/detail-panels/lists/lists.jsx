@@ -9,12 +9,12 @@ import { useSearchParams } from 'react-router-dom';
 import { useList, useListCount } from '../../api/lists';
 import { ListView } from './list-view';
 
-import './lists.css';
-import { SearchHeaderDebounced } from '../history/search-header';
-import { localise, localiseNumberSuffix } from '../../localisation';
-import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
+import { VisibleWithDelay } from '../../common-components/visible';
+import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
+import { SearchHeaderDebounced } from '../history/search-header';
+import './lists.css';
 
 export function Lists() {
   const accountQuery = useAccountResolver();

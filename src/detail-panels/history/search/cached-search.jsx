@@ -11,7 +11,7 @@ const CachedSearchContext = React.createContext(
   ([])
 );
 
-export const WithSearchContext = CachedSearchContext.Consumer
+export const WithSearchContext = CachedSearchContext.Consumer;
 
 /**
  * @param {{
@@ -25,24 +25,30 @@ export function CachedSearch({ children, ...rest }) {
   const ranked = applySearchGetResults(rest);
   return (
     <CachedSearchContext.Provider value={ranked}>
-      {
-        typeof children === 'function' ?
-          children(ranked) :
-          children
-      }
+      {typeof children === 'function' ? children(ranked) : children}
     </CachedSearchContext.Provider>
   );
 }
 
 /**
+ * @typedef {{ searchText: string | undefined, posts: PostDetails[], ranked: ReturnType<typeof applySearch>, timestamp: number }} SearchCacheEntry
+ */
+
+/**
  * @param {{
  *  searchText: string | undefined,
  *  posts: PostDetails[],
- *  cachedSearches: { searchText: string | undefined, posts: PostDetails[], ranked: ReturnType<typeof applySearch>, timestamp: number }[]
+ *  cachedSearches: SearchCacheEntry[],
  * }} _
  */
 export function applySearchGetResults({ searchText, posts, cachedSearches }) {
-  if (!searchText) return posts.map(post => ({ post, rank: 0, textHighlights: undefined, textLightHighlights: undefined }));
+  if (!searchText)
+    return posts.map((post) => ({
+      post,
+      rank: 0,
+      textHighlights: undefined,
+      textLightHighlights: undefined,
+    }));
 
   let earliestCacheIndex = 0;
   for (let i = 0; i < cachedSearches.length; i++) {
@@ -76,6 +82,11 @@ export function applySearchGetResults({ searchText, posts, cachedSearches }) {
   if (cachedSearches.length >= MAX_SEARCH_CACHE) {
     cachedSearches.splice(earliestCacheIndex, 1);
   }
-  cachedSearches.push({ searchText, posts: posts.slice(), ranked, timestamp: Date.now() });
+  cachedSearches.push({
+    searchText,
+    posts: posts.slice(),
+    ranked,
+    timestamp: Date.now(),
+  });
   return ranked;
 }

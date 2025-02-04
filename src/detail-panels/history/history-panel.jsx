@@ -16,83 +16,70 @@ export default function HistoryPanel() {
   const account = accountQuery.data;
   const history = usePostHistory(account?.shortDID);
 
+  const [searchParams] = useSearchParams();
+  const searchText = searchParams.get('q') || '';
+
   return (
-    <SearchParamsHelper>
-      {({ searchParams, setSearchParams }) => {
-        const searchText = searchParams.get('q') || '';
-
-        return (
-          <>
-            <SearchHeaderDebounced
-              label={localise('Search history', { uk: 'Шукати в історії' })}
-              setQ
+    <>
+      <SearchHeaderDebounced
+        label={localise('Search history', { uk: 'Шукати в історії' })}
+        setQ
+      />
+      {account?.obscurePublicRecords && (
+        <div className="obscure-public-records-overlay">
+          <div className="obscure-public-records-overlay-content">
+            <AccountShortEntry
+              account={account?.shortDID}
+              withDisplayName
+              link={false}
             />
-            {account?.obscurePublicRecords && (
-              <div className="obscure-public-records-overlay">
-                <div className="obscure-public-records-overlay-content">
-                  <AccountShortEntry
-                    account={account?.shortDID}
-                    withDisplayName
-                    link={false}
-                  />
-                  <div className="obscure-public-records-caption">
-                    {localise(
-                      'has requested to obscure their records from unauthenticated users',
-                      {
-                        uk: 'просить приховати свої повідомлення від неавтентифікованих користувачів',
-                      }
-                    )}
-                    <Tooltip title="To enable this for your profile you can do it in the bsky app via: Settings > Privacy and Security > Logged-out visibility">
-                      <IconButton>
-                        <InfoIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                  <Button
-                    variant="outlined"
-                    target="_blank"
-                    href={`https://bsky.app/profile/${unwrapShortHandle(
-                      account?.shortHandle
-                    )}`}
-                  >
-                    {localise('Authenticate', {
-                      uk: 'Автентифікація',
-                    })}
-                  </Button>
-                </div>
-              </div>
-            )}
-            <div
-              className={
-                account?.obscurePublicRecords
-                  ? 'history-panel-container history-panel-container-obscurePublicRecords'
-                  : 'history-panel-container'
-              }
-              style={
+            <div className="obscure-public-records-caption">
+              {localise(
+                'has requested to obscure their records from unauthenticated users',
                 {
-                  // background: 'tomato',
-                  // backgroundColor: '#fffcf5',
-                  // backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
+                  uk: 'просить приховати свої повідомлення від неавтентифікованих користувачів',
                 }
-              }
-            >
-              {history.isLoading ? (
-                <HistoryLoading />
-              ) : (
-                <HistoryScrollableList
-                  history={history}
-                  searchText={searchText}
-                />
               )}
+              <Tooltip title="To enable this for your profile you can do it in the bsky app via: Settings > Privacy and Security > Logged-out visibility">
+                <IconButton>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
             </div>
-          </>
-        );
-      }}
-    </SearchParamsHelper>
+            <Button
+              variant="outlined"
+              target="_blank"
+              href={`https://bsky.app/profile/${unwrapShortHandle(
+                account?.shortHandle
+              )}`}
+            >
+              {localise('Authenticate', {
+                uk: 'Автентифікація',
+              })}
+            </Button>
+          </div>
+        </div>
+      )}
+      <div
+        className={
+          account?.obscurePublicRecords
+            ? 'history-panel-container history-panel-container-obscurePublicRecords'
+            : 'history-panel-container'
+        }
+        style={
+          {
+            // background: 'tomato',
+            // backgroundColor: '#fffcf5',
+            // backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
+          }
+        }
+      >
+        {history.isLoading ? (
+          <HistoryLoading />
+        ) : (
+          <HistoryScrollableList history={history} searchText={searchText} />
+        )}
+      </div>
+    </>
   );
-}
-
-function SearchParamsHelper({ children }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  return children({ searchParams, setSearchParams });
 }

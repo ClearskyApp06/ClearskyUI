@@ -9,7 +9,7 @@ import PQueue from 'p-queue';
 const PAGE_SIZE = 100;
 
 /**
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export function useList(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
@@ -17,6 +17,7 @@ export function useList(handleOrDID) {
   return useInfiniteQuery({
     enabled: !!shortHandle,
     queryKey: ['lists', shortHandle],
+    // @ts-expect-error shortHandle won't really be undefined because the query will be disabled
     queryFn: ({ pageParam }) => getList(shortHandle, pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
@@ -25,7 +26,7 @@ export function useList(handleOrDID) {
 
 /**
  * Look up the total number of lists to which a given handle/DID belongs
- * @param {string} handleOrDID
+ * @param {string | undefined} handleOrDID
  */
 export function useListCount(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
@@ -33,6 +34,7 @@ export function useListCount(handleOrDID) {
   return useQuery({
     enabled: !!shortHandle,
     queryKey: ['list-total', shortHandle],
+    // @ts-expect-error shortHandle won't really be undefined because the query will be disabled
     queryFn: () => getListCount(shortHandle),
   });
 }

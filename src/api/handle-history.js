@@ -15,12 +15,13 @@ import { fetchClearskyApi } from './core';
 
 /**
  *
- * @param {string} shortDid
+ * @param {string | undefined} shortDid
  */
 export function useHandleHistory(shortDid) {
   return useQuery({
     enabled: !!shortDid,
     queryKey: ['get-handle-history', shortDid],
+    // @ts-expect-error shortDid will be a string, as query is skipped otherwise
     queryFn: () => getHandleHistoryRaw(shortDid, false),
   });
 }

@@ -1,6 +1,10 @@
 // @ts-check
 
 import { CircularProgress } from '@mui/material';
+import { useState } from 'react';
+import { IconButton, Tooltip, tooltipClasses } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
@@ -34,9 +38,21 @@ export function ListViewEntry({ className, entry }) {
   const { data: sizeData, isLoading } = useListSize(entry?.url);
   const count = sizeData?.count?.toLocaleString() || '';
 
+  const [open, setOpen] = useState(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
+  const opacity = entry.spam ? 0.4 : 1;
+
   return (
     <li className={'lists-entry ' + (className || '')}>
-      <div className="row">
+      <div className="row" style={{ opacity }}>
         <AccountShortEntry
           className="list-owner"
           withDisplayName
@@ -53,6 +69,33 @@ export function ListViewEntry({ className, entry }) {
           <a href={entry.url} target="__blank">
             {entry.name}
           </a>
+          {entry.spam && (
+            <ClickAwayListener onClickAway={handleTooltipClose}>
+              <Tooltip
+                title={`Flagged as spam. Source: ${entry.source || 'unknown'}`}
+                onClose={handleTooltipClose}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                slotProps={{
+                  popper: {
+                    disablePortal: true,
+                    sx: {
+                      [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
+                        {
+                          marginTop: '0px',
+                        },
+                    },
+                  },
+                }}
+              >
+                <IconButton onClick={handleTooltipOpen}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+            </ClickAwayListener>
+          )}
         </span>
         <span className="list-count">
           {isLoading ? (
