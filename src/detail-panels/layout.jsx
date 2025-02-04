@@ -9,12 +9,14 @@ const BlockingPanel = lazy(() => import('./blocking'));
 const HistoryPanel = lazy(() => import('./history/history-panel'));
 const Lists = lazy(() => import('./lists'));
 const LabeledPanel = lazy(() => import('./labeled'));
+const Packs = lazy(()=>import('./packs') );
 
 import { AccountHeader } from './account-header';
 import { TabSelector } from './tab-selector';
 
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
+import { Packed } from './packs/packed';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -22,6 +24,8 @@ export const accountTabs = /** @type {const} */ ([
   'lists',
   'history',
   'labeled',
+  'packs',
+  'packed',
 ]);
 
 export function AccountLayout() {
@@ -67,6 +71,7 @@ export function AccountLayoutCore({
   const result = (
     <>
       <div className="layout">
+        <div className="account-info">
         <AccountHeader
           className="account-header"
           onCloseClick={onCloseClick}
@@ -76,14 +81,15 @@ export function AccountLayoutCore({
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
         />
-
+        </div>
+        <div className='detail-container'>
         <TabSelector
           className="account-tabs-handles"
           tab={selectedTab}
           onTabSelected={(selectedTab) => onSetSelectedTab(selectedTab)}
         />
 
-        <div className="account-tabs-content">
+        <div key={selectedTab} className="account-tabs-content">
           {accountTabs.map((tab) => {
             if (tab === selectedTab)
               return (
@@ -99,6 +105,7 @@ export function AccountLayoutCore({
               );
           })}
         </div>
+        </div> 
       </div>
     </>
   );
@@ -110,7 +117,7 @@ export function AccountLayoutCore({
  * @param {string} tab
  * @returns
  */
-function renderTabContent(tab) {
+function renderTabContent(tab) { 
   switch (tab) {
     case 'blocked-by':
       return <BlockedByPanel />;
@@ -122,24 +129,15 @@ function renderTabContent(tab) {
       return <HistoryPanel />;
     case 'labeled':
       return <LabeledPanel />;
-
+    case 'packs':
+      return <Packs/>;
+    case 'packed':
+      return <Packed/>;
 
     default:
       return (
         <>
-          <button>123</button>
-          <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid
+          {tab}
         </>
       );
   }

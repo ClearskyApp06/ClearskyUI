@@ -6,84 +6,78 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { useList, useListCount } from '../../api/lists';
-import { ListView } from './list-view';
+import { usePacksCreated, usePacksCreatedTotal } from '../../api/packs';
+import { PackView } from './pack-view';
 
 import { resolveHandleOrDID } from '../../api';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
-import './lists.css';
 
-export function Lists() {
-  
+export function Packs({ created = false }) {
+  // STARTER PACKS CREATED
+  const NOPACK = 'No Starter Packs Created';
+
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useList(shortHandle);
+    usePacksCreated(shortHandle);
   const { data: totalData, isLoading: isLoadingTotal } =
-    useListCount(shortHandle);
+    usePacksCreatedTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
 
-  const listsTotal = totalData?.count;
-  const listPages = data?.pages || [];
-  const allLists = listPages.flatMap((page) => page.lists);
-  const filteredLists = !search
-    ? allLists
-    : matchSearch(allLists, search, () => setTick(tick + 1));
+  const packsTotal = totalData?.count;
+  const Packlist = data?.pages || [];
+  const allPacks = Packlist.flatMap((page) => page.starter_packs);
+  const filteredPacks = !search
+    ? allPacks
+    : matchSearch(allPacks, search, () => {
+        setTick(tick + 1);
+      });
 
-  // Show loader for initial load
   if (isLoading) {
+    // show loading screen
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
-          {localise('Loading lists...', { uk: 'Завантаження списків...' })}
+          {localise('Loading Packs...', {})}
         </div>
       </div>
     );
   }
 
   const shouldShowLoadMore =
-    hasNextPage && (!search || filteredLists.length > 0);
+    hasNextPage && (!search || filteredPacks.length > 0);
 
   return (
     <>
-      <div>
+      <div className="Packs Created">
         <div style={showSearch ? undefined : { display: 'none' }}>
-          <SearchHeaderDebounced
-            label={localise('Search', { uk: 'Пошук' })}
-            setQ
-          />
+          <SearchHeaderDebounced label={localise('Search', {})} setQ />
         </div>
       </div>
-
       <h3 className="lists-header">
         {isLoadingTotal && (
           <span style={{ opacity: 0.5 }}>
-            {localise('Counting lists...', {})}
+            {localise('Counting packs...', {})}
           </span>
         )}
-        {listsTotal ? (
+        {packsTotal ? (
           <>
             {localise(
-              'Member of ' +
-                listsTotal.toLocaleString() +
+              'Creator of  ' +
+                packsTotal.toLocaleString() +
                 ' ' +
-                localiseNumberSuffix('list', listsTotal) +
+                localiseNumberSuffix('pack', packsTotal) +
                 ':',
               {
-                uk:
-                  'Входить до ' +
-                  listsTotal.toLocaleString() +
-                  ' ' +
-                  localiseNumberSuffix('списку', listsTotal) +
-                  ':',
+                // todo : add language map
               }
             )}
             <span className="panel-toggles">
@@ -100,13 +94,11 @@ export function Lists() {
             </span>
           </>
         ) : (
-          localise('Not a member of any lists', {
-            uk: 'Не входить до жодного списку',
-          })
+          localise(NOPACK, {})
         )}
       </h3>
 
-      <ListView list={filteredLists} className="" />
+      <PackView packs={allPacks} />
 
       {shouldShowLoadMore && (
         <VisibleWithDelay
@@ -123,13 +115,13 @@ export function Lists() {
 }
 
 /**
- * @param {AccountListEntry[]} blocklist
+ * @param {PackListEntry[]} listToFilter
  * @param {string} search
  * @param {() => void} [redraw]
  */
-function matchSearch(blocklist, search, redraw) {
+function matchSearch(listToFilter, search, redraw) {
   const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter((entry) => {
+  const filtered = listToFilter.filter((entry) => {
     // if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.description || '').toLowerCase().includes(searchLowercase))

@@ -18,8 +18,7 @@ function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   root.style.cssText = `
-    min-height: 100%;
-    display: grid;
+    min-height: 100%; 
   `;
   document.body.appendChild(root);
 
@@ -78,8 +77,7 @@ function showApp() {
       },
     },
   });
-
-  console.log('React createRoot/render');
+ 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>

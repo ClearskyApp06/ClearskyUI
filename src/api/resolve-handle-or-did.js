@@ -77,7 +77,7 @@ const queryKeyForDid = (/** @type {string | undefined | null} */ fullDID) => [
  * @param {string | undefined | null} did
  * @returns the profile data for a given DID
  */
-function useResolveDidToProfile(did) {
+export function useResolveDidToProfile(did) {
   const fullDID = unwrapShortDID(did);
   return useQuery({
     enabled: !!fullDID,

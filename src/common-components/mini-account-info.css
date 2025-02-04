@@ -1,4 +1,4 @@
-@import './account-info-shared.css';
+@import url('./account-info-shared.css');
 
 .mini-account-info h3 {
   font-size: inherit;

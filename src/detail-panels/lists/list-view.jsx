@@ -10,6 +10,8 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
 import './list-view.css';
 import { ProgressiveRender } from '../../common-components/progressive-render';
+import { ConditionalAnchor } from '../../common-components/conditional-anchor';
+import { useResolveHandleOrDid } from '../../api';
 
 /**
  * @param {{
@@ -19,7 +21,10 @@ import { ProgressiveRender } from '../../common-components/progressive-render';
  */
 export function ListView({ className, list }) {
   return (
-    <ul className={'lists-as-list-view ' + (className || '')}>
+    <ul
+      className={'lists-as-list-view ' + (className || '')}
+      style={{ padding: 0 }}
+    >
       <ProgressiveRender
         items={list || []}
         renderItem={(entry) => <ListViewEntry entry={entry} />}
@@ -49,6 +54,7 @@ export function ListViewEntry({ className, entry }) {
   };
 
   const opacity = entry.spam ? 0.4 : 1;
+  const resolved = useResolveHandleOrDid(entry.did);
 
   return (
     <li className={'lists-entry ' + (className || '')}>
@@ -66,9 +72,14 @@ export function ListViewEntry({ className, entry }) {
       </div>
       <div className="row">
         <span className="list-name">
-          <a href={entry.url} target="__blank">
+          <ConditionalAnchor
+            target="__blank"
+            style={{ opacity }}
+            href={entry.url}
+            condition={!resolved.isError && resolved.data}
+          >
             {entry.name}
-          </a>
+          </ConditionalAnchor>
           {entry.spam && (
             <ClickAwayListener onClickAway={handleTooltipClose}>
               <Tooltip

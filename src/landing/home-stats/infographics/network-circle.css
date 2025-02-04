@@ -27,8 +27,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  align-items: end;
-  justify-items: end;
+  place-items: end end;
   padding-right: 26%;
 }
 
@@ -49,7 +48,7 @@
   border: solid 2px #717171;
   padding: 0.1em 0.7em;
   border-radius: 0.5em;
-  box-shadow: 0px 0px 0px 4px white;
+  box-shadow: 0 0 0 4px white;
   text-align: left;
 }
 
@@ -75,7 +74,7 @@
   border: solid 2px #b4b4b4;
   padding: 0.2em 0.7em;
   border-radius: 0.5em;
-  box-shadow: 0px 0px 0px 4px white;
+  box-shadow: 0 0 0 4px white;
   text-align: left;
   color: #626262;
 }

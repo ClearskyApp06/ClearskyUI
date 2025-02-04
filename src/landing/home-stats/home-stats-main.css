@@ -1,6 +1,3 @@
-.stats-section {
-}
-
 .stats-section-inner {
   display: inline-block;
   min-width: 50%;
@@ -43,7 +40,10 @@ table.stats-table th {
   background: #ffc7a1;
 }
 
-.home-stats-main .top-list.top-blocked .top-list-entries .top-list-entry:nth-child(even) {
+.home-stats-main
+  .top-list.top-blocked
+  .top-list-entries
+  .top-list-entry:nth-child(even) {
   background: #ffe4d2;
 }
 
@@ -52,6 +52,9 @@ table.stats-table th {
   background: #d6e5ff;
 }
 
-.home-stats-main .top-list.top-blockers .top-list-entries .top-list-entry:nth-child(even) {
+.home-stats-main
+  .top-list.top-blockers
+  .top-list-entries
+  .top-list-entry:nth-child(even) {
   background: #d6e5ff;
 }

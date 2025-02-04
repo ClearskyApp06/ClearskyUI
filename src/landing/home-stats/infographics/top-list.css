@@ -7,7 +7,7 @@
   text-align: right;
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .top-list {
     width: 21em;
   }
