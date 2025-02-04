@@ -24,8 +24,7 @@
 .about .corner-buttons {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  align-self: start;
-  justify-self: end;
+  place-self: start end;
   position: relative;
 }
 
@@ -34,13 +33,12 @@
 }
 
 .about .corner-buttons .about-button-icon {
-  font-weight: 900;
   position: absolute;
   right: 0.2em;
   top: 0;
   text-transform: none;
   font-weight: 900;
-  font-family: Times New Roman, Serif;
+  font-family: "Times New Roman", serif;
   font-style: italic;
   color: black;
   padding-right: 0.5em;

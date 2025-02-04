@@ -19,7 +19,7 @@ import { useResolveHandleOrDid } from '../../api';
  */
 export function ListView({ className, list }) {
   return (
-    <ul className={'lists-as-list-view ' + (className || '')}>
+    <ul className={'lists-as-list-view ' + (className || '')} style={{padding:0}}>
       {(list || []).map((entry, i) => (
         <ListViewEntry
           key={i}
