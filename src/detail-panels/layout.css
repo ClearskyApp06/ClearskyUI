@@ -4,47 +4,48 @@
   top: 0;
   width: 100%;
   height: 100%;
-  display: flex; 
- 
+  display: flex;
 }
 
-@media (width >=801px){
+@media (width >=801px) {
   .layout {
     flex-direction: row;
   }
 
-  .layout .account-info{
-    max-width:500px;
+  .layout .account-info {
+    max-width: 500px;
     flex-grow: 1;
     overflow-y: auto;
-    
   }
 }
 
 @media (width <= 800px) {
-  .layout{
+  .layout {
     flex-direction: column;
     overflow-y: scroll;
   }
 }
 
-.account-title { 
+.account-title {
   align-self: end;
 }
 
 .account-header .info-icon {
-  display: none;
+  display: inline;
 }
 
-.account-extra-info {  
-  padding-bottom: 1em;
+.account-extra-info {
+  display: block;
+  padding-bottom: 0;
 }
 
 .account-extra-info .did-section {
-  margin-top: 1em;
-  padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 1em;
+  display: none;
+  padding-top: 0;
+  margin-top: 0;
+  border-top: 0;
 }
 
 .account-extra-info .did-section .copy-did {
@@ -61,37 +62,37 @@
   pointer-events: all;
   opacity: 1;
 }
- 
-.MuiTabs-flexContainer button{
-  flex-grow:1;
+
+.MuiTabs-flexContainer button {
+  flex-grow: 1;
   min-width: 100px;
-  padding:10px;
-  border-left:black solid 1px;
+  padding: 10px;
+  border-left: black solid 1px;
 }
 
-.MuiTabs-flexContainer button:first-child{
-  border-left:none;
+.MuiTabs-flexContainer button:first-child {
+  border-left: none;
 }
 
 .account-tabs-handles .MuiTab-root {
   min-width: 0;
   padding: 2em 0.8em;
-  margin-bottom: 0.5em;  
+  margin-bottom: 0.5em;
 }
 
 .account-tabs-handles .MuiTabs-indicator {
   background-color: black;
 }
 
-.account-tabs-handles .MuiTab-root.Mui-selected { 
+.account-tabs-handles .MuiTab-root.Mui-selected {
   color: black;
 }
 
-.account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected { 
+.account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected {
   color: #a02d19;
 }
 
-.account-tabs-handles .MuiTab-root.tab-blocking.Mui-selected { 
+.account-tabs-handles .MuiTab-root.tab-blocking.Mui-selected {
   color: #a26900;
 }
 
@@ -103,7 +104,7 @@
   background-color: #3c68b7;
 }
 
-.account-tabs-content { 
+.account-tabs-content {
   position: relative;
   border-left: none;
   max-height: 80em;
@@ -111,82 +112,59 @@
   scroll-behavior: smooth;
 }
 
-.account-tabs-content .account-tab { 
+.account-tabs-content .account-tab {
   opacity: 0;
   pointer-events: none;
   position: relative;
   transition: opacity 0.1s ease-in-out;
-  overflow: auto;
 }
 
 .account-tabs-content .account-tab-selected {
   z-index: 10;
   opacity: 1;
   pointer-events: auto;
-  position: relative; 
+  position: relative;
 }
 
-.detail-container{
-  display:flex;
+.detail-container {
+  display: flex;
   flex-direction: column;
-  min-width:300px;
-  margin-left:2px;
-  margin-right:2px;
-  padding-left:3px;
-  padding-right:3px;
-  flex-grow:1;
+  min-width: 300px;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+  flex-grow: 1;
 }
 
-.account-header { 
+.account-header {
   position: sticky;
   top: -7em;
   z-index: 20;
   background: white;
 }
 
+.account-extra-info.account-extra-info-reveal {
+  background: #f6f6f6;
+  border-top: solid 1px #ececec;
+  border-bottom: solid 1px #ececec;
+  font-size: 90%;
+  padding-bottom: 0.6em;
+  padding-top: 0.4em;
+}
 
-  .account-header .info-icon {
-    display: inline;
-  }
+.account-extra-info .handle-history-section {
+  display: none;
+}
 
-  .account-extra-info { 
-    display: block;
-    padding-bottom: 0;
-  }
+.account-extra-info.account-extra-info-reveal .bio-section {
+  display: none;
+}
 
-  .account-extra-info.account-extra-info-reveal {
-    background: #f6f6f6;
-    border-top: solid 1px #ececec;
-    border-bottom: solid 1px #ececec;
-    font-size: 90%;
-    padding-bottom: 0.6em;
-    padding-top: 0.4em;
-  }
+.account-extra-info.account-extra-info-reveal .did-section {
+  display: block;
+}
 
-  .account-extra-info .did-section {
-    display: none;
-    padding-top: 0;
-    margin-top: 0;
-    border-top: 0;
-  }
-
-  .account-extra-info .handle-history-section {
-    display: none;
-  }
-
-  .account-extra-info.account-extra-info-reveal .bio-section {
-    display: none;
-  }
-
-  .account-extra-info.account-extra-info-reveal .did-section {
-    display: block;
-  }
-
-  .account-extra-info.account-extra-info-reveal .handle-history-section {
-    display: block;
-  } 
-
-  .account-tabs-content .account-tab {
-    overflow: unset;
-  }
-
+.account-extra-info.account-extra-info-reveal .handle-history-section {
+  display: block;
+}
