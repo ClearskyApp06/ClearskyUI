@@ -144,6 +144,8 @@
   background: white;
 }
 
+
+
 .account-extra-info.account-extra-info-reveal {
   background: #f6f6f6;
   border-top: solid 1px #ececec;
@@ -158,7 +160,8 @@
 }
 
 .account-extra-info.account-extra-info-reveal .bio-section {
-  display: none;
+  display: block;
+  padding-bottom:25px;
 }
 
 .account-extra-info.account-extra-info-reveal .did-section {
@@ -167,4 +170,56 @@
 
 .account-extra-info.account-extra-info-reveal .handle-history-section {
   display: block;
+}
+.close-opt{
+  display:none;
+  visibility: hidden;
+}
+
+@media(max-width:800px){
+  .account-extra-info{
+    display:none;
+  }
+  .account-extra-info.account-extra-info-reveal {
+    border-radius:5px;
+    border:1px solid black;   
+    background: white;
+    font-size: 90%; 
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    width: 95%;
+    z-index: 50;
+    display: block;
+    padding: 5px;
+    zoom:.7;
+  }
+  
+  .account-extra-info-reveal .close-opt{
+    display:block;
+    position: relative; 
+    left:97%;
+    visibility: visible;
+  } 
+
+
+  .account-extra-info .handle-history-section {
+    display: none;
+  }
+  
+  .account-extra-info.account-extra-info-reveal .bio-section {
+    display: block;
+    margin:none;
+  }
+  
+  .account-extra-info.account-extra-info-reveal .did-section {
+    display: block;
+    margin:none;
+  }
+  
+  .account-extra-info.account-extra-info-reveal .handle-history-section {
+    display: block;
+  }
+  
+ 
 }
