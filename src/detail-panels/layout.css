@@ -177,8 +177,7 @@
   visibility: hidden;
 }
 
-@media (max-width < 800px) {
-
+@media (width < 800px) {
   .account-extra-info{
     display:none;
   }
