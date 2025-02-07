@@ -171,6 +171,7 @@
 .account-extra-info.account-extra-info-reveal .handle-history-section {
   display: block;
 }
+
 .close-opt{
   display:none;
   visibility: hidden;
@@ -209,12 +210,12 @@
   
   .account-extra-info.account-extra-info-reveal .bio-section {
     display: block;
-    margin:none;
+    margin: 0;
   }
   
   .account-extra-info.account-extra-info-reveal .did-section {
     display: block;
-    margin:none;
+    margin: 0;
   }
   
   .account-extra-info.account-extra-info-reveal .handle-history-section {
