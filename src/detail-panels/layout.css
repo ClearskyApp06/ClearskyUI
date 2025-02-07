@@ -177,13 +177,13 @@
   visibility: hidden;
 }
 
-@media (max-width:800px) {
+@media (max-width < 800px) {
 
   .account-extra-info{
     display:none;
   }
-  .account-extra-info
-  .account-extra-info-reveal {
+
+  .account-extra-info.account-extra-info-reveal {
     border-radius:5px;
     border:1px solid black;   
     background: white;
