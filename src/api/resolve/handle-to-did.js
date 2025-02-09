@@ -38,8 +38,7 @@ export function useResolveHandleToDID(handle) {
   return useQuery({
     enabled: !!fullHandle,
     queryKey: queryKeyForHandle(fullHandle),
-    // @ts-expect-error handle will be defined because we skip otherwise
-    queryFn: ({ signal }) => resolveHandleToDid(handle, fullHandle, signal),
+    queryFn: ({ signal }) => resolveHandleToDid(fullHandle, signal),
   });
 }
 
@@ -58,12 +57,12 @@ function handleIsDomainLike(handle) {
 
 /**
  * tries to look up a handle's DID first from bsky directly, then falling back to DNS queries
- * @param {string} fullHandle a fully expanded handle (.bsky.social added if it was not already domain-like)
+ * @param {string | undefined} fullHandle a fully expanded handle (.bsky.social added if it was not already domain-like)
  * @param {AbortSignal} signal
  * @returns
  */
 async function resolveHandleToDid(fullHandle, signal) {
-  if (!handleIsDomainLike(fullHandle)) {
+  if (!fullHandle || !handleIsDomainLike(fullHandle)) {
     return null;
   }
   const bskyResult = await resolveHandleFromBsky(fullHandle, signal);
