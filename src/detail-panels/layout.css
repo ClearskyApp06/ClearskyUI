@@ -7,22 +7,34 @@
   display: flex;
 }
 
-@media (width >=801px) {
+@media (width >= 801px) {
   .layout {
     flex-direction: row;
   }
 
   .layout .account-info {
-    max-width: 500px;
-    flex-grow: 1;
+    min-width: 350px;
+    max-width: 550px;
+    flex: 1 0 0;
     overflow-y: auto;
+  }
+
+  .layout .detail-container {
+    /* main content area grows 3 times more than the sidebar */
+    flex: 3 0 0;
+  }
+
+  .account-tabs-content {
+    /* max-height: 80em; */
+    overflow-y: auto;
+    scroll-behavior: smooth;
   }
 }
 
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 
@@ -105,11 +117,7 @@
 }
 
 .account-tabs-content {
-  position: relative;
   border-left: none;
-  max-height: 80em;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 .account-tabs-content .account-tab {
