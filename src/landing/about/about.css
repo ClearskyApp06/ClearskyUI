@@ -5,6 +5,8 @@
 }
 
 .about .text {
+  display: flex;
+  justify-content: space-between;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   line-height: 1.6;

@@ -28,6 +28,8 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className="text">
+        <div>{localise('Version', { uk: 'Версія' })}: {version}{' '}
+        {builtFromCommit && `(${builtFromCommit})`}</div>
         <span className="legalese">
           <a href="mailto:support@clearsky.app">Contact Us</a> |{' '}
           <a href="https://ko-fi.com/thieflord">Donate</a> |{' '}
@@ -35,8 +37,6 @@ export function About({ onToggleAbout }) {
           <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
           <a href="https://status.clearsky.app">Status</a>
         </span>
-        {localise('Version', { uk: 'Версія' })}: {version}{' '}
-        {builtFromCommit && `(${builtFromCommit})`}
         <br />
       </div>
     </div>
