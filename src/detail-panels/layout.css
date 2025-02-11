@@ -194,14 +194,15 @@
     z-index: 50;
     display: block;
     padding: 5px;
-    zoom:.7;
+    zoom:.75;
   }
   
   .account-extra-info-reveal .close-opt{
-    display:block;
-    position: relative; 
-    left:97%;
+    display: block;
+    position: relative;
+    left: 94%;
     visibility: visible;
+    zoom: 3;
   } 
 
 
@@ -213,7 +214,7 @@
     display: block;
     margin: 0;
   }
-  
+
   .account-extra-info.account-extra-info-reveal .did-section {
     display: block;
     margin: 0;
