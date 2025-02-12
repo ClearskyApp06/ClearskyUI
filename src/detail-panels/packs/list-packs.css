@@ -1,68 +1,76 @@
-ul{    
-    padding-inline-start: 2px;
-    margin:none;
-    text-decoration:none;
-}
-a{ 
-    text-decoration:none;
-    color:black;
-    text-decoration-color: black;
-
-}
-.pack-add-date{
-    width:20%;
-    text-align: right;
-}
-.pack-name{
-    width:80%;
+ul {
+  padding-inline-start: 2px;
+  margin: 0;
+  text-decoration: none;
 }
 
-a:hover{
-    text-decoration:underline;
-}
-.account-short-entry-avatar{
-    background: no-repeat center center;
-    background-size: cover;
-    color: transparent;
-    border-radius: 200%;
-    display: inline-block;
-    width: 1.5em;
-    height: 1.5em;
-    margin-right: 0.25em;
-}
-.pack-entry{
-    display:flex;
-    flex-direction: column;
-    padding-bottom:3px;
-    padding-top:2px;
-    height:auto;
-    padding-left: 1.7em;
-    white-space: normal;
-    word-wrap: break-word;
+a {
+  text-decoration: none;
+  color: black;
+  text-decoration-color: black;
 }
 
-.row{
-    display:flex;
-    flex-direction: row;
+.pack-add-date {
+  width: 20%;
+  text-align: right;
 }
 
-.pack-name , .pack-add-date, .pack-description{
-    display:flex;
+.pack-name {
+  width: 80%;
 }
 
-.pack-description{
-    width:80%;
-    margin-left:5px;
-    padding-left:25px;
-    opacity:.5;
-}
-.pack-entry:nth-child(even){
-    background-color: #0000000a;
-    background-image: linear-gradient(to top, #00000024, transparent 1px), linear-gradient(to bottom, #0000000a, transparent 1px);
+a:hover {
+  text-decoration: underline;
 }
 
-.pack-creator-avatar{
-    
+.account-short-entry-avatar {
+  background: no-repeat center center;
+  background-size: cover;
+  color: transparent;
+  border-radius: 200%;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+
+.pack-entry {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 3px;
+  padding-top: 2px;
+  height: auto;
+  margin-left: 0;
+  width: 98%;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.pack-name,
+.pack-add-date,
+.pack-description {
+  display: flex;
+}
+
+.pack-description {
+  width: 80%;
+  margin-left: 5px;
+  padding-left: 25px;
+  opacity: 0.5;
+}
+
+.pack-entry:nth-child(even) {
+  background-color: #0000000a;
+  background-image: linear-gradient(to top, #00000024, transparent 1px),
+    linear-gradient(to bottom, #0000000a, transparent 1px);
+}
+
+.pack-creator-avatar {
   background-size: cover;
   display: inline-block;
   width: 1.5em;
@@ -70,4 +78,3 @@ a:hover{
   margin-right: 0.25em;
   text-align: center;
 }
- 

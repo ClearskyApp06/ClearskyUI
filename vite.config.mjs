@@ -5,6 +5,7 @@ import { readdirSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+
 function getInputHtmlFiles() {
   const srcDir = resolve(__dirname, 'src');
   return readdirSync(srcDir)

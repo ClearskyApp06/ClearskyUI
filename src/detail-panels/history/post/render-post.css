@@ -1,10 +1,4 @@
-.post-with-content {
-}
-
 .post-with-content .post-header {
-  margin: 0;
-  padding: 0;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -19,7 +13,6 @@
   background-size: cover;
   color: transparent;
   border-radius: 200%;
-
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
@@ -93,7 +86,7 @@
 .post-with-content .post-content-embed .post-content-embed-image {
   width: 100%;
   border-radius: 0.8em;
-  box-shadow: 0px 0px 1px black;
+  box-shadow: 0 0 1px black;
 }
 
 .post-with-content .post-content-embed .post-embed-external .post-embed-external-thumb {
@@ -101,7 +94,7 @@
   height: 12em;
   margin-top: 0.4em;
   border-radius: 0.8em;
-  box-shadow: 0px 0px 1px black;
+  box-shadow: 0 0 1px black;
 }
 
 .post-with-content .post-content-embed .post-content-embed-qt,
@@ -119,7 +112,6 @@
   margin: 0;
   margin-top: 0.45em;
   padding: 0;
-
   white-space: pre-wrap;
 }
 

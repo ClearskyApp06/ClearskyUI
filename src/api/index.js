@@ -1,5 +1,6 @@
 // @ts-check
-/// <reference path="../types.d.ts" />
+
+import toASCII from 'punycode2/to-ascii';
 
 export { useDashboardStats } from './dashboard-stats';
 export { usePostHistory, usePostByUri } from './post-history';
@@ -94,6 +95,13 @@ export function shortenHandle(input) {
     )
   );
 }
+
+/**
+ * @param {string} handle
+ */
+export function isBskySocialHandle(handle) {
+  return _shortenHandle_Regex.test(handle);
+}
 const _shortenHandle_Regex = /\.bsky\.social$/;
 
 /**
@@ -112,6 +120,9 @@ const _shortenHandle_Regex = /\.bsky\.social$/;
  */
 export function unwrapShortHandle(shortHandle) {
   shortHandle = cheapNormalizeHandle(shortHandle);
+  if (shortHandle) {
+    shortHandle = toASCII(shortHandle);
+  }
   return typeof shortHandle !== 'string'
     ? undefined
     : shortHandle.indexOf('.') < 0

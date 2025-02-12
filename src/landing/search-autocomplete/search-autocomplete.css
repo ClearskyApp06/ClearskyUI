@@ -13,7 +13,6 @@
   width: 2em;
   border-radius: 200%;
   margin-right: 0.5em;
-
   color: cornflowerblue;
   transform: scale(1.5);
 }
@@ -28,6 +27,7 @@
 .search-entry .search-entry-display-name-space {
   width: 0.4em;
 }
+
 .search-entry .search-entry-display-name {
   color: gray;
 }
