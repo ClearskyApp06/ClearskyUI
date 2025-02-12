@@ -72,7 +72,7 @@ export function AccountLayoutCore({
     <>
       <div className="layout">
         <div className="account-info">
-        <AccountHeader
+        <AccountHeader 
           className="account-header"
           onCloseClick={onCloseClick}
           onInfoClick={handleInfoClick}
@@ -80,6 +80,7 @@ export function AccountLayoutCore({
 
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
+          onInfoClick={handleInfoClick}
         />
         </div>
         <div className='detail-container'>
