@@ -27,22 +27,22 @@ export function TabSelector({ className, tab, onTabSelected }) {
       />
     ),
     'blocking-lists': (
-      <Tab key="blocking-lists" label={localise('Blocking Lists', {})} />
+      <Tab key="blocking-lists" label={localise('Lists Blocking', {})} />
     ),
     'blocked-by-lists': (
-      <Tab key="blocked-by-lists" label={localise('Blocked By Lists', {})} />
+      <Tab key="blocked-by-lists" label={localise('Lists Blocked By', {})} />
     ),
     lists: (
       <Tab
         key="lists"
-        label={localise('Lists', { uk: 'У списках' })}
+        label={localise('Lists On', { uk: 'У списках' })}
         aria-label="lists"
       />
     ),
     history: (
       <Tab
         key="history"
-        label={localise('History', { uk: 'Історія' })}
+        label={localise('Posts', { uk: 'Історія' })}
         aria-label="history"
       />
     ),
@@ -52,14 +52,14 @@ export function TabSelector({ className, tab, onTabSelected }) {
     packs: (
       <Tab
         key="packsCreated"
-        label={localise('Packs made', {})}
+        label={localise('Starter Packs Made', {})}
         aria-label="Packs made"
       />
     ),
     packed: (
       <Tab
         key="packsPopulated"
-        label={localise('In Packs', {})}
+        label={localise('Starter Packs In', {})}
         aria-label="Packs Inhabited"
       />
     ),
