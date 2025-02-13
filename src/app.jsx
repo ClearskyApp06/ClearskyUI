@@ -45,6 +45,15 @@ function showApp() {
               };
             },
           },
+          {
+            path: ':handle/:tab/subscribers',
+            async lazy() {
+              const { AccountLayout } = await import('./detail-panels');
+              return {
+                Component: AccountLayout,
+              };
+            },
+          },
         ],
       },
     ],

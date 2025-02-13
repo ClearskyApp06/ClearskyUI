@@ -6,7 +6,7 @@ import { localise } from '../../localisation';
 
 /**
  * @param {{
- *  blocklist: (BlockedByRecord | { did: string; blocked_date: string })[];
+ *  blocklist: (BlockedByRecord | { did: string; blocked_date: string } | { did: string; date_added: string } | BlockListSubscriberEntry)[];
  * }} _
  */
 export function ListView({ blocklist }) {
@@ -22,15 +22,25 @@ export function ListView({ blocklist }) {
 
 /**
  * @param {{
- *  blocked_date: string;
+ *  blocked_date?: string;
+ *  date_added?: string;
  *  handle?: string;
  *  did?: string;
  *  className?: string;
  * }} _
  */
-function ListViewEntry({ blocked_date, handle, did, className, ...rest }) {
+function ListViewEntry({
+  blocked_date,
+  date_added,
+  handle,
+  did,
+  className,
+  ...rest
+}) {
   const account = handle || did;
   if (!account) return null;
+
+  const entryDate = blocked_date ? blocked_date : date_added;
 
   const result = (
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
@@ -38,22 +48,24 @@ function ListViewEntry({ blocked_date, handle, did, className, ...rest }) {
         className="blocking-account-link"
         withDisplayName
         accountTooltipPanel={
-          !blocked_date ? undefined : (
+          !entryDate ? undefined : (
             <div className="account-info-panel-blocked-timestamp">
               {localise('blocked', { uk: 'заблоковано' })}
               <div className="account-info-panel-blocked-timestamp-full">
-                {new Date(blocked_date).toString()}
+                {new Date(entryDate).toString()}
               </div>
             </div>
           )
         }
         account={account}
       >
-        <FormatTimestamp
-          timestamp={blocked_date}
-          noTooltip
-          className="blocking-date"
-        />
+        {entryDate ? (
+          <FormatTimestamp
+            timestamp={entryDate}
+            noTooltip
+            className="blocking-date"
+          />
+        ) : null}
       </AccountShortEntry>
     </li>
   );
