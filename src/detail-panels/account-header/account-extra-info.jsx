@@ -12,6 +12,7 @@ import { useAccountResolver } from '../account-resolver';
 import './account-extra-info.css';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
+import { useFeatureFlags } from '../../context/FeatureFlagContext';
 
 /**
  * @param {{
@@ -23,12 +24,13 @@ export function AccountExtraInfo({ className, ...rest }) {
   const account = accountQuery.data;
   const handleHistoryQuery = useHandleHistory(account?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+  const features = useFeatureFlags();
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
       <div className="bio-section">
-        {!account?.description ? undefined : (
+        {features?.["data"]?.["profile-description"]?.status && (!account?.description ? undefined : (
           <MultilineFormatted text={account?.description} />
-        )}
+        ))}
       </div>
       <div className="did-section">
         <DidWithCopyButton
