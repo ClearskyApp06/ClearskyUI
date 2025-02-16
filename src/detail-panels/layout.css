@@ -104,11 +104,67 @@
 }
 
 .account-tabs-handles.selected-tab-blocking .MuiTabs-indicator {
-  background-color: #b87700;
+  background-color: #c49b36;
 }
 
 .account-tabs-handles.selected-tab-lists .MuiTabs-indicator {
-  background-color: #3c68b7;
+  background-color: #4a73b7;
+}
+
+/* tab-history */
+.account-tabs-handles .MuiTab-root.tab-history {
+  background: linear-gradient(to right, #fff2e6, #fff9f0 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-history.Mui-selected {
+  background: linear-gradient(to right, #ffe5cc, #fff0d9 0.6em);
+  color: #b78b2a;
+}
+
+.account-tabs-handles.selected-tab-history .MuiTabs-indicator {
+  background-color: #b78b2a;
+}
+
+/* tab-labeled */
+.account-tabs-handles .MuiTab-root.tab-labeled {
+  background: linear-gradient(to right, #e6ffe6, #f2fff2 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-labeled.Mui-selected {
+  background: linear-gradient(to right, #cfc, #d9ffd9 0.6em);
+  color: #5cb75c;
+}
+
+.account-tabs-handles.selected-tab-labeled .MuiTabs-indicator {
+  background-color: #5cb75c;
+}
+
+/* tab-packsCreated */
+.account-tabs-handles .MuiTab-root.tab-packsCreated {
+  background: linear-gradient(to right, #ffe6f2, #fff2f7 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-packsCreated.Mui-selected {
+  background: linear-gradient(to right, #ffccdb, #ffd9e6 0.6em);
+  color: #b75c8b;
+}
+
+.account-tabs-handles.selected-tab-packsCreated .MuiTabs-indicator {
+  background-color: #b75c8b;
+}
+
+/* tab-packsPopulated */
+.account-tabs-handles .MuiTab-root.tab-packsPopulated {
+  background: linear-gradient(to right, #e6f2ff, #f2f7ff 0.6em);
+}
+
+.account-tabs-handles .MuiTab-root.tab-packsPopulated.Mui-selected {
+  background: linear-gradient(to right, #d9e9ff, #c4d9ff 0.6em);
+  color: #5c8bb7;
+}
+
+.account-tabs-handles.selected-tab-packsPopulated .MuiTabs-indicator {
+  background-color: #5c8bb7;
 }
 
 .account-tabs-content {
