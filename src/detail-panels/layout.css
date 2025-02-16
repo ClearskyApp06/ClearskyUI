@@ -50,7 +50,7 @@
 
 .account-extra-info {
   display: block;
-  padding-bottom: 0;
+  height: calc(100% - 200px);
 }
 
 
