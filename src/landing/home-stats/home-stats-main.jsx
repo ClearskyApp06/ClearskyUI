@@ -22,6 +22,7 @@ export function HomeStatsMain({
   loading,
   stats,
   onToggleTable,
+  features,
 }) {
   return (
     <div
@@ -38,7 +39,7 @@ export function HomeStatsMain({
         </Button>
       )}
 
-      <NetworkCircle
+      {features?.["data"]?.["total-users-wheel"]?.status && <NetworkCircle
         {...{
           activeAccounts,
           deletedAccounts,
@@ -46,19 +47,19 @@ export function HomeStatsMain({
           percentNumberBlocking1,
           loading,
         }}
-      />
+      />}
 
       {stats && (
         <>
-          <TopBlocked
+          {features?.["data"]?.["top-blocked"]?.status && <TopBlocked
             blocked={stats.topLists.total.blocked}
             blocked24={stats.topLists['24h'].blocked}
-          />
+          />}
 
-          <TopBlockers
+          {features?.["data"]?.["top-blockers"]?.status && <TopBlockers
             blockers={stats.topLists.total.blockers}
             blockers24={stats.topLists['24h'].blockers}
-          />
+          />}
         </>
       )}
     </div>

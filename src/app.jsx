@@ -11,7 +11,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import { queryClient } from './api/query-client';
 import { ErrorBoundary } from './common-components/error-boundary'; 
-import { FeatureFlagProvider } from './context/FeatureFlagContext';
 
 import './app.css';
 
@@ -90,7 +89,6 @@ function showApp() {
 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <FeatureFlagProvider>
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
             <React.Suspense>
@@ -104,7 +102,6 @@ function showApp() {
             </div>
           </QueryClientProvider>
         </ThemeProvider>
-      </FeatureFlagProvider>
     </React.StrictMode>
   );
 }
