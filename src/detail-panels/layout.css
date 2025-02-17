@@ -39,6 +39,7 @@
     border-top: 0;
   }
 }
+
 .account-header .info-icon {
   display: none;
 }
@@ -47,13 +48,10 @@
   align-self: end;
 }
 
-
 .account-extra-info {
   display: block;
   height: calc(100% - 200px);
 }
-
-
 
 .account-extra-info .did-section .copy-did {
   color: #b8b8b8;
@@ -228,6 +226,7 @@
   display:none;
   visibility: hidden;
 }
+
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
@@ -239,9 +238,11 @@
   .account-extra-info{
     display:none;
   }
+
   .account-header .info-icon {
     display: inline;
   }
+
   .account-extra-info.account-extra-info-reveal {
     border-radius:5px;
     border:1px solid black;   
@@ -255,6 +256,7 @@
     display: block;
     padding: 5px;
     zoom:.75;
+    height:fit-content;
   }
   
   .account-extra-info-reveal .close-opt{
