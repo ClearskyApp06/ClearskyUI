@@ -49,8 +49,9 @@
 }
 
 .account-extra-info {
-  display: block;
   height: calc(100% - 200px);
+  display:flex;
+  flex-direction: column;
 }
 
 .account-extra-info .did-section .copy-did {
@@ -200,12 +201,7 @@
   z-index: 20;
   background: white;
 }
-
-.account-extra-info {
-  display:flex;
-  flex-direction: column;
-}
-
+ 
 .account-extra-info .bio-section {
   display: block;
   flex-grow:4;
