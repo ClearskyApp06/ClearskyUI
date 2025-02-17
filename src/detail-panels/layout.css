@@ -193,6 +193,7 @@
   padding-left: 3px;
   padding-right: 3px;
   flex-grow: 1;
+  overflow-y: auto;
 }
 
 .account-header {
@@ -226,11 +227,8 @@
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
-    overflow-y: auto;
   }
-}
 
-@media (width < 800px) {
   .account-extra-info{
     display:none;
   }
@@ -282,5 +280,8 @@
     display: block;
   }
   
+  .account-tabs-content{
+    overflow-y: auto;
+  }
  
 }
