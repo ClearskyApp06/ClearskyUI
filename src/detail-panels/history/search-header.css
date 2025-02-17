@@ -8,9 +8,9 @@
   padding-top: 0.25em;
 }
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .history-header {
-    top: 5em;
+    /* top: 5em; */
     padding-top: 0;
   }
 }

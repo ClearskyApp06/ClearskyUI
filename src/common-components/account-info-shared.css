@@ -23,11 +23,12 @@
   width: 2em;
   height: 2em;
   border-radius: 200%;
-  background: white;
+  background-color: white;
   margin-right: 0.5em;
   margin-left: 0.5em;
-  background: no-repeat center center;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   border: solid 0.07em white;
 }
 
@@ -57,7 +58,7 @@
 }
 
 .account-avatar-and-displayName-line .account-handle .account-handle-at-empty {
-  min-width:100px;
+  min-width: 100px;
 }
 
 .account-avatar-and-displayName-line .account-place-number {

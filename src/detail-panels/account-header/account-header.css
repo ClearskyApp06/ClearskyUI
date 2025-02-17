@@ -1,4 +1,4 @@
-@import '../../common-components/account-info-shared.css';
+@import url('../../common-components/account-info-shared.css');
 
 .account-close-button {
   float: left;
@@ -10,7 +10,6 @@
   text-shadow: -1px -1px 2px #00000075, 1px 2px 2px #00000075,
     -1px 1px 2px #00000075, 1px -1px 2px #00000075;
   font-size: 80%;
-
   position: sticky;
   top: -0.1em;
   padding: 0.2em 0.6em;
@@ -19,7 +18,7 @@
 }
 
 .account-close-button:hover {
-  background: rgba(255, 255, 255, 0.325);
+  background: rgb(255 255 255 / 32.5%);
   box-shadow: 0 0 25px #ffffffde;
 }
 
@@ -42,7 +41,7 @@
   margin-left: 0.5em;
 }
 
-.account-avatar-and-displayName-line .history-toggle .info-icon:before {
+.account-avatar-and-displayName-line .history-toggle .info-icon::before {
   content: ' ';
   background: #969696;
   border: solid 1px #8a8a8a;
@@ -55,7 +54,7 @@
   right: 0;
 }
 
-.account-avatar-and-displayName-line .history-toggle .info-icon:after {
+.account-avatar-and-displayName-line .history-toggle .info-icon::after {
   position: relative;
   content: 'i';
   color: white;

@@ -18,8 +18,7 @@ function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   root.style.cssText = `
-    min-height: 100%;
-    display: grid;
+    min-height: 100%; 
   `;
   document.body.appendChild(root);
 
@@ -39,6 +38,15 @@ function showApp() {
           { path: 'stable/*', element: <Navigate to="/" replace /> },
           {
             path: ':handle/:tab?',
+            async lazy() {
+              const { AccountLayout } = await import('./detail-panels');
+              return {
+                Component: AccountLayout,
+              };
+            },
+          },
+          {
+            path: ':handle/:tab/subscribers',
             async lazy() {
               const { AccountLayout } = await import('./detail-panels');
               return {
@@ -78,8 +86,7 @@ function showApp() {
       },
     },
   });
-
-  console.log('React createRoot/render');
+ 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>

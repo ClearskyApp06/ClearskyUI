@@ -27,6 +27,7 @@ Rules:
 
 - Make a comment on the ticket you would like to work on so we can assign it to you and to prevent duplicate efforts
 - Check for existing issues before making a new one
+- If an issue is marked with the 'blocked' label, please do not attempt to work
 - We may close an issue or PR without much feedback
 - Stay away from PRs that:
   - Refactor large parts of the codebase
