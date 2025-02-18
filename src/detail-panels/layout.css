@@ -13,7 +13,7 @@
   }
 
   .layout .account-info {
-    min-width: 350px;
+    min-width: 450px;
     max-width: 550px;
     flex: 1 0 0;
     overflow-y: auto;
@@ -29,35 +29,29 @@
     overflow-y: auto;
     scroll-behavior: smooth;
   }
+
+  .account-extra-info .did-section {
+    padding-left: 1em;
+    padding-bottom: 1em;
+    display: none;
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+  }
 }
 
-@media (width <= 800px) {
-  .layout {
-    flex-direction: column;
-    overflow-y: auto;
-  }
+.account-header .info-icon {
+  display: none;
 }
 
 .account-title {
   align-self: end;
 }
 
-.account-header .info-icon {
-  display: inline;
-}
-
 .account-extra-info {
-  display: block;
-  padding-bottom: 0;
-}
-
-.account-extra-info .did-section {
-  padding-left: 1em;
-  padding-bottom: 1em;
-  display: none;
-  padding-top: 0;
-  margin-top: 0;
-  border-top: 0;
+  height: calc(100% - 200px);
+  display:flex;
+  flex-direction: column;
 }
 
 .account-extra-info .did-section .copy-did {
@@ -193,12 +187,13 @@
 .detail-container {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  min-width: 400px;
   margin-left: 2px;
   margin-right: 2px;
   padding-left: 3px;
   padding-right: 3px;
   flex-grow: 1;
+  overflow-y: auto;
 }
 
 .account-header {
@@ -207,28 +202,86 @@
   z-index: 20;
   background: white;
 }
+ 
+.account-extra-info .bio-section {
+  display: block;
+  flex-grow:4;
+}
 
-.account-extra-info.account-extra-info-reveal {
-  background: #f6f6f6;
-  border-top: solid 1px #ececec;
-  border-bottom: solid 1px #ececec;
-  font-size: 90%;
-  padding-bottom: 0.6em;
-  padding-top: 0.4em;
+.account-extra-info .did-section {
+  display: block;  
+  flex-grow:0;
 }
 
 .account-extra-info .handle-history-section {
-  display: none;
-}
-
-.account-extra-info.account-extra-info-reveal .bio-section {
-  display: none;
-}
-
-.account-extra-info.account-extra-info-reveal .did-section {
   display: block;
+  align-self: flex-end;
+  flex-grow:0;
 }
 
-.account-extra-info.account-extra-info-reveal .handle-history-section {
-  display: block;
+.close-opt{
+  display:none;
+  visibility: hidden;
+}
+
+@media (width <= 800px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .account-extra-info{
+    display:none;
+  }
+
+  .account-header .info-icon {
+    display: inline;
+  }
+
+  .account-extra-info.account-extra-info-reveal {
+    border-radius:5px;
+    border:1px solid black;   
+    background: white;
+    font-size: 90%; 
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    width: 95%;
+    z-index: 50;
+    display: block;
+    padding: 5px;
+    zoom:.75;
+    height:fit-content;
+  }
+  
+  .account-extra-info-reveal .close-opt{
+    display: block;
+    position: relative;
+    left: 94%;
+    visibility: visible;
+    zoom: 3;
+  } 
+
+
+  .account-extra-info .handle-history-section {
+    display: none;
+  }
+  
+  .account-extra-info.account-extra-info-reveal .bio-section {
+    display: block;
+    margin: 0;
+  }
+
+  .account-extra-info.account-extra-info-reveal .did-section {
+    display: block;
+    margin: 0;
+  }
+  
+  .account-extra-info.account-extra-info-reveal .handle-history-section {
+    display: block;
+  }
+  
+  .account-tabs-content{
+    overflow-y: auto;
+  }
+ 
 }
