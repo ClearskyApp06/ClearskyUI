@@ -19,7 +19,7 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
  *  loading: boolean;
  *  stats: DashboardStats;
  *  onToggleTable?: () => void;
- *  features : FeatureFlagsResponse | undefined
+ *  features: AllFeatureFlags | undefined;
  * }} HomeStatsDetails
  */
 
@@ -32,7 +32,7 @@ export function HomeStats({ className }) {
   const [asTable, setAsTable] = useState(false);
 
   const { data: stats, isLoading } = useDashboardStats();
-  const { data: features} = useAllFeatures();
+  const { data: features } = useAllFeatures();
 
   const asofFormatted = stats.asof && new Date(stats.asof) + '';
 

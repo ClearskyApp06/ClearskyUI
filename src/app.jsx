@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import { queryClient } from './api/query-client';
-import { ErrorBoundary } from './common-components/error-boundary'; 
+import { ErrorBoundary } from './common-components/error-boundary';
 
 import './app.css';
 
@@ -89,19 +89,19 @@ function showApp() {
 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <React.Suspense>
-              <RouterProvider
-                router={router}
-                future={{ v7_startTransition: true }}
-              />
-            </React.Suspense>
-            <div className="bluethernal-llc-watermark">
-              © 2025 Bluethernal LLC
-            </div>
-          </QueryClientProvider>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <React.Suspense>
+            <RouterProvider
+              router={router}
+              future={{ v7_startTransition: true }}
+            />
+          </React.Suspense>
+          <div className="bluethernal-llc-watermark">
+            © 2025 Bluethernal LLC
+          </div>
+        </QueryClientProvider>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }

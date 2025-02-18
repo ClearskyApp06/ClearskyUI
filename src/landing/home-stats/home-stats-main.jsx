@@ -1,6 +1,4 @@
 // @ts-check
-import { isPromise } from '../../api';
-
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
@@ -39,27 +37,33 @@ export function HomeStatsMain({
         </Button>
       )}
 
-      {features?.["data"]?.["total-users-wheel"]?.status && <NetworkCircle
-        {...{
-          activeAccounts,
-          deletedAccounts,
-          percentNumberBlocked1,
-          percentNumberBlocking1,
-          loading,
-        }}
-      />}
+      {features?.['total-users-wheel']?.status && (
+        <NetworkCircle
+          {...{
+            activeAccounts,
+            deletedAccounts,
+            percentNumberBlocked1,
+            percentNumberBlocking1,
+            loading,
+          }}
+        />
+      )}
 
       {stats && (
         <>
-          {features?.["data"]?.["top-blocked"]?.status && <TopBlocked
-            blocked={stats.topLists.total.blocked}
-            blocked24={stats.topLists['24h'].blocked}
-          />}
+          {features?.['top-blocked']?.status && (
+            <TopBlocked
+              blocked={stats.topLists.total.blocked}
+              blocked24={stats.topLists['24h'].blocked}
+            />
+          )}
 
-          {features?.["data"]?.["top-blockers"]?.status && <TopBlockers
-            blockers={stats.topLists.total.blockers}
-            blockers24={stats.topLists['24h'].blockers}
-          />}
+          {features?.['top-blockers']?.status && (
+            <TopBlockers
+              blockers={stats.topLists.total.blockers}
+              blockers24={stats.topLists['24h'].blockers}
+            />
+          )}
         </>
       )}
     </div>
