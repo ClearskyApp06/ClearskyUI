@@ -14,14 +14,15 @@ import { localise } from '../localisation';
  *  tooltipExtra?: import('react').ReactNode
  *  target?: string;
  *  href?: string;
- * }} _ 
+ * }} _
  */
 export function FormatTimestamp({
   timestamp,
   Component = 'span',
   noTooltip,
   tooltipExtra,
-  ...props }) {
+  ...props
+}) {
   const [_, setState] = useState(0);
 
   const date = new Date(timestamp);
@@ -33,25 +34,40 @@ export function FormatTimestamp({
   let updateDelay;
 
   const dateTime = date.getTime();
+  const inferred = new Intl.RelativeTimeFormat(undefined, {
+    numeric: 'auto',
+  });
+
+  // if date is in the future or more than 30 days in the past, show the full date
   if (dateTime > now || date.getTime() < now - 1000 * 60 * 60 * 24 * 30) {
     dateStr = date.toLocaleDateString();
-  }
-  else {
+  } else {
     const timeAgo = now - dateTime;
+    // if the date is more than 2 days in the past, show the relative time in days
     if (timeAgo > 1000 * 60 * 60 * 48) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60 * 24)) + localise('d', { uk: 'д' });
+      dateStr = inferred.format(
+        Math.round(timeAgo / -(1000 * 60 * 60 * 24)),
+        'days'
+      );
       updateDelay = 1000 * 60 * 60 * 24;
+      // if the date is more than 2 hours in the past, show the relative time in hours
     } else if (timeAgo > 1000 * 60 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
+      dateStr = inferred.format(
+        Math.round(timeAgo / -(1000 * 60 * 60)),
+        'hours'
+      );
       updateDelay = 1000 * 60 * 60;
+      // if the date is more than 2 minutes in the past, show the relative time in minutes
     } else if (timeAgo > 1000 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
+      dateStr = inferred.format(Math.round(timeAgo / -(1000 * 60)), 'minutes');
       updateDelay = 1000 * 60;
+      // if the date is more than 2 seconds in the past, show the relative time in seconds
     } else if (timeAgo > 1000 * 2) {
-      dateStr = Math.round(timeAgo / 1000) + localise('s', { uk: 'с' });
+      dateStr = inferred.format(Math.round(timeAgo / -1000), 'seconds');
       updateDelay = 1000;
+      //  if the date is less than 2 seconds in the past, show "just now"
     } else {
-      dateStr = localise('now', { uk: 'тільки шо' });
+      dateStr = localise('just now', { uk: 'тільки шо' });
       updateDelay = 1000;
     }
   }
@@ -65,21 +81,23 @@ export function FormatTimestamp({
     return () => clearTimeout(timeout);
   });
 
-  const core =
-    <Component {...props}>{dateStr}</Component>;
+  const core = <Component {...props}>{dateStr}</Component>;
 
-  if (noTooltip)
-    return core;
+  if (noTooltip) return core;
 
   return (
-    <Tooltip title={
-      tooltipExtra ?
-        <>
-          {date.toString()}
-          {tooltipExtra}
-        </> :
-        date.toString()
-    }>
+    <Tooltip
+      title={
+        tooltipExtra ? (
+          <>
+            {date.toString()}
+            {tooltipExtra}
+          </>
+        ) : (
+          date.toString()
+        )
+      }
+    >
       {core}
     </Tooltip>
   );
