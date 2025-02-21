@@ -179,6 +179,7 @@ type BlockListSubscriberEntry = {
 };
 
 interface FeatureFlag {
+  rollout: string;
   status: boolean;
 }
 

@@ -2,6 +2,7 @@
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
+import { useDeviceId } from '../../hooks/useDeviceId';
 
 import './home-stats-main.css';
 import { Button } from '@mui/material';
@@ -22,6 +23,7 @@ export function HomeStatsMain({
   onToggleTable,
   features,
 }) {
+  const { deviceId, rolloutPercentage } = useDeviceId();
   return (
     <div
       className={'home-stats-main ' + (className || '')}
@@ -33,11 +35,11 @@ export function HomeStatsMain({
 
       {loading ? undefined : (
         <Button size="small" className="toggle-table" onClick={onToggleTable}>
-          <ViewList style={{ color: 'gray' }} />
+          {parseFloat(features?.['stats-page']?.rollout ?? "100") >= rolloutPercentage && <ViewList style={{ color: 'gray' }} />}
         </Button>
       )}
 
-      {features?.['total-users-wheel']?.status && (
+      {/* {features?.['total-users-wheel']?.status && ( */}
         <NetworkCircle
           {...{
             activeAccounts,
@@ -47,18 +49,18 @@ export function HomeStatsMain({
             loading,
           }}
         />
-      )}
+      {/* )} */}
 
       {stats && (
         <>
-          {features?.['top-blocked']?.status && (
+          {parseFloat(features?.['top-blocked']?.rollout ?? "100") >= rolloutPercentage && (
             <TopBlocked
               blocked={stats.topLists.total.blocked}
               blocked24={stats.topLists['24h'].blocked}
             />
           )}
 
-          {features?.['top-blockers']?.status && (
+          {parseFloat(features?.['top-blockers']?.rollout ?? "100") >= rolloutPercentage && (
             <TopBlockers
               blockers={stats.topLists.total.blockers}
               blockers24={stats.topLists['24h'].blockers}
