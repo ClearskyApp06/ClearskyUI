@@ -35,7 +35,7 @@ export function HomeStatsMain({
 
       {loading ? undefined : (
         <Button size="small" className="toggle-table" onClick={onToggleTable}>
-          {parseFloat(features?.['stats-page']?.rollout ?? "100") >= rolloutPercentage && <ViewList style={{ color: 'gray' }} />}
+          {(features?.['stats-page']?.rollout ?? 100) >= rolloutPercentage && <ViewList style={{ color: 'gray' }} />}
         </Button>
       )}
 
@@ -53,14 +53,14 @@ export function HomeStatsMain({
 
       {stats && (
         <>
-          {parseFloat(features?.['top-blocked']?.rollout ?? "100") >= rolloutPercentage && (
+          {(features?.['top-blocked']?.rollout ?? 100 )>= rolloutPercentage && (
             <TopBlocked
               blocked={stats.topLists.total.blocked}
               blocked24={stats.topLists['24h'].blocked}
             />
           )}
 
-          {parseFloat(features?.['top-blockers']?.rollout ?? "100") >= rolloutPercentage && (
+          {(features?.['top-blockers']?.rollout ?? 100) >= rolloutPercentage && (
             <TopBlockers
               blockers={stats.topLists.total.blockers}
               blockers24={stats.topLists['24h'].blockers}
