@@ -86,7 +86,7 @@ function showApp() {
       },
     },
   });
- 
+
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>

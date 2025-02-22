@@ -1,9 +1,8 @@
 // @ts-check
-import { isPromise } from '../../api';
-
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
+import { useDeviceId } from '../../hooks/useDeviceId';
 
 import './home-stats-main.css';
 import { Button } from '@mui/material';
@@ -22,7 +21,9 @@ export function HomeStatsMain({
   loading,
   stats,
   onToggleTable,
+  features,
 }) {
+  const { deviceId, rolloutPercentage } = useDeviceId();
   return (
     <div
       className={'home-stats-main ' + (className || '')}
@@ -34,31 +35,37 @@ export function HomeStatsMain({
 
       {loading ? undefined : (
         <Button size="small" className="toggle-table" onClick={onToggleTable}>
-          <ViewList style={{ color: 'gray' }} />
+          {(features?.['stats-page']?.rollout ?? 100) >= rolloutPercentage && <ViewList style={{ color: 'gray' }} />}
         </Button>
       )}
 
-      <NetworkCircle
-        {...{
-          activeAccounts,
-          deletedAccounts,
-          percentNumberBlocked1,
-          percentNumberBlocking1,
-          loading,
-        }}
-      />
+      {/* {features?.['total-users-wheel']?.status && ( */}
+        <NetworkCircle
+          {...{
+            activeAccounts,
+            deletedAccounts,
+            percentNumberBlocked1,
+            percentNumberBlocking1,
+            loading,
+          }}
+        />
+      {/* )} */}
 
       {stats && (
         <>
-          <TopBlocked
-            blocked={stats.topLists.total.blocked}
-            blocked24={stats.topLists['24h'].blocked}
-          />
+          {(features?.['top-blocked']?.rollout ?? 100 )>= rolloutPercentage && (
+            <TopBlocked
+              blocked={stats.topLists.total.blocked}
+              blocked24={stats.topLists['24h'].blocked}
+            />
+          )}
 
-          <TopBlockers
-            blockers={stats.topLists.total.blockers}
-            blockers24={stats.topLists['24h'].blockers}
-          />
+          {(features?.['top-blockers']?.rollout ?? 100) >= rolloutPercentage && (
+            <TopBlockers
+              blockers={stats.topLists.total.blockers}
+              blockers24={stats.topLists['24h'].blockers}
+            />
+          )}
         </>
       )}
     </div>
