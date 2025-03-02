@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import {useState } from "react";
 
 function getOrCreateDeviceData() {
   let deviceData = localStorage.getItem("deviceData");
@@ -26,11 +26,6 @@ function hashStringToPercentage(str) {
 }
 
 export function useDeviceId() {
-  const [deviceData, setDeviceData] = useState({ deviceId: null, rolloutPercentage: 0 });
-
-  useEffect(() => {
-    setDeviceData(getOrCreateDeviceData());
-  }, []);
-
-  return useMemo(() => deviceData, [deviceData]);
+  const [deviceData] = useState(getOrCreateDeviceData);
+  return deviceData;
 }
