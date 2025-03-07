@@ -10,7 +10,7 @@ import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
 
-export function Home() {
+export default function Home() {
   const [searchText, setSearchText] = React.useState('');
   const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export function Home() {
         onSearchTextChanged={(searchText) => {
           setSearchText(searchText);
         }}
-        onAccountSelected={(account) => { 
+        onAccountSelected={(account) => {
           if (account.shortHandle) {
             if (account.postID)
               navigate(

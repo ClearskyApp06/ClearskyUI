@@ -2,10 +2,11 @@
 /// <reference path="../../types.d.ts" />
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { unwrapShortDID, unwrapShortHandle } from '../../api';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
-import { FullDID, FullHandle } from '../../common-components/full-short';
+import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
 import { localise } from '../../localisation';
@@ -17,11 +18,10 @@ import { usePlacement } from '../../api/placement';
 /**
  * @param {{
  *  className?: string,
- *  onInfoClick?: () => void,
- *  onCloseClick?: () => void
+ *  onInfoClick?: () => void
  * }} _
  */
-export function AccountHeader({ className, onInfoClick, onCloseClick }) {
+export function AccountHeader({ className, onInfoClick }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
@@ -56,17 +56,15 @@ export function AccountHeader({ className, onInfoClick, onCloseClick }) {
   return (
     <div className={className}>
       <h1 style={{ margin: 0 }}>
-        {typeof onCloseClick !== 'function' ? undefined : (
-          <button
-            title={localise('Back to homepage', {
-              uk: 'Повернутися до головної сторінки',
-            })}
-            className="account-close-button"
-            onClick={onCloseClick}
-          >
-            &lsaquo;
-          </button>
-        )}
+        <Link
+          title={localise('Back to homepage', {
+            uk: 'Повернутися до головної сторінки',
+          })}
+          className="account-close-button"
+          to="/"
+        >
+          &lsaquo;
+        </Link>
 
         <div
           className="account-banner"
@@ -115,7 +113,9 @@ export function AccountHeader({ className, onInfoClick, onCloseClick }) {
                   </a>
                 </>
               )}
-              {placement && <div className='account-place-number'>User #{placement}</div>}
+              {placement && (
+                <div className="account-place-number">User #{placement}</div>
+              )}
             </span>
             <Button
               className="history-toggle"
