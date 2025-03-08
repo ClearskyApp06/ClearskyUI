@@ -8,19 +8,42 @@ import { getDefaultComponent } from '../utils/get-default';
 /** @typedef {(typeof tabRoutes)[number]['path']} AnyTab */
 
 /**
- * @satisfies {import('react-router-dom').RouteObject[]}
+ * @satisfies {Array<import('react-router-dom').RouteObject & { tab: React.JSX.Element }>}
  */
 const tabRoutes = /** @type {const} */ ([
   {
     path: 'blocking',
     lazy: () => getDefaultComponent(import('./blocking')),
+    tab: (
+      <Tab
+        to="blocking"
+        label={localise('Blocking', { uk: 'Блокує' })}
+        aria-label="blocking"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'blocked-by',
     lazy: () => getDefaultComponent(import('./blocked-by')),
+    tab: (
+      <Tab
+        to="blocked-by"
+        label={localise('Blocked By', { uk: 'Блокують' })}
+        aria-label="blocked by"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'blocking-lists',
+    tab: (
+      <Tab
+        to="blocking-lists"
+        label={localise('Lists Blocking', {})}
+        component={Link}
+      />
+    ),
     children: [
       {
         index: true,
@@ -34,6 +57,13 @@ const tabRoutes = /** @type {const} */ ([
   },
   {
     path: 'blocked-by-lists',
+    tab: (
+      <Tab
+        to="blocked-by-lists"
+        label={localise('Lists Blocked By', {})}
+        component={Link}
+      />
+    ),
     children: [
       {
         index: true,
@@ -48,22 +78,62 @@ const tabRoutes = /** @type {const} */ ([
   {
     path: 'lists',
     lazy: () => getDefaultComponent(import('./lists')),
+    tab: (
+      <Tab
+        to="lists"
+        label={localise('Lists On', { uk: 'У списках' })}
+        aria-label="lists"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'history',
     lazy: () => getDefaultComponent(import('./history/history-panel')),
+    tab: (
+      <Tab
+        to="history"
+        label={localise('Posts', { uk: 'Історія' })}
+        aria-label="history"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'labeled',
     lazy: () => getDefaultComponent(import('./labeled')),
+    tab: (
+      <Tab
+        to="labeled"
+        label={localise('Labels', {})}
+        aria-label="labelled"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'packs',
     lazy: () => getDefaultComponent(import('./packs')),
+    tab: (
+      <Tab
+        to="packs"
+        label={localise('Starter Packs Made', {})}
+        aria-label="Packs made"
+        component={Link}
+      />
+    ),
   },
   {
     path: 'packed',
     lazy: () => getDefaultComponent(import('./packs/packed')),
+    tab: (
+      <Tab
+        to="packed"
+        label={localise('Starter Packs In', {})}
+        aria-label="Packs Inhabited"
+        component={Link}
+      />
+    ),
   },
 ]);
 
@@ -77,83 +147,6 @@ export const profileTabRoutes = [
   },
   ...tabRoutes,
 ];
-
-/**
- * @type {Record<AnyTab, React.JSX.Element>}
- */
-const tabHandlers = {
-  'blocked-by': (
-    <Tab
-      key="blocked-by"
-      label={localise('Blocked By', { uk: 'Блокують' })}
-      aria-label="blocked by"
-      LinkComponent={Link}
-      href="TODO ON ALL TABS"
-    />
-  ),
-  blocking: (
-    <Tab
-      key="blocking"
-      label={localise('Blocking', { uk: 'Блокує' })}
-      aria-label="blocking"
-      LinkComponent={Link}
-    />
-  ),
-  'blocking-lists': (
-    <Tab
-      key="blocking-lists"
-      label={localise('Lists Blocking', {})}
-      LinkComponent={Link}
-    />
-  ),
-  'blocked-by-lists': (
-    <Tab
-      key="blocked-by-lists"
-      label={localise('Lists Blocked By', {})}
-      LinkComponent={Link}
-    />
-  ),
-  lists: (
-    <Tab
-      key="lists"
-      label={localise('Lists On', { uk: 'У списках' })}
-      aria-label="lists"
-      LinkComponent={Link}
-    />
-  ),
-  history: (
-    <Tab
-      key="history"
-      label={localise('Posts', { uk: 'Історія' })}
-      aria-label="history"
-      LinkComponent={Link}
-    />
-  ),
-  labeled: (
-    <Tab
-      key="labeled"
-      label={localise('Labels', {})}
-      aria-label="labelled"
-      LinkComponent={Link}
-    />
-  ),
-  packs: (
-    <Tab
-      key="packsCreated"
-      label={localise('Starter Packs Made', {})}
-      aria-label="Packs made"
-      LinkComponent={Link}
-    />
-  ),
-  packed: (
-    <Tab
-      key="packsPopulated"
-      label={localise('Starter Packs In', {})}
-      aria-label="Packs Inhabited"
-      LinkComponent={Link}
-    />
-  ),
-};
 
 /**
  *
@@ -177,7 +170,7 @@ export function TabSelector({ className }) {
         style={{ border: 'none', margin: 0, padding: 0 }}
         value={tabRoutes.findIndex((route) => route.path === tab)}
       >
-        {tabRoutes.map((tabKey) => tabHandlers[tabKey.path])}
+        {tabRoutes.map((route) => route.tab)}
       </Tabs>
     </div>
   );
