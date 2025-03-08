@@ -2,19 +2,15 @@
 
 import { BlockListPanelGeneric } from '../block-panel-generic';
 import { localise } from '../../localisation';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useAccountResolver } from '../account-resolver';
 import { CircularProgress } from '@mui/material';
 
 /**
- * @this {never}
- * @param {{
- *  blockListEntry: BlockListEntry | null
- * }} _
  */
-export default function BlockListSubscribersPanel({ blockListEntry }) {
-  const navigate = useNavigate();
+export default function BlockListSubscribersPanel() {
   const { isLoading, data } = useAccountResolver();
+  const { list_url } = useParams();
 
   // Show loader for initial load
   if (isLoading || !data) {
@@ -28,17 +24,14 @@ export default function BlockListSubscribersPanel({ blockListEntry }) {
     );
   }
 
-  const shortHandle = data.shortHandle;
-  if (!blockListEntry) {
-    navigate(`/${shortHandle}/` + 'blocked-by-lists');
-    return null;
+  if (!list_url) {
+    return <Navigate to=".." replace />;
   }
 
   return (
     <BlockListPanelGeneric
       className="blocked-by-panel"
-      handle={shortHandle}
-      blockListEntry={blockListEntry}
+      listUrl={list_url}
       header={({ blockListName, count }) => (
         <>
           {`${blockListName} has ${Intl.NumberFormat().format(
@@ -46,7 +39,6 @@ export default function BlockListSubscribersPanel({ blockListEntry }) {
           )} subscribers`}
         </>
       )}
-      onCloseClick={(handle) => navigate(`/${handle}/` + 'blocked-by-lists')}
     />
   );
 }

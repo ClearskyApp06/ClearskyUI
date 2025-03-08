@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 
 import { AccountHeader } from './account-header';
-import { TabSelector } from './tab-selector';
+import { TabSelector } from './tabs';
 
 import { AccountExtraInfo } from './account-header';
 import './layout.css';

@@ -2,7 +2,7 @@
 
 /**
  * @param {string} english
- * @param {{ [lang: string]: string}} languageMap
+ * @param {{ [lang: string]: string}=} languageMap
  */
 export function localise(english, languageMap) {
   return english;

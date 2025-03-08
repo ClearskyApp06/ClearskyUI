@@ -14,7 +14,7 @@ import { ErrorBoundary } from './common-components/error-boundary';
 
 import './app.css';
 import { getDefaultComponent } from './utils/get-default';
-import { profileTabRoutes } from './detail-panels/tab-selector';
+import { profileTabRoutes } from './detail-panels/tabs';
 
 const router = createBrowserRouter(
   [
@@ -50,7 +50,7 @@ function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   root.style.cssText = `
-    min-height: 100%; 
+    min-height: 100%;
   `;
   document.body.appendChild(root);
 
