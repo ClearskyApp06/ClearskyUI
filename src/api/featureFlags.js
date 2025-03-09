@@ -43,7 +43,7 @@ export function useAllFeatures() {
  * Hook to get a specific feature flag.
  * @param {string} name
  */
-export function useFeatureFlag(name) {
+export function useOneFeature(name) {
   return useQuery({
     queryKey: ['feature-flag', name],
     queryFn: () => fetchFeature(name),
