@@ -108,6 +108,7 @@ export function BlockPanelGeneric({
 
 class PanelHeader extends React.Component {
   direction = +1;
+  state = { count: 0 };
 
   render() {
     let count = this.props.count || 0;
@@ -115,7 +116,6 @@ class PanelHeader extends React.Component {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => this.forceUpdate(), 10);
       count = this.state?.count || 0;
-      if (!this.state) this.state = { count: 0 };
     }
 
     const { blocklist, header } = this.props;

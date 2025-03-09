@@ -2,7 +2,6 @@
 
 import { Button } from '@mui/material';
 
-import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { localise } from '../../localisation';
 import { version } from '../../../package.json';
 
@@ -12,6 +11,7 @@ import './about.css';
  * @type {string}
  */
 // @ts-ignore
+// eslint-disable-next-line no-undef
 const builtFromCommit = BUILD_COMMIT_HASH || null;
 
 /**

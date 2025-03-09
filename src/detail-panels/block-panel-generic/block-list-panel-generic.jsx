@@ -33,12 +33,13 @@ export function BlockListPanelGeneric({
   handle,
   blockListEntry,
   header,
-  onCloseClick
+  onCloseClick,
 }) {
   // const blocklistQuery = useBlocklistSubscribers(blockListEntry.list_url);
   // const totalQuery = useBlocklistCount(blockListEntry.list_owner);
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlocklistSubscribers(blockListEntry.list_url);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useBlocklistSubscribers(blockListEntry.list_url);
   // const { data: totalData } = totalQuery
 
   // const [tableView, setTableView] = React.useState(false);
@@ -116,6 +117,7 @@ export function BlockListPanelGeneric({
 
 class PanelHeader extends React.Component {
   direction = +1;
+  state = { count: 0 };
 
   render() {
     let count = this.props.count || 0;
@@ -123,7 +125,6 @@ class PanelHeader extends React.Component {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => this.forceUpdate(), 10);
       count = this.state?.count || 0;
-      if (!this.state) this.state = { count: 0 };
     }
 
     const { blockListName, handle, header, onCloseClick } = this.props;
@@ -139,7 +140,7 @@ class PanelHeader extends React.Component {
       >
         {typeof onCloseClick !== 'function' ? undefined : (
           <button
-            title='Back to block by lists'
+            title="Back to block by lists"
             className="account-close-button"
             onClick={() => onCloseClick(handle)}
           >
@@ -147,7 +148,9 @@ class PanelHeader extends React.Component {
           </button>
         )}
 
-        {typeof header === 'function' ? header({ blockListName, count }) : header}
+        {typeof header === 'function'
+          ? header({ blockListName, count })
+          : header}
 
         <span className="panel-toggles">
           {this.props.showSearch ? undefined : (

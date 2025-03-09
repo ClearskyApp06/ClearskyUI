@@ -110,12 +110,15 @@ export function AccountHeader({ className, onInfoClick, onCloseClick }) {
                       resolved.data?.shortHandle
                     )}`}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <FullHandle shortHandle={resolved.data?.shortHandle} />
                   </a>
                 </>
               )}
-              {placement && <div className='account-place-number'>User #{placement}</div>}
+              {placement && (
+                <div className="account-place-number">User #{placement}</div>
+              )}
             </span>
             <Button
               className="history-toggle"

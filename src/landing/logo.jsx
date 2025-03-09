@@ -27,6 +27,7 @@ export function Logo({ className, ...rest }) {
     return () => {
       clearTimeout(handle);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.large]);
 
   return (

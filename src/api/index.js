@@ -79,7 +79,7 @@ export function shortenDID(did) {
   );
 }
 
-const _shortenDID_Regex = /^did\:plc\:/;
+const _shortenDID_Regex = /^did:plc:/;
 
 /**
  * @param {T} input
@@ -165,7 +165,7 @@ export function breakPostURL(url) {
   return { shortDID: match[1], postID: match[2] };
 }
 const _breakPostURL_Regex =
-  /^http[s]?\:\/\/bsky\.app\/profile\/([a-z0-9\.\:]+)\/post\/([a-z0-9]+)$/;
+  /^http[s]?:\/\/bsky\.app\/profile\/([a-z0-9.:]+)\/post\/([a-z0-9]+)$/;
 
 /**
  * @param {string | null | undefined} uri
