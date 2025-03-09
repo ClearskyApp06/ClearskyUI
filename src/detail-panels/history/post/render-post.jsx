@@ -148,6 +148,7 @@ function ReplyToLink({ post, ...rest }) {
                 replyUri?.postID
               )}
               target="_blank"
+              rel="noreferrer"
             >
               <MiniAvatar
                 className="post-replying-to-resolved"
@@ -169,6 +170,7 @@ function ReplyToLink({ post, ...rest }) {
                 rootUri?.postID
               )}
               target="_blank"
+              rel="noreferrer"
             >
               <MiniAvatar
                 className="post-replying-to-resolved post-replying-to-root"
