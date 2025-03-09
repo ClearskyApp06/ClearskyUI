@@ -86,8 +86,6 @@ export function TabSelector({ className, tab, onTabSelected }) {
       >
         {accountTabs.map((tabKey) => tabHandlers[tabKey])}
       </Tabs>
-
-      <div className="bluethernal-llc-watermark">Bluethernal LLC</div>
     </div>
   );
 }
