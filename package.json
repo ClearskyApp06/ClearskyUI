@@ -8,7 +8,9 @@
     "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
     "typecheck": "tsc --noEmit",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "stylelint:fix": "stylelint --fix \"src/**/*.css\""
+    "stylelint:fix": "stylelint --fix \"src/**/*.css\"",
+    "eslint": "eslint \"src\"",
+    "eslint:fix": "eslint --fix \"src\""
   },
   "keywords": [],
   "author": "",
@@ -36,8 +38,13 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
     "stylelint": "^16.14.1",
     "stylelint-config-standard": "^37.0.0",
     "typescript": "^5",
