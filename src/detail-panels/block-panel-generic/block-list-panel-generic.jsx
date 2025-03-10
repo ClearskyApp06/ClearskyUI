@@ -1,23 +1,12 @@
 // @ts-check
 
 import React from 'react';
+import { CircularProgress } from '@mui/material';
 
-import { TableChart, TableRows } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
-import { Button, CircularProgress } from '@mui/material';
-// import { useSearchParams } from 'react-router-dom';
-
-// import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
-// import { TableView } from './table-view';
 import { VisibleWithDelay } from '../../common-components/visible';
-
 import './block-panel-generic.css';
-import { localise } from '../../localisation';
-import {
-  useBlocklistSubscribers,
-  useSingleBlocklist,
-} from '../../api/blocklist';
+import { useBlocklistSubscribers } from '../../api/blocklist';
 import { Link } from 'react-router-dom';
 
 /** @typedef {import('@tanstack/react-query').InfiniteData<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string } | BlockListSubscriberEntry)[]; count?: number }>} InfBlockData */
