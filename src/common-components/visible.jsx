@@ -36,7 +36,7 @@ export function Visible({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting !== visible) {
-          setVisible((visible = entry.isIntersecting));
+          setVisible(entry.isIntersecting);
           if (entry.isIntersecting) onVisible?.();
           else onObscured?.();
         }
@@ -49,6 +49,7 @@ export function Visible({
 
     observer.observe(ref.current);
     return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref.current]);
 
   return (

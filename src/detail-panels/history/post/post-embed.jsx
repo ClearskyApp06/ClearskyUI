@@ -235,6 +235,7 @@ function PostEmbedExternal({ post, embed }) {
         className="post-embed-external"
         href={embed.external.uri}
         target="_blank"
+        rel="noreferrer"
       >
         <div className="post-embed-external-title">{embed.external.title}</div>
         <div className="post-embed-external-description">

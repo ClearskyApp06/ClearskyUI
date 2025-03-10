@@ -108,6 +108,7 @@ export function AccountHeader({ className, onInfoClick }) {
                       resolved.data?.shortHandle
                     )}`}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <FullHandle shortHandle={resolved.data?.shortHandle} />
                   </a>

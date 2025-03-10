@@ -114,13 +114,12 @@ function ResolvedAccount({
       title={
         <MiniAccountInfo
           account={account}
-          children={
-            accountTooltipPanel === true ? undefined : accountTooltipPanel
-          }
           banner={
             accountTooltipBanner === true ? undefined : accountTooltipBanner
           }
-        />
+        >
+          {accountTooltipPanel === true ? undefined : accountTooltipPanel}
+        </MiniAccountInfo>
       }
     >
       {handleWithContent}

@@ -19,14 +19,16 @@ import { PDSName } from './handle-history/pds-name';
  *  onInfoClick?: () => void
  * }} _
  */
-export function AccountExtraInfo({ className,onInfoClick, ...rest }) {
+export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
   const handleHistoryQuery = useHandleHistory(account?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
-      <div className="close-opt" onClick={onInfoClick}>&times;</div>
+      <div className="close-opt" onClick={onInfoClick}>
+        &times;
+      </div>
       <div className="bio-section">
         {!account?.description ? undefined : (
           <MultilineFormatted text={account?.description} />
@@ -144,7 +146,7 @@ function DidWithCopyButton({ shortDID, handleHistory }) {
  */
 function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   if (!text) return undefined;
-  const textWithSpaces = text.replace(/  /g, ' \u00a0');
+  const textWithSpaces = text.replace(/ {2}/g, ' \u00a0');
   const lines = textWithSpaces.split('\n');
   const lineElements = [];
   const urlRegex = /(https?:\/\/[^\s]+)/g;

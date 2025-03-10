@@ -30,7 +30,10 @@ export function HistoryScrollableList({ searchText, history }) {
   const [bottomVisible, setBottomVisible] = useState(false);
   // lastRankedCount = 0;
   // debounceShrinkVirtualScroll = 0;
-  const allPosts = history.data?.pages.flatMap((page) => page.records) || [];
+  const allPosts = useMemo(
+    () => history.data?.pages.flatMap((page) => page.records) || [],
+    [history.data?.pages]
+  );
   const ranked = useMemo(
     () =>
       applySearchGetResults({
@@ -49,6 +52,7 @@ export function HistoryScrollableList({ searchText, history }) {
         setRenderCount((prev) => prev + BLOCK_ADD_INFINITE_SCROLLING);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottomVisible]);
 
   // useEffect(() => {}, [renderCount, ranked]);
