@@ -59,7 +59,6 @@ function handleIsDomainLike(handle) {
  * tries to look up a handle's DID first from bsky directly, then falling back to DNS queries
  * @param {string | undefined} fullHandle a fully expanded handle (.bsky.social added if it was not already domain-like)
  * @param {AbortSignal} signal
- * @returns
  */
 async function resolveHandleToDid(fullHandle, signal) {
   if (!fullHandle || !handleIsDomainLike(fullHandle)) {
@@ -70,7 +69,7 @@ async function resolveHandleToDid(fullHandle, signal) {
     // don't bother checking dns if the handle was from bsky.social. bsky's api should be authoritative in that case
     return bskyResult;
   }
-  return resolveHandleFromDns(fullHandle, signal);
+  return await manuallyResolveHandle(fullHandle, signal);
 }
 
 /**
@@ -105,26 +104,59 @@ async function resolveHandleFromBsky(fullHandle, signal) {
 }
 
 /**
+ * Attemplts to resolve a given handle to a DID via HTTPS or DNS
+ * @see https://atproto.com/specs/handle#handle-resolution
+ * @param {string} handle
+ * @param {AbortSignal} signal
+ */
+async function manuallyResolveHandle(handle, signal) {
+  const [byDns, byHttps] = await Promise.all([
+    getHandleDnsRecord(handle, signal),
+    getHandleHttpsRecord(handle, signal),
+  ]);
+  const record = byDns || byHttps;
+  if (record) {
+    return shortenDID(record.replace(/^did=/, ''));
+  } else {
+    console.debug(new Error('Handle did not manually resolve: ' + handle));
+    return null;
+  }
+}
+
+/**
  * Attempts to look up the DID of a given handle by making DNS queries over HTTPS
  * @param {string} handle
  * @param {AbortSignal} signal
  */
-async function resolveHandleFromDns(handle, signal) {
-  // note that our dns over https client is dynamically imported here so that
-  // we don't even load it if a client never even needs to lookup via DNS
-  const dohClient = await import('iso-web/doh');
-  // Look up the text records on `_atproto` subdomain of the given handle
-  const resolved = await dohClient.resolve(`_atproto.${handle}`, 'TXT', {
-    signal,
-  });
+async function getHandleDnsRecord(handle, signal) {
+  try {
+    // note that our dns over https client is dynamically imported here so that
+    // we don't even load it if a client never even needs to lookup via DNS
+    const dohClient = await import('iso-web/doh');
+    // Look up the text records on `_atproto` subdomain of the given handle
+    const resolved = await dohClient.resolve(`_atproto.${handle}`, 'TXT', {
+      signal,
+    });
 
-  const record = resolved.result?.find((record) =>
-    record.startsWith('did=did:')
-  );
-  if (record) {
-    return shortenDID(record.replace(/^did=/, ''));
-  } else {
-    console.debug(new Error('Handle did not resolve via dns: ' + handle));
+    const record = resolved.result?.find((record) =>
+      record.startsWith('did=did:')
+    );
+    return record || null;
+  } catch (e) {
+    console.error('Error caught during DNS-based handle resolution', e);
     return null;
   }
+}
+
+/**
+ * Attempts to look up the DID of a given handle by requesting the `/.well-known/atproto-did` path
+ * @param {string} handle
+ * @param {AbortSignal} signal
+ */
+async function getHandleHttpsRecord(handle, signal) {
+  const req = await fetch(`https://${handle}/.well-known/atproto-did`, {
+    signal,
+  });
+  if (!req.ok) return null;
+  return (await req.text()).trim();
 }

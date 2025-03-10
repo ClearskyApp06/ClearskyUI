@@ -13,60 +13,46 @@ import { queryClient } from './api/query-client';
 import { ErrorBoundary } from './common-components/error-boundary';
 
 import './app.css';
+import { getDefaultComponent } from './utils/get-default';
+import { profileTabRoutes } from './detail-panels/tabs';
+
+const router = createBrowserRouter(
+  [
+    {
+      ErrorBoundary,
+      children: [
+        {
+          index: true,
+          lazy: () => getDefaultComponent(import('./landing/home')),
+        },
+        { path: 'index.html', element: <Navigate to="/" replace /> },
+        { path: 'stable/*', element: <Navigate to="/" replace /> },
+        {
+          path: ':handle',
+          lazy: () => getDefaultComponent(import('./detail-panels')),
+          children: profileTabRoutes,
+        },
+      ],
+    },
+  ],
+  {
+    future: {
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
+  }
+);
 
 function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   root.style.cssText = `
-    min-height: 100%; 
+    min-height: 100%;
   `;
   document.body.appendChild(root);
-
-  const router = createBrowserRouter(
-    [
-      {
-        ErrorBoundary,
-        children: [
-          {
-            index: true,
-            async lazy() {
-              const { Home } = await import('./landing/home');
-              return { Component: Home };
-            },
-          },
-          { path: 'index.html', element: <Navigate to="/" replace /> },
-          { path: 'stable/*', element: <Navigate to="/" replace /> },
-          {
-            path: ':handle/:tab?',
-            async lazy() {
-              const { AccountLayout } = await import('./detail-panels');
-              return {
-                Component: AccountLayout,
-              };
-            },
-          },
-          {
-            path: ':handle/:tab/subscribers',
-            async lazy() {
-              const { AccountLayout } = await import('./detail-panels');
-              return {
-                Component: AccountLayout,
-              };
-            },
-          },
-        ],
-      },
-    ],
-    {
-      future: {
-        v7_relativeSplatPath: true,
-        v7_fetcherPersist: true,
-        v7_normalizeFormMethod: true,
-        v7_partialHydration: true,
-        v7_skipActionErrorRevalidation: true,
-      },
-    }
-  );
 
   const theme = createTheme({
     components: {
@@ -86,7 +72,7 @@ function showApp() {
       },
     },
   });
- 
+
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>

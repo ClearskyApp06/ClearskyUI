@@ -1,20 +1,13 @@
 // @ts-check
 
 import React from 'react';
+import { CircularProgress } from '@mui/material';
 
-import { TableChart, TableRows } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
-import { Button, CircularProgress } from '@mui/material';
-// import { useSearchParams } from 'react-router-dom';
-
-// import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
-// import { TableView } from './table-view';
 import { VisibleWithDelay } from '../../common-components/visible';
-
 import './block-panel-generic.css';
-import { localise } from '../../localisation';
 import { useBlocklistSubscribers } from '../../api/blocklist';
+import { Link } from 'react-router-dom';
 
 /** @typedef {import('@tanstack/react-query').InfiniteData<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string } | BlockListSubscriberEntry)[]; count?: number }>} InfBlockData */
 
@@ -22,43 +15,17 @@ import { useBlocklistSubscribers } from '../../api/blocklist';
  * @this {never}
  * @param {{
  *  className?: string,
- *  handle?: string,
- *  blockListEntry: BlockListEntry
+ *  listUrl: string,
  *  header?: React.ReactNode | ((args: { blockListName: string, count: number }) => React.ReactNode)
- *  onCloseClick?: ((args: { handle: string, count: number }) => void)
  * }} _
  */
-export function BlockListPanelGeneric({
-  className,
-  handle,
-  blockListEntry,
-  header,
-  onCloseClick,
-}) {
-  // const blocklistQuery = useBlocklistSubscribers(blockListEntry.list_url);
-  // const totalQuery = useBlocklistCount(blockListEntry.list_owner);
-
+export function BlockListPanelGeneric({ className, listUrl, header }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useBlocklistSubscribers(blockListEntry.list_url);
-  // const { data: totalData } = totalQuery
-
-  // const [tableView, setTableView] = React.useState(false);
+    useBlocklistSubscribers(listUrl);
 
   const blocklistPages = data?.pages || [];
-  const blocklist = blocklistPages.flatMap((page) => page.blocklist);
-  // const count = totalData?.count;
-  const count = blocklist.length;
-
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const [tick, setTick] = useState(0);
-  // const search = (searchParams.get('q') || '').trim();
-
-  // const [showSearch, setShowSearch] = useState(!!search);
-
-  // const filteredBlocklist =
-  //   !search || !blocklist
-  //     ? blocklist || []
-  //     : matchSearch(blocklist, search, () => setTick(tick + 1));
+  const subscribers = blocklistPages.flatMap((page) => page.subscribers);
+  const count = subscribers.length;
 
   return (
     <div
@@ -69,34 +36,19 @@ export function BlockListPanelGeneric({
         minHeight: '100%',
       }}
     >
-      {/* <SearchHeaderDebounced
-        style={showSearch ? undefined : { display: 'none' }}
-        label={' ' + localise('Search', { uk: 'Пошук' })}
-        setQ
-      /> */}
       <PanelHeader
         loading={isLoading}
         count={count}
-        blockListName={blockListEntry.list_name}
-        handle={handle}
+        blockListName={data?.pages[0].listName}
         header={header}
-        onCloseClick={onCloseClick}
-        // Ironically this hides the search button
-        showSearch={true}
-        // setShowSearch={setShowSearch}
-        // onShowSearch={() => setShowSearch(true)}
-        // onToggleView={() => setTableView(!tableView)}
-        // tableView={tableView}
       />
       {isLoading ? (
         <p style={{ padding: '0.5em', opacity: '0.5' }}>
           <CircularProgress size="1em" /> Loading...
         </p>
       ) : (
-        //tableView ? (<TableView account={account} blocklist={blocklist} />) : (
-        <ListView blocklist={blocklist} />
+        <ListView blocklist={subscribers} />
       )}
-      {/* )} */}
       {hasNextPage ? (
         <VisibleWithDelay
           // needs to be delayed because the list view initially
@@ -127,7 +79,7 @@ class PanelHeader extends React.Component {
       count = this.state?.count || 0;
     }
 
-    const { blockListName, handle, header, onCloseClick } = this.props;
+    const { blockListName, header } = this.props;
 
     return (
       <h3
@@ -138,44 +90,17 @@ class PanelHeader extends React.Component {
             : ' blocking-panel-header-loading')
         }
       >
-        {typeof onCloseClick !== 'function' ? undefined : (
-          <button
-            title="Back to block by lists"
-            className="account-close-button"
-            onClick={() => onCloseClick(handle)}
-          >
-            &lsaquo;
-          </button>
-        )}
+        <Link
+          title="Back to block by lists"
+          className="account-close-button"
+          to=".."
+        >
+          &lsaquo;
+        </Link>
 
         {typeof header === 'function'
           ? header({ blockListName, count })
           : header}
-
-        <span className="panel-toggles">
-          {this.props.showSearch ? undefined : (
-            <Button
-              size="small"
-              className="panel-show-search"
-              onClick={this.props.setShowSearch}
-            >
-              <SearchIcon />
-            </Button>
-          )}
-          {this.props.onToggleView ? (
-            <Button
-              title={localise('Toggle table view', {
-                uk: 'Перемкнути вигляд таблиці/списку',
-              })}
-              variant="contained"
-              size="small"
-              className="panel-toggle-table"
-              onClick={this.props.onToggleView}
-            >
-              {this.props.tableView ? <TableRows /> : <TableChart />}
-            </Button>
-          ) : null}
-        </span>
       </h3>
     );
   }
@@ -192,29 +117,3 @@ class PanelHeader extends React.Component {
       this.direction = -1;
   };
 }
-
-/**
- * @param {BlockedByRecord[]} blocklist
- * @param {string} search
- * @param {() => void} [redraw]
- */
-// function matchSearch(blocklist, search, redraw) {
-//   const searchLowercase = search.toLowerCase();
-//   const filtered = blocklist.filter((entry) => {
-//     if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
-
-//     const accountOrPromise = resolveHandleOrDID(entry.handle);
-//     if (isPromise(accountOrPromise)) {
-//       accountOrPromise.then(redraw);
-//       return false;
-//     }
-
-//     if (
-//       (accountOrPromise.displayName || '')
-//         .toLowerCase()
-//         .includes(searchLowercase)
-//     )
-//       return true;
-//   });
-//   return filtered;
-// }
