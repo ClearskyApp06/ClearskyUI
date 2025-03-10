@@ -106,11 +106,11 @@
 
   .donate{
     position: absolute;
-        top: 0px;
-        left: 61%;
-        width: fit-content;
+    top: 0px;
+    left: .61vw;
+    width: fit-content;
   }
-  
+
   .home.about-open {
     transform: translateY(7em);
   }
