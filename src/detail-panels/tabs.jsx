@@ -95,7 +95,8 @@ const tabRoutes = /** @type {const} */ ([
 export const profileTabRoutes = [
   {
     index: true,
-    element: <Navigate to="" replace />,
+    // default tab is defined by this redirect
+    element: <Navigate to="history" replace />,
   },
   ...tabRoutes,
 ];
