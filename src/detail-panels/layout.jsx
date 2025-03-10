@@ -17,6 +17,7 @@ import { TabSelector } from './tab-selector';
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
 import { Packed } from './packs/packed';
+import Donate from '../common-components/Donate';
 
 export const accountTabs = /** @type {const} */ ([
   'blocking',
@@ -69,8 +70,9 @@ export function AccountLayoutCore({
     setRevealInfo((prev) => !prev);
   };
   const result = (
-    <>
+    <> <Donate/>
       <div className="layout">
+       
         <AccountHeader
           className="account-header"
           onCloseClick={onCloseClick}

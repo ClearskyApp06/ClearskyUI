@@ -152,6 +152,31 @@
   disabled: false;
 }
 
+.donate {
+  display: block;
+  position: fixed;
+  background-color: red;
+  color: white;
+  text-decoration: blink;
+  font-weight: 500;
+  font-size: 20px;
+  opacity: .25;
+  border-radius: 20px;
+  padding: 5px 10px;
+  animation: Pulsate 7s linear infinite;
+  top: 78px;
+  left: 35%;
+  z-index: 5;
+}
+
+@keyframes Pulsate {
+  from { opacity: 1; }
+  25% { opacity: .75 }
+  90% { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
 @media (max-width: 800px) {
   .layout {
     position: relative;
@@ -236,4 +261,22 @@
   .account-tabs-content .account-tab {
     overflow: unset;
   }
+
+  .donate {
+    display: block;
+    position: fixed;
+    background-color: red;
+    color: white;
+    text-decoration: blink;
+    font-weight: 500;
+    font-size: 20px;
+    opacity: .25;
+    border-radius: 20px;
+    padding: 5px 10px;
+    animation: Pulsate 7s linear infinite;
+    top: 78px;
+    left: 65%;
+    z-index: 215;
+  }
+   
 }

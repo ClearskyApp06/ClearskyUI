@@ -9,6 +9,7 @@ import './home.css';
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
+import Donate from '../common-components/Donate';
 
 export function Home() {
   const [searchText, setSearchText] = React.useState('');
@@ -18,6 +19,7 @@ export function Home() {
   return (
     <div className={'home ' + (aboutOpen ? 'about-open' : '')}>
       <Logo />
+      <Donate/>
       <About onToggleAbout={() => setAboutOpen(!aboutOpen)} />
       <HomeHeader
         className="home-header"
