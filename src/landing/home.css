@@ -21,7 +21,7 @@
   border-radius: 20px;
   padding: 5px 10px;
   animation: Pulsate 4s linear infinite;
-  top: 78px;
+  top: 35px;
   left: 40%;
 }
 
@@ -105,9 +105,9 @@
   }
 
   .donate{
-    position: absolute;
-    top: 20px;
-    left: .61vw;
+    position: fixed;
+    top: 10px;
+    left: 60%;
     width: fit-content;
   }
 
