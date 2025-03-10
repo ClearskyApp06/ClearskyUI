@@ -8,6 +8,7 @@ import { TabSelector } from './tabs';
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
 import { Outlet } from 'react-router-dom';
+import Donate from '../common-components/donate';
 
 /**
  *
@@ -21,11 +22,12 @@ export function AccountLayout() {
   return (
     <div className="layout">
       <div className="account-info">
+      <Donate/>
         <AccountHeader
           className="account-header"
           onInfoClick={toggleRevealInfo}
         />
-
+      
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
           onInfoClick={toggleRevealInfo}
