@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className={'home ' + (aboutOpen ? 'about-open' : '')}>
       <Logo />
-      <Donate/>
+      <Donate className="donate-home"/>
       <About onToggleAbout={() => setAboutOpen(!aboutOpen)} />
       <HomeHeader
         className="home-header"

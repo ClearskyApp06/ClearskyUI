@@ -9,7 +9,7 @@
   grid-template-rows: 1fr auto 1fr;
 }
 
-.donate {
+.donate-home {
   display: block;
   position: fixed;
   background-color: red;
@@ -104,7 +104,7 @@
     transition: transform 0.5s ease-in-out;
   }
 
-  .donate{
+  .donate-home{
     position: fixed;
     top: 10px;
     left: 60%;
