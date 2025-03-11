@@ -2,7 +2,7 @@
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
-import { useFeatureFlag } from '../../hooks/useFeatureFlag';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 import './home-stats-main.css';
 import { Button } from '@mui/material';
