@@ -7,7 +7,6 @@ import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import './home-stats-main.css';
 import { Button } from '@mui/material';
 import { ViewList } from '@mui/icons-material';
-import { useState } from 'react';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -27,7 +26,6 @@ export function HomeStatsMain({
   const topBlocked = useFeatureFlag('top-blocked');
   const topBlockers = useFeatureFlag('top-blockers');
 
-  console.log(statsPage)
   return (
     <div
       className={'home-stats-main ' + (className || '')}

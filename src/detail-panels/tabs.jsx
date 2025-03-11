@@ -4,6 +4,7 @@ import { Link, Navigate, useMatch } from 'react-router-dom';
 import { localise } from '../localisation';
 import './tabs.css';
 import { getDefaultComponent } from '../utils/get-default';
+import { useAllFeatureFlags } from '../hooks/useFeatureFlag';
 
 /** @typedef {(typeof tabRoutes)[number]['path']} AnyTab */
 
@@ -102,21 +103,13 @@ export const profileTabRoutes = [
 ];
 
 /**
- * placeholder for upcoming feature flag system
- * @returns {Record<string, boolean> | null}
- */
-function useFeatureFlags() {
-  return null;
-}
-
-/**
  *
  * @param {{ className: string }} param0
  * @returns
  */
 export function TabSelector({ className }) {
   const matches = useMatch('/:account/:tab/*');
-  const featureFlags = useFeatureFlags();
+  const featureFlags = useAllFeatureFlags();
   const tab = matches?.params.tab;
   return (
     <div className={'tab-outer-container ' + (className || '')}>
