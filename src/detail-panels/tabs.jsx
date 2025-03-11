@@ -111,6 +111,9 @@ export function TabSelector({ className }) {
   const matches = useMatch('/:account/:tab/*');
   const featureFlags = useAllFeatureFlags();
   const tab = matches?.params.tab;
+  const enabledTabs = tabRoutes.filter(
+    (route) => featureFlags[route.featureFlag] !== false
+  );
   return (
     <div className={'tab-outer-container ' + (className || '')}>
       <Tabs
@@ -123,18 +126,16 @@ export function TabSelector({ className }) {
         scrollButtons={true}
         allowScrollButtonsMobile={true}
         style={{ border: 'none', margin: 0, padding: 0 }}
-        value={tabRoutes.findIndex((route) => route.path === tab)}
+        value={enabledTabs.findIndex((route) => route.path === tab)}
       >
-        {tabRoutes.map((route) =>
-          featureFlags?.[route.featureFlag] === false ? null : (
-            <Tab
-              key={route.path}
-              to={route.path}
-              label={route.tab().label}
-              component={Link}
-            />
-          )
-        )}
+        {enabledTabs.map((route) => (
+          <Tab
+            key={route.path}
+            to={route.path}
+            label={route.tab().label}
+            component={Link}
+          />
+        ))}
       </Tabs>
     </div>
   );
