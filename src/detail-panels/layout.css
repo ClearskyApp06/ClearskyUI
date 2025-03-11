@@ -8,10 +8,15 @@
 }
 
 @keyframes pulsate {
-  0% { opacity: 0; }
-  15% { opacity: 1 }
-  90% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {   opacity: 1;  background-color:#000000;}
+  10% {  opacity: 1;  background-color:#276AB2;}
+  48% {  opacity: 1;  background-color:#CEE7F9;}  
+  50% {  opacity: 0.5;background-color:#FFD250;}
+  52% {  opacity: 1;  background-color:#CEE7F9;}  
+  90% { opacity: 1;  background-color:#276AB2;}
+  92% {   opacity: 1;  background-color:#996D20;}
+  93% {   opacity: 1;  background-color:#000000;}
+  100% {   opacity: 1;  background-color:#000000;}
 }
 
 @media (width >= 801px) {
@@ -34,7 +39,7 @@
   .donate {
     display: block;
     position: fixed;
-    background-color: red;
+    background-color:  rgba(0, 140, 255, 0.651);;
     color: white;
     text-decoration: blink;
     font-weight: 500;
@@ -257,7 +262,7 @@
   .donate {
     display: block;
     position: fixed;
-    background-color: red;
+    background-color:  rgba(0, 140, 255, 0.651);;
     color: white;
     text-decoration: blink;
     font-weight: 500;

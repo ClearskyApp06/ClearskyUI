@@ -12,7 +12,7 @@
 .donate-home {
   display: block;
   position: fixed;
-  background-color: red;
+  background-color: rgba(0, 140, 255, 0.651);
   color: white;
   text-decoration: blink;
   font-weight: 500;
@@ -20,16 +20,21 @@
   opacity: .25;
   border-radius: 20px;
   padding: 5px 10px;
-  animation: pulsate 4s linear infinite;
+  animation: pulsate 25s linear infinite;
   top: 35px;
   left: 40%;
 }
 
 @keyframes pulsate {
-  0% { opacity: 1; }
-  25% { opacity: .75 }
-  90% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {   opacity: 1;  background-color:#000000;}
+  10% {  opacity: 1;  background-color:#276AB2;}
+  48% {  opacity: 1;  background-color:#CEE7F9;}  
+  50% {  opacity: 0.5;background-color:#FFD250;}
+  52% {  opacity: 1;  background-color:#CEE7F9;}  
+  90% { opacity: 1;  background-color:#276AB2;}
+  92% {   opacity: 1;  background-color:#996D20;}
+  93% {   opacity: 1;  background-color:#000000;}
+  100% {   opacity: 1;  background-color:#000000;}
 }
 
 @media (width <= 800px) {
