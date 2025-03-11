@@ -1,7 +1,7 @@
 // @ts-check
 
 import { useCallback, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Await } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
 import { AccountExtraInfo } from './account-header';
@@ -44,7 +44,7 @@ export function AccountLayout() {
 
 import { Tab, Tabs } from '@mui/material';
 import { Link, useMatch } from 'react-router-dom';
-import { activeTabRoutes } from './tabs';
+import { activeTabRoutesPromise } from './tabs';
 
 /**
  * @param {{ className: string }} param0
@@ -52,31 +52,41 @@ import { activeTabRoutes } from './tabs';
 export function TabSelector({ className }) {
   const matches = useMatch('/:account/:tab/*');
   const tab = matches?.params.tab;
-  const selectedIndex = activeTabRoutes.findIndex(
-    (route) => route.path === tab
-  );
   return (
     <div className={'tab-outer-container ' + (className || '')}>
-      <Tabs
-        TabIndicatorProps={{
-          style: { display: 'none' },
+      <Await
+        resolve={activeTabRoutesPromise}
+        // eslint-disable-next-line react/no-children-prop
+        children={(
+          /** @type {Awaited<typeof activeTabRoutesPromise>} */ activeTabRoutes
+        ) => {
+          const selectedIndex = activeTabRoutes.findIndex(
+            (route) => route.path === tab
+          );
+          return (
+            <Tabs
+              TabIndicatorProps={{
+                style: { display: 'none' },
+              }}
+              className={'tab-selector-root selected-tab-' + tab}
+              orientation="horizontal"
+              variant="scrollable"
+              allowScrollButtonsMobile
+              style={{ border: 'none', margin: 0, padding: 0 }}
+              value={selectedIndex === -1 ? false : selectedIndex}
+            >
+              {activeTabRoutes.map((route) => (
+                <Tab
+                  key={route.path}
+                  to={route.path}
+                  label={route.tab().label}
+                  component={Link}
+                />
+              ))}
+            </Tabs>
+          );
         }}
-        className={'tab-selector-root selected-tab-' + tab}
-        orientation="horizontal"
-        variant="scrollable"
-        allowScrollButtonsMobile
-        style={{ border: 'none', margin: 0, padding: 0 }}
-        value={selectedIndex === -1 ? false : selectedIndex}
-      >
-        {activeTabRoutes.map((route) => (
-          <Tab
-            key={route.path}
-            to={route.path}
-            label={route.tab().label}
-            component={Link}
-          />
-        ))}
-      </Tabs>
+      />
     </div>
   );
 }

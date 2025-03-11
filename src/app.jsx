@@ -11,50 +11,50 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import { queryClient } from './api/query-client';
 import { ErrorBoundary } from './common-components/error-boundary';
-
-import './app.css';
 import { getDefaultComponent } from './utils/get-default';
-import { profileTabRoutes } from './detail-panels/tabs';
+import { profileChildRoutesPromise } from './detail-panels/tabs';
+import './app.css';
 
-const router = createBrowserRouter(
-  [
-    {
-      errorElement: <ErrorBoundary />,
-      hydrateFallbackElement: (
-        <div className="hydrate-fallback">
-          <CircularProgress size="4em" />
-        </div>
-      ),
-      children: [
-        {
-          index: true,
-          lazy: () => getDefaultComponent(import('./landing/home')),
-        },
-        { path: 'index.html', element: <Navigate to="/" replace /> },
-        { path: 'stable/*', element: <Navigate to="/" replace /> },
-        {
-          path: ':handle',
-          lazy: () => getDefaultComponent(import('./detail-panels')),
-          children: profileTabRoutes,
-        },
-      ],
-    },
-  ],
-  {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true,
-    },
-  }
+const hydrateFallbackElement = (
+  <div className="hydrate-fallback">
+    <CircularProgress size="4em" />
+  </div>
 );
 
-function showApp() {
+async function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   document.body.appendChild(root);
+  const router = createBrowserRouter(
+    [
+      {
+        errorElement: <ErrorBoundary />,
+        hydrateFallbackElement,
+        children: [
+          {
+            index: true,
+            lazy: () => getDefaultComponent(import('./landing/home')),
+          },
+          { path: 'index.html', element: <Navigate to="/" replace /> },
+          { path: 'stable/*', element: <Navigate to="/" replace /> },
+          {
+            path: ':handle',
+            lazy: () => getDefaultComponent(import('./detail-panels')),
+            children: await profileChildRoutesPromise,
+          },
+        ],
+      },
+    ],
+    {
+      future: {
+        v7_relativeSplatPath: true,
+        v7_fetcherPersist: true,
+        v7_normalizeFormMethod: true,
+        v7_partialHydration: true,
+        v7_skipActionErrorRevalidation: true,
+      },
+    }
+  );
 
   const theme = createTheme({
     components: {
@@ -79,7 +79,7 @@ function showApp() {
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <React.Suspense>
+          <React.Suspense fallback={hydrateFallbackElement}>
             <RouterProvider
               router={router}
               future={{ v7_startTransition: true }}

@@ -5,8 +5,6 @@ import './tabs.css';
 import { getDefaultComponent } from '../utils/get-default';
 import { getAllFeatureFlags } from '../api/featureFlags';
 
-const featureFlagAssignments = await getAllFeatureFlags();
-
 /** @typedef {(typeof allTabRoutes)[number]['path']} AnyTab */
 
 /** @typedef {{ tab(): { label: string }, featureFlag: string }} ExtraUiFields */
@@ -91,30 +89,37 @@ const allTabRoutes = /** @type {const} */ ([
   },
 ]);
 
-/**
- * All tab routes filtered down to just the ones that are enabled by feature flags
- */
-export const activeTabRoutes = allTabRoutes.filter(
-  (tab) => featureFlagAssignments[tab.featureFlag]
-);
+const featureFlagAssignmentsPromise = getAllFeatureFlags();
+export const activeTabRoutesPromise = (async () => {
+  const featureFlagAssignments = await featureFlagAssignmentsPromise;
+  /**
+   * All tab routes filtered down to just the ones that are enabled by feature flags
+   */
+  return allTabRoutes.filter((tab) => featureFlagAssignments[tab.featureFlag]);
+})();
 
-// default tab is defined here. uses the posts tab, if enabled, or the first enabled tab otherwise
-const defaultProfilePath = featureFlagAssignments['posts-tab']
-  ? 'history'
-  : activeTabRoutes[0].path;
+export const profileChildRoutesPromise = (async () => {
+  const activeTabRoutes = await activeTabRoutesPromise;
+  const featureFlagAssignments = await featureFlagAssignmentsPromise;
 
-/**
- * @type {import('react-router-dom').RouteObject[]}
- */
-export const profileTabRoutes = [
-  ...activeTabRoutes,
-  {
-    index: true,
-    element: <Navigate to={defaultProfilePath} replace />,
-  },
-  {
-    path: '*',
-    // this is the 404 fallback handler, which will also just redirect to our default tab
-    element: <Navigate to={'../' + defaultProfilePath} replace />,
-  },
-];
+  // default tab is defined here. uses the posts tab, if enabled, or the first enabled tab otherwise
+  const defaultProfilePath = featureFlagAssignments['posts-tab']
+    ? 'history'
+    : activeTabRoutes[0].path;
+
+  /**
+   * @type {import('react-router-dom').RouteObject[]}
+   */
+  return [
+    ...activeTabRoutes,
+    {
+      index: true,
+      element: <Navigate to={defaultProfilePath} replace />,
+    },
+    {
+      path: '*',
+      // this is the 404 fallback handler, which will also just redirect to our default tab
+      element: <Navigate to={'../' + defaultProfilePath} replace />,
+    },
+  ];
+})();
