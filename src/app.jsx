@@ -6,7 +6,7 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { CircularProgress, createTheme, ThemeProvider } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import { queryClient } from './api/query-client';
@@ -19,7 +19,12 @@ import { profileTabRoutes } from './detail-panels/tabs';
 const router = createBrowserRouter(
   [
     {
-      ErrorBoundary,
+      errorElement: <ErrorBoundary />,
+      hydrateFallbackElement: (
+        <div className="hydrate-fallback">
+          <CircularProgress size="4em" />
+        </div>
+      ),
       children: [
         {
           index: true,
@@ -49,9 +54,6 @@ const router = createBrowserRouter(
 function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
-  root.style.cssText = `
-    min-height: 100%;
-  `;
   document.body.appendChild(root);
 
   const theme = createTheme({
