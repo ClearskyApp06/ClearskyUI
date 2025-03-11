@@ -8,15 +8,15 @@
 }
 
 @keyframes pulsate {
-  0% {   opacity: 1;  background-color:#000000;}
-  10% {  opacity: 1;  background-color:#276AB2;}
-  48% {  opacity: 1;  background-color:#CEE7F9;}  
-  50% {  opacity: 0.5;background-color:#FFD250;}
-  52% {  opacity: 1;  background-color:#CEE7F9;}  
-  90% { opacity: 1;  background-color:#276AB2;}
-  92% {   opacity: 1;  background-color:#996D20;}
-  93% {   opacity: 1;  background-color:#000000;}
-  100% {   opacity: 1;  background-color:#000000;}
+  0% { background-color:#000;}
+  10% { background-color:#276AB2;}
+  49% { background-color:#CEE7F9;}  
+  50% { background-color:#FFD250;}
+  51% { background-color:#CEE7F9;}  
+  90% { background-color:#276AB2;}
+  92% { background-color:#996D20;}
+  93% { background-color:#000;}
+  100% { background-color:#000;}
 }
 
 @media (width >= 801px) {
