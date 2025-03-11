@@ -93,12 +93,15 @@ async function resolveHandleFromBsky(fullHandle, signal) {
       return null;
     }
     return shortenDID(resolved.data.did);
-  } catch (e) {
-    // @ts-expect-error e is unknown and that's ok
-    if (e.message !== 'Unable to resolve handle') {
-      // only write to log for unexpected failures
-      console.debug('Unable to resolve handle from bsky', e);
+  } catch (/** @type {any} */ e) {
+    if (e.message === 'Unable to resolve handle') {
+      return null;
     }
+    if (e.cause?.name === 'AbortError') {
+      return null;
+    }
+    // only write to log for unexpected failures
+    console.debug('Unable to resolve handle from bsky', e);
     return null;
   }
 }
