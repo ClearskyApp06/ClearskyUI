@@ -39,7 +39,7 @@
   .donate {
     display: block;
     position: fixed;
-    background-color:  rgba(0, 140, 255, 0.651);;
+    background-color:  #000;
     color: white;
     text-decoration: blink;
     font-weight: 500;
@@ -262,7 +262,7 @@
   .donate {
     display: block;
     position: fixed;
-    background-color:  rgba(0, 140, 255, 0.651);;
+    background-color:   #000;
     color: white;
     text-decoration: blink;
     font-weight: 500;
