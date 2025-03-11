@@ -7,6 +7,7 @@ import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import './home-stats-main.css';
 import { Button } from '@mui/material';
 import { ViewList } from '@mui/icons-material';
+import { useState } from 'react';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -21,9 +22,12 @@ export function HomeStatsMain({
   loading,
   stats,
   onToggleTable,
-  features,
 }) {
-  
+  const statsPage = useFeatureFlag('stats-page');
+  const topBlocked = useFeatureFlag('top-blocked');
+  const topBlockers = useFeatureFlag('top-blockers');
+
+  console.log(statsPage)
   return (
     <div
       className={'home-stats-main ' + (className || '')}
@@ -35,32 +39,32 @@ export function HomeStatsMain({
 
       {loading ? undefined : (
         <Button size="small" className="toggle-table" onClick={onToggleTable}>
-          {useFeatureFlag('stats-page') && <ViewList style={{ color: 'gray' }} />}
+          {statsPage && <ViewList style={{ color: 'gray' }} />}
         </Button>
       )}
 
       {/* {features?.['total-users-wheel']?.status && ( */}
-        <NetworkCircle
-          {...{
-            activeAccounts,
-            deletedAccounts,
-            percentNumberBlocked1,
-            percentNumberBlocking1,
-            loading,
-          }}
-        />
+      <NetworkCircle
+        {...{
+          activeAccounts,
+          deletedAccounts,
+          percentNumberBlocked1,
+          percentNumberBlocking1,
+          loading,
+        }}
+      />
       {/* )} */}
 
       {stats && (
         <>
-          {useFeatureFlag('top-blocked') && (
+          {topBlocked && (
             <TopBlocked
               blocked={stats.topLists.total.blocked}
               blocked24={stats.topLists['24h'].blocked}
             />
           )}
 
-          {useFeatureFlag('top-blockers') && (
+          {topBlockers && (
             <TopBlockers
               blockers={stats.topLists.total.blockers}
               blockers24={stats.topLists['24h'].blockers}

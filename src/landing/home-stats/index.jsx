@@ -4,7 +4,6 @@ import { useState, lazy } from 'react';
 
 import { HomeStatsMain } from './home-stats-main';
 import { useDashboardStats } from '../../api';
-import { useAllFeatures } from '../../api/featureFlags';
 
 const HomeStatsTable = lazy(() => import('./home-stats-table'));
 
@@ -19,7 +18,6 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
  *  loading: boolean;
  *  stats: DashboardStats;
  *  onToggleTable?: () => void;
- *  features: AllFeatureFlags | undefined;
  * }} HomeStatsDetails
  */
 
@@ -32,7 +30,6 @@ export function HomeStats({ className }) {
   const [asTable, setAsTable] = useState(false);
 
   const { data: stats, isLoading } = useDashboardStats();
-  const { data: features } = useAllFeatures();
 
   const asofFormatted = stats.asof && new Date(stats.asof) + '';
 
@@ -54,7 +51,6 @@ export function HomeStats({ className }) {
     onToggleTable() {
       setAsTable((prev) => !prev);
     },
-    features,
   };
 
   if (asTable) return <HomeStatsTable {...arg} />;
