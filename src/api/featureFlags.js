@@ -1,52 +1,125 @@
 // @ts-check
-/// <reference path="../types.d.ts" />
 
 import { useQuery } from '@tanstack/react-query';
+import { queryClient } from './query-client';
 
 const BASE_URL = 'https://staging.api.clearsky.services/api/v1/anon/features';
+
+const baseQueryKey = ['feature-flags'];
+const queryKeyForAssignment = (/** @type {string} */ flagName) => [
+  'feature-flag-assignment',
+  flagName,
+];
 
 /**
  * Fetch all feature flags.
  */
-async function fetchAllFeatures() {
-  const response = await fetch(`${BASE_URL}/`);
-  if (!response.ok) throw new Error('Failed to fetch all features');
-  /** @type {FeatureFlagsResponse} */
-  const { data } = await response.json();
-  return data;
-}
-
-/**
- * Fetch a single feature flag.
- * @param {string} name
- */
-async function fetchFeature(name) {
-  const response = await fetch(`${BASE_URL}/${name}`);
-  if (!response.ok) throw new Error(`Failed to fetch feature: ${name}`);
-  /** @type {FeatureFlag} */
-  const flag = await response.json();
-  return flag || null;
-}
-
-/**
- * Hook to get all feature flags.
- */
-export function useAllFeatures() {
-  return useQuery({
-    queryKey: ['feature-flags'],
-    queryFn: fetchAllFeatures,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+function fetchAllFeatures() {
+  return queryClient.fetchQuery({
+    queryKey: baseQueryKey,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    async queryFn() {
+      const response = await fetch(`${BASE_URL}/`);
+      if (!response.ok) throw new Error('Failed to fetch all features');
+      /** @type {FeatureFlagsResponse} */
+      const { data } = await response.json();
+      return data;
+    },
   });
 }
 
+export async function getAllFeatureFlags() {
+  try {
+    const flags = await fetchAllFeatures();
+
+    /** @type {Record<string, boolean | null>} */
+    let ret = {};
+    await Promise.all(
+      Object.keys(flags).map((flagName) =>
+        queryClient
+          .fetchQuery({
+            queryKey: queryKeyForAssignment(flagName),
+            staleTime: Infinity,
+            gcTime: Infinity,
+            queryFn: () => isDeviceEnrolled(flags, flagName),
+          })
+          .then((result) => {
+            ret[flagName] = result;
+          })
+      )
+    );
+    return ret;
+  } catch {
+    return {};
+  }
+}
+
+function getOrCreateDeviceId() {
+  let deviceData = localStorage.getItem('deviceId');
+
+  if (deviceData) return deviceData;
+
+  const deviceId = crypto.randomUUID();
+  localStorage.setItem('deviceId', deviceId);
+
+  return deviceId;
+}
+
 /**
- * Hook to get a specific feature flag.
- * @param {string} name
+ * @param {string} str
  */
-export function useOneFeature(name) {
-  return useQuery({
-    queryKey: ['feature-flag', name],
-    queryFn: () => fetchFeature(name),
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+function hashStringToPercentage(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+  }
+  return hash % 100;
+}
+
+/**
+ * @param {AllFeatureFlags} featureFlags
+ * @param {string} flagName
+ */
+function isDeviceEnrolled(featureFlags, flagName) {
+  const deviceId = getOrCreateDeviceId();
+
+  const selectedFlag = featureFlags?.[flagName];
+
+  if (!selectedFlag || !selectedFlag.rollout) {
+    return selectedFlag?.status || false;
+  }
+
+  const percentage = hashStringToPercentage(`${deviceId}-${flagName}`);
+
+  return percentage < selectedFlag.rollout;
+}
+
+/**
+ * @param {string} flagName
+ */
+export function useFeatureFlag(flagName) {
+  const { data } = useQuery({
+    queryKey: queryKeyForAssignment(flagName),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    queryFn: async () => {
+      const flags = await fetchAllFeatures();
+      return isDeviceEnrolled(flags, flagName);
+    },
   });
+  return !!data;
+}
+
+/**
+ * @returns all feature flag assignments
+ */
+export function useAllFeatureFlags() {
+  const { data } = useQuery({
+    queryKey: ['all-feature-flag-assignments'],
+    staleTime: Infinity,
+    gcTime: Infinity,
+    queryFn: getAllFeatureFlags,
+  });
+  return data || {};
 }
