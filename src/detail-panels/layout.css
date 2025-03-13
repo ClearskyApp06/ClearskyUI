@@ -35,19 +35,18 @@
     display: block;
     position: fixed;
     background-image: url('/assets/CS_bg_img_2.png');
-    background-size: 500px;
+    background-size: 650px;
     background-repeat: repeat-x;
     color: white;
     text-decoration: blink;
     font-weight: 500;
-    font-size: 20px;
-    opacity: .25;
+    font-size: 20px; 
     border-radius: 20px;
     padding: 5px 10px;
     animation: scrollIt 60s linear infinite;
     top: 20px;
     left: 350px;
-    z-index: 21;
+    z-index: 100;
   }
   
 
@@ -260,7 +259,7 @@
     display: block;
     position: fixed;
     background-image: url('/assets/CS_bg_img_2.png');
-    background-size: 500px;
+    background-size: 650px;
     background-repeat: repeat-x;
     color: white;
     text-decoration: blink;
@@ -271,7 +270,7 @@
     animation: scrollIt 60s linear infinite;
     top: 28px; 
     left:80%;
-    z-index: 215;
+    z-index: 100;
   }
 
   .account-extra-info{

@@ -13,7 +13,7 @@
   display: block;
   position: fixed;
   background-image: url('/assets/CS_bg_img_2.png');
-  background-size: 500px;
+  background-size: 650px;
   background-repeat: repeat-x;
   color: white;
   text-decoration: blink;
@@ -24,6 +24,7 @@
   animation: scrollIt 60s linear infinite;
   top: 35px;
   left: 40%;
+  z-index:100;
 }
 
 @keyframes scrollIt {
