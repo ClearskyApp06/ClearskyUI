@@ -12,17 +12,24 @@
 .donate-home {
   display: block;
   position: fixed;
-  background-color:  #000;
+  background-image: url('/assets/CS_bg_img_2.png');
+  background-size: 500px;
+  background-repeat: repeat-x;
   color: white;
   text-decoration: blink;
   font-weight: 500;
-  font-size: 20px;
-  opacity: .25;
+  font-size: 20px; 
   border-radius: 20px;
   padding: 5px 10px;
-  animation: pulsate 25s linear infinite;
+  animation: scrollIt 25s linear infinite;
   top: 35px;
   left: 40%;
+}
+
+@keyframes scrollIt {
+  0%{background-position-x:1px;}
+  50%{background-position-x:931px;}  
+  100%{background-position-x:1872px;}
 }
 
 @keyframes pulsate {
