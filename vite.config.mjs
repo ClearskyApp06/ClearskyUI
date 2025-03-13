@@ -5,9 +5,8 @@ import { readdirSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-
 function getInputHtmlFiles() {
-  const srcDir = resolve(__dirname, 'src');
+  const srcDir = resolve(import.meta.dirname, 'src');
   return readdirSync(srcDir)
     .filter((file) => extname(file) === '.html')
     .map((file) => join(srcDir, file));
@@ -17,7 +16,7 @@ export default defineConfig({
   plugins: [react()],
   root: 'src',
   build: {
-    outDir: resolve(__dirname, 'static'),
+    outDir: resolve(import.meta.dirname, 'static'),
     rollupOptions: {
       input: getInputHtmlFiles(),
       // output: {

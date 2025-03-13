@@ -177,3 +177,16 @@ type BlockListSubscriberEntry = {
   date_added: string;
   did: string;
 };
+
+interface FeatureFlag {
+  rollout: number;
+  status: boolean;
+}
+
+interface AllFeatureFlags {
+  [key: string]: FeatureFlag;
+}
+
+interface FeatureFlagsResponse {
+  data: AllFeatureFlags;
+}
