@@ -28,22 +28,10 @@
 
 @keyframes scrollIt {
   0%{background-position-x:1px;}
-  50%{background-position-x:931px;}  
-  100%{background-position-x:1872px;}
+  50%{background-position-x:-931px;}  
+  100%{background-position-x:-1872px;}
 }
-
-@keyframes pulsate {
-  0% { background-color:#000;}
-  10% { background-color:#276AB2;}
-  49% { background-color:#CEE7F9;}  
-  50% { background-color:#FFD250;}
-  51% { background-color:#CEE7F9;}  
-  90% { background-color:#276AB2;}
-  92% { background-color:#996D20;}
-  93% { background-color:#000;}
-  100% { background-color:#000;}
-}
-
+ 
 @media (width <= 800px) {
   .home {
     display: grid;

@@ -7,17 +7,12 @@
   display: flex;
 }
 
-@keyframes pulsate {
-  0% { background-color:#000;}
-  10% { background-color:#276AB2;}
-  49% { background-color:#CEE7F9;}  
-  50% { background-color:#FFD250;}
-  51% { background-color:#CEE7F9;}  
-  90% { background-color:#276AB2;}
-  92% { background-color:#996D20;}
-  93% { background-color:#000;}
-  100% { background-color:#000;}
+@keyframes scrollIt {
+  0%{background-position-x:1px;}
+  50%{background-position-x:-931px;}  
+  100%{background-position-x:-1872px;}
 }
+ 
 
 @media (width >= 801px) {
   .layout {
@@ -39,7 +34,9 @@
   .donate {
     display: block;
     position: fixed;
-    background-color:  #000;
+    background-image: url('/assets/CS_bg_img_2.png');
+    background-size: 500px;
+    background-repeat: repeat-x;
     color: white;
     text-decoration: blink;
     font-weight: 500;
@@ -47,7 +44,7 @@
     opacity: .25;
     border-radius: 20px;
     padding: 5px 10px;
-    animation: pulsate 7s linear infinite;
+    animation: scrollIt 25s linear infinite;
     top: 20px;
     left: 350px;
     z-index: 21;
@@ -262,14 +259,16 @@
   .donate {
     display: block;
     position: fixed;
-    background-color:   #000;
+    background-image: url('/assets/CS_bg_img_2.png');
+    background-size: 500px;
+    background-repeat: repeat-x;
     color: white;
     text-decoration: blink;
     font-weight: 500;
     font-size: 20px; 
     border-radius: 20px;
     padding: 5px 10px;
-    animation: pulsate 7s linear infinite;
+    animation: scrollIt 25s linear infinite;
     top: 28px; 
     left:80%;
     z-index: 215;
