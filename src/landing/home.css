@@ -68,6 +68,11 @@
   z-index: 2;
 }
 
+.about-button-icon
+{
+  margin-top:10px;
+}
+
 .home .petition {
   text-align: center;
 }
