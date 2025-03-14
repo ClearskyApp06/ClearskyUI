@@ -172,3 +172,21 @@
     zoom: 0.6;
   }
 }
+
+@media (width <= 400px) {
+  .donate{
+    left:60%;
+  }
+  }
+
+@media (width <= 300px) {
+  .donate{
+    left:50%;
+  }
+  }
+
+@media (width <= 200px) {
+  .donate{
+    left:20%;
+  }
+  }
