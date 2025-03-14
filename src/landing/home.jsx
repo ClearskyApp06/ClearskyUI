@@ -19,7 +19,6 @@ export default function Home() {
   return (
     <div className={'home ' + (aboutOpen ? 'about-open' : '')}>
       <Logo />
-      <Donate className="donate-home"/>
       <About onToggleAbout={() => setAboutOpen(!aboutOpen)} />
       <HomeHeader
         className="home-header"
@@ -40,6 +39,8 @@ export default function Home() {
           }
         }}
       />
+      
+      <Donate className="donate-home"/>
       <React.Suspense>
         <HomeStats className="home-stats" />
       </React.Suspense>

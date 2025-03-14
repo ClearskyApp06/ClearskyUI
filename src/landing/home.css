@@ -11,20 +11,23 @@
 
 .donate-home {
   display: block;
-  position: fixed;
-  background-image: url('/assets/CS_bg_img_2.png');
-  background-size: 650px;
+  position: relative;
+  background-image: url("/assets/CS_bg_img_2.png");
+  background-size: 744px;
   background-repeat: repeat-x;
   color: white;
   text-decoration: blink;
   font-weight: 500;
-  font-size: 20px; 
+  font-size: 20px;
   border-radius: 20px;
   padding: 5px 10px;
   animation: scroll-it 360s linear infinite;
-  top: 35px;
-  left: 40%;
-  z-index:100;
+  margin-top: 10px;
+  z-index: 100;
+  width: 99px;
+  left: 11px;
+  height: 43px;
+  text-align: center;
 }
 
 @keyframes scroll-it {
@@ -110,13 +113,6 @@
     transition: transform 0.5s ease-in-out;
   }
 
-  .donate-home{
-    position: fixed;
-    top: 10px;
-    left: 60%;
-    width: fit-content;
-  }
-
   .home.about-open {
     transform: translateY(7em);
   }
@@ -177,21 +173,3 @@
     zoom: 0.6;
   }
 }
-
-@media (width <= 400px) {
-  .donate-home{
-    left:60%;
-  }
-  }
-
-@media (width <= 300px) {
-  .donate-home{
-    left:50%;
-  }
-  }
-
-@media (width <= 200px) {
-  .donate-home{
-    left:20%;
-  }
-  }
