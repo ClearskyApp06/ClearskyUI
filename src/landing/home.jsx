@@ -9,7 +9,6 @@ import './home.css';
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
-import Donate from '../common-components/donate';
 
 export default function Home() {
   const [searchText, setSearchText] = React.useState('');
@@ -40,7 +39,7 @@ export default function Home() {
         }}
       />
       
-      <Donate className="donate-home"/>
+
       <React.Suspense>
         <HomeStats className="home-stats" />
       </React.Suspense>

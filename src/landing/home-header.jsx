@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { SearchAutoComplete } from './search-autocomplete';
+import Donate from '../common-components/donate';
 
 /**
  * @param {{
@@ -20,6 +21,8 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         onSearchTextChanged={onSearchTextChanged}
         onAccountSelected={onAccountSelected}
       />
+      
+    <Donate className="donate-home"/>
     </div>
   );
 }
