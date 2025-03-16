@@ -15,6 +15,7 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
 import './lists.css';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function Lists() {
   
@@ -29,6 +30,7 @@ export function Lists() {
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
+  const listsOnListCounts = useFeatureFlag('lists-on-list-counts')
 
   const listsTotal = totalData?.count;
   const listPages = data?.pages || [];
@@ -69,7 +71,7 @@ export function Lists() {
             {localise('Counting lists...', {})}
           </span>
         )}
-        {listsTotal ? (
+        {listsOnListCounts && listsTotal ? (
           <>
             {localise(
               'Member of ' +

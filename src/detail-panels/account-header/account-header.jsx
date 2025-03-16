@@ -14,6 +14,7 @@ import { Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -27,6 +28,8 @@ export function AccountHeader({ className, onInfoClick }) {
   const resolved = useAccountResolver();
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+
+  const userPlacement = useFeatureFlag('user-placement')
 
   const placementquery = usePlacement(resolved.data?.shortDID);
   const placement = placementquery.data?.placement?.toLocaleString() ?? '';
@@ -114,7 +117,7 @@ export function AccountHeader({ className, onInfoClick }) {
                   </a>
                 </>
               )}
-              {placement && (
+              {userPlacement && placement && (
                 <div className="account-place-number">User #{placement}</div>
               )}
             </span>

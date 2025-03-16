@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 
 import './block-panel-generic.css';
 import { localise } from '../../localisation';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /** @typedef {import('@tanstack/react-query').InfiniteData<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string })[]; count?: number }>} InfBlockData */
 
@@ -41,6 +42,8 @@ export function BlockPanelGeneric({
   const blocklistPages = data?.pages || [];
   const blocklist = blocklistPages.flatMap((page) => page.blocklist);
   const count = totalData?.count;
+  const pageName = (className == 'blocked-by-panel') ? 'blocked-by-count' : 'blocking-count';
+  const pageCount = useFeatureFlag(pageName)
 
   // const [searchParams, setSearchParams] = useSearchParams();
   // const [tick, setTick] = useState(0);
@@ -74,6 +77,7 @@ export function BlockPanelGeneric({
         header={header}
         // Ironically this hides the search button
         showSearch={true}
+        pagecount={pageCount}
         // setShowSearch={setShowSearch}
         // onShowSearch={() => setShowSearch(true)}
         // onToggleView={() => setTableView(!tableView)}
@@ -118,7 +122,8 @@ class PanelHeader extends React.Component {
       count = this.state?.count || 0;
     }
 
-    const { blocklist, header } = this.props;
+    const { blocklist, header, pagecount } = this.props;
+    
 
     return (
       <h3
@@ -129,7 +134,7 @@ class PanelHeader extends React.Component {
             : ' blocking-panel-header-loading')
         }
       >
-        {typeof header === 'function' ? header({ count, blocklist }) : header}
+        {pagecount && (typeof header === 'function' ? header({ count, blocklist }) : header)}
 
         <span className="panel-toggles">
           {this.props.showSearch ? undefined : (
