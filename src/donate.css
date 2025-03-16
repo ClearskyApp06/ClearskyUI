@@ -1,0 +1,36 @@
+.donate, .donate-home  {
+  display: block;
+  background-image: url('/assets/CS_bg_img_2.png');
+  background-repeat: repeat-x;
+  color: white;
+  text-decoration: blink;
+  font-weight: 500;
+  font-size: 20px; 
+  border-radius: 20px;
+  padding: 5px 10px;
+  animation: scroll-it 360s linear infinite;
+  top: 20px; 
+  z-index: 100;
+}
+
+.donate{
+  position: fixed;
+  background-size: 650px; 
+  left: 350px;
+}
+
+.donate-home {  
+  position: relative;
+  background-size: 744px;
+  margin-top: 10px;
+  width: 99px;
+  left: 11px;  
+  height: 43px;
+  text-align: center;
+}
+
+@keyframes scroll-it {
+  0%{background-position-x:1px;}
+  50%{background-position-x:-931px;}  
+  100%{background-position-x:-1872px;}
+}

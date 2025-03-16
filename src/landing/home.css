@@ -9,32 +9,6 @@
   grid-template-rows: 1fr auto 1fr;
 }
 
-.donate-home {
-  display: block;
-  position: relative;
-  background-image: url("/assets/CS_bg_img_2.png");
-  background-size: 744px;
-  background-repeat: repeat-x;
-  color: white;
-  text-decoration: blink;
-  font-weight: 500;
-  font-size: 20px;
-  border-radius: 20px;
-  padding: 5px 10px;
-  animation: scroll-it 360s linear infinite;
-  margin-top: 10px;
-  z-index: 100;
-  width: 99px;
-  left: 11px;
-  height: 43px;
-  text-align: center;
-}
-
-@keyframes scroll-it {
-  0%{background-position-x:1px;}
-  50%{background-position-x:-931px;}  
-  100%{background-position-x:-1872px;}
-}
  
 @media (width <= 800px) {
   .home {

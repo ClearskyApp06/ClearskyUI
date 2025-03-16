@@ -6,6 +6,7 @@ import { Outlet, Await } from 'react-router-dom';
 import { AccountHeader } from './account-header';
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
+import '../donate.css';
  import Donate from '../common-components/donate';
  
 /**
@@ -20,7 +21,7 @@ export function AccountLayout() {
   return (
     <div className="layout">
       <div className="account-info">
-      <Donate/>
+
         <AccountHeader
           className="account-header"
           onInfoClick={toggleRevealInfo}
@@ -33,7 +34,7 @@ export function AccountLayout() {
       </div>
       <div className="detail-container">
         <TabSelector className="account-tabs-handles" />
-
+        <Donate/>
         <div className="account-tabs-content">
           <div className="account-tab account-tab-selected">
             <Outlet />
