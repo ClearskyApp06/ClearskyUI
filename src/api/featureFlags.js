@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
 import { fetchClearskyApi } from './core';
 
-const BASE_URL = 'features';
+const BASE_URL = '/features';
 
 const baseQueryKey = ['feature-flags'];
 const queryKeyForAssignment = (/** @type {string} */ flagName) => [
