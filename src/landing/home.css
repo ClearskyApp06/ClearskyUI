@@ -9,6 +9,7 @@
   grid-template-rows: 1fr auto 1fr;
 }
 
+ 
 @media (width <= 800px) {
   .home {
     display: grid;
@@ -42,6 +43,11 @@
 .home .about .corner-buttons {
   display: none;
   z-index: 2;
+}
+
+.about-button-icon
+{
+  margin-top:10px;
 }
 
 .home .petition {
