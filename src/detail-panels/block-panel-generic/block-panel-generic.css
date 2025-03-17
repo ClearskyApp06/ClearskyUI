@@ -36,7 +36,7 @@
   padding-bottom: 0;
 }
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .block-panel-generic .history-header {
     top: 6em;
   }
@@ -84,7 +84,6 @@ li.blocking-list-entry:nth-child(even) {
   background-size: cover;
   color: transparent;
   border-radius: 200%;
-
   display: inline-block;
   width: 1.5em;
   height: 1.5em;

@@ -21,27 +21,26 @@
   transform: rotate(-1deg);
 }
 
-.pds-image-icon.agaric { background-image: url(mushrooms/agaric.png) }
-.pds-image-icon.enoki { background-image: url(mushrooms/enoki.png) }
-.pds-image-icon.inkcap { background-image: url(mushrooms/inkcap.png) }
-.pds-image-icon.porcini { background-image: url(mushrooms/porcini.png) }
-.pds-image-icon.morel { background-image: url(mushrooms/morel.png) }
-.pds-image-icon.shimeji { background-image: url(mushrooms/shimeji.png) }
-.pds-image-icon.puffball { background-image: url(mushrooms/puffball.png) }
-.pds-image-icon.oyster { background-image: url(mushrooms/oyster.png) }
-.pds-image-icon.amanita { background-image: url(mushrooms/amanita.png) }
-.pds-image-icon.lionsmane { background-image: url(mushrooms/lionsmane.png) }
-.pds-image-icon.shiitake { background-image: url(mushrooms/shiitake.png) }
-.pds-image-icon.hydnum { background-image: url(mushrooms/hydnum.png) }
-.pds-image-icon.conocybe { background-image: url(mushrooms/conocybe.png) }
-.pds-image-icon.russula { background-image: url(mushrooms/russula.png) }
-.pds-image-icon.verpa { background-image: url(mushrooms/verpa.png) }
-.pds-image-icon.blewit { background-image: url(mushrooms/blewit.png) }
-.pds-image-icon.maitake { background-image: url(mushrooms/maitake.png) }
-.pds-image-icon.chaga { background-image: url(mushrooms/chaga.png) }
-.pds-image-icon.lepista { background-image: url(mushrooms/lepista.png) }
-.pds-image-icon.agaric { background-image: url(mushrooms/agaric.png) }
-.pds-image-icon.boletus { background-image: url(mushrooms/boletus.png) }
+.pds-image-icon.agaric { background-image: url("mushrooms/agaric.png") }
+.pds-image-icon.enoki { background-image: url("mushrooms/enoki.png") }
+.pds-image-icon.inkcap { background-image: url("mushrooms/inkcap.png") }
+.pds-image-icon.porcini { background-image: url("mushrooms/porcini.png") }
+.pds-image-icon.morel { background-image: url("mushrooms/morel.png") }
+.pds-image-icon.shimeji { background-image: url("mushrooms/shimeji.png") }
+.pds-image-icon.puffball { background-image: url("mushrooms/puffball.png") }
+.pds-image-icon.oyster { background-image: url("mushrooms/oyster.png") }
+.pds-image-icon.amanita { background-image: url("mushrooms/amanita.png") }
+.pds-image-icon.lionsmane { background-image: url("mushrooms/lionsmane.png") }
+.pds-image-icon.shiitake { background-image: url("mushrooms/shiitake.png") }
+.pds-image-icon.hydnum { background-image: url("mushrooms/hydnum.png") }
+.pds-image-icon.conocybe { background-image: url("mushrooms/conocybe.png") }
+.pds-image-icon.russula { background-image: url("mushrooms/russula.png") }
+.pds-image-icon.verpa { background-image: url("mushrooms/verpa.png") }
+.pds-image-icon.blewit { background-image: url("mushrooms/blewit.png") }
+.pds-image-icon.maitake { background-image: url("mushrooms/maitake.png") }
+.pds-image-icon.chaga { background-image: url("mushrooms/chaga.png") }
+.pds-image-icon.lepista { background-image: url("mushrooms/lepista.png") }
+.pds-image-icon.boletus { background-image: url("mushrooms/boletus.png") }
 
 .pds-name-and-icon {
   white-space: nowrap;

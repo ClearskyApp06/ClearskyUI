@@ -1,5 +1,6 @@
 // @ts-check
-/// <reference path="../types.d.ts" />
+
+import toASCII from 'punycode2/to-ascii';
 
 export { useDashboardStats } from './dashboard-stats';
 export { usePostHistory, usePostByUri } from './post-history';
@@ -78,7 +79,7 @@ export function shortenDID(did) {
   );
 }
 
-const _shortenDID_Regex = /^did\:plc\:/;
+const _shortenDID_Regex = /^did:plc:/;
 
 /**
  * @param {T} input
@@ -93,6 +94,13 @@ export function shortenHandle(input) {
       handle.replace(_shortenHandle_Regex, '').toLowerCase() || undefined
     )
   );
+}
+
+/**
+ * @param {string} handle
+ */
+export function isBskySocialHandle(handle) {
+  return _shortenHandle_Regex.test(handle);
 }
 const _shortenHandle_Regex = /\.bsky\.social$/;
 
@@ -112,6 +120,9 @@ const _shortenHandle_Regex = /\.bsky\.social$/;
  */
 export function unwrapShortHandle(shortHandle) {
   shortHandle = cheapNormalizeHandle(shortHandle);
+  if (shortHandle) {
+    shortHandle = toASCII(shortHandle);
+  }
   return typeof shortHandle !== 'string'
     ? undefined
     : shortHandle.indexOf('.') < 0
@@ -154,7 +165,7 @@ export function breakPostURL(url) {
   return { shortDID: match[1], postID: match[2] };
 }
 const _breakPostURL_Regex =
-  /^http[s]?\:\/\/bsky\.app\/profile\/([a-z0-9\.\:]+)\/post\/([a-z0-9]+)$/;
+  /^http[s]?:\/\/bsky\.app\/profile\/([a-z0-9.:]+)\/post\/([a-z0-9]+)$/;
 
 /**
  * @param {string | null | undefined} uri

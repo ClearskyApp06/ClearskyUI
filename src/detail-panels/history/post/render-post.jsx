@@ -20,7 +20,7 @@ import { localise } from '../../../localisation';
 
 /**
  * @param {{
- *  post: PostDetails | undefined,
+ *  post: PostDetails,
  *  className?: string,
  *  disableEmbedQT?: boolean | ((level: number, post: PostDetails) => boolean),
  *  level?: number,
@@ -37,8 +37,7 @@ export function RenderPost({
   textLightHighlights,
   ...rest
 }) {
-  if (!post) return undefined;
-  const postUri = breakFeedUri(/** @type {string} */ (post.uri));
+  const postUri = breakFeedUri(post.uri);
   const account = useResolveHandleOrDid(postUri?.shortDID);
 
   return (
@@ -149,6 +148,7 @@ function ReplyToLink({ post, ...rest }) {
                 replyUri?.postID
               )}
               target="_blank"
+              rel="noreferrer"
             >
               <MiniAvatar
                 className="post-replying-to-resolved"
@@ -170,6 +170,7 @@ function ReplyToLink({ post, ...rest }) {
                 rootUri?.postID
               )}
               target="_blank"
+              rel="noreferrer"
             >
               <MiniAvatar
                 className="post-replying-to-resolved post-replying-to-root"
@@ -190,6 +191,7 @@ function ReplyToLink({ post, ...rest }) {
  */
 function RenderPostInTooltip({ postUri }) {
   const { data } = usePostByUri(postUri);
+  if (!data) return null;
   return (
     <RenderPost post={data} disableEmbedQT className="post-content-embed-qt" />
   );

@@ -90,7 +90,7 @@ function LabeledList({ labels }) {
 /**
  * @this {never}
  */
-export default function LabeledPanel({}) {
+export default function LabeledPanel() {
   const accountQuery = useAccountResolver();
   const did = accountQuery.data?.shortDID;
   const { data: labelers, isLoading: isLoadingLabelers } = useLabelers();

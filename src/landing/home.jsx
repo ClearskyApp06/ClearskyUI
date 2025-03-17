@@ -6,11 +6,12 @@ import { unwrapShortHandle } from '../api';
 import { HomeHeader } from './home-header';
 
 import './home.css';
+import '../donate.css'
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
 
-export function Home() {
+export default function Home() {
   const [searchText, setSearchText] = React.useState('');
   const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ export function Home() {
           setSearchText(searchText);
         }}
         onAccountSelected={(account) => {
-          console.log('Account selected ', account);
           if (account.shortHandle) {
             if (account.postID)
               navigate(
@@ -39,6 +39,8 @@ export function Home() {
           }
         }}
       />
+      
+
       <React.Suspense>
         <HomeStats className="home-stats" />
       </React.Suspense>

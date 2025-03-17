@@ -1,12 +1,16 @@
 {
   "name": "ui",
-  "version": "4.12.0",
+  "version": "4.20.0",
   "description": "",
   "scripts": {
     "start": "vite --open",
     "preview": "vite preview --open",
     "build": "BUILD_COMMIT_HASH=\"$(git describe --always --dirty)\" vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint:fix": "stylelint --fix \"src/**/*.css\"",
+    "eslint": "eslint \"src\"",
+    "eslint:fix": "eslint --fix \"src\""
   },
   "keywords": [],
   "author": "",
@@ -21,21 +25,29 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.20",
     "@mui/styles": "^5.14.20",
-    "@tanstack/react-query": "^5.61.4",
+    "@tanstack/react-query": "^5.64.1",
     "@yornaath/batshit": "^0.10.1",
     "ag-grid-community": "^31.0.2",
     "ag-grid-react": "^31.0.3",
     "fuse.js": "^7.0.0",
     "iso-web": "^1.0.6",
+    "p-queue": "npm:@nmann/p-queue@^8.1.1",
     "punycode2": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0",
     "typescript": "^5",
-    "vite": "^6.0.1"
+    "vite": "^6.2.1"
   }
 }

@@ -1,11 +1,23 @@
+#root {
+  min-height: 100%;
+}
+
 .bluethernal-llc-watermark {
   position: fixed;
   bottom: 0.5em;
-  right: -0.2em;
+  left: 0;
   font-size: 97%;
   opacity: 0.1;
   pointer-events: none;
-  writing-mode: vertical-rl;
   font-weight: bold;
-  text-shadow: 0 0 1px currentColor;
+  text-shadow: 0 0 1px currentcolor;
+  font-variant: small-caps;
+}
+
+.hydrate-fallback {
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  height: 100dvh;
+  width: 100dvw;
 }

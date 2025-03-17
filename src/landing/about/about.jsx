@@ -2,7 +2,6 @@
 
 import { Button } from '@mui/material';
 
-import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { localise } from '../../localisation';
 import { version } from '../../../package.json';
 
@@ -12,6 +11,7 @@ import './about.css';
  * @type {string}
  */
 // @ts-ignore
+// eslint-disable-next-line no-undef
 const builtFromCommit = BUILD_COMMIT_HASH || null;
 
 /**
@@ -30,7 +30,6 @@ export function About({ onToggleAbout }) {
       <div className="text">
         <span className="legalese">
           <a href="mailto:support@clearsky.app">Contact Us</a> |{' '}
-          <a href="https://ko-fi.com/thieflord">Donate</a> |{' '}
           <a href="/privacy-policy.html">Privacy Policy</a> |{' '}
           <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
           <a href="https://status.clearsky.app">Status</a>
@@ -38,14 +37,6 @@ export function About({ onToggleAbout }) {
         {localise('Version', { uk: 'Версія' })}: {version}{' '}
         {builtFromCommit && `(${builtFromCommit})`}
         <br />
-        <h2 className="petition">
-          <a
-            target="_blank"
-            href="https://www.change.org/p/bluesky-must-enforce-its-community-guidelines-equally"
-          >
-            Sign the Bluesky change.org Petition
-          </a>
-        </h2>
       </div>
     </div>
   );

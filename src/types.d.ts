@@ -147,3 +147,46 @@ type AccountListEntry = {
   spam: boolean | null;
   source: string | null;
 };
+
+type BlockListEntry = {
+  date_added: string;
+  list_name: string;
+  list_owner: string;
+  list_uri: string;
+  list_url: string;
+  description: string;
+};
+
+type PackList = {
+  data: {
+    starter_packs: Array<PackListEntry>;
+  };
+  identity: string;
+  status: boolean;
+};
+
+type PackListEntry = {
+  created_date: string;
+  description: string;
+  did: string;
+  name: string;
+  url: string;
+};
+
+type BlockListSubscriberEntry = {
+  date_added: string;
+  did: string;
+};
+
+interface FeatureFlag {
+  rollout: number;
+  status: boolean;
+}
+
+interface AllFeatureFlags {
+  [key: string]: FeatureFlag;
+}
+
+interface FeatureFlagsResponse {
+  data: AllFeatureFlags;
+}

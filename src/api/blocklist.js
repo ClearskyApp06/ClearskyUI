@@ -3,8 +3,13 @@
 import { fetchClearskyApi, unwrapShortDID } from './core';
 import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useResolveHandleOrDid } from './resolve-handle-or-did';
+import { unwrapShortHandle } from '.';
+
+const PAGE_SIZE = 100;
 
 /**
+ * given an account's did, return a list of other accounts being blocked by the given account
  * @param {string | undefined} did
  */
 export function useBlocklist(did) {
@@ -49,6 +54,7 @@ async function getBlocksFromPds(pdsHost, fullDid, cursor) {
 }
 
 /**
+ * given the did of an account, return a list of other accounts which are blocking the given account
  * @param {string | undefined} did
  */
 export function useSingleBlocklist(did) {
@@ -65,7 +71,7 @@ export function useSingleBlocklist(did) {
 }
 
 /**
- *
+ * given the did of an account, return the total number of accounts which are being blocked by the given account
  * @param {string | undefined} did
  */
 export function useBlocklistCount(did) {
@@ -77,8 +83,9 @@ export function useBlocklistCount(did) {
     queryFn: () => blocklistCountCall(fullDid, 'blocklist'),
   });
 }
+
 /**
- *
+ * given the did of an account, return the total number of other accounts which are blocking the given account
  * @param {string | undefined} did
  */
 export function useSingleBlocklistCount(did) {
@@ -145,4 +152,190 @@ async function blocklistCountCall(did, api) {
   /** @type {BlocklistResponse<{ count: number; pages: number }>} */
   const pageResponse = await fetchClearskyApi('v1', `${api}/total/${did}`);
   return pageResponse.data;
+}
+
+/**
+ * @param {string | undefined} handleOrDID
+ */
+export function useBlockingLists(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  return useInfiniteQuery({
+    enabled: !!shortHandle,
+    queryKey: ['blocking-lists', shortHandle],
+    queryFn: ({ pageParam }) => getBlockingLists(shortHandle, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+}
+
+/**
+ * @param {string | undefined} shortHandle
+ * @param {number} currentPage
+ * @returns {Promise<{
+ *    blocklist: BlockListEntry[],
+ *    nextPage: number | null
+ * }>}
+ */
+async function getBlockingLists(shortHandle, currentPage = 1) {
+  const handleURL =
+    'subscribe-blocks-blocklist/' +
+    unwrapShortHandle(shortHandle) +
+    (currentPage === 1 ? '' : '/' + currentPage);
+
+  /** @type {{ data: { blocklists: BlockListEntry[] } }} */
+  const re = await fetchClearskyApi('v1', handleURL);
+
+  const blocklists = re.data?.blocklists || [];
+
+  // Sort by date
+  blocklists.sort((entry1, entry2) => {
+    const date1 = new Date(entry1.date_added).getTime();
+    const date2 = new Date(entry2.date_added).getTime();
+    return date2 - date1;
+  });
+
+  return {
+    blocklist: blocklists,
+    nextPage: blocklists.length >= PAGE_SIZE ? currentPage + 1 : null,
+  };
+}
+
+/**
+ * @param {string | undefined} handleOrDID
+ */
+export function useBlockingListsTotal(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  return useQuery({
+    enabled: !!shortHandle,
+    queryKey: ['blocking-lists-total', shortHandle],
+    queryFn: () => getBlockingListsTotal(shortHandle),
+  });
+}
+
+/**
+ * @param {string | undefined} shortHandle
+ */
+async function getBlockingListsTotal(shortHandle) {
+  const handleURL =
+    'subscribe-blocks-blocklists/total/' + unwrapShortHandle(shortHandle);
+
+  /** @type {{ data: { count: number; pages: number } }} */
+  const re = await fetchClearskyApi('v1', handleURL);
+  return re.data;
+}
+
+/**
+ * @param {string | undefined} handleOrDID
+ */
+export function useBlockedByLists(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  return useInfiniteQuery({
+    enabled: !!shortHandle,
+    queryKey: ['blocked-by-lists', shortHandle],
+    queryFn: ({ pageParam }) => getBlockedByLists(shortHandle, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+}
+
+/**
+ * @param {string | undefined} shortHandle
+ * @param {number} currentPage
+ * @returns {Promise<{
+ *    blocklist: BlockListEntry[],
+ *    nextPage: number | null
+ * }>}
+ */
+async function getBlockedByLists(shortHandle, currentPage = 1) {
+  const handleURL =
+    'subscribe-blocks-single-blocklist/' +
+    unwrapShortHandle(shortHandle) +
+    (currentPage === 1 ? '' : '/' + currentPage);
+
+  /** @type {{ data: { blocklists: BlockListEntry[] } }} */
+  const re = await fetchClearskyApi('v1', handleURL);
+
+  const blocklists = re.data?.blocklists || [];
+
+  // Sort by date
+  blocklists.sort((entry1, entry2) => {
+    const date1 = new Date(entry1.date_added).getTime();
+    const date2 = new Date(entry2.date_added).getTime();
+    return date2 - date1;
+  });
+
+  return {
+    blocklist: blocklists,
+    nextPage: blocklists.length >= PAGE_SIZE ? currentPage + 1 : null,
+  };
+}
+
+/**
+ * @param {string | undefined} handleOrDID
+ */
+export function useBlockedByListsTotal(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  return useQuery({
+    enabled: !!shortHandle,
+    queryKey: ['blocked-by-lists-total', shortHandle],
+    queryFn: () => getBlockedByListsTotal(shortHandle),
+  });
+}
+
+/**
+ * @param {string | undefined} shortHandle
+ */
+async function getBlockedByListsTotal(shortHandle) {
+  const handleURL =
+    'subscribe-blocks-single-blocklist/total/' + unwrapShortHandle(shortHandle);
+
+  /** @type {{ data: { count: number; pages: number } }} */
+  const re = await fetchClearskyApi('v1', handleURL);
+  return re.data;
+}
+
+/**
+ * given a blocklist url, looks up a list of users subscribed to that blocklist
+ * @param {string | undefined} blocklistUrl
+ */
+export function useBlocklistSubscribers(blocklistUrl) {
+  return useInfiniteQuery({
+    enabled: !!blocklistUrl,
+    queryKey: ['block-list-subscribers', blocklistUrl],
+    queryFn: ({ pageParam }) =>
+      getBlockListSubscribers(blocklistUrl, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+}
+
+/**
+ * @param {string | undefined} blocklistUrl
+ * @param {number} currentPage
+ * @returns {Promise<{
+ *    listName: string,
+ *    subscribers: BlockListSubscriberEntry[],
+ *    nextPage: number | null
+ * }>}
+ */
+async function getBlockListSubscribers(blocklistUrl, currentPage = 1) {
+  const handleURL =
+    'subscribe-blocks-single-blocklist/users/' +
+    blocklistUrl +
+    (currentPage === 1 ? '' : '/' + currentPage);
+
+  /** @type {{ data: { users: BlockListSubscriberEntry[]; list_name: string } }} */
+  const re = await fetchClearskyApi('v1', handleURL);
+
+  const subscribers = re.data?.users || [];
+
+  return {
+    listName: re.data?.list_name,
+    subscribers,
+    nextPage: subscribers.length >= PAGE_SIZE ? currentPage + 1 : null,
+  };
 }

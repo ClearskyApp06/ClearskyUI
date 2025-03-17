@@ -24,10 +24,10 @@
   display: inline-block;
   width: 50%;
   background: white;
-  border: solid 1px #cccccc;
+  border: solid 1px #ccc;
   border-radius: 0.5em;
   box-shadow: 5px 4px 9px #0000003d;
-  padding: 1em 1em;
+  padding: 1em;
 }
 
 .obscure-public-records-caption {

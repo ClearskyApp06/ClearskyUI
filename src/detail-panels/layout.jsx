@@ -1,146 +1,95 @@
 // @ts-check
 
-import { lazy, useState } from 'react';
-
-import { useNavigate, useParams } from 'react-router-dom';
-
-const BlockedByPanel = lazy(() => import('./blocked-by'));
-const BlockingPanel = lazy(() => import('./blocking'));
-const HistoryPanel = lazy(() => import('./history/history-panel'));
-const Lists = lazy(() => import('./lists'));
-const LabeledPanel = lazy(() => import('./labeled'));
+import { useCallback, useState } from 'react';
+import { Outlet, Await } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
-import { TabSelector } from './tab-selector';
-
 import { AccountExtraInfo } from './account-header';
 import './layout.css';
-
-export const accountTabs = /** @type {const} */ ([
-  'blocking',
-  'blocked-by',
-  'lists',
-  'history',
-  'labeled',
-]);
-
-export function AccountLayout() {
-  const { handle } = useParams();
-  let { tab } = useParams();
-  if (!tab) tab = accountTabs[0];
-
-  const navigate = useNavigate();
-
-  return (
-    <AccountLayoutCore
-      // @ts-expect-error no guarantee that the url param is one of our known tabs
-      selectedTab={tab}
-      onSetSelectedTab={(selectedTab) => {
-        navigate(`/${handle}/` + selectedTab, { replace: true });
-      }}
-      onCloseClick={() => {
-        navigate('/');
-      }}
-    />
-  );
-}
-
+import '../donate.css';
+ import Donate from '../common-components/donate';
+ 
 /**
  *
- * @param {{
- *   selectedTab: import('./tab-selector').AnyTab,
- * onCloseClick: () => void,
- * onSetSelectedTab: (tab:string) => void,
- * }} param0
  * @returns
  */
-export function AccountLayoutCore({
-  selectedTab,
-  onCloseClick,
-  onSetSelectedTab,
-}) {
+export function AccountLayout() {
   const [revealInfo, setRevealInfo] = useState(false);
-
-  const handleInfoClick = () => {
+  const toggleRevealInfo = useCallback(() => {
     setRevealInfo((prev) => !prev);
-  };
-  const result = (
-    <>
-      <div className="layout">
+  }, []);
+  return (
+    <div className="layout">
+      <div className="account-info">
+
         <AccountHeader
           className="account-header"
-          onCloseClick={onCloseClick}
-          onInfoClick={handleInfoClick}
+          onInfoClick={toggleRevealInfo}
         />
-
+      
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
+          onInfoClick={toggleRevealInfo}
         />
-
-        <TabSelector
-          className="account-tabs-handles"
-          tab={selectedTab}
-          onTabSelected={(selectedTab) => onSetSelectedTab(selectedTab)}
-        />
-
+      </div>
+      <div className="detail-container">
+        <TabSelector className="account-tabs-handles" />
+        <Donate/>
         <div className="account-tabs-content">
-          {accountTabs.map((tab) => {
-            if (tab === selectedTab)
-              return (
-                <div
-                  key={tab}
-                  className={
-                    'account-tab ' +
-                    (tab === selectedTab ? 'account-tab-selected' : '')
-                  }
-                >
-                  {renderTabContent(tab)}
-                </div>
-              );
-          })}
+          <div className="account-tab account-tab-selected">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
-  return result;
 }
 
+import { Tab, Tabs } from '@mui/material';
+import { Link, useMatch } from 'react-router-dom';
+import { activeTabRoutesPromise } from './tabs';
+
 /**
- *
- * @param {string} tab
- * @returns
+ * @param {{ className: string }} param0
  */
-function renderTabContent(tab) {
-  switch (tab) {
-    case 'blocked-by':
-      return <BlockedByPanel />;
-    case 'blocking':
-      return <BlockingPanel />;
-    case 'lists':
-      return <Lists />;
-    case 'history':
-      return <HistoryPanel />;
-    case 'labeled':
-      return <LabeledPanel />;
-
-
-    default:
-      return (
-        <>
-          <button>123</button>
-          <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid <br />
-          grid
-        </>
-      );
-  }
+export function TabSelector({ className }) {
+  const matches = useMatch('/:account/:tab/*');
+  const tab = matches?.params.tab;
+  return (
+    <div className={'tab-outer-container ' + (className || '')}>
+      <Await
+        resolve={activeTabRoutesPromise}
+        // eslint-disable-next-line react/no-children-prop
+        children={(
+          /** @type {Awaited<typeof activeTabRoutesPromise>} */ activeTabRoutes
+        ) => {
+          const selectedIndex = activeTabRoutes.findIndex(
+            (route) => route.path === tab
+          );
+          return (
+            <Tabs
+              TabIndicatorProps={{
+                style: { display: 'none' },
+              }}
+              className={'tab-selector-root selected-tab-' + tab}
+              orientation="horizontal"
+              variant="scrollable"
+              allowScrollButtonsMobile
+              style={{ border: 'none', margin: 0, padding: 0 }}
+              value={selectedIndex === -1 ? false : selectedIndex}
+            >
+              {activeTabRoutes.map((route) => (
+                <Tab
+                  key={route.path}
+                  to={route.path}
+                  label={route.tab().label}
+                  component={Link}
+                />
+              ))}
+            </Tabs>
+          );
+        }}
+      />
+    </div>
+  );
 }
