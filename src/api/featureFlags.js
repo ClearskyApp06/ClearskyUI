@@ -4,8 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
 import { fetchClearskyApi } from './core';
 
-const BASE_URL = 'features';
-
 const baseQueryKey = ['feature-flags'];
 const queryKeyForAssignment = (/** @type {string} */ flagName) => [
   'feature-flag-assignment',
@@ -22,7 +20,7 @@ function fetchAllFeatures() {
     gcTime: Infinity,
     async queryFn() {
       /** @type {FeatureFlagsResponse} */
-      const { data } = await fetchClearskyApi('v1', BASE_URL);
+      const { data } = await fetchClearskyApi('v1', 'features/');
       return data;
     },
   });
