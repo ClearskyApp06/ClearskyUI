@@ -2,8 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
+import { fetchClearskyApi } from './core';
 
-const BASE_URL = 'https://staging.api.clearsky.services/api/v1/anon/features';
+const BASE_URL = '/anon/features';
 
 const baseQueryKey = ['feature-flags'];
 const queryKeyForAssignment = (/** @type {string} */ flagName) => [
@@ -20,10 +21,8 @@ function fetchAllFeatures() {
     staleTime: Infinity,
     gcTime: Infinity,
     async queryFn() {
-      const response = await fetch(`${BASE_URL}/`);
-      if (!response.ok) throw new Error('Failed to fetch all features');
       /** @type {FeatureFlagsResponse} */
-      const { data } = await response.json();
+      const { data } = await fetchClearskyApi('v1', BASE_URL);
       return data;
     },
   });
