@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function Packs({ created = false }) {
   // STARTER PACKS CREATED
@@ -30,6 +31,7 @@ export function Packs({ created = false }) {
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
+  const starterPacksMadeCount = useFeatureFlag('starter-packs-made-count');
 
   const packsTotal = totalData?.count;
   const Packlist = data?.pages || [];
@@ -70,7 +72,7 @@ export function Packs({ created = false }) {
         )}
         {packsTotal ? (
           <>
-            {localise(
+            {starterPacksMadeCount && (localise(
               'Creator of  ' +
                 packsTotal.toLocaleString() +
                 ' ' +
@@ -79,7 +81,7 @@ export function Packs({ created = false }) {
               {
                 // todo : add language map
               }
-            )}
+            ))}
             <span className="panel-toggles">
               {!showSearch && (
                 <Button

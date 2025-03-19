@@ -14,6 +14,7 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function BlockingLists() {
   const accountQuery = useAccountResolver();
@@ -30,7 +31,7 @@ export function BlockingLists() {
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.blocklist);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
-
+  const listsBlockingCount = useFeatureFlag('lists-blocking-count')
   // Show loader for initial load
   if (isLoading) {
     return (
@@ -55,7 +56,7 @@ export function BlockingLists() {
         </div>
       </div>
 
-      <h3 className='lists-header'>
+      {listsBlockingCount && (<h3 className='lists-header'>
         {(isLoadingTotal && !listTotalBlocks) && <span style={{ opacity: 0.5 }}>{"Counting lists..."}</span>}
         {listTotalBlocks ?
           <>
@@ -72,7 +73,7 @@ export function BlockingLists() {
           </> : 
           isLoadingTotal ? null : 'Not blocking any users via lists'
         }
-      </h3>
+      </h3>)}
 
       <BlockListsView
         list={filteredLists} />

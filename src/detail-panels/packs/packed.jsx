@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export default function Packed() {
   // STARTER PACKS CONTAINING USERS
@@ -30,6 +31,7 @@ export default function Packed() {
   const search = (searchParams.get('q') || '').trim();
   const [tick, setTick] = useState(0);
   const [showSearch, setShowSearch] = useState(!!search);
+  const starterPacksInCount = useFeatureFlag('starter-packs-in-count');
 
   const packsTotal = totalData?.count;
   const Packlist = data?.pages || [];
@@ -70,11 +72,11 @@ export default function Packed() {
 
         {packsTotal ? (
           <>
-            {'Member of ' +
+            {starterPacksInCount && ('Member of ' +
               packsTotal.toLocaleString() +
               ' ' +
               localiseNumberSuffix('pack', packsTotal) +
-              ':'}
+              ':')}
             <span className="panel-toggles">
               {!showSearch && (
                 <Button

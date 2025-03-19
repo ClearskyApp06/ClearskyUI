@@ -25,6 +25,7 @@ export function HomeStatsMain({
   const statsPage = useFeatureFlag('stats-page');
   const topBlocked = useFeatureFlag('top-blocked');
   const topBlockers = useFeatureFlag('top-blockers');
+  const totalUsersWheel = useFeatureFlag('total-users-wheel')
 
   return (
     <div
@@ -41,7 +42,7 @@ export function HomeStatsMain({
         </Button>
       )}
 
-      {/* {features?.['total-users-wheel']?.status && ( */}
+      {totalUsersWheel && (
       <NetworkCircle
         {...{
           activeAccounts,
@@ -51,7 +52,7 @@ export function HomeStatsMain({
           loading,
         }}
       />
-      {/* )} */}
+      )}
 
       {stats && (
         <>
