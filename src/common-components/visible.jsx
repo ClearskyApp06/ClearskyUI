@@ -1,6 +1,6 @@
 // @ts-check
 import React from 'react';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 /** @typedef {{
  *  Component?: React.ElementType,
@@ -25,7 +25,7 @@ export function Visible({
   children,
   ...rest
 }) {
-  let [visible, setVisible] = useState(false);
+  let visibleRef = useRef(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ export function Visible({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting !== visible) {
-          setVisible(entry.isIntersecting);
+        if (entry.isIntersecting !== visibleRef.current) {
+          visibleRef.current = entry.isIntersecting;
           if (entry.isIntersecting) onVisible?.();
           else onObscured?.();
         }
@@ -49,8 +49,7 @@ export function Visible({
 
     observer.observe(ref.current);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref.current]);
+  }, [onObscured, onVisible, rootMargin, threshold]);
 
   return (
     <Component ref={ref} {...rest}>
