@@ -18,8 +18,8 @@ export default function BlockingPanel() {
       totalQuery={totalQuery}
       header={({ count }) => (
         <>
-          {localise(`Blocking ${count.toLocaleString()}`, {
-            uk: `Блокує ${count.toLocaleString()}`,
+          {localise(`Blocking ${!count ? 'loading...' : count.toLocaleString()}`, {
+            uk: `Блокує ${!count ? 'loading...' : count.toLocaleString()}`,
           })}
         </>
       )}
