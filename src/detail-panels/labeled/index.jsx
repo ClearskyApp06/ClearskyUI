@@ -96,7 +96,9 @@ export default function LabeledPanel() {
   const did = accountQuery.data?.shortDID;
   const { data: labelers, isLoading: isLoadingLabelers } = useLabelers();
 
+  // this hook will be called to featch all the label
   const { data: labels, isLoading } = useLabeled(did, labelers);
+
   const labelsCount = useFeatureFlag('labels-count')
 
   return (

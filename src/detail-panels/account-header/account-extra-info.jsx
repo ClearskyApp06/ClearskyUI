@@ -23,9 +23,12 @@ import { useFeatureFlag } from '../../api/featureFlags';
 export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
-  const handleHistoryQuery = useHandleHistory(account?.shortDID);
-  const handleHistory = handleHistoryQuery.data?.handle_history;
   const ishandleHistory = useFeatureFlag('handle-history')
+  
+  // calls only if ishandleHistory is true
+  const handleHistoryQuery = (ishandleHistory) ? useHandleHistory(account?.shortDID) : null;
+  const handleHistory = handleHistoryQuery?.data?.handle_history;
+
   const profileDescription = useFeatureFlag('profile-description')
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
@@ -43,7 +46,7 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
           handleHistory={handleHistory}
         />
       </div>
-      {ishandleHistory && (<div className="handle-history-section">
+      <div className="handle-history-section">
         {!handleHistory ? undefined : (
           <>
             <span className="handle-history-title">
@@ -54,7 +57,7 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
             <HandleHistory handleHistory={handleHistory} />
           </>
         )}
-      </div>)}
+      </div>
     </div>
   );
 }

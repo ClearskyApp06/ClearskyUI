@@ -24,14 +24,15 @@ export default function Packed() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     usePacksPopulated(shortHandle);
+  const shouldFetchstarterPacksInCount = 
+  useFeatureFlag('starter-packs-in-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksPopulatedTotal(shortHandle);
+    usePacksPopulatedTotal(shortHandle,shouldFetchstarterPacksInCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
   const [tick, setTick] = useState(0);
   const [showSearch, setShowSearch] = useState(!!search);
-  const starterPacksInCount = useFeatureFlag('starter-packs-in-count');
 
   const packsTotal = totalData?.count;
   const Packlist = data?.pages || [];
@@ -72,11 +73,11 @@ export default function Packed() {
 
         {packsTotal ? (
           <>
-            {starterPacksInCount && ('Member of ' +
+            {'Member of ' +
               packsTotal.toLocaleString() +
               ' ' +
               localiseNumberSuffix('pack', packsTotal) +
-              ':')}
+              ':'}
             <span className="panel-toggles">
               {!showSearch && (
                 <Button

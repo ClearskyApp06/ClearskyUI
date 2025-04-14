@@ -20,7 +20,8 @@ export function BlockingLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockingLists(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle);
+  const shouldFetchlistsBlockingCount = useFeatureFlag('lists-blocking-count')
+  const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle,shouldFetchlistsBlockingCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -31,7 +32,6 @@ export function BlockingLists() {
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.blocklist);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
-  const listsBlockingCount = useFeatureFlag('lists-blocking-count')
   // Show loader for initial load
   if (isLoading) {
     return (
@@ -56,7 +56,7 @@ export function BlockingLists() {
         </div>
       </div>
 
-      {listsBlockingCount && (<h3 className='lists-header'>
+      <h3 className='lists-header'>
         {(isLoadingTotal && !listTotalBlocks) && <span style={{ opacity: 0.5 }}>{"Counting lists..."}</span>}
         {listTotalBlocks ?
           <>
@@ -73,7 +73,7 @@ export function BlockingLists() {
           </> : 
           isLoadingTotal ? null : 'Not blocking any users via lists'
         }
-      </h3>)}
+      </h3>
 
       <BlockListsView
         list={filteredLists} />

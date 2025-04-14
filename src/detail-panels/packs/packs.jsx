@@ -24,14 +24,14 @@ export function Packs({ created = false }) {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     usePacksCreated(shortHandle);
+  const shouldFetchstarterPacksMadeCount = useFeatureFlag('starter-packs-made-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksCreatedTotal(shortHandle);
+    usePacksCreatedTotal(shortHandle,shouldFetchstarterPacksMadeCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
-  const starterPacksMadeCount = useFeatureFlag('starter-packs-made-count');
 
   const packsTotal = totalData?.count;
   const Packlist = data?.pages || [];
@@ -72,7 +72,7 @@ export function Packs({ created = false }) {
         )}
         {packsTotal ? (
           <>
-            {starterPacksMadeCount && (localise(
+            {localise(
               'Creator of  ' +
                 packsTotal.toLocaleString() +
                 ' ' +
@@ -81,7 +81,7 @@ export function Packs({ created = false }) {
               {
                 // todo : add language map
               }
-            ))}
+            )}
             <span className="panel-toggles">
               {!showSearch && (
                 <Button

@@ -73,11 +73,12 @@ export function useSingleBlocklist(did) {
 /**
  * given the did of an account, return the total number of accounts which are being blocked by the given account
  * @param {string | undefined} did
+ * @param {Boolean | undefined} shouldFetchBlockingCount
  */
-export function useBlocklistCount(did) {
+export function useBlocklistCount(did,shouldFetchBlockingCount) {
   const fullDid = unwrapShortDID(did);
   return useQuery({
-    enabled: !!fullDid,
+    enabled: !!fullDid && shouldFetchBlockingCount,
     queryKey: ['blocklist-count', fullDid],
     // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
     queryFn: () => blocklistCountCall(fullDid, 'blocklist'),
@@ -87,11 +88,12 @@ export function useBlocklistCount(did) {
 /**
  * given the did of an account, return the total number of other accounts which are blocking the given account
  * @param {string | undefined} did
+ * @param {Boolean | undefined} shouldFetchBlockedbyCount
  */
-export function useSingleBlocklistCount(did) {
+export function useSingleBlocklistCount(did,shouldFetchBlockedbyCount) {
   const fullDid = unwrapShortDID(did);
   return useQuery({
-    enabled: !!fullDid,
+    enabled: !!fullDid && shouldFetchBlockedbyCount,
     queryKey: ['single-blocklist-count', fullDid],
     // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
     queryFn: () => blocklistCountCall(fullDid, 'single-blocklist'),
@@ -203,12 +205,13 @@ async function getBlockingLists(shortHandle, currentPage = 1) {
 
 /**
  * @param {string | undefined} handleOrDID
+ * @param {Boolean | undefined} shouldFetchlistsBlockingCount
  */
-export function useBlockingListsTotal(handleOrDID) {
+export function useBlockingListsTotal(handleOrDID,shouldFetchlistsBlockingCount) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!shortHandle,
+    enabled: !!shortHandle && shouldFetchlistsBlockingCount,
     queryKey: ['blocking-lists-total', shortHandle],
     queryFn: () => getBlockingListsTotal(shortHandle),
   });
@@ -275,12 +278,13 @@ async function getBlockedByLists(shortHandle, currentPage = 1) {
 
 /**
  * @param {string | undefined} handleOrDID
+ * @param {Boolean | undefined} shouldFetchlistsBlockedByCount
  */
-export function useBlockedByListsTotal(handleOrDID) {
+export function useBlockedByListsTotal(handleOrDID,shouldFetchlistsBlockedByCount) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!shortHandle,
+    enabled: !!shortHandle && shouldFetchlistsBlockedByCount,
     queryKey: ['blocked-by-lists-total', shortHandle],
     queryFn: () => getBlockedByListsTotal(shortHandle),
   });

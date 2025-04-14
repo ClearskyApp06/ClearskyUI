@@ -30,9 +30,10 @@ export function AccountHeader({ className, onInfoClick }) {
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
   const userPlacement = useFeatureFlag('user-placement')
-
-  const placementquery = usePlacement(resolved.data?.shortDID);
-  const placement = placementquery.data?.placement?.toLocaleString() ?? '';
+  
+  // call only if userPlacement is true
+  const placementquery = (userPlacement) ? usePlacement(resolved.data?.shortDID) : null;
+  const placement = placementquery?.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =
     handleHistory?.length && handleHistory[handleHistory.length - 1][1];
@@ -117,7 +118,7 @@ export function AccountHeader({ className, onInfoClick }) {
                   </a>
                 </>
               )}
-              {userPlacement && placement && (
+              {placement && (
                 <div className="account-place-number">User #{placement}</div>
               )}
             </span>

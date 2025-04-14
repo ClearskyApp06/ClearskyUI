@@ -23,16 +23,17 @@ export function Lists() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useList(shortHandle);
+  const shouldFetchListCounts = useFeatureFlag('lists-on-list-counts')
   const { data: totalData, isLoading: isLoadingTotal } =
-    useListCount(shortHandle);
+    useListCount(shortHandle,shouldFetchListCounts);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
   const search = (searchParams.get('q') || '').trim();
   const [showSearch, setShowSearch] = useState(!!search);
-  const listsOnListCounts = useFeatureFlag('lists-on-list-counts')
 
   const listsTotal = totalData?.count;
+  // console.log(totalData)
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.lists);
   const filteredLists = !search
@@ -71,7 +72,7 @@ export function Lists() {
             {localise('Counting lists...', {})}
           </span>
         )}
-        {listsOnListCounts && listsTotal ? (
+        {listsTotal ? (
           <>
             {localise(
               'Member of ' +
