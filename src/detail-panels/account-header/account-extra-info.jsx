@@ -23,10 +23,10 @@ import { useFeatureFlag } from '../../api/featureFlags';
 export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
-  const ishandleHistory = useFeatureFlag('handle-history')
+  const shouldIshandleHistory = useFeatureFlag('handle-history')
   
   // calls only if ishandleHistory is true
-  const handleHistoryQuery = (ishandleHistory) ? useHandleHistory(account?.shortDID) : null;
+  const handleHistoryQuery = useHandleHistory(account?.shortDID,shouldIshandleHistory);
   const handleHistory = handleHistoryQuery?.data?.handle_history;
 
   const profileDescription = useFeatureFlag('profile-description')

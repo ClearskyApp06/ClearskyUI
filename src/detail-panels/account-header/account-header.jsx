@@ -26,13 +26,14 @@ export function AccountHeader({ className, onInfoClick }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
+  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID,true);
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
-  const userPlacement = useFeatureFlag('user-placement')
+  const shoulduserPlacement = useFeatureFlag('user-placement')
   
   // call only if userPlacement is true
-  const placementquery = (userPlacement) ? usePlacement(resolved.data?.shortDID) : null;
+  const placementquery = usePlacement(resolved.data?.shortDID,shoulduserPlacement);
+  // console.log(placementquery)
   const placement = placementquery?.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =

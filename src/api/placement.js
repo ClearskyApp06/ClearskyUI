@@ -7,13 +7,14 @@ import { useQuery } from '@tanstack/react-query';
 
 /**
  * @param {string | undefined} handleOrDID
+ * @param {Boolean | undefined} shoulduserPlacement
  */
-export function usePlacement(handleOrDID) {
+export function usePlacement(handleOrDID,shoulduserPlacement) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
 
   return useQuery({
-    enabled: !!shortHandle,
+    enabled: !!shortHandle && shoulduserPlacement,
     queryKey: ['place', shortHandle],
     // @ts-expect-error shortHandle will be a string, as the query is skipped otherwise
     queryFn: () => getPlacement(shortHandle),

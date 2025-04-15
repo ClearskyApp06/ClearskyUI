@@ -16,10 +16,11 @@ import { fetchClearskyApi } from './core';
 /**
  *
  * @param {string | undefined} shortDid
+ * @param {Boolean | undefined} shouldIshandleHistory
  */
-export function useHandleHistory(shortDid) {
+export function useHandleHistory(shortDid,shouldIshandleHistory) {
   return useQuery({
-    enabled: !!shortDid,
+    enabled: !!shortDid && shouldIshandleHistory,
     queryKey: ['get-handle-history', shortDid],
     // @ts-expect-error shortDid will be a string, as query is skipped otherwise
     queryFn: () => getHandleHistoryRaw(shortDid, false),
