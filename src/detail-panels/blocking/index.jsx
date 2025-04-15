@@ -20,11 +20,11 @@ export default function BlockingPanel() {
         <>
           {localise(
             `Blocking ${
-              count === undefined ? 'loading...' : count.toLocaleString()
+              totalQuery.isLoading ? 'loading...' : count.toLocaleString()
             }`,
             {
               uk: `Блокує ${
-                count === undefined ? 'loading...' : count.toLocaleString()
+                totalQuery.isLoading ? 'loading...' : count.toLocaleString()
               }`,
             }
           )}
