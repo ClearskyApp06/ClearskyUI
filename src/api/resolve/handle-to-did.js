@@ -42,14 +42,18 @@ export function useResolveHandleToDID(handle) {
   });
 }
 
+// provided by https://atproto.com/specs/handle#handle-identifier-syntax
+const atprotoHandleSyntax =
+  /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+
 /**
- * Very simplisitc check to see if a given handle looks like a domain.
+ * Very check to see if a given handle looks like a valid atproto handle (domain).
  * Expects domains to have been converted to punycode representation first,
  * which `unwrapShortHandle` will do.
  * @param {string} handle
  */
-function handleIsDomainLike(handle) {
-  if (handle.match(/^([\w]+\.)+\w\w+$/)) {
+function isValidHandle(handle) {
+  if (handle.match(atprotoHandleSyntax)) {
     return true;
   }
   return false;
@@ -61,7 +65,7 @@ function handleIsDomainLike(handle) {
  * @param {AbortSignal} signal
  */
 async function resolveHandleToDid(fullHandle, signal) {
-  if (!fullHandle || !handleIsDomainLike(fullHandle)) {
+  if (!fullHandle || !isValidHandle(fullHandle)) {
     return null;
   }
   const bskyResult = await resolveHandleFromBsky(fullHandle, signal);

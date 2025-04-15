@@ -6,6 +6,7 @@ import { unwrapShortHandle } from '../api';
 import { HomeHeader } from './home-header';
 
 import './home.css';
+import '../donate.css'
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
@@ -38,6 +39,8 @@ export default function Home() {
           }
         }}
       />
+      
+
       <React.Suspense>
         <HomeStats className="home-stats" />
       </React.Suspense>
