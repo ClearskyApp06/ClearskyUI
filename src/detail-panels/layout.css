@@ -6,7 +6,6 @@
   height: 100%;
   display: flex;
 }
- 
 
 @media (width >= 801px) {
   .layout {
@@ -24,8 +23,6 @@
     /* main content area grows 3 times more than the sidebar */
     flex: 3 0 0;
   }
-
- 
 
   .account-tabs-content {
     /* max-height: 80em; */
@@ -53,7 +50,7 @@
 
 .account-extra-info {
   height: calc(100% - 200px);
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
 
@@ -205,39 +202,50 @@
   z-index: 20;
   background: white;
 }
- 
+
 .account-extra-info .bio-section {
   display: block;
-  flex-grow:4;
+  flex-grow: 4;
 }
 
 .account-extra-info .did-section {
-  display: block;  
-  flex-grow:0;
+  display: block;
+  flex-grow: 0;
 }
 
 .account-extra-info .handle-history-section {
   display: block;
   align-self: flex-end;
-  flex-grow:0;
+  flex-grow: 0;
 }
 
-.close-opt{
-  display:none;
+.close-opt {
+  display: none;
   visibility: hidden;
 }
 
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
+    position: relative;
+  }
+  .account-tabs-handles {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    background: white;
+    border-bottom: 1px solid #ddd;
+  }
+  .detail-container {
+    overflow-y: visible;
   }
 
-  .donate { 
-    left:80%; 
+  .donate {
+    left: 80%;
   }
 
-  .account-extra-info{
-    display:none;
+  .account-extra-info {
+    display: none;
   }
 
   .account-header .info-icon {
@@ -245,10 +253,10 @@
   }
 
   .account-extra-info.account-extra-info-reveal {
-    border-radius:5px;
-    border:1px solid black;   
+    border-radius: 5px;
+    border: 1px solid black;
     background: white;
-    font-size: 90%; 
+    font-size: 90%;
     position: absolute;
     top: 2.5%;
     left: 2.5%;
@@ -256,23 +264,22 @@
     z-index: 50;
     display: block;
     padding: 5px;
-    zoom:.75;
-    height:fit-content;
+    zoom: 0.75;
+    height: fit-content;
   }
-  
-  .account-extra-info-reveal .close-opt{
+
+  .account-extra-info-reveal .close-opt {
     display: block;
     position: relative;
     left: 94%;
     visibility: visible;
     zoom: 3;
-  } 
-
+  }
 
   .account-extra-info .handle-history-section {
     display: none;
   }
-  
+
   .account-extra-info.account-extra-info-reveal .bio-section {
     display: block;
     margin: 0;
@@ -282,37 +289,36 @@
     display: block;
     margin: 0;
   }
-  
+
   .account-extra-info.account-extra-info-reveal .handle-history-section {
     display: block;
   }
-  
-  .account-tabs-content{
+
+  .account-tabs-content {
     overflow-y: auto;
   }
- 
 }
 
 @media (width <= 500px) {
-.donate{
-  left:70%;
-}
+  .donate {
+    left: 70%;
+  }
 }
 
 @media (width <= 400px) {
-  .donate{
-    left:60%;
+  .donate {
+    left: 60%;
   }
-  }
+}
 
 @media (width <= 300px) {
-  .donate{
-    left:50%;
+  .donate {
+    left: 50%;
   }
-  }
+}
 
 @media (width <= 200px) {
-  .donate{
-    left:20%;
+  .donate {
+    left: 20%;
   }
-  }
+}
