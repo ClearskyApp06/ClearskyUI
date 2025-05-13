@@ -219,7 +219,6 @@
   flex-grow: 0;
 }
 
-/* Added empty line above */
 .close-opt {
   display: none;
   visibility: hidden;
@@ -231,7 +230,6 @@
     position: relative;
   }
 
-  /* Added empty line above */
   .account-tabs-handles {
     position: sticky;
     top: 0;
@@ -239,6 +237,7 @@
     background: white;
     border-bottom: 1px solid #ddd;
   }
+
   .detail-container {
     overflow-y: visible;
   }
