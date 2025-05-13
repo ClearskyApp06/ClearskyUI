@@ -219,6 +219,7 @@
   flex-grow: 0;
 }
 
+/* Added empty line above */
 .close-opt {
   display: none;
   visibility: hidden;
@@ -229,6 +230,8 @@
     flex-direction: column;
     position: relative;
   }
+
+  /* Added empty line above */
   .account-tabs-handles {
     position: sticky;
     top: 0;
