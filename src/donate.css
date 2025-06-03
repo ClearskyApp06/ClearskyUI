@@ -14,9 +14,10 @@
 }
 
 .donate{
-  position: fixed;
+  position: absolute;
+  top: 16px;
+  right: 16px;
   background-size: 650px; 
-  left: 350px;
 }
 
 .donate-home {  

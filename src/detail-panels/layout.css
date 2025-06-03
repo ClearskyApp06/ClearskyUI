@@ -17,6 +17,7 @@
     max-width: 550px;
     flex: 1 0 0;
     overflow-y: auto;
+    position: relative;
   }
 
   .layout .detail-container {
@@ -242,10 +243,6 @@
     overflow-y: visible;
   }
 
-  .donate {
-    left: 80%;
-  }
-
   .account-extra-info {
     display: none;
   }
@@ -298,29 +295,5 @@
 
   .account-tabs-content {
     overflow-y: auto;
-  }
-}
-
-@media (width <= 500px) {
-  .donate {
-    left: 70%;
-  }
-}
-
-@media (width <= 400px) {
-  .donate {
-    left: 60%;
-  }
-}
-
-@media (width <= 300px) {
-  .donate {
-    left: 50%;
-  }
-}
-
-@media (width <= 200px) {
-  .donate {
-    left: 20%;
   }
 }
