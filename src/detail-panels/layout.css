@@ -222,7 +222,6 @@
 
 .close-opt {
   display: none;
-  visibility: hidden;
 }
 
 @media (width <= 800px) {
@@ -268,11 +267,11 @@
   }
 
   .account-extra-info-reveal .close-opt {
-    display: block;
-    position: relative;
-    left: 94%;
+    float: right;
     visibility: visible;
-    zoom: 3;
+    font-size: 3rem;
+    line-height: 2rem;
+    cursor: pointer;
   }
 
   .account-extra-info .handle-history-section {
