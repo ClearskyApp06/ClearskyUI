@@ -188,11 +188,6 @@
 .detail-container {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
-  margin-left: 2px;
-  margin-right: 2px;
-  padding-left: 3px;
-  padding-right: 3px;
   flex-grow: 1;
   overflow-y: auto;
 }
