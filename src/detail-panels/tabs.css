@@ -1,9 +1,9 @@
 .tab-outer-container {
   position: relative;
   border-radius: 20px;
-  margin-left:2px;
-  margin-right:2px;
-  padding:2px
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 2px;
 }
 
 .tab-selector-root {
@@ -11,38 +11,34 @@
   top: 5em;
   padding-right: 1em;
   padding-top: 0.5em;
-  background:none;
+  background: none;
   border-right: none;
 }
 
-.MuiTabs-flexContainer{
-  background:none;
-  height:40px;
+.MuiTabs-flexContainer {
+  background: none;
+  height: 40px;
 }
 
 .MuiTab-root {
-  background:none;
+  background: none;
 }
 
-.account-tabs-handles .MuiTab-root{
- opacity:.8;
-  color:#d0d0d0;
-  
-
+.account-tabs-handles .MuiTab-root {
+  opacity: 0.8;
+  color: #d0d0d0;
 }
 
-.account-tabs-handles .MuiTab-root.Mui-selected{
-  opacity:1;
-  font-weight:600;
-  color:white;
+.account-tabs-handles .MuiTab-root.Mui-selected {
+  opacity: 1;
+  font-weight: 600;
+  color: white;
 }
-
-
 
 .tab-selector-root .MuiTab-root {
   min-width: 0;
   padding: 1em 0.4em;
-  margin-bottom: 0.5em;  
+  margin-bottom: 0.5em;
 }
 
 .tab-selector-root .MuiTabs-indicator {
@@ -58,33 +54,33 @@
     top: 7.5em;
   }
 
-svg.MuiSvgIcon-root {
+  svg.MuiSvgIcon-root {
     height: 35px;
-}
+  }
 
-.MuiButtonBase-root svg {
-  position: relative;
+  .MuiButtonBase-root svg {
+    position: relative;
     height: inherit;
     top: 7px;
-}
+  }
 
+  button.MuiButtonBase-root {
+    position: relative;
+    top: -10px;
+    height: auto;
+  }
 
-button.MuiButtonBase-root {
-  position: relative;
-  top: -10px;
-  height: auto;
-}
+  .MuiButtonBase-root {
+    height: 24px;
+  }
 
-.MuiButtonBase-root {
-  height: 24px;
-}
-
-.tab-outer-container.account-tabs-handles { 
-  height: 36px;
-  margin-top:5px;
-  overflow: hidden;
-  border: solid 1px white;
-  margin-bottom: 2px;
-  min-height:36px;
-}
+  .tab-outer-container.account-tabs-handles {
+    height: 36px;
+    margin-top: 5px;
+    overflow: hidden;
+    border: solid 1px white;
+    margin-bottom: 2px;
+    min-height: 36px;
+    padding-bottom: 50px;
+  }
 }
