@@ -23,7 +23,7 @@ export async function searchHandle(searchText) {
   if (cachedSearches[searchText]) return cachedSearches[searchText];
 
   const directResolvesOrPromises = searchText
-    .split(/\s+/)
+    .split(/[\s.]+/)
     .filter((word) => !!word)
     .map(async (word) => {
       const postLink = breakPostURL(word) || breakFeedUri(word);
