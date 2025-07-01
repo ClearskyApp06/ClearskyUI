@@ -15,12 +15,12 @@
   padding: 8px 10px;
   border-radius: 4px;
   position: absolute;
-  left: 120%; /* tooltip to the right */
+  left: 120%;
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  white-space: nowrap; /* 🔥 force single line */
+  white-space: nowrap;
   font-size: 0.85rem;
   z-index: 10;
 }
