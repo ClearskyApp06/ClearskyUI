@@ -14,12 +14,15 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export function BlockedByLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockedByLists(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useBlockedByListsTotal(shortHandle);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useBlockedByLists(shortHandle);
+  const { data: totalData, isLoading: isLoadingTotal } =
+    useBlockedByListsTotal(shortHandle);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -29,13 +32,15 @@ export function BlockedByLists() {
   const listsTotal = totalData?.count;
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.blocklist);
-  const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
+  const filteredLists = !search
+    ? allLists
+    : matchSearch(allLists, search, () => setTick(tick + 1));
 
   // Show loader for initial load
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
-        <CircularProgress size="1.5em" /> 
+        <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
           {'Loading blocked by lists...'}
         </div>
@@ -43,40 +48,48 @@ export function BlockedByLists() {
     );
   }
 
-  const shouldShowLoadMore = hasNextPage && (!search || filteredLists.length > 0);
+  const shouldShowLoadMore =
+    hasNextPage && (!search || filteredLists.length > 0);
 
   return (
     <>
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
-          <SearchHeaderDebounced
-            label='Search'
-            setQ />
+          <SearchHeaderDebounced label="Search" setQ />
         </div>
       </div>
 
-      <h3 className='lists-header'>
-        {(isLoadingTotal && !listsTotal) && <span style={{ opacity: 0.5 }}>{"Counting block lists..."}</span>}
-        {listsTotal ?
+      <h3 className="lists-header">
+        <div style={{ fontWeight: '400', paddingBottom: '0.2em' }}>
+          <InfoTooltip text="this page shows panel members that blocked you via lists" />
+        </div>
+        {isLoadingTotal && !listsTotal && (
+          <span style={{ opacity: 0.5 }}>{'Counting block lists...'}</span>
+        )}
+        {listsTotal ? (
           <>
-            {`Blocked by ${Intl.NumberFormat().format(listsTotal)} users via lists`}
-            <span className='panel-toggles'>
-              {!showSearch &&
+            {`Blocked by ${Intl.NumberFormat().format(
+              listsTotal
+            )} users via lists`}
+            <span className="panel-toggles">
+              {!showSearch && (
                 <Button
-                  size='small'
-                  className='panel-show-search'
-                  title='Search'
-                  onClick={() => setShowSearch(true)}><SearchIcon /></Button>
-              }
+                  size="small"
+                  className="panel-show-search"
+                  title="Search"
+                  onClick={() => setShowSearch(true)}
+                >
+                  <SearchIcon />
+                </Button>
+              )}
             </span>
-          </> : 
-          isLoadingTotal ? null : 'Not blocked by any users via lists'
-        }
+          </>
+        ) : isLoadingTotal ? null : (
+          'Not blocked by any users via lists'
+        )}
       </h3>
 
-      <BlockListsView
-        list={filteredLists}
-        handle={shortHandle} />
+      <BlockListsView list={filteredLists} handle={shortHandle} />
 
       {shouldShowLoadMore && (
         <VisibleWithDelay
@@ -99,8 +112,9 @@ export function BlockedByLists() {
  */
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter(entry => {
-    if ((entry.list_name || '').toLowerCase().includes(searchLowercase)) return true;
+  const filtered = blocklist.filter((entry) => {
+    if ((entry.list_name || '').toLowerCase().includes(searchLowercase))
+      return true;
 
     resolveHandleOrDID(entry.list_owner).then(redraw);
     return false;

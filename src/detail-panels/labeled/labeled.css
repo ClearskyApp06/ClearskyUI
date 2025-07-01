@@ -1,10 +1,10 @@
-
-.labeled-panel{
-  margin: 0.5em 0;
+.labeled-panel {
+  margin: 0.3em 0;
 }
 
-.labeled-header, .labeled-view {
-  padding: 0.7em 0.5em;
+.labeled-header,
+.labeled-view {
+  padding: 0.3em 0.5em;
   margin: 0;
 }
 
@@ -14,10 +14,9 @@
   top: -0.4em;
 }
 
-
 .labeled-view {
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 
 .labeled-view .labeled {
@@ -26,7 +25,7 @@
   border-top: solid 1px #dbdbdb;
   padding-top: 0.4em;
   padding-left: 0.7em;
-  padding-right: 0.4em; 
+  padding-right: 0.4em;
 }
 
 .labeled-view .labeled .row {

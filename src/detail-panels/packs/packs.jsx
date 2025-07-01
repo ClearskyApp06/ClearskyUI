@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export function Packs({ created = false }) {
   // STARTER PACKS CREATED
@@ -57,6 +58,11 @@ export function Packs({ created = false }) {
 
   return (
     <>
+      <div
+        style={{ fontWeight: '400', paddingLeft: '0.5em', paddingTop: '0.3em' }}
+      >
+        <InfoTooltip text="this page shows the started packs you created" />
+      </div>
       <div className="Packs Created">
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced label={localise('Search', {})} setQ />

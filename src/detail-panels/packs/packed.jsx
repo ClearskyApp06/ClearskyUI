@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export default function Packed() {
   // STARTER PACKS CONTAINING USERS
@@ -68,6 +69,9 @@ export default function Packed() {
           </span>
         )}
 
+        <div style={{ fontWeight: '400', paddingBottom: '0.2em' }}>
+          <InfoTooltip text="this page shows the started packs you are a member of" />
+        </div>
         {packsTotal ? (
           <>
             {'Member of ' +

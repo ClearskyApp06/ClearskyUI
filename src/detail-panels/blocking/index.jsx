@@ -5,6 +5,7 @@ import { BlockPanelGeneric } from '../block-panel-generic';
 import { localise } from '../../localisation';
 import { useBlocklistCount } from '../../api/blocklist';
 import { useAccountResolver } from '../account-resolver';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export default function BlockingPanel() {
   const accountQuery = useAccountResolver();
@@ -18,6 +19,9 @@ export default function BlockingPanel() {
       totalQuery={totalQuery}
       header={({ count }) => (
         <>
+          <div style={{ fontWeight: '400', paddingBottom: '0.2em' }}>
+            <InfoTooltip text="this page shows panel member you have blocked" />
+          </div>
           {localise(
             `Blocking ${
               totalQuery.isLoading ? 'loading...' : count.toLocaleString()

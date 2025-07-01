@@ -1,0 +1,31 @@
+.info-tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.info-icon {
+  color: #555;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 4px;
+  position: absolute;
+  left: 120%; /* tooltip to the right */
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  white-space: nowrap; /* 🔥 force single line */
+  font-size: 0.85rem;
+  z-index: 10;
+}
+
+.info-tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
