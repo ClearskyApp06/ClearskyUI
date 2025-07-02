@@ -7,6 +7,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 /**
  * @param {{
@@ -106,6 +107,9 @@ export default function LabeledPanel() {
         minHeight: '100%',
       }}
     >
+      <div style={{ fontWeight: '400', paddingLeft: '0.5em' }}>
+        <InfoTooltip text="This page where you were labeled." />
+      </div>
       <h3 className="labeled-header">Labeled {labels?.length} Times</h3>
 
       {isLoadingLabelers || isLoading ? (

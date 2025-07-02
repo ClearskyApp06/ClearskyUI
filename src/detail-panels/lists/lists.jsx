@@ -15,9 +15,9 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
 import './lists.css';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export function Lists() {
-  
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
@@ -54,6 +54,11 @@ export function Lists() {
 
   return (
     <>
+      <div
+        style={{ fontWeight: '400', paddingLeft: '0.5em', paddingTop: '0.3em' }}
+      >
+        <InfoTooltip text="this page shows the lists you're a member of" />
+      </div>
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced

@@ -10,6 +10,7 @@ import { Button, Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import './history-panel.css';
 import { useAccountResolver } from '../account-resolver';
+import InfoTooltip from '../../common-components/info-tool-tip';
 
 export default function HistoryPanel() {
   const accountQuery = useAccountResolver();
@@ -21,6 +22,15 @@ export default function HistoryPanel() {
 
   return (
     <>
+      <div
+        style={{
+          fontWeight: '400',
+          paddingTop: '0.3em',
+          paddingLeft: '0.5em',
+        }}
+      >
+        <InfoTooltip text="this page shows your posts" />
+      </div>
       <SearchHeaderDebounced
         label={localise('Search history', { uk: 'Шукати в історії' })}
         setQ
