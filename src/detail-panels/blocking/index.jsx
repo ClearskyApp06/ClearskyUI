@@ -20,7 +20,7 @@ export default function BlockingPanel() {
       header={({ count }) => (
         <>
           <div style={{ fontWeight: '400', paddingBottom: '0.2em' }}>
-            <InfoTooltip text="this page shows panel member you have blocked" />
+            <InfoTooltip text="This page shows panel members you have blocked." />
           </div>
           {localise(
             `Blocking ${

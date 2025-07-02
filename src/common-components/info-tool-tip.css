@@ -1,4 +1,4 @@
-.info-tooltip-container {
+.info-icon-wrapper {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -25,7 +25,7 @@
   z-index: 10;
 }
 
-.info-tooltip-container:hover .tooltip-text {
+.info-icon-wrapper:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }

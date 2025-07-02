@@ -70,7 +70,7 @@ export default function Packed() {
         )}
 
         <div style={{ fontWeight: '400', paddingBottom: '0.2em' }}>
-          <InfoTooltip text="this page shows the started packs you are a member of" />
+          <InfoTooltip text="This page shows the starter packs you are a member of." />
         </div>
         {packsTotal ? (
           <>

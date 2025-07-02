@@ -61,7 +61,7 @@ export function Packs({ created = false }) {
       <div
         style={{ fontWeight: '400', paddingLeft: '0.5em', paddingTop: '0.3em' }}
       >
-        <InfoTooltip text="this page shows the started packs you created" />
+        <InfoTooltip text="This page shows the starter packs you created." />
       </div>
       <div className="Packs Created">
         <div style={showSearch ? undefined : { display: 'none' }}>

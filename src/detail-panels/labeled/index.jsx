@@ -108,7 +108,7 @@ export default function LabeledPanel() {
       }}
     >
       <div style={{ fontWeight: '400', paddingLeft: '0.5em' }}>
-        <InfoTooltip text="this is page where you can see you were labelled" />
+        <InfoTooltip text="This page where you were labeled." />
       </div>
       <h3 className="labeled-header">Labeled {labels?.length} Times</h3>
 
