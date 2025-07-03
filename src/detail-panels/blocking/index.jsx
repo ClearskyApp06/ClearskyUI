@@ -12,25 +12,23 @@ export default function BlockingPanel() {
   const did = accountQuery.data?.shortDID;
   const blocklistQuery = useBlocklist(did);
   const shouldFetchBlockingCount = useFeatureFlag('blocking-count')
-  const totalQuery = useBlocklistCount(did,shouldFetchBlockingCount);
+  const totalQuery = useBlocklistCount(did, shouldFetchBlockingCount);
   return (
     <BlockPanelGeneric
       className="blocking-panel"
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
-      header={({ count }) => (
-        <>
-          {localise(
-            `Blocking ${
-              totalQuery.isLoading ? 'loading...' : count.toLocaleString()
-            }`,
-            {
-              uk: `Блокує ${
-                totalQuery.isLoading ? 'loading...' : count.toLocaleString()
+      header={({ count }) => (shouldFetchBlockingCount ? (<>
+        {localise(
+          `Blocking ${totalQuery.isLoading ? 'loading...' : count.toLocaleString()
+          }`,
+          {
+            uk: `Блокує ${totalQuery.isLoading ? 'loading...' : count.toLocaleString()
               }`,
-            }
-          )}
-        </>
+          }
+        )}
+      </>) : null
+
       )}
     />
   );

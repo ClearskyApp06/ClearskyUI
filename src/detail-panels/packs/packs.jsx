@@ -70,7 +70,7 @@ export function Packs({ created = false }) {
             {localise('Counting packs...', {})}
           </span>
         )}
-        {packsTotal ? (
+        {shouldFetchstarterPacksMadeCount && (packsTotal ? (
           <>
             {localise(
               'Creator of  ' +
@@ -97,7 +97,7 @@ export function Packs({ created = false }) {
           </>
         ) : (
           localise(NOPACK, {})
-        )}
+        ))}
       </h3>
 
       <PackView packs={allPacks} />

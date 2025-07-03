@@ -37,9 +37,9 @@ export function BlockingLists() {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
-        <div style={{ marginTop: '0.5em' }}>
+       { shouldFetchlistsBlockingCount &&( <div style={{ marginTop: '0.5em' }}>
           {'Loading blocking lists...'}
-        </div>
+        </div>)}
       </div>
     );
   }
@@ -58,7 +58,7 @@ export function BlockingLists() {
 
       <h3 className='lists-header'>
         {(isLoadingTotal && !listTotalBlocks) && <span style={{ opacity: 0.5 }}>{"Counting lists..."}</span>}
-        {listTotalBlocks ?
+        {shouldFetchlistsBlockingCount && (listTotalBlocks ?
           <>
             {`Blocking ${Intl.NumberFormat().format(listTotalBlocks)} total users via lists`}
             <span className='panel-toggles'>
@@ -71,7 +71,7 @@ export function BlockingLists() {
               }
             </span>
           </> : 
-          isLoadingTotal ? null : 'Not blocking any users via lists'
+          isLoadingTotal ? null : 'Not blocking any users via lists')
         }
       </h3>
 

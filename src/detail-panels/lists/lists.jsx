@@ -72,7 +72,7 @@ export function Lists() {
             {localise('Counting lists...', {})}
           </span>
         )}
-        {listsTotal ? (
+        {shouldFetchListCounts && (listsTotal ? (
           <>
             {localise(
               'Member of ' +
@@ -106,7 +106,7 @@ export function Lists() {
           localise('Not a member of any lists', {
             uk: 'Не входить до жодного списку',
           })
-        )}
+        ))}
       </h3>
 
       <ListView list={filteredLists} className="" />

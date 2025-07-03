@@ -71,7 +71,7 @@ export default function Packed() {
           </span>
         )}
 
-        {packsTotal ? (
+        {shouldFetchstarterPacksInCount && (packsTotal ? (
           <>
             {'Member of ' +
               packsTotal.toLocaleString() +
@@ -93,7 +93,7 @@ export default function Packed() {
           </>
         ) : (
           localise(NOPACK, {})
-        )}
+        ))}
       </h3>
 
       <PackView packs={allPacks} />
