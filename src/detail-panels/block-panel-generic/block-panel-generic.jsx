@@ -41,6 +41,7 @@ export function BlockPanelGeneric({
   const blocklistPages = data?.pages || [];
   const blocklist = blocklistPages.flatMap((page) => page.blocklist);
   const count = totalData?.count;
+  
 
   // const [searchParams, setSearchParams] = useSearchParams();
   // const [tick, setTick] = useState(0);
@@ -119,6 +120,7 @@ class PanelHeader extends React.Component {
     }
 
     const { blocklist, header } = this.props;
+    
 
     return (
       <h3

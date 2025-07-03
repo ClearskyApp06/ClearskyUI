@@ -15,6 +15,7 @@ import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
 import './lists.css';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function Lists() {
   
@@ -22,8 +23,9 @@ export function Lists() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useList(shortHandle);
+  const shouldFetchListCounts = useFeatureFlag('lists-on-list-counts')
   const { data: totalData, isLoading: isLoadingTotal } =
-    useListCount(shortHandle);
+    useListCount(shortHandle,shouldFetchListCounts);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -31,6 +33,7 @@ export function Lists() {
   const [showSearch, setShowSearch] = useState(!!search);
 
   const listsTotal = totalData?.count;
+  // console.log(totalData)
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.lists);
   const filteredLists = !search
@@ -69,7 +72,7 @@ export function Lists() {
             {localise('Counting lists...', {})}
           </span>
         )}
-        {listsTotal ? (
+        {shouldFetchListCounts && (listsTotal ? (
           <>
             {localise(
               'Member of ' +
@@ -103,7 +106,7 @@ export function Lists() {
           localise('Not a member of any lists', {
             uk: 'Не входить до жодного списку',
           })
-        )}
+        ))}
       </h3>
 
       <ListView list={filteredLists} className="" />

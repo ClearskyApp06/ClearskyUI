@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function Packs({ created = false }) {
   // STARTER PACKS CREATED
@@ -23,8 +24,9 @@ export function Packs({ created = false }) {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     usePacksCreated(shortHandle);
+  const shouldFetchstarterPacksMadeCount = useFeatureFlag('starter-packs-made-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksCreatedTotal(shortHandle);
+    usePacksCreatedTotal(shortHandle,shouldFetchstarterPacksMadeCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -68,7 +70,7 @@ export function Packs({ created = false }) {
             {localise('Counting packs...', {})}
           </span>
         )}
-        {packsTotal ? (
+        {shouldFetchstarterPacksMadeCount && (packsTotal ? (
           <>
             {localise(
               'Creator of  ' +
@@ -95,7 +97,7 @@ export function Packs({ created = false }) {
           </>
         ) : (
           localise(NOPACK, {})
-        )}
+        ))}
       </h3>
 
       <PackView packs={allPacks} />

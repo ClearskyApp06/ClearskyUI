@@ -14,12 +14,14 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function BlockingLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockingLists(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle);
+  const shouldFetchlistsBlockingCount = useFeatureFlag('lists-blocking-count')
+  const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle,shouldFetchlistsBlockingCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -30,15 +32,14 @@ export function BlockingLists() {
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.blocklist);
   const filteredLists = !search ? allLists : matchSearch(allLists, search, () => setTick(tick + 1));
-
   // Show loader for initial load
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
-        <div style={{ marginTop: '0.5em' }}>
+       { shouldFetchlistsBlockingCount &&( <div style={{ marginTop: '0.5em' }}>
           {'Loading blocking lists...'}
-        </div>
+        </div>)}
       </div>
     );
   }
@@ -57,7 +58,7 @@ export function BlockingLists() {
 
       <h3 className='lists-header'>
         {(isLoadingTotal && !listTotalBlocks) && <span style={{ opacity: 0.5 }}>{"Counting lists..."}</span>}
-        {listTotalBlocks ?
+        {shouldFetchlistsBlockingCount && (listTotalBlocks ?
           <>
             {`Blocking ${Intl.NumberFormat().format(listTotalBlocks)} total users via lists`}
             <span className='panel-toggles'>
@@ -70,7 +71,7 @@ export function BlockingLists() {
               }
             </span>
           </> : 
-          isLoadingTotal ? null : 'Not blocking any users via lists'
+          isLoadingTotal ? null : 'Not blocking any users via lists')
         }
       </h3>
 

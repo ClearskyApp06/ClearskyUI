@@ -12,6 +12,7 @@ import './list-view.css';
 import { ProgressiveRender } from '../../common-components/progressive-render';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 import { useResolveHandleOrDid } from '../../api';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -20,6 +21,7 @@ import { useResolveHandleOrDid } from '../../api';
  * }} _
  */
 export function ListView({ className, list }) {
+  const spamListOverlay = useFeatureFlag('spam-list-overlay')
   return (
     <ul
       className={'lists-as-list-view ' + (className || '')}
@@ -27,7 +29,7 @@ export function ListView({ className, list }) {
     >
       <ProgressiveRender
         items={list || []}
-        renderItem={(entry) => <ListViewEntry entry={entry} />}
+        renderItem={(entry) => <ListViewEntry entry={entry} SpamOverlay={spamListOverlay} />}
       />
     </ul>
   );
@@ -37,9 +39,10 @@ export function ListView({ className, list }) {
  * @param {{
  *  className?: string,
  *  entry: AccountListEntry
+ *  SpamOverlay : boolean
  * }} _
  */
-export function ListViewEntry({ className, entry }) {
+export function ListViewEntry({ className, entry, SpamOverlay }) {
   const { data: sizeData, isLoading } = useListSize(entry?.url);
   const count = sizeData?.count?.toLocaleString() || '';
 
@@ -53,7 +56,7 @@ export function ListViewEntry({ className, entry }) {
     setOpen(true);
   };
 
-  const opacity = entry.spam ? 0.4 : 1;
+  const opacity = (entry.spam && SpamOverlay) ? 0.4 : 1;
   const resolved = useResolveHandleOrDid(entry.did);
 
   return (
@@ -80,7 +83,7 @@ export function ListViewEntry({ className, entry }) {
           >
             {entry.name}
           </ConditionalAnchor>
-          {entry.spam && (
+          {entry.spam && SpamOverlay && (
             <ClickAwayListener onClickAway={handleTooltipClose}>
               <Tooltip
                 title={`Flagged as spam. Source: ${entry.source || 'unknown'}`}
