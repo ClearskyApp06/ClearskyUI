@@ -9,7 +9,6 @@
   border-radius: 20px;
   padding: 5px 10px;
   animation: scroll-it 360s linear infinite;
-  top: 20px; 
   z-index: 100;
 }
 
@@ -23,7 +22,6 @@
 .donate-home {  
   position: relative;
   background-size: 744px;
-  margin-top: 10px;
   width: 99px;
   left: 11px;  
   height: 43px;
@@ -34,4 +32,12 @@
   0%{background-position-x:1px;}
   50%{background-position-x:-931px;}  
   100%{background-position-x:-1872px;}
+}
+
+/* Header actions container */
+.header-actions {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  align-items: center;
 }

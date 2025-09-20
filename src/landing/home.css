@@ -147,3 +147,11 @@
     zoom: 0.6;
   }
 }
+
+/* Header actions container */
+.header-actions {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  align-items: center;
+}

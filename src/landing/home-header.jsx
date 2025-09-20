@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
+import TrackerBanner from '../common-components/tracker-banner';
 
 /**
  * @param {{
@@ -22,7 +23,10 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         onAccountSelected={onAccountSelected}
       />
       
-    <Donate className="donate-home"/>
+      <div className="header-actions">
+        <Donate className="donate-home"/>
+        <TrackerBanner className="tracker-banner-home"/>
+      </div>
     </div>
   );
 }
