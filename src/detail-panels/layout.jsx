@@ -8,6 +8,7 @@ import { AccountExtraInfo } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
+import TrackerBanner from '../common-components/tracker-banner';
 
 /**
  *
@@ -26,7 +27,10 @@ export function AccountLayout() {
           className="account-header"
           onInfoClick={toggleRevealInfo}
         />
-        <Donate />
+        <div className="header-actions-detail">
+          <Donate />
+          <TrackerBanner subtitle="Track followers & unfollowers in real-time!" />
+        </div>
         <AccountExtraInfo
           className={revealInfo ? 'account-extra-info-reveal' : ''}
           onInfoClick={toggleRevealInfo}

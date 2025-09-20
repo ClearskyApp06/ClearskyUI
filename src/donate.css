@@ -13,9 +13,7 @@
 }
 
 .donate{
-  position: absolute;
-  top: 16px;
-  right: 16px;
+  position: relative;
   background-size: 650px; 
 }
 
@@ -34,10 +32,14 @@
   100%{background-position-x:-1872px;}
 }
 
-/* Header actions container */
-.header-actions {
+/* Header actions container for detail layout */
+.header-actions-detail {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: flex;
-  gap: 30px;
-  margin-top: 30px;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+  z-index: 100;
 }
