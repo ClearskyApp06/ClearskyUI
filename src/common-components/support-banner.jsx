@@ -11,10 +11,15 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useFeatureFlag } from '../api/featureFlags';
 
 export function SupportBanner() {
+  const showDonationPopup = useFeatureFlag('donation-popup');
+
   const [open, setOpen] = React.useState(() => {
-    return !sessionStorage.getItem('supportBannerDismissed');
+    return showDonationPopup
+      ? !sessionStorage.getItem('supportBannerDismissed')
+      : false;
   });
 
   const handleClose = () => {
