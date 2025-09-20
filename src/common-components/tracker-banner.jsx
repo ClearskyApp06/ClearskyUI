@@ -1,4 +1,5 @@
 import './blueskytracker.css';
+import trackerLogo from '../assets/tracker-manager-bluesky.png';
 
 export default function TrackerBanner({ className = "tracker-banner", subtitle = "👥 Track followers & unfollowers 📊 Real-time stats - Start Tracking!" }) {
   const handleClick = (e) => {
@@ -23,8 +24,8 @@ export default function TrackerBanner({ className = "tracker-banner", subtitle =
     >
       <div className="tracker-banner-content">
         <img 
-          src="/assets/tracker-manager-bluesky.png" 
-          alt="Tracker - Manager for Bluesky" 
+          src={trackerLogo} 
+          alt="" 
           className="tracker-logo"
         />
         <div className="tracker-text">
