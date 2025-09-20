@@ -52,9 +52,9 @@ export function SupportBanner() {
           align="center"
           gutterBottom
         >
-          If you&apos;ve found Clearsky helpful, please consider supporting us.
-          Your contribution helps keep the project running and improving for
-          everyone.
+          If you&apos;ve found Clearsky, helpful, please consider supporting us.
+          Your contribution help keeps Clearsky, running, and allows us to make
+          improvements for the community.
         </Typography>
 
         <Box
@@ -87,9 +87,10 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/ko-fi-icon.png"
+              src="/assets/ko-fi-icon.png"
               alt="Ko-fi"
               height={fullScreen ? 35 : 50}
+              width={fullScreen ? 35 : 50}
             />
             <Typography
               variant={fullScreen ? 'subtitle1' : 'h6'}
@@ -122,9 +123,10 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="https://avatars.githubusercontent.com/u/13403593?s=200&v=4"
+              src="/assets/open-collective-logo.png"
               alt="OpenCollective"
               height={fullScreen ? 35 : 50}
+              width={fullScreen ? 35 : 50}
             />
             <Typography
               variant={fullScreen ? 'subtitle1' : 'h6'}
