@@ -89,7 +89,7 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="/assets/ko-fi-icon.png"
+              src="./assets/ko-fi-icon.png"
               alt="Ko-fi"
               height={fullScreen ? 35 : 50}
               width={fullScreen ? 35 : 50}
@@ -125,7 +125,7 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="/assets/open-collective-logo.png"
+              src="./assets/open-collective-logo.png"
               alt="OpenCollective"
               height={fullScreen ? 35 : 50}
               width={fullScreen ? 35 : 50}
