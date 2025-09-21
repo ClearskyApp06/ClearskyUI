@@ -29,6 +29,8 @@ export function SupportBanner() {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const koFiButtonColor = '#0095FF';
+  const openCollectiveButtonColor = '#1764fdff';
 
   return (
     <Dialog
@@ -52,8 +54,8 @@ export function SupportBanner() {
           align="center"
           gutterBottom
         >
-          If you&apos;ve found Clearsky, helpful, please consider supporting us.
-          Your contribution help keeps Clearsky, running, and allows us to make
+          If you&apos;ve found Clearsky helpful, please consider supporting us.
+          Your contribution helps keep Clearsky running and allows us to make
           improvements for the community.
         </Typography>
 
@@ -72,7 +74,7 @@ export function SupportBanner() {
             rel="noopener noreferrer"
             sx={{
               display: 'flex',
-              backgroundColor: '#0095FF',
+              backgroundColor: koFiButtonColor,
               width: '100%',
               height: '100%',
               alignItems: 'center',
@@ -108,7 +110,7 @@ export function SupportBanner() {
             rel="noopener noreferrer"
             sx={{
               display: 'flex',
-              backgroundColor: '#1764fdff',
+              backgroundColor: openCollectiveButtonColor,
               width: '100%',
               height: '100%',
               alignItems: 'center',
