@@ -108,8 +108,8 @@ export const profileChildRoutesPromise = (async () => {
   const activeTabRoutes = await activeTabRoutesPromise;
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
 
-  // default tab is defined here. uses the posts tab, if enabled, or the first enabled tab otherwise
-  const defaultProfilePath = featureFlagAssignments['posts-tab']
+  // default tab is defined here. uses the profile tab, if enabled, or the first enabled tab otherwise
+  const defaultProfilePath = featureFlagAssignments['profile-tab']
     ? 'profile'
     : activeTabRoutes[0].path;
 
