@@ -1,10 +1,9 @@
 // @ts-check
 
 import { useCallback, useState } from 'react';
-import { Outlet, Await } from 'react-router-dom';
+import { Outlet, Await, Link, useMatch } from 'react-router-dom';
 
-import { AccountHeader } from './account-header';
-import { AccountExtraInfo } from './account-header';
+import { AccountHeader, AccountExtraInfo } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
@@ -20,32 +19,32 @@ export function AccountLayout() {
   }, []);
   return (
     <div className="layout">
-      <div className="account-info">
-
-        <AccountHeader
-          className="account-header"
-          onInfoClick={toggleRevealInfo}
-        />
+      <div className="ad-lane"></div>
+      <div className="main-content">
         <Donate />
         <AccountExtraInfo
-          className={revealInfo ? 'account-extra-info-reveal' : ''}
+          className={revealInfo ? 'account-extra-info-reveal' : 'hidden'}
           onInfoClick={toggleRevealInfo}
         />
-      </div>
-      <div className="detail-container">
-        <TabSelector className="account-tabs-handles" />
-        <div className="account-tabs-content">
-          <div className="account-tab account-tab-selected">
-            <Outlet />
+        <div className="detail-container">
+          <AccountHeader
+            className="account-header"
+            onInfoClick={toggleRevealInfo}
+          />
+          <TabSelector className="account-tabs-handles" />
+          <div className="account-tabs-content">
+            <div className="account-tab account-tab-selected">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
+      <div className="ad-lane"></div>
     </div>
   );
 }
 
 import { Tab, Tabs } from '@mui/material';
-import { Link, useMatch } from 'react-router-dom';
 import { activeTabRoutesPromise } from './tabs';
 
 /**
