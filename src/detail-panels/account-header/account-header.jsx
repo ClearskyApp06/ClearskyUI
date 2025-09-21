@@ -10,20 +10,17 @@ import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
 import { localise } from '../../localisation';
-import { Button, Alert } from '@mui/material';
+import { Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
-import { useSpamStatus } from '../../api/spam-status';
-import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
  *  className?: string,
- *  onInfoClick?: () => void
  * }} _
  */
-export function AccountHeader({ className, onInfoClick }) {
+export function AccountHeader({ className }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
@@ -32,10 +29,6 @@ export function AccountHeader({ className, onInfoClick }) {
 
   const placementquery = usePlacement(resolved.data?.shortDID);
   const placement = placementquery.data?.placement?.toLocaleString() ?? '';
-
-  const spamQuery = useSpamStatus(resolved.data?.shortDID);
-  const spamFeature = useFeatureFlag('spam-profile-overlay');
-  const isSpam = spamFeature && spamQuery.data?.spam;
 
   const firstHandleChangeTimestamp =
     handleHistory?.length && handleHistory[handleHistory.length - 1][1];
@@ -127,7 +120,6 @@ export function AccountHeader({ className, onInfoClick }) {
             <Button
               className="history-toggle"
               variant="text"
-              onClick={onInfoClick}
             >
               {firstHandleChangeTimestamp ? (
                 <FormatTimestamp
@@ -137,28 +129,10 @@ export function AccountHeader({ className, onInfoClick }) {
               ) : (
                 'Unknown Date'
               )}
-              <span className="info-icon"></span>
             </Button>
           </span>
         )}
       </h1>
-      {isSpam && (
-        <Alert
-          severity="warning"
-          variant="outlined"
-          sx={{
-            borderRadius: 0,
-            borderLeft: 0,
-            borderRight: 0,
-            height: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            fontSize: { xs: '0.8rem', sm: '0.875rem' },
-          }}
-        >
-          This account has been flagged as spam.
-        </Alert>
-      )}
     </div>
   );
 }

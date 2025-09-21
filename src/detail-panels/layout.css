@@ -260,7 +260,11 @@
   display: none;
 }
 
-
+.account-tabs-container {
+  position: sticky; 
+  top: 0;
+  z-index: 15; 
+}
 
 @media (width <= 800px) {
   .layout {
@@ -269,9 +273,6 @@
   }
 
   .account-tabs-handles {
-    position: sticky;
-    top: 0;
-    z-index: 15;
     background: white;
     border-bottom: 1px solid #ddd;
   }
