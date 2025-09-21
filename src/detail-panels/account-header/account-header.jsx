@@ -146,7 +146,15 @@ export function AccountHeader({ className, onInfoClick }) {
         <Alert
           severity="warning"
           variant="outlined"
-          className="account-header-spam-alert"
+          sx={{
+            borderRadius: 0,
+            borderLeft: 0,
+            borderRight: 0,
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+          }}
         >
           This account has been flagged as spam.
         </Alert>

@@ -76,18 +76,3 @@
   padding-top: 0.6em;
   padding-bottom: 0.5em;
 }
-
-.account-header-spam-alert {
-  border-radius: 0;
-  border-left: 0;
-  border-right: 0;
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-
-@media (width <= 600px) {
-  .account-header-spam-alert .MuiAlert-message {
-    font-size: 0.8rem;
-  }
-}
