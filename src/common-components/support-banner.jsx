@@ -13,6 +13,9 @@ import {
 } from '@mui/material';
 import { useFeatureFlag } from '../api/featureFlags';
 
+import koFiLogo from '../assets/ko-fi-icon.png';
+import openCollectiveLogo from '../assets/open-collective-logo.png';
+
 export function SupportBanner() {
   const showDonationPopup = useFeatureFlag('donation-popup');
 
@@ -89,7 +92,7 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="./assets/ko-fi-icon.png"
+              src={koFiLogo}
               alt="Ko-fi"
               height={fullScreen ? 35 : 50}
               width={fullScreen ? 35 : 50}
@@ -125,7 +128,7 @@ export function SupportBanner() {
             }}
           >
             <img
-              src="./assets/open-collective-logo.png"
+              src={openCollectiveLogo}
               alt="OpenCollective"
               height={fullScreen ? 35 : 50}
               width={fullScreen ? 35 : 50}
