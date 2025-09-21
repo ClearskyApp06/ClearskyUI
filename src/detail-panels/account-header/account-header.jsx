@@ -15,6 +15,7 @@ import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
 import { useSpamStatus } from '../../api/spam-status';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -33,7 +34,8 @@ export function AccountHeader({ className, onInfoClick }) {
   const placement = placementquery.data?.placement?.toLocaleString() ?? '';
 
   const spamQuery = useSpamStatus(resolved.data?.shortDID);
-  const isSpam = spamQuery.data?.spam;
+  const spamFeature = useFeatureFlag('spam-profile-overlay');
+  const isSpam = spamFeature && spamQuery.data?.spam;
 
   const firstHandleChangeTimestamp =
     handleHistory?.length && handleHistory[handleHistory.length - 1][1];

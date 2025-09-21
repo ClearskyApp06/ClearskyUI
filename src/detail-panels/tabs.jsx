@@ -19,7 +19,7 @@ const allTabRoutes = /** @type {const} */ ([
     path: 'profile',
     lazy: () => getDefaultComponent(import('./profile/profile')),
     tab: () => ({ label: localise('Profile') }),
-    featureFlag: 'starter-packs-in-tab',
+    featureFlag: 'profile-tab',
   },
   {
     path: 'blocking',
