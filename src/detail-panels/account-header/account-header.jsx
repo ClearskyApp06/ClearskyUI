@@ -10,10 +10,11 @@ import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
 import { localise } from '../../localisation';
-import { Button } from '@mui/material';
+import { Button, Alert } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
+import { useSpamStatus } from '../../api/spam-status';
 
 /**
  * @param {{
@@ -30,6 +31,9 @@ export function AccountHeader({ className, onInfoClick }) {
 
   const placementquery = usePlacement(resolved.data?.shortDID);
   const placement = placementquery.data?.placement?.toLocaleString() ?? '';
+
+  const spamQuery = useSpamStatus(resolved.data?.shortDID);
+  const isSpam = spamQuery.data?.spam;
 
   const firstHandleChangeTimestamp =
     handleHistory?.length && handleHistory[handleHistory.length - 1][1];
@@ -136,7 +140,15 @@ export function AccountHeader({ className, onInfoClick }) {
           </span>
         )}
       </h1>
-      <div></div>
+      {isSpam && (
+        <Alert
+          severity="warning"
+          variant="outlined"
+          className="account-header-spam-alert"
+        >
+          This account has been flagged as spam.
+        </Alert>
+      )}
     </div>
   );
 }
