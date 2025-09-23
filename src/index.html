@@ -33,6 +33,20 @@
 />
 
 <style>
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --border-color: #e8e8e8;
+  --shadow-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --border-color: #333333;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
 html {
   box-sizing: border-box;
   margin: 0;
@@ -41,8 +55,8 @@ html {
   min-height: 100%;
   overflow: hidden;
 
-  background: white;
-  color: black;
+  background: var(--bg-color);
+  color: var(--text-color);
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Arial Unicode";
@@ -85,7 +99,7 @@ button {
 </style>
 </head>
 
-<body class="ag-theme-quartz">
+<body class="ag-theme-quartz" data-theme="light">
 <script type="module" src="app.jsx"></script>
 </body>
 </html>

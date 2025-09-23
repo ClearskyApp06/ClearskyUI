@@ -24,6 +24,8 @@
   grid-row: 1 / 2;
   place-self: start end;
   position: relative;
+  display: flex;
+  gap: 0.5em;
 }
 
 .about .corner-buttons .about-button {
@@ -38,6 +40,16 @@
   font-weight: 900;
   font-family: "Times New Roman", serif;
   font-style: italic;
-  color: black;
+  color: var(--text-color, black);
   padding-right: 0.5em;
+}
+
+.about .corner-buttons .theme-toggle-button {
+  height: 3em;
+  min-width: 3em;
+  color: var(--text-color, black);
+}
+
+.about .corner-buttons .theme-toggle-button:hover {
+  background-color: var(--border-color, #e8e8e8);
 }

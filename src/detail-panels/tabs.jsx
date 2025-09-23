@@ -95,7 +95,7 @@ export const activeTabRoutesPromise = (async () => {
   /**
    * All tab routes filtered down to just the ones that are enabled by feature flags
    */
-  return allTabRoutes.filter((tab) => featureFlagAssignments[tab.featureFlag]);
+  return allTabRoutes.filter((tab) => featureFlagAssignments?.[tab.featureFlag] || false);
 })();
 
 export const profileChildRoutesPromise = (async () => {
@@ -103,9 +103,9 @@ export const profileChildRoutesPromise = (async () => {
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
 
   // default tab is defined here. uses the posts tab, if enabled, or the first enabled tab otherwise
-  const defaultProfilePath = featureFlagAssignments['posts-tab']
+  const defaultProfilePath = featureFlagAssignments?.['posts-tab']
     ? 'history'
-    : activeTabRoutes[0].path;
+    : activeTabRoutes[0]?.path || 'blocking';
 
   /**
    * @type {import('react-router-dom').RouteObject[]}

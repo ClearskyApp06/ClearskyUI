@@ -1,8 +1,10 @@
 // @ts-check
 
 import { Button } from '@mui/material';
+import { DarkMode, LightMode } from '@mui/icons-material';
 
 import { localise } from '../../localisation';
+import { useThemeMode } from '../../common-components/theme-context';
 import { version } from '../../../package.json';
 
 import './about.css';
@@ -20,9 +22,14 @@ const builtFromCommit = BUILD_COMMIT_HASH || null;
  * @returns
  */
 export function About({ onToggleAbout }) {
+  const { mode, toggleMode } = useThemeMode();
+  
   return (
     <div className="about">
       <span className="corner-buttons">
+        <Button className="theme-toggle-button" onClick={toggleMode} title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
+          {mode === 'light' ? <DarkMode /> : <LightMode />}
+        </Button>
         <Button className="about-button" onClick={onToggleAbout}>
           <span className="about-button-icon">i</span>
         </Button>

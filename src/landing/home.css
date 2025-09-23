@@ -41,7 +41,7 @@
 }
 
 .home .about .corner-buttons {
-  display: none;
+  display: block;
   z-index: 2;
 }
 

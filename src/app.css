@@ -12,6 +12,7 @@
   font-weight: bold;
   text-shadow: 0 0 1px currentcolor;
   font-variant: small-caps;
+  color: var(--text-color, black);
 }
 
 .hydrate-fallback {
@@ -20,4 +21,6 @@
   justify-content: center;
   height: 100dvh;
   width: 100dvw;
+  background-color: var(--bg-color, white);
+  color: var(--text-color, black);
 }
