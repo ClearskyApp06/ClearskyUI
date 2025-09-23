@@ -34,6 +34,20 @@ export function SupportBanner() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const koFiButtonColor = '#0095FF';
   const openCollectiveButtonColor = '#1764fdff';
+  const donateButtonSX = {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    gap: fullScreen ? 1.5 : 2,
+    paddingY: fullScreen ? 0.8 : 1,
+    paddingX: fullScreen ? 1.5 : 2,
+    borderRadius: 2,
+    textTransform: 'none',
+    justifyContent: 'start',
+    transition: 'transform 0.2s',
+    '&:hover': { transform: 'scale(1.03)' },
+  };
 
   return (
     <Dialog
@@ -75,21 +89,7 @@ export function SupportBanner() {
             href="https://ko-fi.com/clearskyapp"
             target="_blank"
             rel="noopener noreferrer"
-            sx={{
-              display: 'flex',
-              backgroundColor: koFiButtonColor,
-              width: '100%',
-              height: '100%',
-              alignItems: 'center',
-              gap: fullScreen ? 1.5 : 2,
-              paddingY: fullScreen ? 0.8 : 1,
-              paddingX: fullScreen ? 1.5 : 2,
-              borderRadius: 2,
-              textTransform: 'none',
-              justifyContent: 'start',
-              transition: 'transform 0.2s',
-              '&:hover': { transform: 'scale(1.03)' },
-            }}
+            sx={{ ...donateButtonSX, backgroundColor: koFiButtonColor }}
           >
             <img
               src={koFiLogo}
@@ -112,19 +112,8 @@ export function SupportBanner() {
             target="_blank"
             rel="noopener noreferrer"
             sx={{
-              display: 'flex',
+              ...donateButtonSX,
               backgroundColor: openCollectiveButtonColor,
-              width: '100%',
-              height: '100%',
-              alignItems: 'center',
-              gap: fullScreen ? 1.5 : 2,
-              paddingY: fullScreen ? 0.8 : 1,
-              paddingX: fullScreen ? 1.5 : 2,
-              borderRadius: 2,
-              textTransform: 'none',
-              justifyContent: 'start',
-              transition: 'transform 0.2s',
-              '&:hover': { transform: 'scale(1.03)' },
             }}
           >
             <img
