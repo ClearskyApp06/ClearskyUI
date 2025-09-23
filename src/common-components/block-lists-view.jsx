@@ -64,7 +64,7 @@ function BlockListsViewEntry({ className, entry, handle }) {
       </div>
       {entry.description && (
         <div className="row">
-          <span className="list-description">{' ' + entry.description}</span>
+          <span className="list-description">{entry.description}</span>
         </div>
       )}
       {handle && (
