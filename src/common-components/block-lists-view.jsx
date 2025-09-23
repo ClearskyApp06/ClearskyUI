@@ -73,7 +73,7 @@ function BlockListsViewEntry({ className, entry, handle }) {
             className="list-subscribers-link"
             to={`./subscribers/${encodeURIComponent(entry.list_url)}`}
           >
-            View subscribers
+            view subscribers
           </Link>
         </div>
       )}
