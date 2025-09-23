@@ -12,6 +12,7 @@ import Tab from '@mui/material/Tab';
 import './home-stats-table.css';
 import { localise } from '../../localisation';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
+import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -36,23 +37,22 @@ export default function HomeStatsTable({
   
   // Calculate the appropriate timestamp for each tab
   const getTimestampForTab = (/** @type {number} */ tabIndex) => {
-    if (!stats?.asofTimestamps) return asofFormatted;
+    if (!stats?.asofTimestamps) return null;
     
     switch (tabIndex) {
       case 0: { // Overall Stats - use totalUsers or blockStats timestamp
-        const overallTimestamp = stats.asofTimestamps.totalUsers || stats.asofTimestamps.blockStats;
-        return overallTimestamp ? new Date(overallTimestamp) + '' : asofFormatted;
+        return stats.asofTimestamps.totalUsers || stats.asofTimestamps.blockStats;
       }
       case 1: // Top Blocked - use funFacts timestamp
-        return stats.asofTimestamps.funFacts ? new Date(stats.asofTimestamps.funFacts) + '' : asofFormatted;
+        return stats.asofTimestamps.funFacts;
       case 2: // Top Blocked Last 24h - use funnerFacts timestamp
-        return stats.asofTimestamps.funnerFacts ? new Date(stats.asofTimestamps.funnerFacts) + '' : asofFormatted;
+        return stats.asofTimestamps.funnerFacts;
       case 3: // Top Blockers - use funFacts timestamp
-        return stats.asofTimestamps.funFacts ? new Date(stats.asofTimestamps.funFacts) + '' : asofFormatted;
+        return stats.asofTimestamps.funFacts;
       case 4: // Top Blockers Last 24h - use funnerFacts timestamp
-        return stats.asofTimestamps.funnerFacts ? new Date(stats.asofTimestamps.funnerFacts) + '' : asofFormatted;
+        return stats.asofTimestamps.funnerFacts;
       default:
-        return asofFormatted;
+        return null;
     }
   };
   
@@ -145,7 +145,13 @@ export default function HomeStatsTable({
           className="as-of-subtitle"
           style={{ fontSize: '60%', color: 'silver' }}
         >
-          <i>{currentTabTimestamp}</i>
+          <i>
+            {currentTabTimestamp ? (
+              <FormatTimestamp timestamp={currentTabTimestamp} />
+            ) : (
+              asofFormatted
+            )}
+          </i>
         </div>
 
         <div className="tabs">
