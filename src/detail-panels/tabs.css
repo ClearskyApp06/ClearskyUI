@@ -6,6 +6,29 @@
   padding: 2px;
 }
 
+.tab-label-with-info {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tab-label-text {
+  flex: 1;
+}
+
+.tab-info-icon {
+  flex-shrink: 0;
+}
+
+/* Ensure info icon doesn't interfere with tab clicking */
+.tab-info-icon {
+  pointer-events: auto;
+}
+
+.MuiTab-root:hover .tab-info-icon {
+  opacity: 1 !important;
+}
+
 .tab-selector-root {
   position: sticky;
   top: 5em;
@@ -82,5 +105,24 @@
     margin-bottom: 2px;
     min-height: 36px;
     padding-bottom: 50px;
+  }
+
+  /* Mobile-specific adjustments for tab info icons */
+  .tab-info-icon {
+    padding: 1px !important;
+  }
+  
+  .tab-info-icon .MuiSvgIcon-root {
+    font-size: 14px !important;
+    height: 14px !important;
+    top: 0 !important;
+  }
+
+  /* Ensure tab labels wrap nicely on mobile */
+  .tab-label-with-info {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
   }
 }

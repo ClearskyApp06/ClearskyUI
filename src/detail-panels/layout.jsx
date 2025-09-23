@@ -44,7 +44,8 @@ export function AccountLayout() {
   );
 }
 
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, Tooltip, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { Link, useMatch } from 'react-router-dom';
 import { activeTabRoutesPromise } from './tabs';
 
@@ -77,14 +78,43 @@ export function TabSelector({ className }) {
               style={{ border: 'none', margin: 0, padding: 0 }}
               value={selectedIndex === -1 ? false : selectedIndex}
             >
-              {activeTabRoutes.map((route) => (
-                <Tab
-                  key={route.path}
-                  to={route.path}
-                  label={route.tab().label}
-                  component={Link}
-                />
-              ))}
+              {activeTabRoutes.map((route) => {
+                const tabInfo = route.tab();
+                return (
+                  <Tab
+                    key={route.path}
+                    to={route.path}
+                    component={Link}
+                    label={
+                      <div className="tab-label-with-info">
+                        <span className="tab-label-text">{tabInfo.label}</span>
+                        {tabInfo.description && (
+                          <Tooltip 
+                            title={tabInfo.description}
+                            placement="top"
+                            arrow
+                          >
+                            <IconButton
+                              size="small"
+                              className="tab-info-icon"
+                              onClick={(e) => e.preventDefault()}
+                              sx={{ 
+                                padding: '2px',
+                                marginLeft: '4px',
+                                color: 'inherit',
+                                opacity: 0.7,
+                                '&:hover': { opacity: 1 }
+                              }}
+                            >
+                              <InfoIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </div>
+                    }
+                  />
+                );
+              })}
             </Tabs>
           );
         }}
