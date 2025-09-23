@@ -64,3 +64,28 @@
   cursor: pointer;
   font-weight: 525;
 }
+
+.lists-as-list-view .lists-entry .list-actions {
+  margin-top: 0.5em;
+  padding-left: 1.7em;
+  padding-bottom: 0.3em;
+}
+
+.lists-as-list-view .lists-entry .list-subscribers-link {
+  display: inline-block;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 0.3em 0.8em;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: #2563eb;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.lists-as-list-view .lists-entry .list-subscribers-link:hover {
+  background-color: #e3f2fd;
+  border-color: #2563eb;
+  text-decoration: none;
+}

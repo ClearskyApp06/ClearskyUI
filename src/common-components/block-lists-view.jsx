@@ -62,20 +62,19 @@ function BlockListsViewEntry({ className, entry, handle }) {
           </ConditionalAnchor>
         </span>
       </div>
+      {entry.description && (
+        <div className="row">
+          <span className="list-description">{entry.description}</span>
+        </div>
+      )}
       {handle && (
-        <div className="list-followers">
-          <span> - </span>
+        <div className="list-actions">
           <Link
-            className="list-followers-text"
+            className="list-subscribers-link"
             to={`./subscribers/${encodeURIComponent(entry.list_url)}`}
           >
             view subscribers
           </Link>
-        </div>
-      )}
-      {entry.description && (
-        <div className="row">
-          <span className="list-description">{' ' + entry.description}</span>
         </div>
       )}
     </li>
