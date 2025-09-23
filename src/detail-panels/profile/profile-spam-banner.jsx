@@ -12,7 +12,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import PropTypes from 'prop-types';
 
 /**
- * SpamAlert component
+ * ProfileSpamBanner component
  * @param {{ spamSource?: string }} props
  */
 export function ProfileSpamBanner({ spamSource }) {
