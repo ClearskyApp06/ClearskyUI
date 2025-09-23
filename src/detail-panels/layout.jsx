@@ -7,7 +7,8 @@ import { AccountHeader } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
-import { Alert, Tab, Tabs } from '@mui/material';
+import { Alert, Tab, Tabs, Tooltip } from '@mui/material';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
 import { useSpamStatus } from '../api/spam-status';
@@ -23,6 +24,7 @@ export function AccountLayout() {
   const spamQuery = useSpamStatus(resolved.data?.shortDID);
   const spamFeature = useFeatureFlag('spam-profile-overlay');
   const isSpam = spamFeature && spamQuery.data?.spam;
+  const spamSource = spamFeature && spamQuery.data?.spam_source;
 
   return (
     <div className="layout">
@@ -36,6 +38,14 @@ export function AccountLayout() {
               <Alert
                 severity="warning"
                 variant="standard"
+                icon={
+                  <Tooltip
+                    title={spamSource ? `Spam source: ${spamSource}` : ''}
+                    arrow
+                  >
+                    <WarningAmberIcon />
+                  </Tooltip>
+                }
                 sx={{
                   borderRadius: 0,
                   height: '40px',
