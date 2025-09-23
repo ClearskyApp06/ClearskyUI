@@ -7,12 +7,12 @@ import { AccountHeader } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
-import { Alert, Tab, Tabs, Tooltip } from '@mui/material';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { Tab, Tabs } from '@mui/material';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
 import { useSpamStatus } from '../api/spam-status';
 import { useFeatureFlag } from '../api/featureFlags';
+import { ProfileSpamBanner } from './profile/profile-spam-banner';
 
 /**
  *
@@ -24,7 +24,7 @@ export function AccountLayout() {
   const spamQuery = useSpamStatus(resolved.data?.shortDID);
   const spamFeature = useFeatureFlag('spam-profile-overlay');
   const isSpam = spamFeature && spamQuery.data?.spam;
-  const spamSource = spamFeature && spamQuery.data?.spam_source;
+  const spamSource = spamQuery.data?.spam_source;
 
   return (
     <div className="layout">
@@ -34,30 +34,8 @@ export function AccountLayout() {
         <div className="detail-container">
           <AccountHeader className="account-header" />
           <div className="account-tabs-container">
-            {isSpam && (
-              <Alert
-                severity="warning"
-                variant="standard"
-                icon={
-                  <Tooltip
-                    title={spamSource ? `Spam source: ${spamSource}` : ''}
-                    arrow
-                  >
-                    <WarningAmberIcon />
-                  </Tooltip>
-                }
-                sx={{
-                  borderRadius: 0,
-                  height: '40px',
-                  margin: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                }}
-              >
-                This account has been flagged as spam.
-              </Alert>
-            )}
+            {isSpam && <ProfileSpamBanner spamSource={spamSource} />}
+
             <TabSelector className="account-tabs-handles" />
           </div>
           <div className="account-tabs-content">
