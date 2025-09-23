@@ -1,9 +1,5 @@
 .tab-outer-container {
   position: relative;
-  border-radius: 20px;
-  margin-left: 2px;
-  margin-right: 2px;
-  padding: 2px;
 }
 
 .tab-selector-root {
@@ -61,7 +57,6 @@
   .MuiButtonBase-root svg {
     position: relative;
     height: inherit;
-    top: 7px;
   }
 
   button.MuiButtonBase-root {
@@ -76,7 +71,6 @@
 
   .tab-outer-container.account-tabs-handles {
     height: 36px;
-    margin-top: 5px;
     overflow: hidden;
     border: solid 1px white;
     margin-bottom: 2px;

@@ -1,52 +1,54 @@
 // @ts-check
 
-import { useCallback, useState } from 'react';
-import { Outlet, Await } from 'react-router-dom';
+import React from 'react';
+import { Outlet, Await, Link, useMatch } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
-import { AccountExtraInfo } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
+import { Tab, Tabs } from '@mui/material';
+import { activeTabRoutesPromise } from './tabs';
+import { useAccountResolver } from './account-resolver';
+import { useSpamStatus } from '../api/spam-status';
+import { useFeatureFlag } from '../api/featureFlags';
+import { ProfileSpamBanner } from './profile/profile-spam-banner';
 
 /**
  *
  * @returns
  */
 export function AccountLayout() {
-  const [revealInfo, setRevealInfo] = useState(false);
-  const toggleRevealInfo = useCallback(() => {
-    setRevealInfo((prev) => !prev);
-  }, []);
+  const resolved = useAccountResolver();
+
+  const spamQuery = useSpamStatus(resolved.data?.shortDID);
+  const spamFeature = useFeatureFlag('spam-profile-overlay');
+  const isSpam = spamFeature && spamQuery.data?.spam;
+  const spamSource = spamQuery.data?.spam_source;
+
   return (
     <div className="layout">
-      <div className="account-info">
-
-        <AccountHeader
-          className="account-header"
-          onInfoClick={toggleRevealInfo}
-        />
+      <div className="ad-lane"></div>
+      <div className="main-content">
         <Donate />
-        <AccountExtraInfo
-          className={revealInfo ? 'account-extra-info-reveal' : ''}
-          onInfoClick={toggleRevealInfo}
-        />
-      </div>
-      <div className="detail-container">
-        <TabSelector className="account-tabs-handles" />
-        <div className="account-tabs-content">
-          <div className="account-tab account-tab-selected">
-            <Outlet />
+        <div className="detail-container">
+          <AccountHeader className="account-header" />
+          <div className="account-tabs-container">
+            {isSpam && <ProfileSpamBanner spamSource={spamSource} />}
+
+            <TabSelector className="account-tabs-handles" />
+          </div>
+          <div className="account-tabs-content">
+            <div className="account-tab account-tab-selected">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
+      <div className="ad-lane"></div>
     </div>
   );
 }
-
-import { Tab, Tabs } from '@mui/material';
-import { Link, useMatch } from 'react-router-dom';
-import { activeTabRoutesPromise } from './tabs';
 
 /**
  * @param {{ className: string }} param0
@@ -69,6 +71,11 @@ export function TabSelector({ className }) {
             <Tabs
               TabIndicatorProps={{
                 style: { display: 'none' },
+              }}
+              TabScrollButtonProps={{
+                sx: {
+                  minHeight: '48px',
+                },
               }}
               className={'tab-selector-root selected-tab-' + tab}
               orientation="horizontal"

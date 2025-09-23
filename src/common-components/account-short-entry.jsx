@@ -137,7 +137,7 @@ function ResolvedAccount({
 
   return (
     <Link
-      to={link || `/${unwrapShortHandle(account.shortHandle)}/history`}
+      to={link || `/${unwrapShortHandle(account.shortHandle)}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       {linkContent}

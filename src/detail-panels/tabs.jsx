@@ -16,6 +16,12 @@ import { getAllFeatureFlags } from '../api/featureFlags';
  */
 const allTabRoutes = /** @type {const} */ ([
   {
+    path: 'profile',
+    lazy: () => getDefaultComponent(import('./profile/profile')),
+    tab: () => ({ label: localise('Profile') }),
+    featureFlag: 'profile-tab',
+  },
+  {
     path: 'blocking',
     lazy: () => getDefaultComponent(import('./blocking')),
     tab: () => ({ label: localise('Blocking', { uk: 'Блокує' }) }),
@@ -102,9 +108,9 @@ export const profileChildRoutesPromise = (async () => {
   const activeTabRoutes = await activeTabRoutesPromise;
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
 
-  // default tab is defined here. uses the posts tab, if enabled, or the first enabled tab otherwise
-  const defaultProfilePath = featureFlagAssignments['posts-tab']
-    ? 'history'
+  // default tab is defined here. uses the profile tab, if enabled, or the first enabled tab otherwise
+  const defaultProfilePath = featureFlagAssignments['profile-tab']
+    ? 'profile'
     : activeTabRoutes[0].path;
 
   /**

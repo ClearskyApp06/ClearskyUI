@@ -18,10 +18,9 @@ import { usePlacement } from '../../api/placement';
 /**
  * @param {{
  *  className?: string,
- *  onInfoClick?: () => void
  * }} _
  */
-export function AccountHeader({ className, onInfoClick }) {
+export function AccountHeader({ className }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
@@ -121,7 +120,6 @@ export function AccountHeader({ className, onInfoClick }) {
             <Button
               className="history-toggle"
               variant="text"
-              onClick={onInfoClick}
             >
               {firstHandleChangeTimestamp ? (
                 <FormatTimestamp
@@ -131,12 +129,10 @@ export function AccountHeader({ className, onInfoClick }) {
               ) : (
                 'Unknown Date'
               )}
-              <span className="info-icon"></span>
             </Button>
           </span>
         )}
       </h1>
-      <div></div>
     </div>
   );
 }
