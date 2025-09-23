@@ -75,7 +75,8 @@ export function BlockingLists() {
       </h3>
 
       <BlockListsView
-        list={filteredLists} />
+        list={filteredLists}
+        handle={shortHandle} />
 
       {shouldShowLoadMore && (
         <VisibleWithDelay
