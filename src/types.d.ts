@@ -102,6 +102,12 @@ interface FunnerFacts {
 
 type DashboardStats = {
   asof: string | null;
+  asofTimestamps: {
+    totalUsers: string | null;
+    blockStats: string | null;
+    funFacts: string | null;
+    funnerFacts: string | null;
+  };
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
   topLists: {

@@ -44,7 +44,14 @@ async function dashboardStatsApi() {
     blockStatsPromise,
   ]);
 
-  const asof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
+  // Collect asof timestamps from each endpoint
+  const totalUsersAsof = 'asof' in totalUsers ? totalUsers.asof : initialData.asof;
+  const blockStatsAsof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
+  const funFactsAsof = 'asof' in funFacts ? funFacts.asof : initialData.asof;
+  const funnerFactsAsof = 'asof' in funnerFacts ? funnerFacts.asof : initialData.asof;
+
+  // Use blockStats asof as the main asof for backwards compatibility
+  const asof = blockStatsAsof;
 
   /** @type {FunFacts | null} */
   const funFactsData = 'data' in funFacts ? funFacts.data : null;
@@ -55,6 +62,12 @@ async function dashboardStatsApi() {
   /** @type {DashboardStats} */
   const result = {
     asof,
+    asofTimestamps: {
+      totalUsers: totalUsersAsof,
+      blockStats: blockStatsAsof,
+      funFacts: funFactsAsof,
+      funnerFacts: funnerFactsAsof,
+    },
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {

@@ -33,6 +33,31 @@ export default function HomeStatsTable({
 
   
   const [activeTab, setActiveTab] = useState(0);
+  
+  // Calculate the appropriate timestamp for each tab
+  const getTimestampForTab = (/** @type {number} */ tabIndex) => {
+    if (!stats?.asofTimestamps) return asofFormatted;
+    
+    switch (tabIndex) {
+      case 0: { // Overall Stats - use totalUsers or blockStats timestamp
+        const overallTimestamp = stats.asofTimestamps.totalUsers || stats.asofTimestamps.blockStats;
+        return overallTimestamp ? new Date(overallTimestamp) + '' : asofFormatted;
+      }
+      case 1: // Top Blocked - use funFacts timestamp
+        return stats.asofTimestamps.funFacts ? new Date(stats.asofTimestamps.funFacts) + '' : asofFormatted;
+      case 2: // Top Blocked Last 24h - use funnerFacts timestamp
+        return stats.asofTimestamps.funnerFacts ? new Date(stats.asofTimestamps.funnerFacts) + '' : asofFormatted;
+      case 3: // Top Blockers - use funFacts timestamp
+        return stats.asofTimestamps.funFacts ? new Date(stats.asofTimestamps.funFacts) + '' : asofFormatted;
+      case 4: // Top Blockers Last 24h - use funnerFacts timestamp
+        return stats.asofTimestamps.funnerFacts ? new Date(stats.asofTimestamps.funnerFacts) + '' : asofFormatted;
+      default:
+        return asofFormatted;
+    }
+  };
+  
+  const currentTabTimestamp = getTimestampForTab(activeTab);
+  
   const tableData = [
     {
       id: 1,
@@ -120,7 +145,7 @@ export default function HomeStatsTable({
           className="as-of-subtitle"
           style={{ fontSize: '60%', color: 'silver' }}
         >
-          <i>{asofFormatted}</i>
+          <i>{currentTabTimestamp}</i>
         </div>
 
         <div className="tabs">
