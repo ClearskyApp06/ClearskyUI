@@ -3,7 +3,6 @@ import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
 import { useFeatureFlag } from '../../api/featureFlags';
-import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 import './home-stats-main.css';
 import { Button } from '@mui/material';
@@ -35,7 +34,7 @@ export function HomeStatsMain({
       <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}>
         <i>
           {stats?.asof ? (
-            <FormatTimestamp timestamp={stats.asof} />
+            new Date(stats.asof) + ''
           ) : (
             asofFormatted
           )}

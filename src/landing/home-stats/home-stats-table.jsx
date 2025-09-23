@@ -12,7 +12,6 @@ import Tab from '@mui/material/Tab';
 import './home-stats-table.css';
 import { localise } from '../../localisation';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
-import { FormatTimestamp } from '../../common-components/format-timestamp';
 
 /**
  * @param {import('.').HomeStatsDetails} _
@@ -147,7 +146,7 @@ export default function HomeStatsTable({
         >
           <i>
             {currentTabTimestamp ? (
-              <FormatTimestamp timestamp={currentTabTimestamp} />
+              new Date(currentTabTimestamp) + ''
             ) : (
               asofFormatted
             )}
