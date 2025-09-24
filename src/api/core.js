@@ -60,6 +60,24 @@ export function fetchClearskyApi(apiVer, apiPath) {
 }
 
 /**
+ * POST data to a ClearSky API endpoint
+ * @param {"v1"} apiVer
+ * @param {string} apiPath
+ * @param {object} data
+ * @returns
+ */
+export function postClearskyApi(apiVer, apiPath, data) {
+  const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
+  return fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).then((x) => x.json());
+}
+
+/**
  * @param {string | undefined | null} shortDID
  * @returns
  */

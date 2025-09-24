@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, TextField, Container, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import { postClearskyApi } from '../../api/core';
 import './contact.css';
 
 export default function Contact() {
@@ -28,31 +29,32 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Create mailto link with form data
-    const subject = encodeURIComponent('Contact Form Submission');
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Handle: ${formData.handle || 'Not provided'}\n\n` +
-      `Message:\n${formData.message}`
-    );
-    
-    const mailtoUrl = `mailto:support@clearsky.app?subject=${subject}&body=${body}`;
-    
-    // Open default email client
-    window.location.href = mailtoUrl;
-    
-    setSubmitStatus({
-      type: 'success',
-      message: 'Email client opened. Please send the email to complete your request.'
-    });
-    
-    // Clear form after successful submission
-    setTimeout(() => {
+    try {
+      // Send data to backend API
+      await postClearskyApi('v1', 'contact/email/message', {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        handle: formData.handle || null,
+      });
+      
+      setSubmitStatus({
+        type: 'success',
+        message: 'Your message has been sent successfully. We&apos;ll get back to you soon!'
+      });
+      
+      // Clear form after successful submission
       setFormData({ name: '', email: '', handle: '', message: '' });
-    }, 2000);
-    
-    setIsSubmitting(false);
+      
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: 'Failed to send your message. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
