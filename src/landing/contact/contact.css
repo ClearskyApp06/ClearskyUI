@@ -4,6 +4,19 @@
   padding: 2rem 0;
 }
 
+.contact-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  transition: transform 0.2s ease;
+}
+
+.contact-logo:hover {
+  transform: scale(1.05);
+}
+
 .contact-form {
   background: white;
   padding: 2rem;
@@ -38,5 +51,10 @@
   .contact-form {
     padding: 1.5rem;
     margin: 0 1rem;
+  }
+
+  .contact-logo {
+    width: 64px;
+    height: 64px;
   }
 }

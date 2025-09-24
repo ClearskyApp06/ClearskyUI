@@ -4,6 +4,7 @@ import { Button, TextField, Container, Typography, Box, Alert } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 
 import { postClearskyApi } from '../../api/core';
+import appleTouchIcon from '../../assets/apple-touch-icon.png';
 import './contact.css';
 
 export default function Contact() {
@@ -79,6 +80,13 @@ export default function Contact() {
             >
               ← Back to Home
             </Button>
+            <Box sx={{ mb: 2 }}>
+              <img
+                src={appleTouchIcon}
+                alt="ClearSky Logo"
+                className="contact-logo"
+              />
+            </Box>
             <Typography variant="h4" component="h1" gutterBottom>
               Contact Us
             </Typography>
