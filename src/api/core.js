@@ -74,7 +74,13 @@ export function postClearskyApi(apiVer, apiPath, data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then((x) => x.json());
+  }).then(async (response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return result;
+  });
 }
 
 /**

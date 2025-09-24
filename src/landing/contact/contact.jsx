@@ -31,20 +31,29 @@ export default function Contact() {
 
     try {
       // Send data to backend API
-      await postClearskyApi('v1', 'contact/email/message', {
+      const response = await postClearskyApi('v1', 'contact/email/message', {
         name: formData.name,
         email: formData.email,
         message: formData.message,
         handle: formData.handle || null,
       });
       
-      setSubmitStatus({
-        type: 'success',
-        message: 'Your message has been sent successfully. We&apos;ll get back to you soon!'
-      });
-      
-      // Clear form after successful submission
-      setFormData({ name: '', email: '', handle: '', message: '' });
+      // Check if the response indicates success
+      if (response && response.status === 'success') {
+        setSubmitStatus({
+          type: 'success',
+          message: 'Your message has been sent successfully. We&apos;ll get back to you soon!'
+        });
+        
+        // Clear form after successful submission
+        setFormData({ name: '', email: '', handle: '', message: '' });
+      } else {
+        // Handle unexpected response format
+        setSubmitStatus({
+          type: 'error',
+          message: 'Failed to send your message. Please try again later.'
+        });
+      }
       
     } catch (error) {
       console.error('Error sending message:', error);
