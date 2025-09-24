@@ -39,6 +39,10 @@ async function showApp() {
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
           {
+            path: 'contact',
+            lazy: () => getDefaultComponent(import('./landing/contact')),
+          },
+          {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),
             children: await profileChildRoutesPromise,

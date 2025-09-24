@@ -1,0 +1,42 @@
+.contact-page {
+  min-height: 100vh;
+  background-color: #fafafa;
+  padding: 2rem 0;
+}
+
+.contact-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+.contact-form .MuiButton-contained {
+  background-color: #1976d2;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form .MuiButton-contained:hover {
+  background-color: #1565c0;
+}
+
+.contact-form .MuiButton-contained:disabled {
+  background-color: #ccc;
+}
+
+@media (width <= 768px) {
+  .contact-page {
+    padding: 1rem 0;
+  }
+  
+  .contact-form {
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+}
