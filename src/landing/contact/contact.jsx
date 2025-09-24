@@ -297,13 +297,13 @@ export default function Contact() {
               helperText={fieldErrors.message || `${formData.message.length}/2000 characters (minimum 10)`}
             />
 
-            <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Box className="contact-form-submit-area">
               <Button
                 type="submit"
                 variant="contained"
                 size="large"
                 disabled={!isFormValid || isSubmitting}
-                sx={{ minWidth: 200 }}
+                className="contact-form-submit-button"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </Button>

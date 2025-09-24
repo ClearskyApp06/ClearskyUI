@@ -40,7 +40,26 @@
 }
 
 .contact-form .MuiButton-contained:disabled {
-  background-color: #ccc;
+  background-color: #e0e0e0 !important;
+  color: #9e9e9e !important;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  opacity: 0.8;
+}
+
+.contact-form-submit-area {
+  margin-top: 2rem;
+  padding: 1rem 0;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.contact-form-submit-button {
+  min-width: 200px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.5px;
 }
 
 @media (width <= 768px) {
