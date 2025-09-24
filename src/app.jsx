@@ -32,6 +32,7 @@ async function showApp() {
         errorElement: <ErrorBoundary />,
         hydrateFallbackElement,
         children: [
+          { path: 'ads.txt', element: null },
           {
             index: true,
             lazy: () => getDefaultComponent(import('./landing/home')),
