@@ -288,6 +288,8 @@ export default function Contact() {
               fullWidth
               multiline
               rows={4}
+              minRows={4}
+              maxRows={8}
               value={formData.message}
               onChange={handleInputChange('message')}
               onBlur={handleBlur('message')}
@@ -295,6 +297,12 @@ export default function Contact() {
               variant="outlined"
               error={!!fieldErrors.message}
               helperText={fieldErrors.message || `${formData.message.length}/2000 characters (minimum 10)`}
+              inputProps={{
+                style: {
+                  resize: 'vertical',
+                  minHeight: '72px'
+                }
+              }}
             />
 
             <Box className="contact-form-submit-area">

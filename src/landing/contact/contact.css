@@ -40,8 +40,19 @@
   padding: 12px 14px;
 }
 
+/* Textarea-specific styling - override height constraints for multiline fields */
+.contact-form .MuiTextField-root.MuiTextField-multiline .MuiInputBase-root {
+  height: auto;
+  min-height: 96px;
+}
+
 .contact-form .MuiTextField-root textarea {
   padding: 12px 14px;
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.5;
+  overflow-y: auto;
+  word-wrap: break-word;
 }
 
 .contact-form .MuiButton-contained {
