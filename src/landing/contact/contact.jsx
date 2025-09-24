@@ -28,39 +28,31 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent('Contact Form Submission');
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Handle: ${formData.handle || 'Not provided'}\n\n` +
-        `Message:\n${formData.message}`
-      );
-      
-      const mailtoUrl = `mailto:support@clearsky.app?subject=${subject}&body=${body}`;
-      
-      // Open default email client
-      window.location.href = mailtoUrl;
-      
-      setSubmitStatus({
-        type: 'success',
-        message: 'Email client opened. Please send the email to complete your request.'
-      });
-      
-      // Clear form after successful submission
-      setTimeout(() => {
-        setFormData({ name: '', email: '', handle: '', message: '' });
-      }, 2000);
-      
-    } catch (error) {
-      setSubmitStatus({
-        type: 'error',
-        message: 'Failed to open email client. Please try again.'
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Create mailto link with form data
+    const subject = encodeURIComponent('Contact Form Submission');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Handle: ${formData.handle || 'Not provided'}\n\n` +
+      `Message:\n${formData.message}`
+    );
+    
+    const mailtoUrl = `mailto:support@clearsky.app?subject=${subject}&body=${body}`;
+    
+    // Open default email client
+    window.location.href = mailtoUrl;
+    
+    setSubmitStatus({
+      type: 'success',
+      message: 'Email client opened. Please send the email to complete your request.'
+    });
+    
+    // Clear form after successful submission
+    setTimeout(() => {
+      setFormData({ name: '', email: '', handle: '', message: '' });
+    }, 2000);
+    
+    setIsSubmitting(false);
   };
 
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
