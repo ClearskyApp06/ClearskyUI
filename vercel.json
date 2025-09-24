@@ -5,8 +5,8 @@
       "destination": "/index.html"
     },
     {
-      "source": "/((?!assets/.*).*)",
-      "destination": "/index.html"
+      "source": "/ads.txt",
+      "destination": "/ads.txt"
     }
   ]
 }
