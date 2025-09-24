@@ -37,7 +37,6 @@ async function showApp() {
             index: true,
             lazy: () => getDefaultComponent(import('./landing/home')),
           },
-          { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
           {
             path: ':handle',
