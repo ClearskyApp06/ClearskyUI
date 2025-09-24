@@ -208,15 +208,15 @@ export default function Contact() {
   return (
     <div className="contact-page">
       <Container maxWidth="md">
-        <Box sx={{ py: 4 }}>
-          <Box sx={{ mb: 4, textAlign: 'center' }}>
+        <Box className="contact-container">
+          <Box className="contact-header">
             <Button 
               onClick={() => navigate('/')}
-              sx={{ mb: 2, color: 'gray' }}
+              sx={{ mb: 1.5, color: 'gray' }}
             >
               ← Back to Home
             </Button>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ mb: 1 }}>
               <img
                 src={appleTouchIcon}
                 alt="ClearSky Logo"
@@ -234,7 +234,7 @@ export default function Contact() {
           {submitStatus && (
             <Alert 
               severity={submitStatus.type} 
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
               onClose={() => setSubmitStatus(null)}
             >
               {submitStatus.message}
@@ -287,7 +287,7 @@ export default function Contact() {
               required
               fullWidth
               multiline
-              rows={6}
+              rows={4}
               value={formData.message}
               onChange={handleInputChange('message')}
               onBlur={handleBlur('message')}
