@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets/.*).*)",
-      "destination": "/index.html"
-    },
-    {
       "source": "/ads.txt",
       "destination": "/ads.txt"
+    },
+    {
+      "source": "/((?!assets/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }
