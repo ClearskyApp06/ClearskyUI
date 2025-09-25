@@ -297,10 +297,20 @@ export default function Contact() {
               variant="outlined"
               error={!!fieldErrors.message}
               helperText={fieldErrors.message || `${formData.message.length}/2000 characters (minimum 10)`}
+              InputProps={{
+                style: {
+                  maxHeight: '200px',
+                  overflow: 'hidden'
+                }
+              }}
               inputProps={{
                 style: {
                   resize: 'vertical',
-                  minHeight: '72px'
+                  minHeight: '72px',
+                  maxHeight: '176px',
+                  overflowY: 'auto',
+                  wordWrap: 'break-word',
+                  wordBreak: 'break-word'
                 }
               }}
             />
