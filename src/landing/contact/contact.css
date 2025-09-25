@@ -52,7 +52,7 @@
   height: auto;
   min-height: 96px;
   max-height: 200px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 

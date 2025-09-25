@@ -299,8 +299,7 @@ export default function Contact() {
               helperText={fieldErrors.message || `${formData.message.length}/2000 characters (minimum 10)`}
               InputProps={{
                 style: {
-                  maxHeight: '200px',
-                  overflow: 'hidden'
+                  maxHeight: '200px'
                 }
               }}
               inputProps={{
