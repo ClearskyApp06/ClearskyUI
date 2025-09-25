@@ -2,6 +2,43 @@
   min-height: 100vh;
   background-color: #fafafa;
   padding: 2rem 0;
+  overflow-y: auto;
+}
+
+/* Desktop-specific optimizations for better viewport utilization */
+@media (width >= 769px) {
+  .contact-page {
+    padding: 1rem 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: auto;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .contact-form {
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+  
+  .contact-logo {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .contact-form .MuiTextField-root {
+    margin-bottom: 0.75rem;
+  }
+  
+  .contact-form-submit-area {
+    margin-top: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .contact-form-submit-button {
+    padding: 10px 20px !important;
+  }
 }
 
 .contact-logo {
