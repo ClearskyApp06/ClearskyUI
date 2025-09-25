@@ -208,15 +208,15 @@ export default function Contact() {
   return (
     <div className="contact-page">
       <Container maxWidth="md">
-        <Box className="contact-container">
-          <Box className="contact-header">
+        <Box sx={{ py: 4 }}>
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
             <Button 
               onClick={() => navigate('/')}
-              sx={{ mb: 1.5, color: 'gray' }}
+              sx={{ mb: 2, color: 'gray' }}
             >
               ← Back to Home
             </Button>
-            <Box sx={{ mb: 1 }}>
+            <Box sx={{ mb: 2 }}>
               <img
                 src={appleTouchIcon}
                 alt="ClearSky Logo"
@@ -234,7 +234,7 @@ export default function Contact() {
           {submitStatus && (
             <Alert 
               severity={submitStatus.type} 
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               onClose={() => setSubmitStatus(null)}
             >
               {submitStatus.message}
@@ -287,9 +287,7 @@ export default function Contact() {
               required
               fullWidth
               multiline
-              rows={4}
-              minRows={4}
-              maxRows={8}
+              rows={6}
               value={formData.message}
               onChange={handleInputChange('message')}
               onBlur={handleBlur('message')}
@@ -297,21 +295,6 @@ export default function Contact() {
               variant="outlined"
               error={!!fieldErrors.message}
               helperText={fieldErrors.message || `${formData.message.length}/2000 characters (minimum 10)`}
-              InputProps={{
-                style: {
-                  maxHeight: '200px'
-                }
-              }}
-              inputProps={{
-                style: {
-                  resize: 'vertical',
-                  minHeight: '72px',
-                  maxHeight: '176px',
-                  overflowY: 'auto',
-                  wordWrap: 'break-word',
-                  wordBreak: 'break-word'
-                }
-              }}
             />
 
             <Box className="contact-form-submit-area">

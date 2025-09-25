@@ -1,16 +1,14 @@
 .contact-page {
   min-height: 100vh;
   background-color: #fafafa;
-  padding: 1.5rem 0;
-  display: flex;
-  align-items: flex-start;
+  padding: 2rem 0;
 }
 
 .contact-logo {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   transition: transform 0.2s ease;
 }
@@ -21,7 +19,7 @@
 
 .contact-form {
   background: white;
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   max-width: 600px;
@@ -29,49 +27,7 @@
 }
 
 .contact-form .MuiTextField-root {
-  margin-bottom: 0.75rem;
-  position: relative;
-  z-index: 1;
-}
-
-.contact-form .MuiTextField-root .MuiInputBase-root {
-  height: 48px;
-}
-
-.contact-form .MuiTextField-root .MuiInputBase-input {
-  padding: 12px 14px;
-}
-
-/* Textarea-specific styling - override height constraints for multiline fields */
-.contact-form .MuiTextField-root.MuiTextField-multiline {
-  position: relative;
-  z-index: 1;
-}
-
-.contact-form .MuiTextField-root.MuiTextField-multiline .MuiInputBase-root {
-  height: auto;
-  min-height: 96px;
-  max-height: 200px;
-  overflow: visible;
-  position: relative;
-}
-
-.contact-form .MuiTextField-root textarea {
-  padding: 12px 14px;
-  resize: vertical;
-  min-height: 72px;
-  max-height: 176px;
-  line-height: 1.5;
-  overflow-y: auto;
-  word-wrap: break-word;
-  word-break: break-word;
-  box-sizing: border-box;
-  width: 100%;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 1rem;
 }
 
 .contact-form .MuiButton-contained {
@@ -92,66 +48,18 @@
 }
 
 .contact-form-submit-area {
-  margin-top: 1.5rem;
-  padding: 0.75rem 0;
+  margin-top: 2rem;
+  padding: 1rem 0;
   text-align: center;
   border-top: 1px solid #f0f0f0;
 }
 
 .contact-form-submit-button {
   min-width: 200px !important;
-  padding: 10px 24px !important;
+  padding: 12px 24px !important;
   font-weight: 600 !important;
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
   letter-spacing: 0.5px;
-}
-
-.contact-header {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.contact-header .MuiTypography-h4 {
-  margin-bottom: 0.5rem;
-}
-
-.contact-container {
-  padding: 2rem 0 1rem;
-}
-
-/* Desktop optimizations */
-@media (width >= 769px) {
-  .contact-page {
-    padding: 1rem 0;
-    min-height: auto;
-  }
-  
-  .contact-container {
-    padding: 1.5rem 0;
-  }
-  
-  .contact-header {
-    margin-bottom: 1.5rem;
-  }
-  
-  .contact-logo {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 10px;
-  }
-  
-  .contact-form {
-    padding: 1.25rem;
-  }
-  
-  .contact-form .MuiTextField-root {
-    margin-bottom: 0.6rem;
-  }
-  
-  .contact-form-submit-area {
-    margin-top: 1.25rem;
-    padding: 0.6rem 0;
-  }
 }
 
 @media (width <= 768px) {
