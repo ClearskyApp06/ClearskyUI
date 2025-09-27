@@ -55,7 +55,9 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
           )}
         </div>
       </Box>
-      <FirstPartyAd placementId="447632" size="responsiveBanner" />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <FirstPartyAd placementId="447632" size="responsiveBanner" />
+      </Box>
     </div>
   );
 }

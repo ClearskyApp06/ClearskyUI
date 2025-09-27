@@ -38,16 +38,15 @@ export function useGetAdByPlacement(placementId) {
  * @param {ClickParams} params
  */
 async function sendClickThruRaw({ adId, placementId }) {
-  const query = new URLSearchParams({
-    'ad-id': adId,
-    'placement-id': placementId,
-  });
-
-  const json = await fetchClearskyApi('v1', `ads/click-thru?${query}`, {
+  const json = await fetchClearskyApi('v1', `ads/click-thru`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      'ad-id': adId,
+      'placement-id': placementId,
+    }),
   });
 
   return json.data;

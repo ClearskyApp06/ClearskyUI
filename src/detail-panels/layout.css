@@ -273,6 +273,7 @@
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
+    position: relative;
   }
 
   .account-tabs-handles {

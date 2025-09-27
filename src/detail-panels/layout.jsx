@@ -30,7 +30,7 @@ export function AccountLayout() {
   return (
     <div className="layout">
       <div className="ad-lane">
-        <GoogleAdSlot slot="4524958237" />
+        <GoogleAdSlot slot="4524958237" style={{ height: '100%' }} />
       </div>
       <div className="main-content">
         <Donate />
@@ -49,7 +49,7 @@ export function AccountLayout() {
         </div>
       </div>
       <div className="ad-lane">
-        {/* <GoogleAdSlot slot="4420483623" /> */}
+        <GoogleAdSlot slot="4420483623" style={{ height: '100%' }} />
       </div>
     </div>
   );

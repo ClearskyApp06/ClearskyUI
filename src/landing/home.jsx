@@ -46,13 +46,13 @@ export default function Home() {
         sx={{
           mt: 2,
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'start',
           flexDirection: 'column',
           gap: 2,
         }}
       >
-        <FirstPartyAd placementId="447632" size="responsive" />
         <FirstPartyAd placementId="447632" size="responsiveBanner" />
+        <FirstPartyAd placementId="764383" size="responsiveBanner" />
       </Box>
 
       <React.Suspense>

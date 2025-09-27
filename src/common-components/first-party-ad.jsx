@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import { useSendClickThru, useGetAdByPlacement } from '../api/useAdTracking';
+import { useFeatureFlag } from '../api/featureFlags';
 
 /**
  * FirstPartyAd component
@@ -15,6 +16,8 @@ export function FirstPartyAd({ placementId, size }) {
   const iframeRef = useRef(null);
   const sendClickThru = useSendClickThru();
   const { data: adData, isLoading } = useGetAdByPlacement(placementId);
+  // const showFirstPartyAds = useFeatureFlag('first-party-ads');
+  const showFirstPartyAds = true;
 
   const styleMap = {
     leaderboard: { width: 728, height: 90 },
@@ -25,7 +28,7 @@ export function FirstPartyAd({ placementId, size }) {
     responsiveBanner: {
       width: '100%',
       maxWidth: 728,
-      height: 'auto',
+      height: 100,
     },
     responsive: {
       width: '100%',
@@ -48,6 +51,10 @@ export function FirstPartyAd({ placementId, size }) {
       window.open(adData.target_url, '_blank', 'noopener,noreferrer');
     }
   };
+
+  if (!showFirstPartyAds) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -93,7 +100,6 @@ export function FirstPartyAd({ placementId, size }) {
     <Box
       sx={{
         ...style,
-        bgcolor: 'grey.100',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

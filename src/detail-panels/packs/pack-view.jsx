@@ -4,6 +4,7 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useResolveDidToProfile } from '../../api/resolve/did-to-profile';
 import './list-packs.css';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -16,7 +17,24 @@ export function PackView({ packs, className = '' }) {
     <ul className={'packs-as-pack-view ' + (className || '')}>
       {packs &&
         packs?.length > 0 &&
-        packs.map((pack, i) => <PackViewEntry key={i} entry={pack} />)}
+        packs.map((pack, i) => {
+          if (i % 10 === 0 && i > 0) {
+            return (
+              <GoogleAdSlot
+                key={`ad-${i}-9114105783`}
+                slot="9114105783"
+                format="fluid"
+                layoutKey="-fb+5w+4e-db+86"
+              />
+            );
+          }
+          return <PackViewEntry key={i} entry={pack} />;
+        })}
+      <GoogleAdSlot
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
+      />
     </ul>
   );
 

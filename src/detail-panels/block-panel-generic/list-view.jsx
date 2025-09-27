@@ -3,6 +3,7 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { ProgressiveRender } from '../../common-components/progressive-render';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { localise } from '../../localisation';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -15,6 +16,11 @@ export function ListView({ blocklist }) {
       <ProgressiveRender
         items={blocklist}
         renderItem={(item) => <ListViewEntry {...item} />}
+      />
+      <GoogleAdSlot
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
       />
     </ul>
   );

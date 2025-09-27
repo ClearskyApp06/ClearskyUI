@@ -7,6 +7,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -75,14 +76,31 @@ function LabeledListItem({ cts, val, src }) {
 function LabeledList({ labels }) {
   return (
     <ul className="labeled-view">
-      {labels.map(({ src, cts, val }) => (
-        <LabeledListItem
-          key={`${src}-${val}-${cts}`}
-          src={src}
-          cts={cts}
-          val={val}
-        />
-      ))}
+      {labels.map(({ src, cts, val }, i) => {
+        if (i % 10 === 0 && i > 0) {
+          return (
+            <GoogleAdSlot
+              key={`ad-${i}-9114105783`}
+              slot="9114105783"
+              format="fluid"
+              layoutKey="-fb+5w+4e-db+86"
+            />
+          );
+        }
+        return (
+          <LabeledListItem
+            key={`${src}-${val}-${cts}`}
+            src={src}
+            cts={cts}
+            val={val}
+          />
+        );
+      })}
+      <GoogleAdSlot
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
+      />
     </ul>
   );
 }
@@ -115,7 +133,14 @@ export default function LabeledPanel() {
           {labels?.length ? (
             <LabeledList labels={labels} />
           ) : (
-            <div className="labeled-view no-labels">No labels</div>
+            <div className="labeled-view no-labels">
+              <div>No labels</div>
+              <GoogleAdSlot
+                slot="9114105783"
+                format="fluid"
+                layoutKey="-fb+5w+4e-db+86"
+              />
+            </div>
           )}
         </>
       )}
