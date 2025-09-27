@@ -10,10 +10,11 @@ import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
 import { localise } from '../../localisation';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
+import { FirstPartyAd } from '../../common-components/first-party-ad';
 
 /**
  * @param {{
@@ -94,33 +95,54 @@ export function AccountHeader({ className }) {
                 </span>
               )}
             </span>
-            <span className="account-handle">
-              {!resolved.data?.displayName ? (
-                <>
-                  <span className="account-handle-at-empty"> </span>
-                </>
-              ) : (
-                <>
-                  <span className="account-handle-at">@</span>
-                  <a
-                    href={`https://bsky.app/profile/${unwrapShortHandle(
-                      resolved.data?.shortHandle
-                    )}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FullHandle shortHandle={resolved.data?.shortHandle} />
-                  </a>
-                </>
-              )}
-              {placement && (
-                <div className="account-place-number">User #{placement}</div>
-              )}
-            </span>
-            <Button
-              className="history-toggle"
-              variant="text"
+
+            <Box
+              sx={{
+                display: 'flex',
+                position: 'relative',
+                alignItems: 'start',
+              }}
             >
+              <span className="account-handle">
+                <div>
+                  {!resolved.data?.displayName ? (
+                    <>
+                      <span className="account-handle-at-empty"> </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="account-handle-at">@</span>
+                      <a
+                        href={`https://bsky.app/profile/${unwrapShortHandle(
+                          resolved.data?.shortHandle
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FullHandle shortHandle={resolved.data?.shortHandle} />
+                      </a>
+                    </>
+                  )}
+                  {placement && (
+                    <div className="account-place-number">
+                      User #{placement}
+                    </div>
+                  )}
+                </div>
+              </span>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  display: { xs: 'none', md: 'block' },
+                }}
+              >
+                <FirstPartyAd placementId="764383" size="banner" />
+              </Box>
+            </Box>
+
+            <Button className="history-toggle" variant="text">
               {firstHandleChangeTimestamp ? (
                 <FormatTimestamp
                   timestamp={firstHandleChangeTimestamp}

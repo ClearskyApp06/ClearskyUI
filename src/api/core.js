@@ -52,11 +52,12 @@ export function unwrapClearskyURL(apiURL) {
  *
  * @param {"v1"} apiVer
  * @param {string} apiPath
+ * @param {RequestInit} [options] optional fetch options
  * @returns
  */
-export function fetchClearskyApi(apiVer, apiPath) {
+export function fetchClearskyApi(apiVer, apiPath, options) {
   const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
-  return fetch(apiUrl).then((x) => x.json());
+  return fetch(apiUrl, options).then((x) => x.json());
 }
 
 /**

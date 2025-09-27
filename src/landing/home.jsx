@@ -6,10 +6,12 @@ import { unwrapShortHandle } from '../api';
 import { HomeHeader } from './home-header';
 
 import './home.css';
-import '../donate.css'
+import '../donate.css';
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
+import { Box } from '@mui/material';
+import { FirstPartyAd } from '../common-components/first-party-ad';
 
 export default function Home() {
   const [searchText, setSearchText] = React.useState('');
@@ -39,7 +41,19 @@ export default function Home() {
           }
         }}
       />
-      
+
+      <Box
+        sx={{
+          mt: 2,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          gap: 2,
+        }}
+      >
+        <FirstPartyAd placementId="447632" size="responsive" />
+        <FirstPartyAd placementId="447632" size="responsiveBanner" />
+      </Box>
 
       <React.Suspense>
         <HomeStats className="home-stats" />

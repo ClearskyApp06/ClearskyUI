@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { ContentCopy } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { unwrapShortDID } from '../../api';
 import { useHandleHistory } from '../../api/handle-history';
 import { FullDID } from '../../common-components/full-short';
@@ -12,6 +12,7 @@ import { useAccountResolver } from '../account-resolver';
 import './account-extra-info.css';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
+import { FirstPartyAd } from '../../common-components/first-party-ad';
 
 /**
  * @param {{
@@ -26,32 +27,35 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const handleHistory = handleHistoryQuery.data?.handle_history;
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
-      <div className="close-opt" onClick={onInfoClick}>
-        &times;
-      </div>
-      <div className="bio-section">
-        {!account?.description ? undefined : (
-          <MultilineFormatted text={account?.description} />
-        )}
-      </div>
-      <div className="did-section">
-        <DidWithCopyButton
-          shortDID={account?.shortDID}
-          handleHistory={handleHistory}
-        />
-      </div>
-      <div className="handle-history-section">
-        {!handleHistory ? undefined : (
-          <>
-            <span className="handle-history-title">
-              {localise('registration and history:', {
-                uk: 'реєстрація та важливі події:',
-              })}
-            </span>
-            <HandleHistory handleHistory={handleHistory} />
-          </>
-        )}
-      </div>
+      <Box sx={{ pl: '0.5em' }}>
+        <div className="close-opt" onClick={onInfoClick}>
+          &times;
+        </div>
+        <div className="bio-section">
+          {!account?.description ? undefined : (
+            <MultilineFormatted text={account?.description} />
+          )}
+        </div>
+        <div className="did-section">
+          <DidWithCopyButton
+            shortDID={account?.shortDID}
+            handleHistory={handleHistory}
+          />
+        </div>
+        <div className="handle-history-section">
+          {!handleHistory ? undefined : (
+            <>
+              <span className="handle-history-title">
+                {localise('registration and history:', {
+                  uk: 'реєстрація та важливі події:',
+                })}
+              </span>
+              <HandleHistory handleHistory={handleHistory} />
+            </>
+          )}
+        </div>
+      </Box>
+      <FirstPartyAd placementId="447632" size="responsiveBanner" />
     </div>
   );
 }
