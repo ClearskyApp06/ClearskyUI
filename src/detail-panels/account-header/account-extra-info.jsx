@@ -13,6 +13,7 @@ import './account-extra-info.css';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
 import { FirstPartyAd } from '../../common-components/first-party-ad';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -55,8 +56,13 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
           )}
         </div>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
         <FirstPartyAd placementId="338957" size="responsiveBanner" />
+        <GoogleAdSlot
+          slot="9114105783"
+          format="fluid"
+          layoutKey="-fb+5w+4e-db+86"
+        />
       </Box>
     </div>
   );

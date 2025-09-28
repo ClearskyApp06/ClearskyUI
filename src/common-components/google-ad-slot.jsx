@@ -44,11 +44,13 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
     return (
       <div
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           background: '#eee',
           border: '1px dashed #ccc',
           color: '#888',
-          textAlign: 'center',
-          lineHeight: style.height ? `${style.height}px` : '150px',
+          height: '50px',
           ...style,
         }}
       >
@@ -61,7 +63,7 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: 'block', ...style }}
+      style={{ display: 'block', height: '50px', ...style }}
       data-ad-client="ca-pub-3810029603871683"
       data-ad-slot={slot}
       data-ad-format={format}
