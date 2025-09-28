@@ -27,12 +27,13 @@ export function useList(handleOrDID) {
 /**
  * Look up the total number of lists to which a given handle/DID belongs
  * @param {string | undefined} handleOrDID
+ * @param {Boolean} shouldFetchListCounts
  */
-export function useListCount(handleOrDID) {
+export function useListCount(handleOrDID,shouldFetchListCounts) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!shortHandle,
+    enabled: !!shortHandle && shouldFetchListCounts,
     queryKey: ['list-total', shortHandle],
     // @ts-expect-error shortHandle won't really be undefined because the query will be disabled
     queryFn: () => getListCount(shortHandle),

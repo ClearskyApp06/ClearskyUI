@@ -7,6 +7,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -95,7 +96,10 @@ export default function LabeledPanel() {
   const did = accountQuery.data?.shortDID;
   const { data: labelers, isLoading: isLoadingLabelers } = useLabelers();
 
+  // this hook will be called to featch all the label
   const { data: labels, isLoading } = useLabeled(did, labelers);
+
+  const labelsCount = useFeatureFlag('labels-count')
 
   return (
     <div
@@ -106,7 +110,7 @@ export default function LabeledPanel() {
         minHeight: '100%',
       }}
     >
-      <h3 className="labeled-header">Labeled {labels?.length} Times</h3>
+      {labelsCount && (<h3 className="labeled-header">Labeled {labels?.length} Times</h3>)}
 
       {isLoadingLabelers || isLoading ? (
         <div>Loading...</div>

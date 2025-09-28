@@ -12,6 +12,7 @@ import { useAccountResolver } from '../account-resolver';
 import './account-extra-info.css';
 import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -22,18 +23,23 @@ import { PDSName } from './handle-history/pds-name';
 export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
-  const handleHistoryQuery = useHandleHistory(account?.shortDID);
-  const handleHistory = handleHistoryQuery.data?.handle_history;
+  const shouldIshandleHistory = useFeatureFlag('handle-history')
+  
+  // calls only if ishandleHistory is true
+  const handleHistoryQuery = useHandleHistory(account?.shortDID,shouldIshandleHistory);
+  const handleHistory = handleHistoryQuery?.data?.handle_history;
+
+  const profileDescription = useFeatureFlag('profile-description')
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
       <div className="close-opt" onClick={onInfoClick}>
         &times;
       </div>
-      <div className="bio-section">
+      {profileDescription && (<div className="bio-section">
         {!account?.description ? undefined : (
           <MultilineFormatted text={account?.description} />
         )}
-      </div>
+      </div>)}
       <div className="did-section">
         <DidWithCopyButton
           shortDID={account?.shortDID}

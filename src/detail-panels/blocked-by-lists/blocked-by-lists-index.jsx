@@ -14,12 +14,14 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export function BlockedByLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockedByLists(shortHandle);
-  const { data: totalData, isLoading: isLoadingTotal } = useBlockedByListsTotal(shortHandle);
+  const shouldFetchlistsBlockedByCount = useFeatureFlag('lists-blocked-by-count')
+  const { data: totalData, isLoading: isLoadingTotal } = useBlockedByListsTotal(shortHandle,shouldFetchlistsBlockedByCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
@@ -37,7 +39,7 @@ export function BlockedByLists() {
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
         <CircularProgress size="1.5em" /> 
         <div style={{ marginTop: '0.5em' }}>
-          {'Loading blocked by lists...'}
+          {shouldFetchlistsBlockedByCount && ('Loading blocked by lists...')}
         </div>
       </div>
     );
@@ -57,7 +59,7 @@ export function BlockedByLists() {
 
       <h3 className='lists-header'>
         {(isLoadingTotal && !listsTotal) && <span style={{ opacity: 0.5 }}>{"Counting block lists..."}</span>}
-        {listsTotal ?
+        {shouldFetchlistsBlockedByCount && (listsTotal ?
           <>
             {`Blocked by ${Intl.NumberFormat().format(listsTotal)} users via lists`}
             <span className='panel-toggles'>
@@ -70,7 +72,7 @@ export function BlockedByLists() {
               }
             </span>
           </> : 
-          isLoadingTotal ? null : 'Not blocked by any users via lists'
+          isLoadingTotal ? null : 'Not blocked by any users via lists')
         }
       </h3>
 

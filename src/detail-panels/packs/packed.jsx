@@ -14,6 +14,7 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import { localise, localiseNumberSuffix } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
 import { SearchHeaderDebounced } from '../history/search-header';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 export default function Packed() {
   // STARTER PACKS CONTAINING USERS
@@ -23,8 +24,10 @@ export default function Packed() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     usePacksPopulated(shortHandle);
+  const shouldFetchstarterPacksInCount = 
+  useFeatureFlag('starter-packs-in-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksPopulatedTotal(shortHandle);
+    usePacksPopulatedTotal(shortHandle,shouldFetchstarterPacksInCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
@@ -68,7 +71,7 @@ export default function Packed() {
           </span>
         )}
 
-        {packsTotal ? (
+        {shouldFetchstarterPacksInCount && (packsTotal ? (
           <>
             {'Member of ' +
               packsTotal.toLocaleString() +
@@ -90,7 +93,7 @@ export default function Packed() {
           </>
         ) : (
           localise(NOPACK, {})
-        )}
+        ))}
       </h3>
 
       <PackView packs={allPacks} />

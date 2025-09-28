@@ -21,12 +21,13 @@ export function usePacksCreated(handleOrDID) {
 
 /**
  * @param {string | undefined} handleOrDID
+ * @param {boolean | undefined} shouldFetchstarterPacksMadeCount
  */
-export function usePacksCreatedTotal(handleOrDID) {
+export function usePacksCreatedTotal(handleOrDID,shouldFetchstarterPacksMadeCount){  
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
-    enabled: !!shortHandle,
+    enabled: !!shortHandle && shouldFetchstarterPacksMadeCount,
     queryKey: ['starter-packs-total', shortHandle],
     queryFn: () => getPacksCreatedTotal(shortHandle),
   });
@@ -49,16 +50,18 @@ export function usePacksPopulated(handleOrDID) {
 }
 
 /**
- * @param {string | undefined} handleOrDID
+ * @param {string | undefined} handleOrDID 
+ * @param {Boolean | undefined} shouldFetchstarterPacksInCount 
  */
-export function usePacksPopulatedTotal(handleOrDID) {
+export  function usePacksPopulatedTotal(handleOrDID,shouldFetchstarterPacksInCount){  
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
-  return useQuery({
-    enabled: !!shortHandle,
-    queryKey: ['starter-pack-total', shortHandle],
-    queryFn: () => getPacksPopulatedTotal(shortHandle),
-  });
+    return useQuery({
+        enabled: !!shortHandle && shouldFetchstarterPacksInCount,
+        queryKey: ['starter-pack-total', shortHandle],
+        // @ts-expect-error shortHandle won't really be undefined because the query will be disabled
+        queryFn: () => getPacksPopulatedTotal(shortHandle),
+      }); 
 }
 
 /**

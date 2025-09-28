@@ -14,6 +14,7 @@ import { Button } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -24,11 +25,15 @@ export function AccountHeader({ className }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
+  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID,true);
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
-  const placementquery = usePlacement(resolved.data?.shortDID);
-  const placement = placementquery.data?.placement?.toLocaleString() ?? '';
+  const shoulduserPlacement = useFeatureFlag('user-placement')
+  
+  // call only if userPlacement is true
+  const placementquery = usePlacement(resolved.data?.shortDID,shoulduserPlacement);
+  // console.log(placementquery)
+  const placement = placementquery?.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =
     handleHistory?.length && handleHistory[handleHistory.length - 1][1];
