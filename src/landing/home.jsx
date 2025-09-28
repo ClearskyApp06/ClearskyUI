@@ -11,7 +11,6 @@ import { Logo } from './logo';
 import { HomeStats } from './home-stats';
 import { About } from './about';
 import { Box } from '@mui/material';
-import { FirstPartyAd } from '../common-components/first-party-ad';
 import { GoogleAdSlot } from '../common-components/google-ad-slot';
 
 export default function Home() {
@@ -43,30 +42,16 @@ export default function Home() {
         }}
       />
 
-      <Box
-        sx={{
-          mt: 2,
-          display: { xs: 'none', md: 'flex' },
-          alignItems: 'start',
-          flexDirection: 'column',
-          gap: 2,
-
-        }}
-      >
-        <FirstPartyAd placementId="447632" size="responsiveBanner" />
-        <FirstPartyAd placementId="764383" size="responsiveBanner" />
-      </Box>
-
 
       <React.Suspense>
         <HomeStats className="home-stats" />
       </React.Suspense>
 
       <Box sx={{
-        position: 'absolute',
-        bottom: 0,
+        position: { xs: 'fixed', sm: 'fixed' },
+        bottom: 30,
         left: 0,
-        width: '100vw',
+        width: '100%',
         height: '50px',
       }}>
 

@@ -17,7 +17,10 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
   const adRef = useRef(null);
   const pushedRef = useRef(false); // track if adsbygoogle.push was called
 
-  const isDev = import.meta.env.DEV || import.meta.env.VITE_IS_DEV;
+  const isDev = import.meta.env.DEV ||
+    import.meta.env.VITE_IS_DEV ||
+    !location.hostname.includes('clearsky.app');
+
   const showGoolgleAds = useFeatureFlag('google-ads');
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
   }
 
   if (isDev) {
-    // Placeholder for dev / localhost
+    // Placeholder for dev/ pr / localhost
     return (
       <div
         style={{
