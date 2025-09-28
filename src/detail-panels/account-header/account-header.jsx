@@ -135,10 +135,10 @@ export function AccountHeader({ className }) {
                   position: 'absolute',
                   top: 0,
                   right: 0,
-                  display: { xs: 'none', md: 'block' },
+                  display: { xs: 'none', sm: 'block' },
                 }}
               >
-                <FirstPartyAd placementId="764383" size="banner" />
+                <FirstPartyAd placementId="326541" size="banner" />
               </Box>
             </Box>
 

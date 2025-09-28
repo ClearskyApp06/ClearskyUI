@@ -66,6 +66,8 @@ function LabeledListItem({ cts, val, src }) {
   );
 }
 
+const AD_FREQUENCY = 10;
+
 /**
  * @param {{
  * labels: { cts: string, val: string,uri:string,src:string }[]
@@ -77,7 +79,7 @@ function LabeledList({ labels }) {
   return (
     <ul className="labeled-view">
       {labels.map(({ src, cts, val }, i) => {
-        if (i % 10 === 0 && i > 0) {
+        if (i % AD_FREQUENCY === 0 && i > 0) {
           return (
             <GoogleAdSlot
               key={`ad-${i}-9114105783`}

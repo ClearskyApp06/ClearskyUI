@@ -5,6 +5,7 @@ import { GoogleAdSlot } from './google-ad-slot';
 
 const INITIAL_SIZE = 20;
 const GROW_BLOCK_SIZE = 29;
+const AD_FREQUENCY = 35;
 
 /**
  * @template ItemType
@@ -20,7 +21,7 @@ export function ProgressiveRender(props) {
     <>
       {props.items.slice(0, showSize).map((item, index) => {
         const entry = cloneElement(props.renderItem(item), { key: index });
-        if (index % 10 === 0 && index > 0) {
+        if (index % AD_FREQUENCY === 0 && index > 0) {
           return (
             <GoogleAdSlot
               key={`ad-${index}-prog-9114105783`}

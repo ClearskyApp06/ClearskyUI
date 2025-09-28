@@ -4,6 +4,8 @@ import React from 'react';
 import { RenderPost } from '../post/render-post';
 import { GoogleAdSlot } from '../../../common-components/google-ad-slot';
 
+const AD_FREQUENCY = 10;
+
 /**
  * @param {{
  *  rankedPosts: ReturnType<typeof import('./apply-search').applySearch>,
@@ -28,7 +30,7 @@ export function RenderSearchResults({ rankedPosts, maxRenderCount }) {
         textLightHighlights={textLightHighlights}
       />
     );
-    if (i % 10 === 0 && i > 0) {
+    if (i % AD_FREQUENCY === 0 && i > 0) {
       isAdLoaded = true;
       postElements.push(
         <GoogleAdSlot

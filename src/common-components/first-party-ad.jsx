@@ -1,7 +1,7 @@
 // @ts-check
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useSendClickThru, useGetAdByPlacement } from '../api/useAdTracking';
 import { useFeatureFlag } from '../api/featureFlags';
 
@@ -16,8 +16,7 @@ export function FirstPartyAd({ placementId, size }) {
   const iframeRef = useRef(null);
   const sendClickThru = useSendClickThru();
   const { data: adData, isLoading } = useGetAdByPlacement(placementId);
-  // const showFirstPartyAds = useFeatureFlag('first-party-ads');
-  const showFirstPartyAds = true;
+  const showFirstPartyAds = useFeatureFlag('first-party-ads');
 
   const styleMap = {
     leaderboard: { width: 728, height: 90 },
@@ -27,8 +26,8 @@ export function FirstPartyAd({ placementId, size }) {
     banner: { width: 320, height: 50 },
     responsiveBanner: {
       width: '100%',
-      maxWidth: 728,
-      height: 100,
+      maxWidth: 720,
+      maxHeight: 100,
     },
     responsive: {
       width: '100%',
@@ -52,44 +51,10 @@ export function FirstPartyAd({ placementId, size }) {
     }
   };
 
-  if (!showFirstPartyAds) {
+  if (!showFirstPartyAds || isLoading || !adData) {
     return null;
   }
 
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          ...style,
-          bgcolor: 'grey.100',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="caption">Loading ad...</Typography>
-      </Box>
-    );
-  }
-
-  if (!adData) {
-    return (
-      <Box
-        sx={{
-          ...style,
-          border: '1px dashed',
-          borderColor: 'primary.main',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="caption">
-          No ad available for this placement
-        </Typography>
-      </Box>
-    );
-  }
 
   const isHtmlCreative =
     adData.ad_content_url &&

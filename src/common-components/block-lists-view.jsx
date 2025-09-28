@@ -9,6 +9,8 @@ import { ConditionalAnchor } from './conditional-anchor';
 import { useResolveHandleOrDid } from '../api';
 import { GoogleAdSlot } from './google-ad-slot';
 
+const AD_FREQUENCY = 35;
+
 /**
  * @param {{
  *  className?: string,
@@ -20,7 +22,7 @@ export function BlockListsView({ className, list, handle }) {
   return (
     <ul className={'lists-as-list-view ' + (className || '')}>
       {(list || []).map((entry, i) => {
-        if (i % 10 === 0 && i > 0) {
+        if (i % AD_FREQUENCY === 0 && i > 0) {
           return (
             <GoogleAdSlot
               key={`ad-${i}-blocked-list-9114105783`}

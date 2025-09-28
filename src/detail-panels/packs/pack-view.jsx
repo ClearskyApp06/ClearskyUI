@@ -6,6 +6,8 @@ import './list-packs.css';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
+const AD_FREQUENCY = 35;
+
 /**
  * @param {{
  *  className?: string,
@@ -18,7 +20,7 @@ export function PackView({ packs, className = '' }) {
       {packs &&
         packs?.length > 0 &&
         packs.map((pack, i) => {
-          if (i % 10 === 0 && i > 0) {
+          if (i % AD_FREQUENCY === 0 && i > 0) {
             return (
               <GoogleAdSlot
                 key={`ad-${i}-9114105783`}

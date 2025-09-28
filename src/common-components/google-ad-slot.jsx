@@ -18,8 +18,7 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
   const pushedRef = useRef(false); // track if adsbygoogle.push was called
 
   const isDev = import.meta.env.DEV || import.meta.env.VITE_IS_DEV;
-  // const showGoolgleAds = useFeatureFlag('google-ads');
-  const showGoolgleAds = true;
+  const showGoolgleAds = useFeatureFlag('google-ads');
 
   useEffect(() => {
     if (!adRef.current || pushedRef.current || isDev || !showGoolgleAds) return;
