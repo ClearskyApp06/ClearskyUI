@@ -23,7 +23,11 @@ export function FirstPartyAd({ placementId, size }) {
     largeLeaderboard: { width: 970, height: 90 },
     mediumRectangle: { width: 300, height: 250 },
     wideSkyscraper: { width: 160, height: 600 },
-    banner: { width: 320, height: 50 },
+    banner: {
+      width: "100%",
+      maxWidth: 320,
+      height: 40
+    },
     responsiveBanner: {
       width: '100%',
       maxWidth: 720,
@@ -68,7 +72,6 @@ export function FirstPartyAd({ placementId, size }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        p: 1,
         overflow: 'hidden',
         cursor: 'pointer',
       }}

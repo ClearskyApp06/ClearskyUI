@@ -75,12 +75,17 @@ const AD_FREQUENCY = 10;
  *
  * @returns {JSX.Element}
  */
-function LabeledList({ labels }) {
+export function LabeledList({ labels }) {
   return (
     <ul className="labeled-view">
-      {labels.map(({ src, cts, val }, i) => {
-        if (i % AD_FREQUENCY === 0 && i > 0) {
-          return (
+      {(labels || []).flatMap(({ src, cts, val }, i) => {
+        const elements = [
+          <LabeledListItem key={`${src}-${val}-${cts}`} src={src} cts={cts} val={val} />
+        ];
+
+        // Insert ad after every AD_FREQUENCY items
+        if (i > 0 && i % AD_FREQUENCY === 0) {
+          elements.push(
             <GoogleAdSlot
               key={`ad-${i}-9114105783`}
               slot="9114105783"
@@ -89,16 +94,11 @@ function LabeledList({ labels }) {
             />
           );
         }
-        return (
-          <LabeledListItem
-            key={`${src}-${val}-${cts}`}
-            src={src}
-            cts={cts}
-            val={val}
-          />
-        );
+
+        return elements;
       })}
       <GoogleAdSlot
+        key="ad-end-9114105783"
         slot="9114105783"
         format="fluid"
         layoutKey="-fb+5w+4e-db+86"
@@ -106,6 +106,7 @@ function LabeledList({ labels }) {
     </ul>
   );
 }
+
 
 /**
  * @this {never}
