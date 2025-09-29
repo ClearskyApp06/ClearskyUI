@@ -10,7 +10,7 @@ import { usePdsUrl } from './pds';
 import { useMemo } from 'react';
 
 /**
- * @param {string | undefined} did
+ * @param {string | undefined | null} did
  * @returns
  */
 export function usePostHistory(did) {
