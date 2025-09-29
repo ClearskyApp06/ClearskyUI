@@ -12,6 +12,7 @@ import {
   AppBskyEmbedImages,
   AppBskyEmbedRecord,
   AppBskyEmbedRecordWithMedia,
+  AppBskyEmbedVideo,
 } from '@atproto/api';
 
 /**
@@ -40,6 +41,9 @@ export function PostEmbed({ post, embed, disableEmbedQT, level }) {
   }
   if (AppBskyEmbedImages.isMain(embed)) {
     return <PostEmbedImages post={post} embed={embed} />;
+  }
+  if (AppBskyEmbedVideo.isMain(embed)) {
+    return <PostEmbedVideo post={post} embed={embed} />;
   }
   if (AppBskyEmbedRecordWithMedia.isMain(embed)) {
     return <PostEmbedRecordWithMedia post={post} embed={embed} />;
@@ -181,12 +185,26 @@ function PostEmbedRecordWithMedia({ post, embed }) {
     /** @type {import('@atproto/api').AppBskyEmbedImages.Main['images']} */ (
       embed.media?.images
     );
+  const video = /** @type {any} */ (embed.media?.video);
   const postUri = breakFeedUri(post.uri);
   const { data } = usePostByUri(embed.record.record.uri);
   if (!postUri) return null;
+  
   return (
     <div className="post-content-embed">
-      {!images?.length ? null : images.length === 1 ? (
+      {video ? (
+        <div className="post-content-embed-video-container">
+          <video
+            controls
+            className="post-content-embed-video"
+          >
+            <source src={getFeedBlobUrl(postUri?.shortDID, video.ref + '')} type="video/mp4" />
+            {localise('Your browser does not support the video tag.', {
+              uk: 'Ваш браузер не підтримує відтворення відео.',
+            })}
+          </video>
+        </div>
+      ) : !images?.length ? null : images.length === 1 ? (
         <ImageWithAlt
           className="post-content-embed-image-with-alt post-content-embed-image-with-alt-single"
           src={getFeedBlobUrl(postUri?.shortDID, images[0].image.ref + '')}
@@ -215,6 +233,43 @@ function PostEmbedRecordWithMedia({ post, embed }) {
           className="post-content-embed-qt"
         />
       )}
+    </div>
+  );
+}
+
+/**
+ * @param {{
+ *  post: PostDetails,
+ *  embed: import('@atproto/api').AppBskyEmbedVideo.Main
+ * }} _
+ */
+function PostEmbedVideo({ post, embed }) {
+  const postUri = breakFeedUri(post.uri);
+  if (!embed.video || !postUri) return null;
+
+  const videoUrl = getFeedBlobUrl(
+    postUri?.shortDID,
+    embed.video.ref + ''
+  );
+
+  return (
+    <div className="post-content-embed">
+      <div className="post-content-embed-video-container">
+        <video
+          controls
+          className="post-content-embed-video"
+        >
+          <source src={videoUrl} type="video/mp4" />
+          {localise('Your browser does not support the video tag.', {
+            uk: 'Ваш браузер не підтримує відтворення відео.',
+          })}
+        </video>
+        {embed.alt && (
+          <div className="post-content-embed-video-alt">
+            {embed.alt}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
