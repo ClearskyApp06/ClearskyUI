@@ -21,10 +21,10 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
     import.meta.env.VITE_IS_DEV ||
     !location.hostname.includes('clearsky.app');
 
-  const showGoolgleAds = useFeatureFlag('google-ads');
+  const showGoogleAds = useFeatureFlag('google-ads');
 
   useEffect(() => {
-    if (!adRef.current || pushedRef.current || isDev || !showGoolgleAds) return;
+    if (!adRef.current || pushedRef.current || isDev || !showGoogleAds) return;
 
     try {
       // @ts-ignore
@@ -33,9 +33,9 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
     } catch (e) {
       console.error('Adsense error:', e);
     }
-  }, [slot, isDev, showGoolgleAds]);
+  }, [slot, isDev, showGoogleAds]);
 
-  if (!showGoolgleAds) {
+  if (!showGoogleAds) {
     return null;
   }
 
