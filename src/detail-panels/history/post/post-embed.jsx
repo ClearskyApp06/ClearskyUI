@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { breakFeedUri, getFeedBlobUrl } from '../../../api';
+import { breakFeedUri, getFeedBlobUrl, getVideoBlobUrl } from '../../../api';
 import { usePostByUri } from '../../../api/post-history';
 
 import { RenderPost } from './render-post';
@@ -198,7 +198,7 @@ function PostEmbedRecordWithMedia({ post, embed }) {
             controls
             className="post-content-embed-video"
           >
-            <source src={getFeedBlobUrl(postUri?.shortDID, video.ref + '')} type="video/mp4" />
+            <source src={getVideoBlobUrl(postUri?.shortDID, video.ref + '')} type="video/mp4" />
             {localise('Your browser does not support the video tag.', {
               uk: 'Ваш браузер не підтримує відтворення відео.',
             })}
@@ -247,7 +247,7 @@ function PostEmbedVideo({ post, embed }) {
   const postUri = breakFeedUri(post.uri);
   if (!embed.video || !postUri) return null;
 
-  const videoUrl = getFeedBlobUrl(
+  const videoUrl = getVideoBlobUrl(
     postUri?.shortDID,
     embed.video.ref + ''
   );
