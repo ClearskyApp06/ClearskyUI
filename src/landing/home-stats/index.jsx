@@ -25,12 +25,12 @@ import { useDashboardStats } from '../../api';
 export function HomeStats({ className }) {
   const { data: stats, isLoading } = useDashboardStats();
 
-  const asofFormatted = stats.asof && new Date(stats.asof) + '';
+  const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
-  const activeAccounts = stats.totalUsers?.active_count?.value;
-  const deletedAccounts = stats.totalUsers?.deleted_count?.value;
-  const percentNumberBlocked1 = stats.blockStats?.percentNumberBlocked1;
-  const percentNumberBlocking1 = stats.blockStats?.percentNumberBlocking1;
+  const activeAccounts = stats?.totalUsers?.active_count?.value;
+  const deletedAccounts = stats?.totalUsers?.deleted_count?.value;
+  const percentNumberBlocked1 = stats?.blockStats?.percentNumberBlocked1;
+  const percentNumberBlocking1 = stats?.blockStats?.percentNumberBlocking1;
 
   /** @type {HomeStatsDetails} */
   const arg = {
