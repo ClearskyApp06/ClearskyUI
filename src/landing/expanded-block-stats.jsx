@@ -18,6 +18,33 @@ export default function ExpandedBlockStats() {
   const navigate = useNavigate();
   const { data: stats, isLoading } = useDashboardStats();
 
+  // Ensure body and html have proper styling for the expanded stats page
+  React.useEffect(() => {
+    // Save original styles
+    const originalBodyStyle = {
+      height: document.body.style.height,
+      overflow: document.body.style.overflow,
+    };
+    const originalHtmlStyle = {
+      height: document.documentElement.style.height,
+      overflow: document.documentElement.style.overflow,
+    };
+
+    // Apply styles for expanded stats page
+    document.body.style.height = '100vh';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.height = '100vh';
+    document.documentElement.style.overflow = 'hidden';
+
+    // Cleanup function to restore original styles
+    return () => {
+      document.body.style.height = originalBodyStyle.height;
+      document.body.style.overflow = originalBodyStyle.overflow;
+      document.documentElement.style.height = originalHtmlStyle.height;
+      document.documentElement.style.overflow = originalHtmlStyle.overflow;
+    };
+  }, []);
+
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
   const activeAccounts = stats?.totalUsers?.active_count?.value;

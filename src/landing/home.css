@@ -152,17 +152,20 @@
 .expanded-block-stats-page {
   position: fixed;
   left: 0;
-  top: 5px;
-  width: 100%;
-  height: calc(100% - 50px);
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  background: white;
+  z-index: 1000;
 }
 
 .expanded-block-stats-page .home-stats-table {
   flex: 1;
   min-height: 0; /* Allow flex item to shrink */
+  padding: 0 1em;
 }
 
 .expanded-block-stats-page .home-stats-table-container {
@@ -171,4 +174,5 @@
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto 1fr;
+  min-height: 500px; /* Ensure minimum height for proper display */
 }
