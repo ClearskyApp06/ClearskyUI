@@ -16,6 +16,7 @@ export function HomeStatsMain({
   asofFormatted,
   activeAccounts,
   deletedAccounts,
+  totalAccounts,
   percentNumberBlocked1,
   percentNumberBlocking1,
   loading,
@@ -46,6 +47,7 @@ export function HomeStatsMain({
         {...{
           activeAccounts,
           deletedAccounts,
+          totalAccounts,
           percentNumberBlocked1,
           percentNumberBlocking1,
           loading,

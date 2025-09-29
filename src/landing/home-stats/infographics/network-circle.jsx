@@ -10,6 +10,7 @@ import { localise } from '../../../localisation';
  * @param {{
  *  activeAccounts?: number,
  *  deletedAccounts?: number,
+ *  totalAccounts?: number,
  *  percentNumberBlocked1?: number,
  *  percentNumberBlocking1?: number,
  *  loading?: boolean
@@ -18,6 +19,7 @@ import { localise } from '../../../localisation';
 export function NetworkCircle({
   activeAccounts = 21000000,
   deletedAccounts = 1000000,
+  totalAccounts = 22000000,
   percentNumberBlocked1 = 48.4,
   percentNumberBlocking1 = 42.53,
   loading,
@@ -64,6 +66,16 @@ export function NetworkCircle({
           <br />
           <FaceIcon className="crowd-icon" />
           <FaceIcon className="crowd-icon" />
+        </div>
+        <div className="network-crowd network-total-crowd">
+          <div className="network-crowd-total-count-container">
+            <div className="network-crowd-total-count">
+              {totalAccounts.toLocaleString()}
+            </div>
+            <div className="network-crowd-total-label">
+              {localise('total users', { uk: 'всього користувачів' })}
+            </div>
+          </div>
         </div>
         <div className="network-crowd network-deleted-crowd">
           <div className="network-crowd-deleted-count-container">

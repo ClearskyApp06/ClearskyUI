@@ -54,7 +54,7 @@
 
 .network-circle-circle .network-active-crowd .network-crowd-active-count-container
   .network-crowd-active-count {
-  font-size: 200%;
+  font-size: 150%; /* Smaller than total users */
   font-weight: bold;
   padding-right: 0.1em;
 }
@@ -63,6 +63,41 @@
   .network-crowd-active-label {
   padding-left: 0.5em;
   padding-bottom: 0.2em;
+  font-size: 90%; /* Smaller label */
+}
+
+.network-circle-circle .network-total-crowd {
+  text-align: center;
+  position: absolute;
+  top: 0.3em;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 22.5%;
+}
+
+.network-circle-circle .network-total-crowd .network-crowd-total-count-container {
+  position: absolute;
+  left: 5%;
+  top: 35%;
+  background: white;
+  border: solid 2px #2d5aa0;
+  padding: 0.2em 0.8em;
+  border-radius: 0.6em;
+  box-shadow: 0 0 0 4px white;
+  text-align: left;
+  color: #2d5aa0;
+}
+
+.network-circle-circle .network-total-crowd .network-crowd-total-count-container .network-crowd-total-count {
+  font-size: 220%; /* Larger than active users */
+  font-weight: bold;
+  padding-right: 0.1em;
+}
+
+.network-circle-circle .network-total-crowd .network-crowd-total-count-container .network-crowd-total-label {
+  padding-left: 0.6em;
+  padding-bottom: 0.3em;
 }
 
 

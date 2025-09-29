@@ -13,6 +13,7 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
  *  asofFormatted: any;
  *  activeAccounts: number | undefined;
  *  deletedAccounts: number | undefined;
+ *  totalAccounts: number | undefined;
  *  percentNumberBlocked1: number | undefined;
  *  percentNumberBlocking1: number | undefined;
  *  loading: boolean;
@@ -35,6 +36,7 @@ export function HomeStats({ className }) {
 
   const activeAccounts = stats.totalUsers?.active_count?.value;
   const deletedAccounts = stats.totalUsers?.deleted_count?.value;
+  const totalAccounts = stats.totalUsers?.total_count?.value;
   const percentNumberBlocked1 = stats.blockStats?.percentNumberBlocked1;
   const percentNumberBlocking1 = stats.blockStats?.percentNumberBlocking1;
 
@@ -44,6 +46,7 @@ export function HomeStats({ className }) {
     asofFormatted,
     activeAccounts,
     deletedAccounts,
+    totalAccounts,
     percentNumberBlocked1,
     percentNumberBlocking1,
     loading: isLoading,
