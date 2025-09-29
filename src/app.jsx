@@ -36,6 +36,10 @@ async function showApp() {
             index: true,
             lazy: () => getDefaultComponent(import('./landing/home')),
           },
+          {
+            path: 'expanded-block-stats',
+            lazy: () => getDefaultComponent(import('./landing/expanded-block-stats')),
+          },
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
           {

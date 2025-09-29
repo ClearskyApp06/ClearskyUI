@@ -1,11 +1,7 @@
 // @ts-check
 
-import { useState, lazy } from 'react';
-
 import { HomeStatsMain } from './home-stats-main';
 import { useDashboardStats } from '../../api';
-
-const HomeStatsTable = lazy(() => import('./home-stats-table'));
 
 /**
  * @typedef {{
@@ -27,8 +23,6 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
  * }} _
  */
 export function HomeStats({ className }) {
-  const [asTable, setAsTable] = useState(false);
-
   const { data: stats, isLoading } = useDashboardStats();
 
   const asofFormatted = stats.asof && new Date(stats.asof) + '';
@@ -49,10 +43,10 @@ export function HomeStats({ className }) {
     loading: isLoading,
     stats,
     onToggleTable() {
-      setAsTable((prev) => !prev);
+      // This callback is no longer used since navigation is handled directly
+      // in HomeStatsMain, but kept for interface compatibility
     },
   };
 
-  if (asTable) return <HomeStatsTable {...arg} />;
-  else return <HomeStatsMain {...arg} />;
+  return <HomeStatsMain {...arg} />;
 }

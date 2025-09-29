@@ -1,4 +1,5 @@
 // @ts-check
+import { useNavigate } from 'react-router-dom';
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
@@ -22,6 +23,7 @@ export function HomeStatsMain({
   stats,
   onToggleTable,
 }) {
+  const navigate = useNavigate();
   const statsPage = useFeatureFlag('stats-page');
   const topBlocked = useFeatureFlag('top-blocked');
   const topBlockers = useFeatureFlag('top-blockers');
@@ -36,7 +38,11 @@ export function HomeStatsMain({
       </div>
 
       {loading ? undefined : (
-        <Button size="small" className="toggle-table" onClick={onToggleTable}>
+        <Button 
+          size="small" 
+          className="toggle-table" 
+          onClick={() => navigate('/expanded-block-stats')}
+        >
           {statsPage && <ViewList style={{ color: 'gray' }} />}
         </Button>
       )}
