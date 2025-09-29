@@ -42,7 +42,7 @@ export default function ExpandedBlockStats() {
   };
 
   return (
-    <div className="home expanded-block-stats-page">
+    <div className="expanded-block-stats-page">
       <Logo />
       <div style={{ padding: '1em' }}>
         <Button
