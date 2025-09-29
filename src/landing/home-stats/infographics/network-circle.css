@@ -78,15 +78,15 @@
 
 .network-circle-circle .network-total-crowd .network-crowd-total-count-container {
   position: absolute;
-  left: 105%;
-  top: 35%;
+  left: 85%;
+  top: 55%;
   background: white;
   border: solid 2px #2d5aa0;
   padding: 0.2em 0.8em;
   border-radius: 0.6em;
   box-shadow: 0 0 0 4px white;
   text-align: left;
-  color: #2d5aa0;
+  color: black;
 }
 
 .network-circle-circle .network-total-crowd .network-crowd-total-count-container .network-crowd-total-count {
