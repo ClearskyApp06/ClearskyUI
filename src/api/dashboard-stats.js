@@ -19,22 +19,22 @@ export function useDashboardStats() {
 async function dashboardStatsApi() {
   /** @type {Promise<StatsEndpointResp<TotalUsers>>} */
   const totalUsersPromise = fetchClearskyApi('v1', 'total-users').catch(
-    (err) => ({ totalUsers: err.message + ' CORS?' })
+    (err) => ({ data: initialData.totalUsers })
   );
 
   /** @type {Promise<StatsEndpointResp<FunFacts>>} */
   const funFactsPromise = fetchClearskyApi('v1', 'lists/fun-facts').catch(
-    (err) => ({ funFacts: err.message + ' CORS?' })
+    (err) => ({ data: initialData.topLists.total })
   );
 
   /** @type {Promise<StatsEndpointResp<FunnerFacts>>} */
   const funerFactsPromise = fetchClearskyApi('v1', 'lists/funer-facts').catch(
-    (err) => ({ funerFacts: err.message + ' CORS?' })
+    (err) => ({ data: initialData.topLists['24h'] })
   );
 
   /** @type {Promise<StatsEndpointResp<BlockStats>>} */
   const blockStatsPromise = fetchClearskyApi('v1', 'lists/block-stats').catch(
-    (err) => ({ blockStats: err.message })
+    (err) => ({ data: initialData.blockStats })
   );
 
   const [totalUsers, funFacts, funnerFacts, blockStats] = await Promise.all([
