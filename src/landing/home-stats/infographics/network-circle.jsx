@@ -28,6 +28,7 @@ export function NetworkCircle({
     <div className="network-circle">
       <div className="network-circle-circle">
         <SvgCircles
+          totalAccounts={totalAccounts}
           circles={[
             {
               percent: percentNumberBlocking1,
@@ -67,16 +68,6 @@ export function NetworkCircle({
           <FaceIcon className="crowd-icon" />
           <FaceIcon className="crowd-icon" />
         </div>
-        <div className="network-crowd network-total-crowd">
-          <div className="network-crowd-total-count-container">
-            <div className="network-crowd-total-count">
-              {totalAccounts.toLocaleString()}
-            </div>
-            <div className="network-crowd-total-label">
-              {localise('total users', { uk: 'всього користувачів' })}
-            </div>
-          </div>
-        </div>
         <div className="network-crowd network-deleted-crowd">
           <div className="network-crowd-deleted-count-container">
             <div className="network-crowd-deleted-count">
@@ -97,6 +88,7 @@ export function NetworkCircle({
 /**
  * @param {{
  *  className?: string,
+ *  totalAccounts?: number,
  *  circles: {
  *   percent: number,
  *   caption: string,
@@ -106,20 +98,27 @@ export function NetworkCircle({
  *  }[]
  * }} _
  */
-function SvgCircles({ className, circles, ...rest }) {
+function SvgCircles({ className, totalAccounts, circles, ...rest }) {
   const expandSize = 19;
   const outsidePathPadding = -15;
   const insidePathPadding = +3;
+  const totalRadius = 100 + expandSize + 15;
 
   /** @type {Array<React.JSX.Element>} */
   const defPaths = [];
 
+  // Add total users path to defs
+  if (totalAccounts) {
+    const totalPath = `M ${125 + totalRadius},125 A ${totalRadius},${totalRadius} 0 1,1 ${125 - totalRadius},125 A ${totalRadius},${totalRadius} 0 1,1 ${125 + totalRadius},125`;
+    defPaths.push(<path key="total-path" id="total-path" d={totalPath} />);
+  }
+
   const circleElements = circles.map(
     ({ percent, caption, className, fill, outside }, index) => {
-      const startPath = `M ${200 - expandSize},100`;
+      const startPath = `M ${225 - expandSize},125`;
       const valueRad = (Math.PI * 2 * (100 - percent)) / 100;
-      const valueX = Math.cos(valueRad) * (100 - expandSize) + 100;
-      const valueY = Math.sin(valueRad) * (100 - expandSize) + 100;
+      const valueX = Math.cos(valueRad) * (100 - expandSize) + 125;
+      const valueY = Math.sin(valueRad) * (100 - expandSize) + 125;
       const largeArc = percent > 50 ? 1 : 0;
 
       const arcPath = `A ${100 - expandSize}, ${
@@ -129,15 +128,15 @@ function SvgCircles({ className, circles, ...rest }) {
       const expandDirection = outside ? expandSize : -expandSize;
 
       const expandX =
-        Math.cos(valueRad) * (100 - expandSize + expandDirection) + 100;
+        Math.cos(valueRad) * (100 - expandSize + expandDirection) + 125;
       const expandY =
-        Math.sin(valueRad) * (100 - expandSize + expandDirection) + 100;
+        Math.sin(valueRad) * (100 - expandSize + expandDirection) + 125;
 
       const closeArcPath =
         `L ${expandX.toFixed(4)},${expandY.toFixed(4)} ` +
         `A ${100 - expandSize + expandDirection},${
           100 - expandSize + expandDirection
-        } 0 ${largeArc},1 ${200 - expandSize + expandDirection},100`;
+        } 0 ${largeArc},1 ${225 - expandSize + expandDirection},125`;
 
       const wholePath = startPath + ' ' + arcPath + ' ' + closeArcPath + ' Z';
 
@@ -146,16 +145,16 @@ function SvgCircles({ className, circles, ...rest }) {
       const textArcX =
         Math.cos(valueRad + 0.03) *
           (100 - expandSize + expandDirection + padding) +
-        100;
+        125;
       const textArcY =
         Math.sin(valueRad + 0.04) *
           (100 - expandSize + expandDirection + padding) +
-        100;
+        125;
       const textArc =
         `M ${textArcX.toFixed(4)},${textArcY.toFixed(4)} ` +
         `A ${100 - expandSize + expandDirection + padding}, ${
           100 - expandSize + expandDirection + padding
-        } 0 ${largeArc},1 ${200 - expandSize + expandDirection + padding},100`;
+        } 0 ${largeArc},1 ${225 - expandSize + expandDirection + padding},125`;
 
       const textArcPathId = 'path' + index;
       defPaths.push(<path key={index} id={textArcPathId} d={textArc} />);
@@ -192,19 +191,39 @@ function SvgCircles({ className, circles, ...rest }) {
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...rest}
-      viewBox="0 0 200 200"
+      viewBox="0 0 250 250"
       aria-hidden="true"
       focusable="false"
+      style={{ transform: 'translate(-25px, -25px)' }}
     >
       <defs>{defPaths}</defs>
       {circleElements}
       <circle
         fill="none"
         className="arc-circle"
-        cx="100"
-        cy="100"
+        cx="125"
+        cy="125"
         r={100 - expandSize}
       />
+      {/* Outer circle for total users */}
+      {totalAccounts && (
+        <>
+          <circle
+            fill="none"
+            className="arc-circle-total"
+            cx="125"
+            cy="125"
+            r={totalRadius}
+            stroke="#2d5aa0"
+            strokeWidth="2"
+          />
+          <text className="arc-total-text" fill="#2d5aa0" fontSize="12" fontWeight="bold">
+            <textPath href="#total-path" xlinkHref="#total-path" startOffset="25%">
+              {totalAccounts.toLocaleString()} {localise('total users', { uk: 'всього користувачів' })}
+            </textPath>
+          </text>
+        </>
+      )}
     </svg>
   );
 }
