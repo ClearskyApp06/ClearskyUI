@@ -82,7 +82,7 @@ export function HomeStatsMain({
           flexWrap: 'wrap',
           mb: 2,
           alignItems: 'center',
-          justifyContent: { xs: 'center', md: 'start' }
+          justifyContent: { xs: 'center', sm: 'start' }
         }}
       >
         {
@@ -101,7 +101,7 @@ export function HomeStatsMain({
           <Button
             size="small"
             variant="contained"
-            onClick={() => { onToggleTable ? onToggleTable() : null }}
+            onClick={() => { onToggleTable?.() }}
             sx={orangeButtonStyle}
           >
             Block Stats

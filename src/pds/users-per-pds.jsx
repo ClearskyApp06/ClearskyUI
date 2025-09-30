@@ -14,6 +14,7 @@ import {
   CircularProgress,
   useTheme,
   useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import { useUsersPerPds } from "../api/pds";
 import { AccountShortEntry } from "../common-components/account-short-entry";
@@ -109,6 +110,9 @@ export default function UsersPerPdsPage() {
             flexWrap: "wrap",
           }}
         >
+          <IconButton onClick={() => navigate(-1)}>
+            &lsaquo;
+          </IconButton>
           <Typography sx={{ fontSize: "0.8em", color: "silver", mb: isMobile ? 1 : 0 }}>
             <i>Users for PDS: {pds}</i>
           </Typography>
@@ -136,9 +140,9 @@ export default function UsersPerPdsPage() {
                 </TableRow>
               ) : (
                 allUsers.map((user) => (
-                  <TableRow key={user.did} hover
-                    onClick={() => navigate(`/${user.did}/profile`)}
-
+                  <TableRow
+                    key={user.did}
+                    hover
                   >
                     <TableCell sx={{ p: isMobile ? 0.5 : 1, wordBreak: "break-word" }}>
 

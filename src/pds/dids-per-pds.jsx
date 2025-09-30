@@ -1,4 +1,3 @@
-// src/pages/DidsPerPdsPage.tsx
 import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
@@ -16,6 +15,7 @@ import {
   useMediaQuery,
   TextField,
   Autocomplete,
+  IconButton,
 } from "@mui/material";
 import { useDidsPerPds } from "../api/pds";
 import { useNavigate } from "react-router-dom";
@@ -85,6 +85,9 @@ export default function DidsPerPdsPage() {
             flexWrap: "wrap",
           }}
         >
+          <IconButton onClick={() => navigate(-1)}>
+            &lsaquo;
+          </IconButton>
           <Typography sx={{ fontSize: "0.8em", color: "silver", mb: isMobile ? 1 : 0 }}>
             <i>As of: {data?.["as of"]}</i>
           </Typography>
@@ -157,8 +160,6 @@ export default function DidsPerPdsPage() {
                     >
                       <Link
                         href={`/pds/${encodeURIComponent(item.pds)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         sx={{
                           color: "primary.main",
                           "&:hover": { textDecoration: "underline" },
