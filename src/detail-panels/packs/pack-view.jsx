@@ -45,8 +45,6 @@ export function PackView({ packs = [], className = '' }) {
     </ul>
   );
 
-
-
   /**
    * @param {{
    *  className?: string,

@@ -50,7 +50,6 @@ export function BlockListsView({ className, list, handle }) {
   );
 }
 
-
 /**
  * @param {{
  *  className?: string,

@@ -19,7 +19,7 @@ export function ProgressiveRender({ items, renderItem }) {
 
   const elements = items.slice(0, showSize).flatMap((item, index) => {
     const entryElement = renderItem(item);
-    const keyBase = entryElement.key ?? index;
+    const keyBase = index;
 
     const result = [
       cloneElement(entryElement, { key: keyBase })
@@ -45,7 +45,7 @@ export function ProgressiveRender({ items, renderItem }) {
           rootMargin="0px 0px 300px 0px"
           onVisible={() => setListSize(listSize + GROW_BLOCK_SIZE)}
         >
-          {result}
+          <>{result}</>
         </Visible>
       );
     }
