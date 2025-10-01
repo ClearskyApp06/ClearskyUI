@@ -10,7 +10,9 @@ import { usePdsUrl } from './pds';
 import { useMemo } from 'react';
 
 /**
- * @param {string | undefined} did
+ * Fetches the post history for a given DID.
+ * 
+ * @param {string | undefined | null} did - The DID to fetch post history for. If `did` is `null` or `undefined`, the query will be disabled and no data will be fetched.
  * @returns
  */
 export function usePostHistory(did) {

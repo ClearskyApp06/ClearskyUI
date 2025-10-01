@@ -38,6 +38,12 @@ async function showApp() {
           },
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
+          { path: 'pds', lazy: () => getDefaultComponent(import('./pds/dids-per-pds')) },
+          { path: 'pds/:pds', lazy: () => getDefaultComponent(import('./pds/users-per-pds')) },
+          {
+            path: 'contact',
+            lazy: () => getDefaultComponent(import('./landing/contact')),
+          },
           { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
           { path: 'labelers/:label', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
           {

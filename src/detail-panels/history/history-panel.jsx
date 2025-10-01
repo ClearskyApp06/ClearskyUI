@@ -14,7 +14,8 @@ import { useAccountResolver } from '../account-resolver';
 export default function HistoryPanel() {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
-  const history = usePostHistory(account?.shortDID);
+  // Don't fetch history if the account has requested to obscure public records
+  const history = usePostHistory(account?.obscurePublicRecords ? null : account?.shortDID);
 
   const [searchParams] = useSearchParams();
   const searchText = searchParams.get('q') || '';
@@ -60,20 +61,7 @@ export default function HistoryPanel() {
           </div>
         </div>
       )}
-      <div
-        className={
-          account?.obscurePublicRecords
-            ? 'history-panel-container history-panel-container-obscurePublicRecords'
-            : 'history-panel-container'
-        }
-        style={
-          {
-            // background: 'tomato',
-            // backgroundColor: '#fffcf5',
-            // backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
-          }
-        }
-      >
+      <div className="history-panel-container">
         {history.isLoading ? (
           <HistoryLoading />
         ) : (

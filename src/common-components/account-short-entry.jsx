@@ -84,9 +84,9 @@ function ResolvedAccount({
             !account.avatarUrl
               ? undefined
               : {
-                  backgroundImage: `url(${account.avatarUrl})`,
-                  animationDelay: avatarDelay,
-                }
+                backgroundImage: `url(${account.avatarUrl})`,
+                animationDelay: avatarDelay,
+              }
           }
         >
           @
@@ -128,7 +128,7 @@ function ResolvedAccount({
     handleWithContent
   );
 
-  if (link === false)
+  if (link === false || account.shortHandle.includes('handle.invalid'))
     return (
       <span className={'account-short-entry ' + (className || '')}>
         {linkContent}

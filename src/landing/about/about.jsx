@@ -29,7 +29,7 @@ export function About({ onToggleAbout }) {
       </span>
       <div className="text">
         <span className="legalese">
-          <a href="mailto:support@clearsky.app">Contact Us</a> |{' '}
+          <a href="/contact">Contact Us</a> |{' '}
           <a href="/privacy-policy.html">Privacy Policy</a> |{' '}
           <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
           <a href="https://status.clearsky.app">Status</a>

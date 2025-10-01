@@ -15,6 +15,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
+  height: 100%;
 }
 
 .layout .ad-lane {
@@ -57,7 +58,7 @@
   }
 
   .account-tabs-content {
-    /* max-height: 80em; */
+    height: 100%;
     overflow-y: auto;
     scroll-behavior: smooth;
   }
@@ -81,9 +82,10 @@
 }
 
 .account-extra-info {
-  height: calc(100% - 200px);
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .account-extra-info .did-section .copy-did {
@@ -200,6 +202,7 @@
 
 .account-tabs-content {
   border-left: none;
+  height: 100%;
 }
 
 .account-tabs-content .account-tab {
@@ -210,6 +213,7 @@
 }
 
 .account-tabs-content .account-tab-selected {
+  height: 100%;
   z-index: 10;
   opacity: 1;
   pointer-events: auto;

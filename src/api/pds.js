@@ -1,8 +1,11 @@
 // @ts-check
 
 import { useQuery } from '@tanstack/react-query';
+import { fetchClearskyApi } from './core';
 
 /** @typedef {{ alsoKnownAs: Array<string>; service: Array<{ id: string; type: string; serviceEndpoint: string }> }} PlcRecord */
+/** @typedef {{ did_count: number; pds: string }} DidsPerPdsItem */
+/** @typedef {{ "as of": string; data: DidsPerPdsItem[] }} DidsPerPdsResponse */
 
 /**
  *
@@ -63,4 +66,57 @@ export function usePdsUrl(did) {
     error,
     pdsUrl,
   };
+}
+
+/**
+ * Fetch mapping of PDS servers and their DID counts
+ * @returns {Promise<DidsPerPdsResponse>}
+ */
+export async function fetchDidsPerPds() {
+  return fetchClearskyApi('v1', 'lists/dids-per-pds');
+}
+
+
+/**
+ * React Query hook for dids-per-pds
+ */
+export function useDidsPerPds() {
+  return useQuery({
+    queryKey: ['dids-per-pds'],
+    queryFn: fetchDidsPerPds,
+  });
+}
+
+
+/**
+ * Fetch users per PDS with optional pagination
+ * @param {string} pds
+ * @param {number} page
+ */
+export async function fetchUsersPerPds(pds, page = 1) {
+  if (!pds) return { data: [] };
+
+  // Only append page number if it's not 1
+  const endpoint =
+    page === 1
+      ? `lists/users-per-pds/${encodeURIComponent(pds)}`
+      : `lists/users-per-pds/${encodeURIComponent(pds)}/${page}`;
+
+  const res = await fetchClearskyApi('v1', endpoint);
+
+  return res; // expected shape: { data: Array<{did: string, handle: string | null}> }
+}
+
+/**
+ * React hook to fetch users per PDS
+ * @param {string | undefined} pds
+ * @param {number} page
+ */
+export function useUsersPerPds(pds, page = 1) {
+  return useQuery({
+    enabled: !!pds,
+    queryKey: ['users-per-pds', pds, page],
+    // @ts-expect-error pds will be a string, as the query is skipped otherwise
+    queryFn: () => fetchUsersPerPds(pds, page),
+  });
 }
