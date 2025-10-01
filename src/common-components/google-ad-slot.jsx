@@ -13,7 +13,7 @@ import { useFeatureFlag } from '../api/featureFlags';
  * @param {string} [props.layoutKey] - Optional AdSense layout key (used for in-feed ads).
  * @param {React.CSSProperties} [props.style] - Inline style overrides for the <ins> element.
  */
-export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
+export function GoogleAdSlot({ slot, format = 'fluid', layoutKey, style = {} }) {
   const adRef = useRef(null);
   const pushedRef = useRef(false); // track if adsbygoogle.push was called
 
@@ -63,7 +63,7 @@ export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: 'block', height: '50px', ...style }}
+      style={{ display: 'block', height: '50px', background: 'red', ...style }}
       data-ad-client="ca-pub-3810029603871683"
       data-ad-slot={slot}
       data-ad-format={format}

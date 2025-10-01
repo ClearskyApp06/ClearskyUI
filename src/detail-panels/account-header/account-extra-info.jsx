@@ -59,9 +59,8 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
       <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
         <FirstPartyAd placementId="338957" size="responsiveBanner" />
         <GoogleAdSlot
-          slot="9114105783"
+          slot='9557082621'
           format="fluid"
-          layoutKey="-fb+5w+4e-db+86"
         />
       </Box>
     </div>
