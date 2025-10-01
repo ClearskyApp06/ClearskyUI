@@ -175,7 +175,7 @@ export default function Contact() {
       if (response && response.status === 'success') {
         setSubmitStatus({
           type: 'success',
-          message: 'Your message has been sent successfully. We&apos;ll get back to you soon!'
+          message: 'Your message has been sent successfully. We\'ll get back to you soon!'
         });
         
         // Clear form and errors after successful submission
