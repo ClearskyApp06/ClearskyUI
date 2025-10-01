@@ -55,7 +55,7 @@ export default function Home() {
         height: '50px',
       }}>
 
-        <GoogleAdSlot slot='4420483623' style={{ height: 50 }} />
+        <GoogleAdSlot slot='3279981713' style={{ maxHeight: 50 }} />
       </Box>
     </div>
   );

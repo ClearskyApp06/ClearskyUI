@@ -13,7 +13,7 @@ import { useFeatureFlag } from '../api/featureFlags';
  * @param {string} [props.layoutKey] - Optional AdSense layout key (used for in-feed ads).
  * @param {React.CSSProperties} [props.style] - Inline style overrides for the <ins> element.
  */
-export function GoogleAdSlot({ slot, format = 'auto', layoutKey, style = {} }) {
+export function GoogleAdSlot({ slot, format = 'fluid', layoutKey, style = {} }) {
   const adRef = useRef(null);
   const pushedRef = useRef(false); // track if adsbygoogle.push was called
 
