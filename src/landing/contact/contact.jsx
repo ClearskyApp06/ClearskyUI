@@ -227,7 +227,7 @@ export default function Contact() {
               Contact Us
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Send us a message and we&apos;ll get back to you as soon as possible.
+              Send us a message and we'll get back to you as soon as possible.
             </Typography>
           </Box>
 
