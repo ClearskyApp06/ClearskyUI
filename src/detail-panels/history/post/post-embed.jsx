@@ -185,7 +185,7 @@ function PostEmbedRecordWithMedia({ post, embed }) {
     /** @type {import('@atproto/api').AppBskyEmbedImages.Main['images']} */ (
       embed.media?.images
     );
-  const video = /** @type {any} */ (embed.media?.video);
+  const video = /** @type {import('@atproto/api').AppBskyEmbedVideo.Main['video']} */ (embed.media?.video);
   const postUri = breakFeedUri(post.uri);
   const { data } = usePostByUri(embed.record.record.uri);
   if (!postUri) return null;
