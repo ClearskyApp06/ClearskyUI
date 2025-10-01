@@ -63,7 +63,7 @@ export function GoogleAdSlot({ slot, format = 'fluid', layoutKey, style = {} }) 
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: 'block', height: '50px', background: 'red', ...style }}
+      style={{ display: 'block', height: '50px', ...style }}
       data-ad-client="ca-pub-3810029603871683"
       data-ad-slot={slot}
       data-ad-format={format}
