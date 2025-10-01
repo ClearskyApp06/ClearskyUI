@@ -25,12 +25,11 @@
 .account-avatar-and-displayName-line .history-toggle {
   grid-row: 2 / 3;
   grid-column: 3 / 4;
-  justify-self: end;
+  place-self: end;
   font-size: 37%;
   font-weight: normal;
   text-align: right;
   color: inherit;
-  margin-top: -1.2em;
   margin-right: 0;
   padding-right: 1em;
 }
