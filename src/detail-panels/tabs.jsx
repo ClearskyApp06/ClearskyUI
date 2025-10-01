@@ -101,14 +101,7 @@ export const activeTabRoutesPromise = (async () => {
   /**
    * All tab routes filtered down to just the ones that are enabled by feature flags
    */
-  const activeTabRoutes = allTabRoutes.filter((tab) => featureFlagAssignments[tab.featureFlag]);
-  
-  // Ensure we always have at least one route (fallback to profile if no feature flags are available)
-  if (activeTabRoutes.length === 0) {
-    activeTabRoutes.push(allTabRoutes[0]); // Add profile tab as fallback
-  }
-  
-  return activeTabRoutes;
+  return allTabRoutes.filter((tab) => featureFlagAssignments[tab.featureFlag]);
 })();
 
 export const profileChildRoutesPromise = (async () => {
