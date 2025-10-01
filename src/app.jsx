@@ -38,6 +38,8 @@ async function showApp() {
           },
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
+          { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
+          { path: 'labelers/:label', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
           {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),

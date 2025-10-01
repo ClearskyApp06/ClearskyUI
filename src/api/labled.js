@@ -100,3 +100,43 @@ export function useLabeled(did, lablerDids) {
     },
   });
 }
+
+
+/**
+ * @typedef {Object} LabelerInfo
+ * @property {string} created_date
+ * @property {string|null} description
+ * @property {string} did
+ * @property {string} endpoint
+ * @property {string} name
+ */
+
+/**
+ * Fetch labelers (paginated).
+ * @param {number} page
+ * @returns {Promise<{data: LabelerInfo[]}>}
+ */
+export async function fetchLabelersPage(page = 1) {
+
+  const endpoint =
+    page === 1
+      ? `get-labelers`
+      : `get-labelers/${page}`;
+  const res = await fetchClearskyApi(
+    'v1',
+    endpoint
+  );
+  return res; // expected shape: { data: Array<LabelerInfo> }
+}
+
+/**
+ * React Query hook for fetching labelers by page
+ * @param {number} page
+ */
+export function useLabelersPage(page = 1) {
+  return useQuery({
+    queryKey: ['labelers', page],
+    queryFn: () => fetchLabelersPage(page),
+    enabled: !!page,
+  });
+}
