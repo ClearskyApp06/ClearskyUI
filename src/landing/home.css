@@ -3,7 +3,7 @@
   left: 0;
   top: 5px;
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% - 90px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto 1fr;

@@ -1,9 +1,11 @@
 // @ts-check
 /// <refererence path="./types.d.ts" />
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
+import { FirstPartyAd } from '../common-components/first-party-ad';
+import { Box } from '@mui/material';
 
 /**
  * @param {{
@@ -21,8 +23,36 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         onSearchTextChanged={onSearchTextChanged}
         onAccountSelected={onAccountSelected}
       />
-      
-    <Donate className="donate-home"/>
+      <Box sx={{
+        mt: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: "flex-start",
+        flexDirection: 'row',
+        gap: 2,
+      }}>
+
+        <Donate className="donate-home" />
+        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <FirstPartyAd placementId="227845" size="banner" />
+        </Box>
+      </Box>
+
+
+      <Box
+        sx={{
+          mt: 2,
+          display: { xs: 'none', md: 'flex' },
+          alignItems: 'start',
+          flexDirection: 'column',
+          gap: 2,
+
+        }}
+      >
+        <FirstPartyAd placementId="447632" size="responsiveBanner" />
+        <FirstPartyAd placementId="764383" size="responsiveBanner" />
+      </Box>
+
     </div>
   );
 }

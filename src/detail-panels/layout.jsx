@@ -13,6 +13,7 @@ import { useAccountResolver } from './account-resolver';
 import { useSpamStatus } from '../api/spam-status';
 import { useFeatureFlag } from '../api/featureFlags';
 import { ProfileSpamBanner } from './profile/profile-spam-banner';
+import { GoogleAdSlot } from '../common-components/google-ad-slot';
 
 /**
  *
@@ -28,7 +29,9 @@ export function AccountLayout() {
 
   return (
     <div className="layout">
-      <div className="ad-lane"></div>
+      <div className="ad-lane">
+        <GoogleAdSlot slot="4524958237" style={{ height: '100%' }} />
+      </div>
       <div className="main-content">
         <Donate />
         <div className="detail-container">
@@ -45,7 +48,9 @@ export function AccountLayout() {
           </div>
         </div>
       </div>
-      <div className="ad-lane"></div>
+      <div className="ad-lane">
+        <GoogleAdSlot slot="4420483623" style={{ height: '100%' }} />
+      </div>
     </div>
   );
 }

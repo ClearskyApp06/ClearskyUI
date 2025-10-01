@@ -4,6 +4,9 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useResolveDidToProfile } from '../../api/resolve/did-to-profile';
 import './list-packs.css';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
+
+const AD_FREQUENCY = 35;
 
 /**
  * @param {{
@@ -11,12 +14,34 @@ import { ConditionalAnchor } from '../../common-components/conditional-anchor';
  *  packs?: PackListEntry[]
  * }}_
  */
-export function PackView({ packs, className = '' }) {
+export function PackView({ packs = [], className = '' }) {
   return (
-    <ul className={'packs-as-pack-view ' + (className || '')}>
-      {packs &&
-        packs?.length > 0 &&
-        packs.map((pack, i) => <PackViewEntry key={i} entry={pack} />)}
+    <ul className={`packs-as-pack-view ${className}`}>
+      {packs.flatMap((pack, i) => {
+        const elements = [<PackViewEntry key={`pack-${pack.did}-${pack.created_date}`} entry={pack} />];
+
+        // Insert ad after every AD_FREQUENCY items
+        if (i > 0 && i % AD_FREQUENCY === 0) {
+          elements.push(
+            <GoogleAdSlot
+              key={`ad-${pack.did}-9114105783`}
+              slot="9114105783"
+              format="fluid"
+              layoutKey="-fb+5w+4e-db+86"
+            />
+          );
+        }
+
+        return elements;
+      })}
+
+      {/* Ensure a final ad at the end */}
+      <GoogleAdSlot
+        key="ad-end-9114105783"
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
+      />
     </ul>
   );
 
@@ -72,18 +97,18 @@ export function PackView({ packs, className = '' }) {
           style={
             !avatarUrl
               ? {
-                  background: 'none',
-                  color: 'cornflowerblue',
-                  textAlign: 'center',
-                  transform: 'scale(1.5)',
-                }
+                background: 'none',
+                color: 'cornflowerblue',
+                textAlign: 'center',
+                transform: 'scale(1.5)',
+              }
               : {
-                  backgroundPosition: 'center',
-                  color: 'transparent',
-                  borderRadius: '200%',
-                  backgroundImage: `url(${avatarUrl})`,
-                  animationDelay: '10s',
-                }
+                backgroundPosition: 'center',
+                color: 'transparent',
+                borderRadius: '200%',
+                backgroundImage: `url(${avatarUrl})`,
+                animationDelay: '10s',
+              }
           }
         >
           ⓓ
