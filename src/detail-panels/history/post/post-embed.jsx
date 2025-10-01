@@ -203,6 +203,11 @@ function PostEmbedRecordWithMedia({ post, embed }) {
               uk: 'Ваш браузер не підтримує відтворення відео.',
             })}
           </video>
+          {video?.alt ? (
+            <div className="post-content-embed-video-alt">
+              {video.alt}
+            </div>
+          ) : null}
         </div>
       ) : !images?.length ? null : images.length === 1 ? (
         <ImageWithAlt
