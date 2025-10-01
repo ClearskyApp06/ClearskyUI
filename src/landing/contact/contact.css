@@ -1,0 +1,116 @@
+.contact-page {
+  min-height: 100vh;
+  background-color: #fafafa;
+  padding: 2rem 0;
+  overflow-y: auto;
+}
+
+/* Desktop-specific optimizations for better viewport utilization */
+@media (width >= 769px) {
+  .contact-page {
+    padding: 1rem 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: auto;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .contact-form {
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+  
+  .contact-logo {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .contact-form .MuiTextField-root {
+    margin-bottom: 0.75rem;
+  }
+  
+  .contact-form-submit-area {
+    margin-top: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .contact-form-submit-button {
+    padding: 10px 20px !important;
+  }
+}
+
+.contact-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  transition: transform 0.2s ease;
+}
+
+.contact-logo:hover {
+  transform: scale(1.05);
+}
+
+.contact-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+.contact-form .MuiButton-contained {
+  background-color: #1976d2;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form .MuiButton-contained:hover {
+  background-color: #1565c0;
+}
+
+.contact-form .MuiButton-contained:disabled {
+  background-color: #e0e0e0 !important;
+  color: #9e9e9e !important;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  opacity: 0.8;
+}
+
+.contact-form-submit-area {
+  margin-top: 2rem;
+  padding: 1rem 0;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.contact-form-submit-button {
+  min-width: 200px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.5px;
+}
+
+@media (width <= 768px) {
+  .contact-page {
+    padding: 1rem 0;
+  }
+  
+  .contact-form {
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+
+  .contact-logo {
+    width: 64px;
+    height: 64px;
+  }
+}
