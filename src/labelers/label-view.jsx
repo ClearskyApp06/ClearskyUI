@@ -71,7 +71,7 @@ export default function LabelView() {
               flexWrap: "wrap",
             }}
           >
-            <IconButton onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+            <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
 
           </Box>
           <Typography color="error" textAlign={'center'}>
@@ -106,7 +106,7 @@ export default function LabelView() {
             flexWrap: "wrap",
           }}
         >
-          <IconButton onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
           {
             did &&
             <AccountShortEntry account={did} />

@@ -24,12 +24,13 @@ import { AccountShortEntry } from "../common-components/account-short-entry";
 import { HydrateFallback } from "../common-components/hydrate-fallback";
 import { useFeatureFlag } from "../api/featureFlags";
 
+const LIST_SIZE = 100;
+
 export default function LabelersPage() {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const labelerInformationFlag = useFeatureFlag('labeler-information');
-
 
   const [page, setPage] = useState(1);
   const [allLabelers, setAllLabelers] = useState([]);
@@ -53,7 +54,7 @@ export default function LabelersPage() {
 
     if (data?.data?.length) {
       setAllLabelers((prev) => [...prev, ...data.data]);
-      if (data.data.length < 100) {
+      if (data.data.length < LIST_SIZE) {
         setHasMore(false);
       }
     } else {
@@ -106,7 +107,7 @@ export default function LabelersPage() {
             flexWrap: "wrap",
           }}
         >
-          <IconButton onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
           <Typography
             sx={{
               fontSize: "0.8em",
