@@ -27,7 +27,7 @@ export function HomeStatsMain({
   const topBlocked = useFeatureFlag('top-blocked');
   const topBlockers = useFeatureFlag('top-blockers');
   const pdsInformation = useFeatureFlag('pds-information');
-  const labelerInformation = useFeatureFlag('labeler-information');
+  const labelerInformationFlag = useFeatureFlag('labeler-information');
 
 
   const blueButtonStyle = {
@@ -107,11 +107,11 @@ export function HomeStatsMain({
             Block Stats
           </Button>
         }{
-          labelerInformation &&
+          labelerInformationFlag &&
           <Button
             size="small"
             variant="contained"
-            onClick={() => navigate("/labeler-info")}
+            onClick={() => navigate("/labelers")}
             sx={blueButtonStyle}
           >
             Labeler Information

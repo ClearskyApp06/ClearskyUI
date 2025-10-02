@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { fetchClearskyApi, unwrapShortDID, publicAtClient } from './core';
+import { fetchPdsForDid } from './pds';
 
 /**
  *
@@ -138,5 +139,82 @@ export function useLabelersPage(page = 1) {
     queryKey: ['labelers', page],
     queryFn: () => fetchLabelersPage(page),
     enabled: !!page,
+  });
+}
+
+/**
+ * @typedef {Object} Locale
+ * @property {string} lang
+ * @property {string} name
+ * @property {string} description
+ */
+
+/**
+ * @typedef {Object} LabelValueDefinition
+ * @property {string} blurs
+ * @property {Locale[]} locales
+ * @property {string} severity
+ * @property {boolean} adultOnly
+ * @property {string} identifier
+ * @property {string} defaultSetting
+ */
+
+/**
+ * @typedef {Object} Policies
+ * @property {string[]} labelValues
+ * @property {LabelValueDefinition[]} labelValueDefinitions
+ */
+
+/**
+ * @typedef {Object} Value
+ * @property {string} $type
+ * @property {Policies} policies
+ * @property {string} createdAt
+ */
+
+/**
+ * @typedef {Object} Root
+ * @property {string} uri
+ * @property {string} cid
+ * @property {Value} value
+ */
+
+/**
+ * Fetch labeler record for a given DID
+ * @param {string | undefined} did
+ * @returns {Promise<Root>}
+ */
+export async function fetchLabelerRecord(did) {
+
+  if (!did) throw new Error("DID is required");
+
+  const { data } = await fetchPdsForDid(did)
+
+  const pdsUrl = data?.pds;
+
+  if (!pdsUrl) throw new Error(`No PDS found for DID: ${did}`);
+
+  const url = `${pdsUrl}/xrpc/com.atproto.repo.getRecord?repo=${encodeURIComponent(
+    did
+  )}&collection=app.bsky.labeler.service&rkey=self`;
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch labeler record from ${url}`);
+  }
+
+  return res.json();
+}
+
+/**
+ * React Query hook to fetch labeler record
+ * @param {string | undefined} did
+ */
+export function useLabelerRecord(did) {
+  return useQuery({
+    enabled: !!did,
+    queryKey: ["labeler-record", did],
+    queryFn: () => fetchLabelerRecord(did),
   });
 }

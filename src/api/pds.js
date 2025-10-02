@@ -120,3 +120,31 @@ export function useUsersPerPds(pds, page = 1) {
     queryFn: () => fetchUsersPerPds(pds, page),
   });
 }
+
+/**
+ * Fetch PDS info for a given DID
+ * @param {string | undefined} did
+ * @returns {Promise<{ data: { pds: string }, identity: string }>}
+ */
+export async function fetchPdsForDid(did) {
+  if (!did) {
+    return { data: { pds: "" }, identity: "" };
+  }
+
+  return fetchClearskyApi(
+    'v1',
+    `pds/get-pds/${encodeURIComponent(did)}`
+  );
+}
+
+/**
+ * React Query hook to fetch PDS info for a DID
+ * @param {string | undefined} did
+ */
+export function usePdsForDid(did) {
+  return useQuery({
+    enabled: !!did,
+    queryKey: ['pds-for-did', did],
+    queryFn: () => fetchPdsForDid(did),
+  });
+}
