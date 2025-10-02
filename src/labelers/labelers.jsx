@@ -255,7 +255,6 @@ export default function LabelersPage() {
                             href={labeler.endpoint}
                             target="_blank"
                             rel="noopener noreferrer"
-
                           >
                             {labeler.endpoint}
                           </a>

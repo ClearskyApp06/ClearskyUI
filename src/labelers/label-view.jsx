@@ -119,7 +119,7 @@ export default function LabelView() {
               mb: isMobile ? 1 : 0,
             }}
           >
-            <i>Labeles for {did}</i>
+            <i>Labels for {did}</i>
           </Typography>
         </Box>
 
