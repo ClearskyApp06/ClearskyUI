@@ -18,16 +18,17 @@ import {
   CardContent,
   Divider,
 } from "@mui/material";
-import { useLabelerRecord } from "../api/labled";
+import { useLabelerRecord } from "../api/labels";
 import { AccountShortEntry } from "../common-components/account-short-entry";
 import { useFeatureFlag } from "../api/featureFlags";
+import { ArrowBackIosNew } from "@mui/icons-material";
 
 export default function LabelView() {
   const { did } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const labelerInformationFlag = useFeatureFlag('labeler-information');
+  const labelerInformationFlag = useFeatureFlag("labeler-information");
 
   const { data, status } = useLabelerRecord(did);
 
@@ -47,7 +48,7 @@ export default function LabelView() {
     );
   }
 
-  if (status === "error") {
+  if (status === "error" || data === null) {
     return (
       <Box
         sx={{
@@ -71,10 +72,12 @@ export default function LabelView() {
               flexWrap: "wrap",
             }}
           >
-            <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+            <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
+              <ArrowBackIosNew />
+            </IconButton>
 
           </Box>
-          <Typography color="error" textAlign={'center'}>
+          <Typography color="error" textAlign={"center"}>
             Labeler not active
           </Typography>
         </Box>
@@ -106,7 +109,9 @@ export default function LabelView() {
             flexWrap: "wrap",
           }}
         >
-          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
+            <ArrowBackIosNew />
+          </IconButton>
           {
             did &&
             <AccountShortEntry account={did} />
