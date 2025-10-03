@@ -19,10 +19,13 @@ import {
   CardContent,
   Divider,
 } from "@mui/material";
-import { useLabelersPage } from "../api/labled";
+import { useLabelersPage } from "../api/labels";
 import { AccountShortEntry } from "../common-components/account-short-entry";
 import { HydrateFallback } from "../common-components/hydrate-fallback";
 import { useFeatureFlag } from "../api/featureFlags";
+import { ArrowBackIosNew } from "@mui/icons-material";
+import { SearchAutoComplete } from "../landing/search-autocomplete";
+import { unwrapShortDID } from "../api";
 
 const LIST_SIZE = 100;
 
@@ -30,12 +33,13 @@ export default function LabelersPage() {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const labelerInformationFlag = useFeatureFlag('labeler-information');
+  const labelerInformationFlag = useFeatureFlag("labeler-information");
 
   const [page, setPage] = useState(1);
   const [allLabelers, setAllLabelers] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const containerRef = useRef(null);
+  const [searchText, setSearchText] = useState("")
 
   const { data, status, isFetching } = useLabelersPage(page);
 
@@ -88,7 +92,7 @@ export default function LabelersPage() {
       onScroll={handleScroll}
       sx={{
         height: "100vh",
-        overflow: 'auto',
+        overflow: "auto",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
@@ -107,7 +111,9 @@ export default function LabelersPage() {
             flexWrap: "wrap",
           }}
         >
-          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>&lsaquo;</IconButton>
+          <IconButton aria-label="Go back" onClick={() => navigate(-1)}>
+            <ArrowBackIosNew />
+          </IconButton>
           <Typography
             sx={{
               fontSize: "0.8em",
@@ -119,14 +125,22 @@ export default function LabelersPage() {
           </Typography>
         </Box>
 
+        <SearchAutoComplete
+          searchText={searchText}
+          onSearchTextChanged={(searchText) => {
+            setSearchText(searchText);
+          }}
+          onAccountSelected={(account) => navigate('/labelers/' + unwrapShortDID(account.shortDID))}
+        />
+
         {/* Mobile: Card View */}
         {isMobile ? (
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
             {allLabelers.length === 0 ? (
               <Typography textAlign="center">No results found</Typography>
             ) : (
-              allLabelers.map((labeler) => (
-                <Card key={labeler.did} variant="outlined">
+              allLabelers.map((labeler, i) => (
+                <Card key={labeler.did + i} variant="outlined">
                   <CardContent>
                     <Typography variant="subtitle2" color="textSecondary">
                       Handle
@@ -197,8 +211,9 @@ export default function LabelersPage() {
           <TableContainer
             sx={{
               width: "100%",
-              overflow: 'auto',
+              overflow: "auto",
               borderRadius: 2,
+              mt: 2
             }}
           >
             <Table size="small" stickyHeader sx={{ minWidth: 800 }}>
@@ -230,8 +245,8 @@ export default function LabelersPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  allLabelers.map((labeler) => (
-                    <TableRow key={labeler.did} hover>
+                  allLabelers.map((labeler, i) => (
+                    <TableRow key={labeler.did + i} hover>
                       <TableCell sx={{
                         wordBreak: "break-word",
                         whiteSpace: "normal",
