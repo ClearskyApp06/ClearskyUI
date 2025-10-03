@@ -20,6 +20,7 @@ import { useUsersPerPds } from "../api/pds";
 import { AccountShortEntry } from "../common-components/account-short-entry";
 import { HydrateFallback } from "../common-components/hydrate-fallback";
 import { useFeatureFlag } from "../api/featureFlags";
+import { ArrowBackIosNew } from "@mui/icons-material";
 
 export default function UsersPerPdsPage() {
   const navigate = useNavigate()
@@ -111,7 +112,7 @@ export default function UsersPerPdsPage() {
           }}
         >
           <IconButton onClick={() => navigate(-1)}>
-            &lsaquo;
+            <ArrowBackIosNew />
           </IconButton>
           <Typography sx={{ fontSize: "0.8em", color: "silver", mb: isMobile ? 1 : 0 }}>
             <i>Users for PDS: {pds}</i>

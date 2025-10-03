@@ -21,6 +21,7 @@ import { useDidsPerPds } from "../api/pds";
 import { useNavigate } from "react-router-dom";
 import { HydrateFallback } from "../common-components/hydrate-fallback";
 import { useFeatureFlag } from "../api/featureFlags";
+import { ArrowBackIosNew } from "@mui/icons-material";
 
 export default function DidsPerPdsPage() {
   const navigate = useNavigate()
@@ -86,7 +87,7 @@ export default function DidsPerPdsPage() {
           }}
         >
           <IconButton onClick={() => navigate(-1)}>
-            &lsaquo;
+            <ArrowBackIosNew />
           </IconButton>
           <Typography sx={{ fontSize: "0.8em", color: "silver", mb: isMobile ? 1 : 0 }}>
             <i>As of: {data?.["as of"]}</i>

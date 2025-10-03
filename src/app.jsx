@@ -44,6 +44,8 @@ async function showApp() {
             path: 'contact',
             lazy: () => getDefaultComponent(import('./landing/contact')),
           },
+          { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
+          { path: 'labelers/:did', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
           {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),

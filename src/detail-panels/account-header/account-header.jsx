@@ -2,19 +2,19 @@
 /// <reference path="../../types.d.ts" />
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { unwrapShortDID, unwrapShortHandle } from '../../api';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
-import { localise } from '../../localisation';
-import { Box, Button } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
 import { FirstPartyAd } from '../../common-components/first-party-ad';
+import { ArrowBackIosNew } from '@mui/icons-material';
 
 /**
  * @param {{
@@ -22,6 +22,7 @@ import { FirstPartyAd } from '../../common-components/first-party-ad';
  * }} _
  */
 export function AccountHeader({ className }) {
+  const navigate = useNavigate()
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
@@ -56,15 +57,13 @@ export function AccountHeader({ className }) {
   return (
     <div className={className}>
       <h1 style={{ margin: 0 }}>
-        <Link
-          title={localise('Back to homepage', {
-            uk: 'Повернутися до головної сторінки',
-          })}
-          className="account-close-button"
-          to="/"
+        <IconButton
+          className='account-close-button'
+          aria-label="Go back"
+          onClick={() => navigate(-1)}
         >
-          &lsaquo;
-        </Link>
+          <ArrowBackIosNew />
+        </IconButton>
 
         <div
           className="account-banner"

@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { useLabeled, useLabelers } from '../../api/labled';
+import { useLabeled, useLabelers } from '../../api/labels';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
