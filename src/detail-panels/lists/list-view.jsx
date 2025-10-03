@@ -12,6 +12,7 @@ import './list-view.css';
 import { ProgressiveRender } from '../../common-components/progressive-render';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 import { useResolveHandleOrDid } from '../../api';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -28,6 +29,11 @@ export function ListView({ className, list }) {
       <ProgressiveRender
         items={list || []}
         renderItem={(entry) => <ListViewEntry entry={entry} />}
+      />
+      <GoogleAdSlot
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
       />
     </ul>
   );

@@ -41,6 +41,18 @@ export function getFeedBlobUrl(did, cid) {
 }
 
 /**
+ *
+ * @param {string} did
+ * @param {string} cid
+ * @returns
+ */
+export function getVideoBlobUrl(did, cid) {
+  if (!did || !cid) return undefined;
+  const fullDid = unwrapShortDID(did);
+  return `https://bsky.social/xrpc/com.atproto.sync.getBlob?did=${fullDid}&cid=${cid}`;
+}
+
+/**
  * @param {string | null | undefined} text
  * @returns {{ did: string; handle: null } | { did: null; handle: string }}
  **/

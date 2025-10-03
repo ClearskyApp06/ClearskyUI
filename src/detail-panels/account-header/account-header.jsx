@@ -2,26 +2,27 @@
 /// <reference path="../../types.d.ts" />
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { unwrapShortDID, unwrapShortHandle } from '../../api';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
-import { localise } from '../../localisation';
-import { Button } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
+import { FirstPartyAd } from '../../common-components/first-party-ad';
+import { ArrowBackIosNew } from '@mui/icons-material';
 
 /**
  * @param {{
  *  className?: string,
- *  onInfoClick?: () => void
  * }} _
  */
-export function AccountHeader({ className, onInfoClick }) {
+export function AccountHeader({ className }) {
+  const navigate = useNavigate()
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
@@ -56,15 +57,13 @@ export function AccountHeader({ className, onInfoClick }) {
   return (
     <div className={className}>
       <h1 style={{ margin: 0 }}>
-        <Link
-          title={localise('Back to homepage', {
-            uk: 'Повернутися до головної сторінки',
-          })}
-          className="account-close-button"
-          to="/"
+        <IconButton
+          className='account-close-button'
+          aria-label="Go back"
+          onClick={() => navigate(-1)}
         >
-          &lsaquo;
-        </Link>
+          <ArrowBackIosNew />
+        </IconButton>
 
         <div
           className="account-banner"
@@ -95,34 +94,54 @@ export function AccountHeader({ className, onInfoClick }) {
                 </span>
               )}
             </span>
-            <span className="account-handle">
-              {!resolved.data?.displayName ? (
-                <>
-                  <span className="account-handle-at-empty"> </span>
-                </>
-              ) : (
-                <>
-                  <span className="account-handle-at">@</span>
-                  <a
-                    href={`https://bsky.app/profile/${unwrapShortHandle(
-                      resolved.data?.shortHandle
-                    )}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FullHandle shortHandle={resolved.data?.shortHandle} />
-                  </a>
-                </>
-              )}
-              {placement && (
-                <div className="account-place-number">User #{placement}</div>
-              )}
-            </span>
-            <Button
-              className="history-toggle"
-              variant="text"
-              onClick={onInfoClick}
+
+            <Box
+              sx={{
+                display: 'flex',
+                position: 'relative',
+                alignItems: 'start',
+              }}
             >
+              <span className="account-handle">
+                <div>
+                  {!resolved.data?.displayName ? (
+                    <>
+                      <span className="account-handle-at-empty"> </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="account-handle-at">@</span>
+                      <a
+                        href={`https://bsky.app/profile/${unwrapShortHandle(
+                          resolved.data?.shortHandle
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FullHandle shortHandle={resolved.data?.shortHandle} />
+                      </a>
+                    </>
+                  )}
+                  {placement && (
+                    <div className="account-place-number">
+                      User #{placement}
+                    </div>
+                  )}
+                </div>
+              </span>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  display: { xs: 'none', sm: 'block' },
+                }}
+              >
+                <FirstPartyAd placementId="326541" size="banner" />
+              </Box>
+            </Box>
+
+            <Button className="history-toggle" variant="text">
               {firstHandleChangeTimestamp ? (
                 <FormatTimestamp
                   timestamp={firstHandleChangeTimestamp}
@@ -131,12 +150,10 @@ export function AccountHeader({ className, onInfoClick }) {
               ) : (
                 'Unknown Date'
               )}
-              <span className="info-icon"></span>
             </Button>
           </span>
         )}
       </h1>
-      <div></div>
     </div>
   );
 }

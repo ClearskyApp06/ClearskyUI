@@ -2,11 +2,12 @@
 
 import { useMemo } from 'react';
 
-import { useLabeled, useLabelers } from '../../api/labled';
+import { useLabeled, useLabelers } from '../../api/labels';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useAccountResolver } from '../account-resolver';
 import './labeled.css';
+import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -65,6 +66,8 @@ function LabeledListItem({ cts, val, src }) {
   );
 }
 
+const AD_FREQUENCY = 10;
+
 /**
  * @param {{
  * labels: { cts: string, val: string,uri:string,src:string }[]
@@ -72,17 +75,34 @@ function LabeledListItem({ cts, val, src }) {
  *
  * @returns {JSX.Element}
  */
-function LabeledList({ labels }) {
+export function LabeledList({ labels }) {
   return (
     <ul className="labeled-view">
-      {labels.map(({ src, cts, val }) => (
-        <LabeledListItem
-          key={`${src}-${val}-${cts}`}
-          src={src}
-          cts={cts}
-          val={val}
-        />
-      ))}
+      {(labels || []).flatMap(({ src, cts, val }, i) => {
+        const elements = [
+          <LabeledListItem key={`${src}-${val}-${cts}`} src={src} cts={cts} val={val} />
+        ];
+
+        // Insert ad after every AD_FREQUENCY items
+        if (i > 0 && i % AD_FREQUENCY === 0) {
+          elements.push(
+            <GoogleAdSlot
+              key={`ad-${i}-9114105783`}
+              slot="9114105783"
+              format="fluid"
+              layoutKey="-fb+5w+4e-db+86"
+            />
+          );
+        }
+
+        return elements;
+      })}
+      <GoogleAdSlot
+        key="ad-end-9114105783"
+        slot="9114105783"
+        format="fluid"
+        layoutKey="-fb+5w+4e-db+86"
+      />
     </ul>
   );
 }
@@ -115,7 +135,14 @@ export default function LabeledPanel() {
           {labels?.length ? (
             <LabeledList labels={labels} />
           ) : (
-            <div className="labeled-view no-labels">No labels</div>
+            <div className="labeled-view no-labels">
+              <div>No labels</div>
+              <GoogleAdSlot
+                slot="9114105783"
+                format="fluid"
+                layoutKey="-fb+5w+4e-db+86"
+              />
+            </div>
           )}
         </>
       )}

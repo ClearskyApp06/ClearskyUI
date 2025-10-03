@@ -6,7 +6,6 @@
   background: transparent;
   border: none;
   outline: none;
-  color: white;
   text-shadow: -1px -1px 2px #00000075, 1px 2px 2px #00000075,
     -1px 1px 2px #00000075, 1px -1px 2px #00000075;
   font-size: 80%;
@@ -25,12 +24,11 @@
 .account-avatar-and-displayName-line .history-toggle {
   grid-row: 2 / 3;
   grid-column: 3 / 4;
-  justify-self: end;
+  place-self: end;
   font-size: 37%;
   font-weight: normal;
   text-align: right;
   color: inherit;
-  margin-top: -1.2em;
   margin-right: 0;
   padding-right: 1em;
 }

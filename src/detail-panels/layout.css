@@ -7,6 +7,38 @@
   display: flex;
 }
 
+.layout .main-content {
+  position: relative;
+  border: none;
+  max-width: none;
+  min-width: 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  height: 100%;
+}
+
+.layout .ad-lane {
+  display: none;
+}
+
+@media (width >= 1001px) {
+  .layout .ad-lane {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 100px;
+  }
+
+  .layout .main-content {
+    border: 1px solid #c9c9c9;
+    border-bottom: none;
+    max-width: 1000px;
+    min-width: 700px;
+  }
+}
+
+
 @media (width >= 801px) {
   .layout {
     flex-direction: row;
@@ -26,7 +58,7 @@
   }
 
   .account-tabs-content {
-    /* max-height: 80em; */
+    height: 100%;
     overflow-y: auto;
     scroll-behavior: smooth;
   }
@@ -50,9 +82,10 @@
 }
 
 .account-extra-info {
-  height: calc(100% - 200px);
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .account-extra-info .did-section .copy-did {
@@ -169,6 +202,7 @@
 
 .account-tabs-content {
   border-left: none;
+  height: 100%;
 }
 
 .account-tabs-content .account-tab {
@@ -179,6 +213,7 @@
 }
 
 .account-tabs-content .account-tab-selected {
+  height: 100%;
   z-index: 10;
   opacity: 1;
   pointer-events: auto;
@@ -193,7 +228,6 @@
 }
 
 .account-header {
-  position: sticky;
   top: -7em;
   z-index: 20;
   background: white;
@@ -211,12 +245,29 @@
 
 .account-extra-info .handle-history-section {
   display: block;
-  align-self: flex-end;
   flex-grow: 0;
 }
 
 .close-opt {
   display: none;
+}
+
+.account-extra-info.hidden {
+  display: none;
+}
+
+.account-extra-info.profile {
+  display: flex;
+}
+
+.account-extra-info.account-extra-info-reveal {
+  display: none;
+}
+
+.account-tabs-container {
+  position: sticky; 
+  top: 0;
+  z-index: 15; 
 }
 
 @media (width <= 800px) {
@@ -226,19 +277,12 @@
   }
 
   .account-tabs-handles {
-    position: sticky;
-    top: 0;
-    z-index: 15;
     background: white;
     border-bottom: 1px solid #ddd;
   }
 
   .detail-container {
     overflow-y: visible;
-  }
-
-  .account-extra-info {
-    display: none;
   }
 
   .account-header .info-icon {
@@ -267,10 +311,6 @@
     font-size: 3rem;
     line-height: 2rem;
     cursor: pointer;
-  }
-
-  .account-extra-info .handle-history-section {
-    display: none;
   }
 
   .account-extra-info.account-extra-info-reveal .bio-section {

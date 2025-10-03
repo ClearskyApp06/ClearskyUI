@@ -11,6 +11,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import { queryClient } from './api/query-client';
 import { ErrorBoundary } from './common-components/error-boundary';
+import { SupportBanner } from './common-components/support-banner';
 import { getDefaultComponent } from './utils/get-default';
 import { profileChildRoutesPromise } from './detail-panels/tabs';
 import './app.css';
@@ -37,6 +38,14 @@ async function showApp() {
           },
           { path: 'index.html', element: <Navigate to="/" replace /> },
           { path: 'stable/*', element: <Navigate to="/" replace /> },
+          { path: 'pds', lazy: () => getDefaultComponent(import('./pds/dids-per-pds')) },
+          { path: 'pds/:pds', lazy: () => getDefaultComponent(import('./pds/users-per-pds')) },
+          {
+            path: 'contact',
+            lazy: () => getDefaultComponent(import('./landing/contact')),
+          },
+          { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
+          { path: 'labelers/:did', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
           {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),
@@ -85,6 +94,7 @@ async function showApp() {
               future={{ v7_startTransition: true }}
             />
           </React.Suspense>
+          <SupportBanner />
           <div className="bluethernal-llc-watermark">
             © 2025 Bluethernal Inc
           </div>
