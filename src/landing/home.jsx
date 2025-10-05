@@ -35,7 +35,7 @@ export default function Home() {
           position: 'relative',
           paddingTop: { xs: 0, md: '30px' },
         }}
-        alignContent={{ xs: 'start', xl: 'center' }}
+        alignContent={'start'}
       >
         <About />
         <Box>
