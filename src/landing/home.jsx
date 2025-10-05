@@ -24,7 +24,7 @@ export default function Home() {
       container
       className='home'
       sx={{
-        height: showGoogleAds ? 'calc(100vh - 80px)' : 'calc(100vh - 30px)'
+        height: showGoogleAds ? 'calc(100dvh - 80px)' : 'calc(100dvh - 30px)'
       }}>
 
       <Grid

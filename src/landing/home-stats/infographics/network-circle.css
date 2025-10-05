@@ -133,3 +133,12 @@
     place-items: center;
   }
 }
+
+@media (width <= 460px) {
+  .network-circle-circle .network-active-crowd .network-crowd-active-count-container
+  .network-crowd-active-count {
+    font-size: 150%;
+    font-weight: bold;
+    padding-right: 0;
+  }
+}
