@@ -1,6 +1,8 @@
 .network-circle {
   padding: 1em 0;
   padding-left: 3em;
+  display: grid;
+  place-items: start;
 }
 
 .network-circle-circle {
@@ -123,4 +125,11 @@
 
 .network-circle-circle .arc-text-svg .arc-text-caption {
   font-size: 55%;
+}
+
+@media (width <= 900px) {
+  .network-circle {
+    padding-left: 0;
+    place-items: center;
+  }
 }

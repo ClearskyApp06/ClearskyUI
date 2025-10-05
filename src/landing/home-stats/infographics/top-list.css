@@ -1,5 +1,6 @@
 .top-list {
   width: 70%;
+  min-width: 400px;
 }
 
 .top-list .top-list-more {
@@ -7,13 +8,15 @@
   text-align: right;
 }
 
-@media (width <= 500px) {
+@media (width <= 900px) {
   .top-list {
-    width: 21em;
+    width: 100%;
+    min-width: unset;
   }
 
   .top-list .top-list-more {
-    min-width: 21em;
+    width: 100%;
+    min-width: unset;
   }
 }
 

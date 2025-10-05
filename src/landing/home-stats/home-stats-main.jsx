@@ -82,7 +82,7 @@ export function HomeStatsMain({
           flexWrap: 'wrap',
           mb: 2,
           alignItems: 'center',
-          justifyContent: { xs: 'center', sm: 'start' }
+          justifyContent: { xs: 'center', md: 'start' }
         }}
       >
         {
