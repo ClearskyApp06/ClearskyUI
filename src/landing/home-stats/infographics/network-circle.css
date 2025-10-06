@@ -141,4 +141,16 @@
     font-weight: bold;
     padding-right: 0;
   }
+  
+  .network-circle-circle .crowd-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+}
+
+@media (width <= 365px) {
+  .network-circle-circle .crowd-icon {
+    width: 1.1em;
+    height: 1.1em;
+  }
 }
