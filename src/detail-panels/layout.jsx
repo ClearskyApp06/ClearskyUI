@@ -1,6 +1,6 @@
 // @ts-check
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, Await, Link, useMatch } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
@@ -61,6 +61,43 @@ export function AccountLayout() {
 export function TabSelector({ className }) {
   const matches = useMatch('/:account/:tab/*');
   const tab = matches?.params.tab;
+
+  /** @type {React.RefObject<HTMLDivElement>} */
+  const tabsRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  /** @type {React.MutableRefObject<ReturnType<typeof setTimeout> | null>} */
+  const scrollTimeout = useRef(null);
+
+  // 🕒 After 2 seconds of no scrolling, recenter selected tab
+  useEffect(() => {
+    if (!tabsRef.current) return;
+    const scrollContainer = tabsRef.current.querySelector('.MuiTabs-scroller');
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 3000); // 3 seconds of inactivity
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
+  }, []);
+
+  // When user stops scrolling, center the selected tab
+  useEffect(() => {
+    if (isScrolling) return;
+    const selected =
+      tabsRef.current?.querySelector('[aria-selected="true"]');
+
+    selected?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, [isScrolling, tab]);
+
   return (
     <div className={'tab-outer-container ' + (className || '')}>
       <Await
@@ -74,6 +111,7 @@ export function TabSelector({ className }) {
           );
           return (
             <Tabs
+              ref={tabsRef}
               TabIndicatorProps={{
                 style: { display: 'none' },
               }}
