@@ -60,7 +60,7 @@ export function AccountHeader({ className }) {
         <IconButton
           className='account-close-button'
           aria-label="Go back"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
         >
           <ArrowBackIosNew />
         </IconButton>
