@@ -7,7 +7,7 @@ import { AccountHeader } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
-import { Tab, Tabs } from '@mui/material';
+import { Box, Fade, useTheme, keyframes, Tab, Tabs, useMediaQuery } from '@mui/material';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
 import { useSpamStatus } from '../api/spam-status';
@@ -61,14 +61,38 @@ export function AccountLayout() {
 export function TabSelector({ className }) {
   const matches = useMatch('/:account/:tab/*');
   const tab = matches?.params.tab;
-
   /** @type {React.RefObject<HTMLDivElement>} */
   const tabsRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
   /** @type {React.MutableRefObject<ReturnType<typeof setTimeout> | null>} */
   const scrollTimeout = useRef(null);
 
-  // 🕒 After 2 seconds of no scrolling, recenter selected tab
+  const [showSwipeHint, setShowSwipeHint] = useState(false)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+
+  // Shadow swipe animation
+  const shadowSwipe = isMobile ?
+    keyframes`
+    0% { transform: translateX(90dvw); opacity: .3; }
+    100% { transform: translateX(20dvw); opacity: 0; }
+  `:
+    keyframes`
+    0% { transform: translateX(600px); opacity: .3; }
+    100% { transform: translateX(300px); opacity: 0; }
+  `;
+
+  useEffect(() => {
+    const firstVisit = localStorage.getItem('tabs-swipe-hint-shown');
+    if (!firstVisit) {
+      setShowSwipeHint(true);
+      localStorage.setItem('tabs-swipe-hint-shown', 'true');
+      setTimeout(() => setShowSwipeHint(false), 3500);
+    }
+  }, []);
+
+  // Scroll inactivity logic
   useEffect(() => {
     if (!tabsRef.current) return;
     const scrollContainer = tabsRef.current.querySelector('.MuiTabs-scroller');
@@ -99,46 +123,65 @@ export function TabSelector({ className }) {
   }, [isScrolling, tab]);
 
   return (
-    <div className={'tab-outer-container ' + (className || '')}>
+    <div className={'tab-outer-container ' + (className || '')} style={{ position: 'relative' }}>
       <Await
-        resolve={activeTabRoutesPromise}
-        // eslint-disable-next-line react/no-children-prop
-        children={(
-          /** @type {Awaited<typeof activeTabRoutesPromise>} */ activeTabRoutes
-        ) => {
-          const selectedIndex = activeTabRoutes.findIndex(
-            (route) => route.path === tab
-          );
+        resolve={activeTabRoutesPromise}      >
+        {( /** @type {Awaited<typeof activeTabRoutesPromise>} */ activeTabRoutes) => {
+          const selectedIndex = activeTabRoutes.findIndex(route => route.path === tab);
           return (
-            <Tabs
-              ref={tabsRef}
-              TabIndicatorProps={{
-                style: { display: 'none' },
-              }}
-              TabScrollButtonProps={{
-                sx: {
-                  minHeight: '48px',
-                },
-              }}
-              className={'tab-selector-root selected-tab-' + tab}
-              orientation="horizontal"
-              variant="scrollable"
-              allowScrollButtonsMobile
-              style={{ border: 'none', margin: 0, padding: 0 }}
-              value={selectedIndex === -1 ? false : selectedIndex}
-            >
-              {activeTabRoutes.map((route) => (
-                <Tab
-                  key={route.path}
-                  to={route.path}
-                  label={route.tab().label}
-                  component={Link}
+            <Box sx={{ position: 'relative' }}>
+              <Tabs
+                ref={tabsRef}
+                TabIndicatorProps={{ style: { display: 'none' } }}
+                TabScrollButtonProps={{ sx: { height: 54 } }}
+                orientation="horizontal"
+                variant="scrollable"
+                allowScrollButtonsMobile
+                onChange={() => {
+                  const selected =
+                    tabsRef.current?.querySelector('[aria-selected="true"]');
+                  tabsRef.current?.querySelector('[aria-selected="true"]');
+                  selected?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }}
+                value={selectedIndex === -1 ? false : selectedIndex}
+              >
+                {activeTabRoutes.map(route => (
+                  <Tab
+                    key={route.path}
+                    to={route.path}
+                    label={route.tab().label}
+                    component={Link}
+                  />
+                ))}
+              </Tabs>
+
+              {/* Shadow swipe hint */}
+              <Fade in={showSwipeHint}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 10,
+                    left: 0,
+                    width: 30,
+                    height: 30,
+                    background: 'rgba(0,0,0,0.5)',
+                    borderRadius: 100,
+                    pointerEvents: 'none',
+                    animation: `${shadowSwipe} 2s ease-in-out infinite`,
+                  }}
                 />
-              ))}
-            </Tabs>
+              </Fade>
+            </Box>
           );
         }}
-      />
+
+      </Await>
     </div>
   );
 }
+
+
+
+
+
+
