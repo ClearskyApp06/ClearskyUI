@@ -6,6 +6,7 @@ import { localise } from '../../localisation';
 import { version } from '../../../package.json';
 
 import './about.css';
+import React from 'react';
 
 /**
  * @type {string}
@@ -14,16 +15,14 @@ import './about.css';
 // eslint-disable-next-line no-undef
 const builtFromCommit = BUILD_COMMIT_HASH || null;
 
-/**
- *
- * @param {{ onToggleAbout(): void; }} param0
- * @returns
- */
-export function About({ onToggleAbout }) {
+export function About() {
+
+  const [aboutOpen, setAboutOpen] = React.useState(false);
+
   return (
-    <div className="about">
+    <div className={`about${aboutOpen ? ' about-open' : ''}`}>
       <span className="corner-buttons">
-        <Button className="about-button" onClick={onToggleAbout}>
+        <Button className="about-button" onClick={() => setAboutOpen(!aboutOpen)}>
           <span className="about-button-icon">i</span>
         </Button>
       </span>
@@ -34,10 +33,11 @@ export function About({ onToggleAbout }) {
           <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
           <a href="https://status.clearsky.app">Status</a>
         </span>
-        {localise('Version', { uk: 'Версія' })}: {version}{' '}
-        {builtFromCommit && `(${builtFromCommit})`}
-        <br />
+        <span>
+          {localise('Version', { uk: 'Версія' })}: {version}{' '}
+          {builtFromCommit && `(${builtFromCommit})`}
+        </span>
       </div>
-    </div>
+    </div >
   );
 }

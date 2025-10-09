@@ -1,26 +1,8 @@
 .home {
-  position: fixed;
-  left: 0;
-  top: 5px;
-  width: 100%;
-  height: calc(100% - 90px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto 1fr;
-}
-
- 
-@media (width <= 800px) {
-  .home {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr;
-  }
+  overflow-y: auto;  
 }
 
 .home-header-logo {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
   margin: 0.5em;
   display: flex;
   flex-direction: column;
@@ -31,18 +13,9 @@
   width: 100%;
 }
 
-.home .about {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-}
 
 .home .about .text {
   padding: 0.5em;
-}
-
-.home .about .corner-buttons {
-  display: none;
-  z-index: 2;
 }
 
 .about-button-icon
@@ -58,25 +31,11 @@
   text-decoration: none; /* Removes the underline from the link */
 }
 
-.home-header {
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-  align-self: start;
-}
-
 .home-stats {
-  grid-column: 2 / 3;
-  grid-row: 1 / 4;
-  align-self: center;
-  overflow: auto;
   max-height: 100%;
 }
 
-.home-stats.home-stats-table {
-  align-self: unset;
-}
-
-@media (width <= 950px) {
+@media (width <= 1050px) {
   .home-stats .network-circle {
     zoom: 0.8;
   }
@@ -87,58 +46,11 @@
     transition: transform 0.5s ease-in-out;
   }
 
-  .home.about-open {
-    transform: translateY(7em);
-  }
-
-  .home-header-logo {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    min-height: 5.8em;
-    margin-top: 0.8em;
-    margin-left: 1em;
-  }
-
-  .home .about {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-  }
-
-  .home .about .text {
-    transform: translateY(-7em);
-  }
-
-  .home .about .corner-buttons {
-    display: block;
-  }
-
-  .home-header {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-  }
-
-  .home-stats {
-    grid-column: 1 / 2;
-    grid-row: 3 / 4;
-    align-self: auto;
-  }
 }
 
-@media (width <= 500px) {
-  .home-stats .network-circle {
-    zoom: 0.8;
-  }
-}
-
-@media (width <= 410px) {
+@media (width <= 460px) {
   .home-stats .network-circle {
     zoom: 0.75;
-  }
-}
-
-@media (width <= 385px) {
-  .home-stats .network-circle {
-    zoom: 0.7;
   }
 }
 

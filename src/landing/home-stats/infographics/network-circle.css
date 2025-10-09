@@ -1,6 +1,8 @@
 .network-circle {
   padding: 1em 0;
   padding-left: 3em;
+  display: grid;
+  place-items: start;
 }
 
 .network-circle-circle {
@@ -123,4 +125,32 @@
 
 .network-circle-circle .arc-text-svg .arc-text-caption {
   font-size: 55%;
+}
+
+@media (width <= 900px) {
+  .network-circle {
+    padding-left: 0;
+    place-items: center;
+  }
+}
+
+@media (width <= 460px) {
+  .network-circle-circle .network-active-crowd .network-crowd-active-count-container
+  .network-crowd-active-count {
+    font-size: 150%;
+    font-weight: bold;
+    padding-right: 0;
+  }
+  
+  .network-circle-circle .crowd-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+}
+
+@media (width <= 365px) {
+  .network-circle-circle .crowd-icon {
+    width: 1.1em;
+    height: 1.1em;
+  }
 }
