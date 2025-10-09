@@ -16,10 +16,6 @@
   height: 40px;
 }
 
-.MuiTab-root {
-  background: none;
-}
-
 .account-tabs-handles .MuiTab-root {
   opacity: 0.8;
   color: #d0d0d0;
@@ -28,7 +24,6 @@
 .account-tabs-handles .MuiTab-root.Mui-selected {
   opacity: 1;
   font-weight: 600;
-  color: white;
 }
 
 .tab-selector-root .MuiTab-root {
