@@ -10,6 +10,7 @@ import { localise } from '../../../localisation';
  * @param {{
  *  activeAccounts?: number,
  *  deletedAccounts?: number,
+ *  totalAccounts?: number,
  *  percentNumberBlocked1?: number,
  *  percentNumberBlocking1?: number,
  *  loading?: boolean
@@ -18,12 +19,21 @@ import { localise } from '../../../localisation';
 export function NetworkCircle({
   activeAccounts = 21000000,
   deletedAccounts = 1000000,
+  totalAccounts = 25000000,
   percentNumberBlocked1 = 48.4,
   percentNumberBlocking1 = 42.53,
   loading,
 }) {
   return (
     <div className="network-circle">
+      <div className="network-total-header">
+        <span className="network-total-label">
+          {localise('total accounts', { uk: 'всього акаунтів' })}:
+        </span>{' '}
+        <span className="network-total-count">
+          {totalAccounts.toLocaleString()}
+        </span>
+      </div>
       <div className="network-circle-circle">
         <SvgCircles
           circles={[
