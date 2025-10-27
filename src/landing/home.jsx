@@ -17,14 +17,17 @@ import { useFeatureFlag } from '../api/featureFlags';
 export default function Home() {
   const [searchText, setSearchText] = React.useState('');
   const navigate = useNavigate();
+  const googleAdFooterSlot = '3279981713'
   const showGoogleAds = useFeatureFlag('google-ads');
+  const showFooterAd = useFeatureFlag(`google-ad-${googleAdFooterSlot}`);
+  const showAd = showGoogleAds && showFooterAd;
 
   return (
     <Grid
       container
       className='home'
       sx={{
-        height: showGoogleAds ? 'calc(100dvh - 80px)' : 'calc(100dvh - 30px)'
+        height: showAd ? 'calc(100dvh - 80px)' : 'calc(100dvh - 30px)'
       }}>
 
       <Grid
@@ -67,7 +70,7 @@ export default function Home() {
       </Grid>
 
       <Box sx={{ position: 'fixed', bottom: 30, left: 0, width: '100%', maxHeight: '50px' }}>
-        <GoogleAdSlot slot='3279981713' style={{ maxHeight: 50 }} />
+        <GoogleAdSlot slot={googleAdFooterSlot} style={{ maxHeight: 50 }} />
       </Box>
 
     </Grid>
