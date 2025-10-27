@@ -84,8 +84,6 @@ export default function StarterPacksTabs() {
   // ---- Center tab after scroll inactivity or route change ----
   useEffect(() => {
     if (!isScrolling) centerSelectedTab();
-    console.log({ isScrolling });
-
   }, [isScrolling, centerSelectedTab]);
 
 
@@ -108,7 +106,6 @@ export default function StarterPacksTabs() {
         centered={!isMobile}
         variant={isMobile ? "scrollable" : "standard"}
         onChange={(e) => {
-          console.log("CHANGE", e.currentTarget.id);
           handleChange(e.currentTarget.id);
           setId(e.currentTarget.id)
         }}

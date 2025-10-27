@@ -187,7 +187,6 @@ export function TabSelector({ className }) {
                   width: '100%',
                 }}
                 onChange={(e) => {
-                  console.log("CHANGE");
                   handleChange(e.currentTarget.id);
                   setId(e.currentTarget.id)
                 }}
