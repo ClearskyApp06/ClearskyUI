@@ -114,20 +114,6 @@
   border-left: none;
 }
 
-.account-tabs-handles .MuiTab-root {
-  min-width: 0;
-  padding: 2em 0.8em;
-  margin-bottom: 0.5em;
-}
-
-.account-tabs-handles .MuiTabs-indicator {
-  background-color: black;
-}
-
-.account-tabs-handles .MuiTab-root.Mui-selected {
-  color: black;
-}
-
 .account-tabs-handles .MuiTab-root.tab-blocked-by.Mui-selected {
   color: #a02d19;
 }
@@ -224,7 +210,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-y: auto;
+  height: 100%
 }
 
 .account-header {
@@ -270,15 +256,15 @@
   z-index: 15; 
 }
 
+.account-tabs-handles {
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
 @media (width <= 800px) {
   .layout {
     flex-direction: column;
     position: relative;
-  }
-
-  .account-tabs-handles {
-    background: white;
-    border-bottom: 1px solid #ddd;
   }
 
   .detail-container {
