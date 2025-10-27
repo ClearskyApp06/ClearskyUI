@@ -14,6 +14,7 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
+import ProtectedContent from '../../auth/protected-content';
 
 export function BlockedByLists() {
   const accountQuery = useAccountResolver();
@@ -46,7 +47,7 @@ export function BlockedByLists() {
   const shouldShowLoadMore = hasNextPage && (!search || filteredLists.length > 0);
 
   return (
-    <>
+    <ProtectedContent>
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
@@ -88,7 +89,7 @@ export function BlockedByLists() {
           </p>
         </VisibleWithDelay>
       )}
-    </>
+    </ProtectedContent>
   );
 }
 

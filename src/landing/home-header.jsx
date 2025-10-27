@@ -6,6 +6,7 @@ import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
 import { FirstPartyAd } from '../common-components/first-party-ad';
 import { Box } from '@mui/material';
+import LoginButton from '../auth/login-button';
 
 /**
  * @param {{
@@ -49,6 +50,7 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
 
         }}
       >
+        <LoginButton />
         <FirstPartyAd placementId="447632" size="responsiveBanner" />
         <FirstPartyAd placementId="764383" size="responsiveBanner" />
       </Box>
