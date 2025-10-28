@@ -17,7 +17,7 @@ import { useFeatureFlag } from '../api/featureFlags';
 export default function Home() {
   const [searchText, setSearchText] = React.useState('');
   const navigate = useNavigate();
-  const googleAdFooterSlot = '3279981713'
+  const googleAdFooterSlot = '3279981713';
   const showGoogleAds = useFeatureFlag('google-ads');
   const showFooterAd = useFeatureFlag(`google-ad-${googleAdFooterSlot}`);
   const showAd = showGoogleAds && showFooterAd;
