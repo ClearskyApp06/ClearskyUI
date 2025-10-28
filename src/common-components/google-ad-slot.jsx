@@ -21,23 +21,25 @@ export function GoogleAdSlot({ slot, format = 'fluid', layoutKey, style = {} }) 
     import.meta.env.VITE_IS_DEV ||
     !location.hostname.includes('clearsky.app');
 
-  const showGoogleAds = useFeatureFlag('google-ads');
+  // Feature flags
+  const showGlobalAds = useFeatureFlag('google-ads');
+  const showSlotAd = useFeatureFlag(`google-ad-${slot}`);
+
+  const showAd = showGlobalAds && showSlotAd;
 
   useEffect(() => {
-    if (!adRef.current || pushedRef.current || isDev || !showGoogleAds) return;
+    if (!adRef.current || pushedRef.current || isDev || !showAd) return;
 
     try {
       // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      (globalThis.adsbygoogle = globalThis.adsbygoogle || []).push({});
       pushedRef.current = true;
     } catch (e) {
       console.error('Adsense error:', e);
     }
-  }, [slot, isDev, showGoogleAds]);
+  }, [slot, isDev, showAd]);
 
-  if (!showGoogleAds) {
-    return null;
-  }
+  if (!showAd) return null;
 
   if (isDev) {
     // Placeholder for dev/ pr / localhost
@@ -54,7 +56,7 @@ export function GoogleAdSlot({ slot, format = 'fluid', layoutKey, style = {} }) 
           ...style,
         }}
       >
-        Ad Placeholder
+        Ad Placeholder ({slot})
       </div>
     );
   }

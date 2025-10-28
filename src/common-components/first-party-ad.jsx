@@ -16,27 +16,21 @@ export function FirstPartyAd({ placementId, size }) {
   const iframeRef = useRef(null);
   const sendClickThru = useSendClickThru();
   const { data: adData, isLoading } = useGetAdByPlacement(placementId);
-  const showFirstPartyAds = useFeatureFlag('first-party-ads');
+
+  // Feature flags
+  const showGlobalAds = useFeatureFlag('first-party-ads');
+  const showPlacementAd = useFeatureFlag(`first-party-ad-${placementId}`);
+
+  const showAd = showGlobalAds && showPlacementAd;
 
   const styleMap = {
     leaderboard: { width: 728, height: 90 },
     largeLeaderboard: { width: 970, height: 90 },
     mediumRectangle: { width: 300, height: 250 },
     wideSkyscraper: { width: 160, height: 600 },
-    banner: {
-      width: "100%",
-      maxWidth: 320,
-      height: 40
-    },
-    responsiveBanner: {
-      width: '100%',
-      maxWidth: 720,
-      maxHeight: 100,
-    },
-    responsive: {
-      width: '100%',
-      height: 'auto',
-    },
+    banner: { width: '100%', maxWidth: 320, height: 40 },
+    responsiveBanner: { width: '100%', maxWidth: 720, maxHeight: 100 },
+    responsive: { width: '100%', height: 'auto' },
   };
 
   const style = styleMap[size] || { width: '100%', height: 100 };
@@ -55,10 +49,7 @@ export function FirstPartyAd({ placementId, size }) {
     }
   };
 
-  if (!showFirstPartyAds || isLoading || !adData) {
-    return null;
-  }
-
+  if (!showAd || isLoading || !adData) return null;
 
   const isHtmlCreative =
     adData.ad_content_url &&

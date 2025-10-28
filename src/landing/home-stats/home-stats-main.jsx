@@ -15,6 +15,7 @@ export function HomeStatsMain({
   className,
   asofFormatted,
   activeAccounts,
+  totalAccounts,
   deletedAccounts,
   percentNumberBlocked1,
   percentNumberBlocking1,
@@ -34,7 +35,8 @@ export function HomeStatsMain({
     backgroundColor: '#d6e5ff',
     color: '#4f77bf',
     textTransform: 'none',
-    px: 2,
+    px: { xs: 1, sm: 2 },
+    fontSize: { xs: 12, sm: 13 },
     py: 1,
     borderRadius: 2,
     fontWeight: 500,
@@ -46,7 +48,8 @@ export function HomeStatsMain({
   const orangeButtonStyle = {
     backgroundColor: '#ffc7a1',
     textTransform: 'none',
-    px: 2,
+    px: { xs: 1, sm: 2 },
+    fontSize: { xs: 12, sm: 13 },
     py: 1,
     color: '#ab6002',
     borderRadius: 2,
@@ -69,6 +72,7 @@ export function HomeStatsMain({
         {...{
           activeAccounts,
           deletedAccounts,
+          totalAccounts,
           percentNumberBlocked1,
           percentNumberBlocking1,
           loading,
@@ -82,7 +86,7 @@ export function HomeStatsMain({
           flexWrap: 'wrap',
           mb: 2,
           alignItems: 'center',
-          justifyContent: { xs: 'center', sm: 'start' }
+          justifyContent: { xs: 'center', md: 'start' }
         }}
       >
         {

@@ -1,5 +1,8 @@
 .about {
   display: grid;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .about .text {
@@ -28,10 +31,11 @@
 
 .about .corner-buttons .about-button {
   height: 3em;
+  justify-content: flex-end;
+  width: fit-content;
 }
 
 .about .corner-buttons .about-button-icon {
-  position: absolute;
   right: 0.2em;
   top: 0;
   text-transform: none;
@@ -40,4 +44,47 @@
   font-style: italic;
   color: black;
   padding-right: 0.5em;
+}
+
+.home .about .corner-buttons {
+  display: none;
+  z-index: 2;
+}
+
+@media (width <= 900px) {
+  .about {
+    position: unset;
+    overflow: hidden;
+    height: 0;
+    transition: height 0.5s ease-in-out;
+  }
+  
+  .about .text .legalese {
+    float: unset;
+  }
+
+  .about-open {
+    height: 80px;
+  }
+
+  .home .about .corner-buttons {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .home .about-open .corner-buttons {
+    display: block;
+    position: absolute;
+    top: 50px;
+  }
+
+  .home .about .text {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
 }

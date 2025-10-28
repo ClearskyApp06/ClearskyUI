@@ -1,6 +1,8 @@
 .network-circle {
   padding: 1em 0;
-  padding-left: 3em;
+  padding-left: 0;
+  display: grid;
+  place-items: start;
 }
 
 .network-circle-circle {
@@ -54,7 +56,7 @@
 
 .network-circle-circle .network-active-crowd .network-crowd-active-count-container
   .network-crowd-active-count {
-  font-size: 200%;
+  font-size: 140%;
   font-weight: bold;
   padding-right: 0.1em;
 }
@@ -123,4 +125,62 @@
 
 .network-circle-circle .arc-text-svg .arc-text-caption {
   font-size: 55%;
+}
+
+.network-total-header {
+  font-size: 1.1em;
+  color: #444;
+  padding-left: 0.5em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  border-bottom: 1px solid #e2e2e2;
+  padding-bottom: 0.4em;
+  margin-bottom: 1em;
+}
+
+.network-total-label {
+  font-weight: 500;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.95em;
+}
+
+.network-total-count {
+  font-weight: 700;
+  font-size: 1.4em;
+  color: #1e1e1e;
+}
+
+@media (width <= 900px) {
+  .network-circle {
+    padding-left: 0;
+    place-items: center;
+  }
+
+  .network-total-header {
+    justify-content: center;
+  }
+}
+
+@media (width <= 460px) {
+  .network-circle-circle .network-active-crowd .network-crowd-active-count-container
+  .network-crowd-active-count {
+    font-size: 150%;
+    font-weight: bold;
+    padding-right: 0;
+  }
+  
+  .network-circle-circle .crowd-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+}
+
+@media (width <= 365px) {
+  .network-circle-circle .crowd-icon {
+    width: 1.1em;
+    height: 1.1em;
+  }
 }
