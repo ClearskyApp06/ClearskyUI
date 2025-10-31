@@ -131,7 +131,7 @@ export function useSingleBlocklistCount(handleOrDID) {
  * }>}
  */
 async function blocklistCall(shortHandle, api, currentPage = 1) {
-  const handleURL = `${api}/${shortHandle}${
+  const handleURL = `${api}/${unwrapShortHandle(shortHandle)}${
     currentPage === 1 ? '' : `/${currentPage}`
   }`;
 
