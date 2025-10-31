@@ -31,10 +31,9 @@ export function useHandleHistory(handleOrDID) {
 
 /**
  * @param {string} shortHandle
- * @param {boolean} isHandle
  * @returns {Promise<HandleHistoryResponse>}
  */
-async function getHandleHistoryRaw(shortHandle, isHandle) {
+async function getHandleHistoryRaw(shortHandle) {
   const json = await fetchClearskyApi(
     'v1',
     'get-handle-history/' + shortHandle
