@@ -65,7 +65,7 @@ export function useSingleBlocklist(handleOrDID) {
     enabled: !!shortHandle,
     queryKey: ['single-blocklist', shortHandle],
     queryFn: ({ pageParam }) =>
-      // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
+      // @ts-expect-error shortHandle will be a string because the query will be disabled otherwise
       blocklistCall(shortHandle, 'single-blocklist', pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
