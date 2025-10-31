@@ -99,7 +99,7 @@ export function useSingleBlocklistCount(handleOrDID) {
   return useQuery({
     enabled: !!shortHandle,
     queryKey: ['single-blocklist-count', shortHandle],
-    // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
+    // @ts-expect-error shortHandle will be a string because the query will be disabled otherwise
     queryFn: () => blocklistCountCall(shortHandle, 'single-blocklist'),
   });
 }
