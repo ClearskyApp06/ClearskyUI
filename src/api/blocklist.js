@@ -93,7 +93,6 @@ export function useBlocklistCount(handleOrDID) {
 export function useSingleBlocklistCount(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
-  // const fullDid = unwrapShortDID(did);
   return useQuery({
     enabled: !!shortHandle,
     queryKey: ['single-blocklist-count', shortHandle],
