@@ -21,7 +21,6 @@ export function useSpamStatus(shortHandle) {
  * @returns {Promise<{ spam: boolean, spam_source: string }>}
  */
 async function getSpamStatusRaw(shortHandle) {
-  // const unwrappedDID = unwrapShortDID(did);
   const json = await fetchClearskyApi(
     'v1',
     `overlays/profile/spam/${shortHandle}`
