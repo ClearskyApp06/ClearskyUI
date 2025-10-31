@@ -24,7 +24,7 @@ export function useHandleHistory(handleOrDID) {
   return useQuery({
     enabled: !!shortHandle,
     queryKey: ['get-handle-history', shortHandle],
-    // @ts-expect-error shortDid will be a string, as query is skipped otherwise
+    // @ts-expect-error shortHandle will be a string, as query is skipped otherwise
     queryFn: () => getHandleHistoryRaw(shortHandle, false),
   });
 }
