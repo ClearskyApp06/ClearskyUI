@@ -4,7 +4,7 @@ import { unwrapShortDID } from '.';
 import { fetchClearskyApi } from './core';
 
 /**
- * Check if a given profile (by DID) is flagged as spam
+ * Check if a given profile (by handle) is flagged as spam
  * @param {string | undefined} shortHandle
  */
 export function useSpamStatus(shortHandle) {
