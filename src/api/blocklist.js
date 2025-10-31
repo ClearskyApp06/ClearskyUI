@@ -55,16 +55,18 @@ async function getBlocksFromPds(pdsHost, fullDid, cursor) {
 
 /**
  * given the did of an account, return a list of other accounts which are blocking the given account
- * @param {string | undefined} did
+ * @param {string | undefined} handleOrDID
  */
-export function useSingleBlocklist(did) {
-  const fullDid = unwrapShortDID(did);
+export function useSingleBlocklist(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  // const fullDid = unwrapShortDID(did);
   return useInfiniteQuery({
-    enabled: !!fullDid,
-    queryKey: ['single-blocklist', fullDid],
+    enabled: !!shortHandle,
+    queryKey: ['single-blocklist', shortHandle],
     queryFn: ({ pageParam }) =>
       // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
-      blocklistCall(fullDid, 'single-blocklist', pageParam),
+      blocklistCall(shortHandle, 'single-blocklist', pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
@@ -72,29 +74,33 @@ export function useSingleBlocklist(did) {
 
 /**
  * given the did of an account, return the total number of accounts which are being blocked by the given account
- * @param {string | undefined} did
+ * @param {string | undefined} handleOrDID
  */
-export function useBlocklistCount(did) {
-  const fullDid = unwrapShortDID(did);
+export function useBlocklistCount(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  // const fullDid = unwrapShortDID(did);
   return useQuery({
-    enabled: !!fullDid,
-    queryKey: ['blocklist-count', fullDid],
+    enabled: !!shortHandle,
+    queryKey: ['blocklist-count', shortHandle],
     // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
-    queryFn: () => blocklistCountCall(fullDid, 'blocklist'),
+    queryFn: () => blocklistCountCall(shortHandle, 'blocklist'),
   });
 }
 
 /**
  * given the did of an account, return the total number of other accounts which are blocking the given account
- * @param {string | undefined} did
+ * @param {string | undefined} handleOrDID
  */
-export function useSingleBlocklistCount(did) {
-  const fullDid = unwrapShortDID(did);
+export function useSingleBlocklistCount(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+  // const fullDid = unwrapShortDID(did);
   return useQuery({
-    enabled: !!fullDid,
-    queryKey: ['single-blocklist-count', fullDid],
+    enabled: !!shortHandle,
+    queryKey: ['single-blocklist-count', shortHandle],
     // @ts-expect-error fullDid will be a string because the query will be disabled otherwise
-    queryFn: () => blocklistCountCall(fullDid, 'single-blocklist'),
+    queryFn: () => blocklistCountCall(shortHandle, 'single-blocklist'),
   });
 }
 
@@ -116,7 +122,7 @@ export function useSingleBlocklistCount(did) {
  */
 
 /**
- * @param {string} did
+ * @param {string} shortHandle
  * @param {"single-blocklist"} api
  * @param {number} currentPage
  * @returns {Promise<{
@@ -125,8 +131,8 @@ export function useSingleBlocklistCount(did) {
  *    blocklist: BlockedByRecord[]
  * }>}
  */
-async function blocklistCall(did, api, currentPage = 1) {
-  const handleURL = `${api}/${did}${
+async function blocklistCall(shortHandle, api, currentPage = 1) {
+  const handleURL = `${api}/${shortHandle}${
     currentPage === 1 ? '' : `/${currentPage}`
   }`;
 
@@ -145,12 +151,12 @@ async function blocklistCall(did, api, currentPage = 1) {
 }
 
 /**
- * @param {string} did
+ * @param {string} shortHandle
  * @param {"blocklist" | "single-blocklist"} api
  */
-async function blocklistCountCall(did, api) {
+async function blocklistCountCall(shortHandle, api) {
   /** @type {BlocklistResponse<{ count: number; pages: number }>} */
-  const pageResponse = await fetchClearskyApi('v1', `${api}/total/${did}`);
+  const pageResponse = await fetchClearskyApi('v1', `${api}/total/${shortHandle}`);
   return pageResponse.data;
 }
 

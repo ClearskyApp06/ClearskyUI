@@ -1,7 +1,7 @@
 // @ts-check
 
 import { useQuery } from '@tanstack/react-query';
-import { unwrapShortDID } from '.';
+import {unwrapShortDID, useResolveHandleOrDid} from '.';
 import { fetchClearskyApi } from './core';
 
 // /api/v1/get-handle-history/
@@ -15,29 +15,29 @@ import { fetchClearskyApi } from './core';
 
 /**
  *
- * @param {string | undefined} shortDid
+ * @param {string | undefined} handleOrDID
  */
-export function useHandleHistory(shortDid) {
+export function useHandleHistory(handleOrDID) {
+  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const shortHandle = profileQuery.data?.shortHandle;
+
   return useQuery({
-    enabled: !!shortDid,
-    queryKey: ['get-handle-history', shortDid],
+    enabled: !!shortHandle,
+    queryKey: ['get-handle-history', shortHandle],
     // @ts-expect-error shortDid will be a string, as query is skipped otherwise
-    queryFn: () => getHandleHistoryRaw(shortDid, false),
+    queryFn: () => getHandleHistoryRaw(shortHandle, false),
   });
 }
 
 /**
- * @param {string} handleOrDID
+ * @param {string} shortHandle
  * @param {boolean} isHandle
  * @returns {Promise<HandleHistoryResponse>}
  */
-async function getHandleHistoryRaw(handleOrDID, isHandle) {
-  const unwrappedHandleOrDID = isHandle
-    ? handleOrDID
-    : unwrapShortDID(handleOrDID);
+async function getHandleHistoryRaw(shortHandle, isHandle) {
   const json = await fetchClearskyApi(
     'v1',
-    'get-handle-history/' + unwrappedHandleOrDID
+    'get-handle-history/' + shortHandle
   );
   return json.data;
 }
