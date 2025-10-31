@@ -5,26 +5,26 @@ import { fetchClearskyApi } from './core';
 
 /**
  * Check if a given profile (by DID) is flagged as spam
- * @param {string | undefined} shortDid
+ * @param {string | undefined} shortHandle
  */
-export function useSpamStatus(shortDid) {
+export function useSpamStatus(shortHandle) {
   return useQuery({
-    enabled: !!shortDid,
-    queryKey: ['spam-status', shortDid],
-    // @ts-expect-error shortDid will be a string, as query is skipped otherwise
-    queryFn: () => getSpamStatusRaw(shortDid),
+    enabled: !!shortHandle,
+    queryKey: ['spam-status', shortHandle],
+    // @ts-expect-error shortHandle will be a string, as query is skipped otherwise
+    queryFn: () => getSpamStatusRaw(shortHandle),
   });
 }
 
 /**
- * @param {string} did
+ * @param {string} shortHandle
  * @returns {Promise<{ spam: boolean, spam_source: string }>}
  */
-async function getSpamStatusRaw(did) {
-  const unwrappedDID = unwrapShortDID(did);
+async function getSpamStatusRaw(shortHandle) {
+  // const unwrappedDID = unwrapShortDID(did);
   const json = await fetchClearskyApi(
     'v1',
-    `overlays/profile/spam/${unwrappedDID}`
+    `overlays/profile/spam/${shortHandle}`
   );
   return json.data;
 }
