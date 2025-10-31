@@ -60,7 +60,6 @@ async function getBlocksFromPds(pdsHost, fullDid, cursor) {
 export function useSingleBlocklist(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
-  // const fullDid = unwrapShortDID(did);
   return useInfiniteQuery({
     enabled: !!shortHandle,
     queryKey: ['single-blocklist', shortHandle],
