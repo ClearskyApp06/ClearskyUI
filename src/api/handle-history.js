@@ -1,7 +1,7 @@
 // @ts-check
 
 import { useQuery } from '@tanstack/react-query';
-import { useResolveHandleOrDid, unwrapShortHandle } from './resolve-handle-or-did';
+import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { fetchClearskyApi } from './core';
 
 // /api/v1/get-handle-history/
