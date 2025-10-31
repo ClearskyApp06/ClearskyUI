@@ -155,7 +155,7 @@ async function blocklistCall(shortHandle, api, currentPage = 1) {
  */
 async function blocklistCountCall(shortHandle, api) {
   /** @type {BlocklistResponse<{ count: number; pages: number }>} */
-  const pageResponse = await fetchClearskyApi('v1', `${api}/total/${shortHandle}`);
+  const pageResponse = await fetchClearskyApi('v1', `${api}/total/${unwrapShortHandle(shortHandle)}`);
   return pageResponse.data;
 }
 
