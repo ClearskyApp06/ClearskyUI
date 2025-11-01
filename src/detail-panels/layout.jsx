@@ -24,7 +24,7 @@ import StarterPacksTabs from './packs/starter-packs-tabs';
 export function AccountLayout() {
   const resolved = useAccountResolver();
 
-  const spamQuery = useSpamStatus(resolved.data?.shortDID);
+  const spamQuery = useSpamStatus(resolved.data?.shortHandle);
   const spamFeature = useFeatureFlag('spam-profile-overlay');
   const isSpam = spamFeature && spamQuery.data?.spam;
   const spamSource = spamQuery.data?.spam_source;
