@@ -113,8 +113,8 @@ async function getListSize(listUrl, signal) {
     // Call your new helper here
     () => fetchClearskyApi('v1', apiPath, { signal }),
     {
-        signal,
-        throwOnTimeout: true,
+    signal,
+    throwOnTimeout: true,
     }
   );
 
