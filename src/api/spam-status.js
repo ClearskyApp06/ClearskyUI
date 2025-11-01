@@ -8,7 +8,7 @@ import { fetchClearskyApi } from './core';
  * @param {string | undefined} shortHandle
  */
 export function useSpamStatus(shortHandle) {
-   const fullHandle = unwrapShortHandle(shortHandle);
+  const fullHandle = unwrapShortHandle(shortHandle);
   return useQuery({
     enabled: !!fullHandle,
     queryKey: ['spam-status', fullHandle],
