@@ -105,14 +105,19 @@ async function getListCount(shortHandle) {
  * @returns {Promise<{ count: number } | null>} null if response is a 400/404
  */
 async function getListSize(listUrl, signal) {
-  const apiUrl = unwrapClearskyURL(
-    `/api/v1/anon/get-list/specific/total/${encodeURIComponent(listUrl)}`
-  );
+  // This is the new path part *after* /csky/api/
+  const apiPath = `get-list/specific/total/${encodeURIComponent(listUrl)}`;
   signal.throwIfAborted;
-  const resp = await listSizeQueue.add(() => fetch(apiUrl, { signal }), {
-    signal,
-    throwOnTimeout: true,
-  });
+
+  const resp = await listSizeQueue.add(
+    // Call your new helper here
+    () => fetchClearskyApi('v1', apiPath, { signal }),
+    {
+        signal,
+        throwOnTimeout: true,
+    }
+  );
+
   if (resp.ok) {
     /** @type {{ data: { count: number }, list_uri: string }} */
     const respData = await resp.json();
