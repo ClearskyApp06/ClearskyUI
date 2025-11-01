@@ -1,6 +1,6 @@
 // @ts-check
 import { useQuery } from '@tanstack/react-query';
-import {unwrapShortDID, unwrapShortHandle} from '.';
+import { unwrapShortDID, unwrapShortHandle } from '.';
 import { fetchClearskyApi } from './core';
 
 /**
