@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { fetchClearskyApi } from './core';
-import {unwrapShortHandle} from "./index";
+import { unwrapShortHandle } from './index';
 
 // /api/v1/get-handle-history/
 
