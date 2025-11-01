@@ -34,7 +34,7 @@ export function About() {
         <a href="https://status.clearsky.app">Status</a> |{' '}
         <a href="#" className="termly-display-preferences">Consent Preferences</a>
         </span>
-          <span>
+        <span>
           {localise('Version', {uk: 'Версія'})}: {version}{' '}
           {builtFromCommit && `(${builtFromCommit})`}
         </span>
