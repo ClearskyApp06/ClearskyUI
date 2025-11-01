@@ -1,6 +1,6 @@
 // @ts-check
 import { useQuery } from '@tanstack/react-query';
-import { unwrapShortDID } from '.';
+import { unwrapShortDID, unwrapShortHandle } from '.';
 import { fetchClearskyApi } from './core';
 
 /**
@@ -8,11 +8,12 @@ import { fetchClearskyApi } from './core';
  * @param {string | undefined} shortHandle
  */
 export function useSpamStatus(shortHandle) {
+  const fullHandle = unwrapShortHandle(shortHandle);
   return useQuery({
-    enabled: !!shortHandle,
-    queryKey: ['spam-status', shortHandle],
+    enabled: !!fullHandle,
+    queryKey: ['spam-status', fullHandle],
     // @ts-expect-error shortHandle will be a string, as query is skipped otherwise
-    queryFn: () => getSpamStatusRaw(shortHandle),
+    queryFn: () => getSpamStatusRaw(fullHandle),
   });
 }
 

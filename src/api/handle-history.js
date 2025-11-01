@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { fetchClearskyApi } from './core';
+import { unwrapShortHandle } from './index';
 
 // /api/v1/get-handle-history/
 
@@ -19,7 +20,7 @@ import { fetchClearskyApi } from './core';
  */
 export function useHandleHistory(handleOrDID) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
-  const shortHandle = profileQuery.data?.shortHandle;
+  const shortHandle = unwrapShortHandle(profileQuery.data?.shortHandle);
 
   return useQuery({
     enabled: !!shortHandle,
