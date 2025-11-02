@@ -1,30 +1,30 @@
 // @ts-check
 import { useQuery } from '@tanstack/react-query';
-import { unwrapShortDID } from '.';
+import { unwrapShortDID, unwrapShortHandle } from '.';
 import { fetchClearskyApi } from './core';
 
 /**
- * Check if a given profile (by DID) is flagged as spam
- * @param {string | undefined} shortDid
+ * Check if a given profile (by handle) is flagged as spam
+ * @param {string | undefined} shortHandle
  */
-export function useSpamStatus(shortDid) {
+export function useSpamStatus(shortHandle) {
+  const fullHandle = unwrapShortHandle(shortHandle);
   return useQuery({
-    enabled: !!shortDid,
-    queryKey: ['spam-status', shortDid],
-    // @ts-expect-error shortDid will be a string, as query is skipped otherwise
-    queryFn: () => getSpamStatusRaw(shortDid),
+    enabled: !!fullHandle,
+    queryKey: ['spam-status', fullHandle],
+    // @ts-expect-error shortHandle will be a string, as query is skipped otherwise
+    queryFn: () => getSpamStatusRaw(fullHandle),
   });
 }
 
 /**
- * @param {string} did
+ * @param {string} shortHandle
  * @returns {Promise<{ spam: boolean, spam_source: string }>}
  */
-async function getSpamStatusRaw(did) {
-  const unwrappedDID = unwrapShortDID(did);
+async function getSpamStatusRaw(shortHandle) {
   const json = await fetchClearskyApi(
     'v1',
-    `overlays/profile/spam/${unwrappedDID}`
+    `overlays/profile/spam/${shortHandle}`
   );
   return json.data;
 }
