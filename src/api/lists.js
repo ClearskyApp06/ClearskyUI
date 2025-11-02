@@ -110,7 +110,6 @@ async function getListSize(listUrl, signal) {
   signal.throwIfAborted();
 
   const resp = await listSizeQueue.add(
-    // Call your new helper here
     () => fetchClearskyApi('v1', apiPath, { signal }),
     {
     signal,
