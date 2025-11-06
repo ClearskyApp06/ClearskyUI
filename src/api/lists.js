@@ -117,8 +117,8 @@ async function getListSize(listUrl, signal) {
     }
   );
 
-  if (resp) {
-    /** @type {{ data: { count: number }, list_uri: string }} */
+  if (resp?.data) {
+    /** @type {{ count: number }} */
     return resp.data;
   }
   return null;
