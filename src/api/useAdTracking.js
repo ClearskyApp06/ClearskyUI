@@ -25,7 +25,7 @@ export function useGetAdByPlacement(placementId) {
     queryKey: ['ad-by-placement', placementId],
     queryFn: async () => {
       const json = await fetchClearskyApi('v1', `ads/get-ad/${placementId}`);
-      const response = json.data[0].ad_content_url ? json.data[0] : null;
+      const response = json?.data?.[0]?.ad_content_url ? json.data[0] : null;
       return response;
     },
   });

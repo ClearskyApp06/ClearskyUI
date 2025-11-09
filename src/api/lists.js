@@ -112,20 +112,16 @@ async function getListSize(listUrl, signal) {
   const resp = await listSizeQueue.add(
     () => fetchClearskyApi('v1', apiPath, { signal }),
     {
-    signal,
-    throwOnTimeout: true,
+      signal,
+      throwOnTimeout: true,
     }
   );
 
-  if (resp.ok) {
-    /** @type {{ data: { count: number }, list_uri: string }} */
-    const respData = await resp.json();
-    return respData.data;
+  if (resp?.data) {
+    /** @type {{ count: number }} */
+    return resp.data;
   }
-  if (resp.status === 400 || resp.status === 404) {
-    return null;
-  }
-  throw new Error('getListSize error: ' + resp.statusText);
+  return null;
 }
 
 /**
