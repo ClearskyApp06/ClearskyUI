@@ -7,11 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import PropTypes from "prop-types";
-import {
-  fetchClearskyAuthApi,
-  unwrapClearskyURL,
-  v1AuthAPIPrefix,
-} from "../api/core";
+import { fetchClearskyApi, unwrapClearskyURL, v1APIPrefix } from "../api/core";
 
 /**
  * @typedef {Object} AuthContextValue
@@ -44,7 +40,7 @@ export function AuthProvider({ children }) {
   const validateAuth = useCallback(async (id) => {
     if (!id) return false;
     try {
-      const res = await fetchClearskyAuthApi(
+      const res = await fetchClearskyApi(
         `login/session/validate?identifier=${encodeURIComponent(id)}`,
         { credentials: "include" }
       );
@@ -74,7 +70,7 @@ export function AuthProvider({ children }) {
 
     setLoading(true);
     const loginURL = unwrapClearskyURL(
-      `${v1AuthAPIPrefix}login?identifier=${encodeURIComponent(handle)}`
+      `${v1APIPrefix}login?identifier=${encodeURIComponent(handle)}`
     );
     globalThis.location.href = loginURL;
   }, []);
@@ -85,7 +81,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
     try {
       const logoutURL = unwrapClearskyURL(
-        `${v1AuthAPIPrefix}session/logout?identifier=${encodeURIComponent(sessionId)}`
+        `${v1APIPrefix}session/logout?identifier=${encodeURIComponent(sessionId)}`
       );
       localStorage.removeItem("session-id");
       globalThis.location.href = logoutURL;

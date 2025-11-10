@@ -24,7 +24,6 @@ let baseURL = 'https://api.clearsky.services/';
 let baseStagingURL = 'https://staging.api.clearsky.services/';
 
 export const v1APIPrefix = '/csky/api/';
-export const v1AuthAPIPrefix = '/proxy/api/v1/auth/';
 
 const params = new URLSearchParams(location.search);
 const apiOverride = params.get('api');
@@ -61,16 +60,6 @@ export function fetchClearskyApi(apiVer, apiPath, options) {
   return fetch(apiUrl, options).then((x) => x.json());
 }
 
-/** 
- *
- * @param {string} apiPath
- * @param {RequestInit} [options] optional fetch options
- * @returns
- */
-export function fetchClearskyAuthApi(apiPath, options) {
-  const apiUrl = v1AuthAPIPrefix + apiPath
-  return fetch(apiUrl, options).then((x) => x.json());
-}
 
 /**
  * POST data to a ClearSky API endpoint
