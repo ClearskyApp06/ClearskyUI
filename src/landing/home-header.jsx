@@ -6,7 +6,7 @@ import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
 import { FirstPartyAd } from '../common-components/first-party-ad';
 import { Box } from '@mui/material';
-import LoginButton from '../auth/login-button';
+import { LoginButton } from '../auth/login-button';
 
 /**
  * @param {{

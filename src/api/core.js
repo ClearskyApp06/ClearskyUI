@@ -56,7 +56,8 @@ export function unwrapClearskyURL(apiURL) {
  * @returns
  */
 export function fetchClearskyApi(apiVer, apiPath, options) {
-  const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
+  // const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
+  const apiUrl = '/proxy' + v1APIPrefix + apiPath;
   return fetch(apiUrl, options).then((x) => x.json());
 }
 

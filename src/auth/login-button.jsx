@@ -2,9 +2,8 @@ import React from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { useAuth } from "../context/authContext";
 
-export default function LoginButton() {
-  const { loading, authenticated, login, logout } = useAuth();
-
+export function LoginButton() {
+  const { loading, authenticated, openLoginModal, logout } = useAuth();
 
   const getLoginButtonText = () => {
     if (authenticated) return "Logout";
@@ -15,7 +14,7 @@ export default function LoginButton() {
     <Button
       variant="contained"
       color={authenticated ? "secondary" : "primary"}
-      onClick={authenticated ? logout : login}
+      onClick={authenticated ? logout : openLoginModal}
       disabled={loading}
       sx={{ borderRadius: 2 }}
     >

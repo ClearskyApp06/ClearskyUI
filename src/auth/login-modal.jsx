@@ -1,25 +1,74 @@
-// src/components/LoginModal.jsx
-import React from "react";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
-import { useAuth } from "../context/authContext";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  CircularProgress,
+} from '@mui/material';
+import { useAuth } from '../context/authContext';
 
-export default function LoginModal({ open, onClose }) {
-  const { login } = useAuth();
+export function LoginModal({ open, onClose }) {
+  const { loading, loginWithHandle } = useAuth();
+  const [handle, setHandle] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = () => {
-    login();
-    onClose();
+    if (!handle.trim()) {
+      setError('Please enter your Bluesky handle.');
+      return;
+    }
+
+    setError('');
+    loginWithHandle(handle.trim());
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') handleLogin();
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Login Required</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+    >
+      <DialogTitle sx={{ fontWeight: 600, textAlign: 'center' }}>
+        Login
+      </DialogTitle>
+
       <DialogContent>
-        <p>You must log in to access this page.</p>
-        <Button variant="contained" onClick={handleLogin}>
-          Login
-        </Button>
+        <TextField
+          autoFocus
+          fullWidth
+          label="Bluesky Handle"
+          placeholder="example.bsky.social"
+          variant="outlined"
+          value={handle}
+          onChange={(e) => setHandle(e.target.value)}
+          onKeyDown={handleKeyPress}
+          error={Boolean(error)}
+          helperText={error || 'Enter your Bluesky handle to continue.'}
+        />
       </DialogContent>
+
+      <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 2 }}>
+        <Button onClick={onClose} color="inherit" disabled={loading}>
+          Cancel
+        </Button>
+        <Button
+          onClick={handleLogin}
+          variant="contained"
+          disabled={loading}
+          sx={{ borderRadius: 2, minWidth: 140 }}
+        >
+          {loading ? <CircularProgress size={22} color="inherit" /> : 'Login'}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
