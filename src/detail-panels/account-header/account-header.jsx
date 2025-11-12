@@ -14,7 +14,7 @@ import { useAccountResolver } from '../account-resolver';
 import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
 import { FirstPartyAd } from '../../common-components/first-party-ad';
-import { ArrowBackIosNew } from '@mui/icons-material';
+import { Home } from '@mui/icons-material';
 
 /**
  * @param {{
@@ -59,10 +59,10 @@ export function AccountHeader({ className }) {
       <h1 style={{ margin: 0 }}>
         <IconButton
           className='account-close-button'
-          aria-label="Go back"
+          aria-label="Go to home"
           onClick={() => navigate("/")}
         >
-          <ArrowBackIosNew />
+          <Home />
         </IconButton>
 
         <div
