@@ -30,7 +30,7 @@ export function MiniAccountInfo({
           style={{
             backgroundImage: account?.bannerUrl
               ? `url(${account?.bannerUrl})`
-              : 'transparent',
+              : 'none',
           }}
         >
           {banner}
@@ -43,7 +43,7 @@ export function MiniAccountInfo({
             style={{
               backgroundImage: account?.avatarUrl
                 ? `url(${account?.avatarUrl})`
-                : 'transparent',
+                : 'none',
             }}
           ></span>
           <span className="account-displayName">
