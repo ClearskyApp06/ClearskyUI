@@ -12,7 +12,8 @@ function getInputHtmlFiles() {
         .map((file) => join(srcDir, file));
 }
 
-const isClearSkyDomain = location.hostname.includes('clearsky.app');
+const isClearSkyDomain =
+    typeof location !== 'undefined' && location.hostname.includes('clearsky.app');
 
 export default defineConfig({
     plugins: [react()],
