@@ -56,9 +56,15 @@ export function unwrapClearskyURL(apiURL) {
  * @returns
  */
 export function fetchClearskyApi(apiVer, apiPath, options) {
-  // const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
-  const apiUrl = '/proxy' + v1APIPrefix + apiPath;
-  return fetch(apiUrl, options).then((x) => x.json());
+  const isClearSkyDomain = location.hostname.includes('clearsky.app');
+
+  const apiUrl = isClearSkyDomain
+    ? unwrapClearskyURL(v1APIPrefix + apiPath)
+    : '/proxy' + v1APIPrefix + apiPath;
+
+  return fetch(apiUrl, { ...options, credentials: 'include' }).then((x) =>
+    x.json()
+  );
 }
 
 

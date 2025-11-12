@@ -34,8 +34,6 @@ export function AuthProvider({ children }) {
 
   const validateAuth = useCallback(async (id) => {
     if (!id) return false;
-    console.log("Validate",{id});
-    
     try {
       const res = await fetchClearskyApi(
         'v1',
@@ -44,9 +42,19 @@ export function AuthProvider({ children }) {
       );
       const ok = Boolean(res?.authenticated);
       setAuthenticated(ok);
+      if (ok) {
+        const returnTo = localStorage.getItem('return-to');
+        if (returnTo) {
+          localStorage.removeItem('return-to');
+          globalThis.location.replace(returnTo);
+        }
+      } else {
+        localStorage.removeItem('session-id');
+      }
       return ok;
     } catch (err) {
       console.error('Auth validation failed:', err);
+      localStorage.removeItem('session-id');
       setAuthenticated(false);
       return false;
     }
@@ -62,6 +70,9 @@ export function AuthProvider({ children }) {
 
   const loginWithHandle = useCallback((handle) => {
     if (!handle) return;
+
+    localStorage.setItem('return-to', globalThis.location.href);
+
     setLoading(true);
     const loginURL = unwrapClearskyURL(
       `${v1APIPrefix}login?identifier=${encodeURIComponent(handle)}`

@@ -14,7 +14,6 @@ import { SearchHeaderDebounced } from '../history/search-header';
 import { VisibleWithDelay } from '../../common-components/visible';
 import { resolveHandleOrDID } from '../../api';
 import { useAccountResolver } from '../account-resolver';
-import ProtectedContent from '../../auth/protected-content';
 
 export function BlockedByLists() {
   const accountQuery = useAccountResolver();
@@ -36,7 +35,7 @@ export function BlockedByLists() {
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
-        <CircularProgress size="1.5em" /> 
+        <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
           {'Loading blocked by lists...'}
         </div>
@@ -47,7 +46,7 @@ export function BlockedByLists() {
   const shouldShowLoadMore = hasNextPage && (!search || filteredLists.length > 0);
 
   return (
-    <ProtectedContent>
+    <>
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
@@ -70,7 +69,7 @@ export function BlockedByLists() {
                   onClick={() => setShowSearch(true)}><SearchIcon /></Button>
               }
             </span>
-          </> : 
+          </> :
           isLoadingTotal ? null : 'Not blocked by any users via lists'
         }
       </h3>
@@ -89,7 +88,7 @@ export function BlockedByLists() {
           </p>
         </VisibleWithDelay>
       )}
-    </ProtectedContent>
+    </>
   );
 }
 

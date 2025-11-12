@@ -13,7 +13,7 @@ export function LoginButton() {
   return (
     <Button
       variant="contained"
-      color={authenticated ? "secondary" : "primary"}
+      color={authenticated ? "inherit" : "primary"}
       onClick={authenticated ? logout : openLoginModal}
       disabled={loading}
       sx={{ borderRadius: 2 }}

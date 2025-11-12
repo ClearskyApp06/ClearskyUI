@@ -12,6 +12,8 @@ function getInputHtmlFiles() {
         .map((file) => join(srcDir, file));
 }
 
+const isClearSkyDomain = location.hostname.includes('clearsky.app');
+
 export default defineConfig({
     plugins: [react()],
     root: 'src',
@@ -28,15 +30,18 @@ export default defineConfig({
         BUILD_COMMIT_HASH: JSON.stringify(env.BUILD_COMMIT_HASH),
     },
     server: {
-        proxy: {
-            // Proxy API requests to staging backend
-            '/proxy': {
-                target: 'https://staging.api.clearsky.services',
-                changeOrigin: true,
-                secure: false,
-                cookieDomainRewrite: '', // rewrite cookie domain to localhost
-                rewrite: (path) => path.replace(/^\/proxy/, ''), // <--- strip /proxy
-            },
-        },
+        ...(isClearSkyDomain
+            ? {}
+            : {
+                proxy: {
+                    '/proxy': {
+                        target: 'https://staging.api.clearsky.services',
+                        changeOrigin: true,
+                        secure: false,
+                        cookieDomainRewrite: '',
+                        rewrite: (path) => path.replace(/^\/proxy/, ''),
+                    },
+                },
+            }),
     },
 });

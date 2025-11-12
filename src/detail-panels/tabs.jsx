@@ -32,22 +32,22 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
     children: [
       {
         index: true,
-        lazy: async () => {
-          const { default: BlockingPanel } = await import('./blocking');
-          return {
-            Component: () => (
-              <ProtectedContent>
-                <BlockingPanel />
-              </ProtectedContent>
-            ),
-          };
-        },
+        lazy: () => getDefaultComponent(import('./blocking')),
         tab: () => ({ label: localise('Blocking') }),
         featureFlag: 'blocking-tab',
       },
       {
         path: 'blocked-by',
-        lazy: () => getDefaultComponent(import('./blocked-by')),
+        lazy: async () => {
+          const { default: BlockedByPanel } = await import('./blocked-by');
+          return {
+            Component: () => (
+              <ProtectedContent>
+                <BlockedByPanel />
+              </ProtectedContent>
+            ),
+          };
+        },
         tab: () => ({ label: localise('Blocked By') }),
         featureFlag: 'blocked-by-tab',
       },
@@ -75,12 +75,30 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
         children: [
           {
             index: true,
-            lazy: () => getDefaultComponent(import('./blocked-by-lists')),
+            lazy: async () => {
+              const { default: BlockedByLists } = await import('./blocked-by-lists');
+              return {
+                Component: () => (
+                  <ProtectedContent>
+                    <BlockedByLists />
+                  </ProtectedContent>
+                ),
+              };
+            },
             featureFlag: 'lists-blocked-by-tab',
           },
           {
             path: 'subscribers/:list_url',
-            lazy: () => getDefaultComponent(import('./block-list-subscribers')),
+            lazy: async () => {
+              const { default: BlockListSubscribersPanel } = await import('./block-list-subscribers');
+              return {
+                Component: () => (
+                  <ProtectedContent>
+                    <BlockListSubscribersPanel />
+                  </ProtectedContent>
+                ),
+              };
+            },
             featureFlag: 'lists-blocked-by-tab',
           },
         ],
@@ -90,14 +108,32 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
 
   {
     path: 'lists',
-    lazy: () => getDefaultComponent(import('./lists')),
+    lazy: async () => {
+      const { default: Lists } = await import('./lists');
+      return {
+        Component: () => (
+          <ProtectedContent>
+            <Lists />
+          </ProtectedContent>
+        ),
+      };
+    },
     tab: () => ({ label: localise('Lists On') }),
     featureFlag: 'lists-on-tab',
   },
 
   {
     path: 'history',
-    lazy: () => getDefaultComponent(import('./history/history-panel')),
+    lazy: async () => {
+      const { default: HistoryPanel } = await import('./history/history-panel');
+      return {
+        Component: () => (
+          <ProtectedContent>
+            <HistoryPanel />
+          </ProtectedContent>
+        ),
+      };
+    },
     tab: () => ({ label: localise('Posts') }),
     featureFlag: 'posts-tab',
   },
@@ -122,7 +158,16 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
       },
       {
         path: 'in',
-        lazy: () => getDefaultComponent(import('./packs/packed')),
+        lazy: async () => {
+          const { default: Packed } = await import('./packs/packed');
+          return {
+            Component: () => (
+              <ProtectedContent>
+                <Packed />
+              </ProtectedContent>
+            ),
+          };
+        },
         tab: () => ({ label: localise('Starter Packs In') }),
         featureFlag: 'starter-packs-in-tab'
       },

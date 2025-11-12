@@ -5,8 +5,6 @@ import { Outlet, Await, Link, useMatch } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
 import './layout.css';
-import '../donate.css';
-import Donate from '../common-components/donate';
 import { Box, Fade, useTheme, keyframes, Tab, Tabs, useMediaQuery } from '@mui/material';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
@@ -16,6 +14,7 @@ import { ProfileSpamBanner } from './profile/profile-spam-banner';
 import { GoogleAdSlot } from '../common-components/google-ad-slot';
 import BlockingTabs from './blocking/blocking-tabs';
 import StarterPacksTabs from './packs/starter-packs-tabs';
+import { LoginButton } from '../auth/login-button';
 
 /**
  *
@@ -35,7 +34,14 @@ export function AccountLayout() {
         <GoogleAdSlot slot="4524958237" style={{ height: '100%' }} />
       </div>
       <div className="main-content">
-        <Donate />
+        <Box sx={{
+          position: "absolute",
+          top: "16px",
+          right: "16px",
+          zIndex: 100
+        }}>
+          <LoginButton />
+        </Box>
         <div className="detail-container">
           <AccountHeader className="account-header" />
           <Box
