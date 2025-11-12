@@ -207,7 +207,7 @@ function ErrorAccount({
 
   return (
     <Link
-      to={link || `/${unwrapShortHandle(handle)}/history`}
+      to={link || `/${unwrapShortHandle(handle)}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       {content}
@@ -229,7 +229,7 @@ function LoadingAccount({
   const at = likelyDID(handle) ? '\u24d3' : '@';
   return (
     <Link
-      to={link || `/${unwrapShortHandle(handle)}/history`}
+      to={link || `/${unwrapShortHandle(handle)}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       <span
