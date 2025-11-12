@@ -41,6 +41,11 @@ export default defineConfig({
                         secure: false,
                         cookieDomainRewrite: '',
                         rewrite: (path) => path.replace(/^\/proxy/, ''),
+                        configure: (proxy, options) => {
+                            proxy.on('proxyRes', (proxyRes) => {
+                                proxyRes.headers['Cache-Control'] = 'no-store';
+                            });
+                        },
                     },
                 },
             }),
