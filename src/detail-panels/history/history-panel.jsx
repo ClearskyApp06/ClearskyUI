@@ -10,12 +10,16 @@ import { Button, Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import './history-panel.css';
 import { useAccountResolver } from '../account-resolver';
+import { useAuth } from '../../context/authContext';
 
 export default function HistoryPanel() {
   const accountQuery = useAccountResolver();
+  const { authenticated, openLoginModal } = useAuth()
   const account = accountQuery.data;
+
+  const shouldShowHistory = !account?.obscurePublicRecords || authenticated;
   // Don't fetch history if the account has requested to obscure public records
-  const history = usePostHistory(account?.obscurePublicRecords ? null : account?.shortDID);
+  const history = usePostHistory(shouldShowHistory ? account?.shortDID : null);
 
   const [searchParams] = useSearchParams();
   const searchText = searchParams.get('q') || '';
@@ -26,7 +30,7 @@ export default function HistoryPanel() {
         label={localise('Search history', { uk: 'Шукати в історії' })}
         setQ
       />
-      {account?.obscurePublicRecords && (
+      {account?.obscurePublicRecords && !authenticated && (
         <div className="obscure-public-records-overlay">
           <div className="obscure-public-records-overlay-content">
             <AccountShortEntry
@@ -49,10 +53,7 @@ export default function HistoryPanel() {
             </div>
             <Button
               variant="outlined"
-              target="_blank"
-              href={`https://bsky.app/profile/${unwrapShortHandle(
-                account?.shortHandle
-              )}`}
+              onClick={openLoginModal}
             >
               {localise('Authenticate', {
                 uk: 'Автентифікація',
