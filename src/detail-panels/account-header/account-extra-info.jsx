@@ -6,6 +6,7 @@ import { ContentCopy } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import { unwrapShortDID } from '../../api';
 import { useHandleHistory } from '../../api/handle-history';
+import { useFeatureFlag } from '../../api/featureFlags';
 import { FullDID } from '../../common-components/full-short';
 import { localise } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
@@ -26,6 +27,7 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const account = accountQuery.data;
   const handleHistoryQuery = useHandleHistory(account?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+  const showProfileCounts = useFeatureFlag('profile-counts');
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
       <Box sx={{ pl: '0.5em' }}>
@@ -37,6 +39,49 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
             <MultilineFormatted text={account?.description} />
           )}
         </div>
+        {showProfileCounts &&
+          (account?.followersCount !== undefined ||
+            account?.followsCount !== undefined ||
+            account?.postsCount !== undefined) && (
+          <div className="stats-section">
+            {account.followersCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.followersCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Followers', {
+                    uk: 'Підписників',
+                  })}
+                </span>
+              </div>
+            )}
+            {account.followsCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.followsCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Following', {
+                    uk: 'Підписок',
+                  })}
+                </span>
+              </div>
+            )}
+            {account.postsCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.postsCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Posts', {
+                    uk: 'Постів',
+                  })}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
         <div className="did-section">
           <DidWithCopyButton
             shortDID={account?.shortDID}
