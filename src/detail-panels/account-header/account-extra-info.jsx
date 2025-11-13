@@ -6,6 +6,7 @@ import { ContentCopy } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import { unwrapShortDID } from '../../api';
 import { useHandleHistory } from '../../api/handle-history';
+import { useFeatureFlag } from '../../api/featureFlags';
 import { FullDID } from '../../common-components/full-short';
 import { localise } from '../../localisation';
 import { useAccountResolver } from '../account-resolver';
@@ -26,6 +27,7 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const account = accountQuery.data;
   const handleHistoryQuery = useHandleHistory(account?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
+  const showProfileCounts = useFeatureFlag('profile-counts');
   return (
     <div className={'account-extra-info ' + (className || '')} {...rest}>
       <Box sx={{ pl: '0.5em' }}>
@@ -37,9 +39,10 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
             <MultilineFormatted text={account?.description} />
           )}
         </div>
-        {(account?.followersCount !== undefined ||
-          account?.followsCount !== undefined ||
-          account?.postsCount !== undefined) && (
+        {showProfileCounts &&
+          (account?.followersCount !== undefined ||
+            account?.followsCount !== undefined ||
+            account?.postsCount !== undefined) && (
           <div className="stats-section">
             {account.followersCount !== undefined && (
               <div className="stat-item">
