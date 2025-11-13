@@ -230,14 +230,19 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
         } else if (atRegex.test(part)) {
           return part.split(atRegex).map((subPart, subIndex) => {
             if (atRegex.test(`@${subPart}`)) {
+              // Strip trailing punctuation from the handle
+              const cleanHandle = subPart.replace(/[.,;:!?]+$/, '');
+              const trailingPunctuation = subPart.slice(cleanHandle.length);
               return (
-                <a
-                  key={subIndex}
-                  href={`https://clearsky.app/${subPart}`}
-                  rel="noopener noreferrer"
-                >
-                  @{subPart}
-                </a>
+                <React.Fragment key={subIndex}>
+                  <a
+                    href={`https://clearsky.app/${cleanHandle}`}
+                    rel="noopener noreferrer"
+                  >
+                    @{cleanHandle}
+                  </a>
+                  {trailingPunctuation}
+                </React.Fragment>
               );
             }
             return subPart;
