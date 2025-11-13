@@ -4,6 +4,7 @@ import { ProgressiveRender } from '../../common-components/progressive-render';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { localise } from '../../localisation';
 import { GoogleAdSlot } from '../../common-components/google-ad-slot';
+import { useSettings } from '../../utils/settings-context';
 
 /**
  * @param {{
@@ -43,6 +44,7 @@ function ListViewEntry({
   className,
   ...rest
 }) {
+  const { getEffectiveTimeFormat } = useSettings();
   const account = handle || did;
   if (!account) return null;
 
@@ -58,7 +60,15 @@ function ListViewEntry({
             <div className="account-info-panel-blocked-timestamp">
               {localise('blocked', { uk: 'заблоковано' })}
               <div className="account-info-panel-blocked-timestamp-full">
-                {new Date(entryDate).toString()}
+                {new Date(entryDate).toLocaleString(undefined, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                  hour12: getEffectiveTimeFormat() === '12',
+                })}
               </div>
             </div>
           )

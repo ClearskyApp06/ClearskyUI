@@ -5,6 +5,7 @@ import React from 'react';
 import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
 import { FirstPartyAd } from '../common-components/first-party-ad';
+import { TimeFormatToggle } from '../common-components/time-format-toggle';
 import { Box } from '@mui/material';
 
 /**
@@ -30,9 +31,11 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         justifyContent: "flex-start",
         flexDirection: 'row',
         gap: 2,
+        flexWrap: 'wrap',
       }}>
 
         <Donate className="donate-home" />
+        <TimeFormatToggle />
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <FirstPartyAd placementId="227845" size="banner" />
         </Box>

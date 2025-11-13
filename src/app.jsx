@@ -14,6 +14,7 @@ import { ErrorBoundary } from './common-components/error-boundary';
 import { SupportBanner } from './common-components/support-banner';
 import { getDefaultComponent } from './utils/get-default';
 import { profileChildRoutesPromise } from './detail-panels/tabs';
+import { SettingsProvider } from './utils/settings-context';
 import './app.css';
 
 const hydrateFallbackElement = (
@@ -86,20 +87,22 @@ async function showApp() {
 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <React.Suspense fallback={hydrateFallbackElement}>
-            <RouterProvider
-              router={router}
-              future={{ v7_startTransition: true }}
-            />
-          </React.Suspense>
-          <SupportBanner />
-          <div className="bluethernal-llc-watermark">
-            © 2025 Bluethernal Inc
-          </div>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <SettingsProvider>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <React.Suspense fallback={hydrateFallbackElement}>
+              <RouterProvider
+                router={router}
+                future={{ v7_startTransition: true }}
+              />
+            </React.Suspense>
+            <SupportBanner />
+            <div className="bluethernal-llc-watermark">
+              © 2025 Bluethernal Inc
+            </div>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </SettingsProvider>
     </React.StrictMode>
   );
 }
