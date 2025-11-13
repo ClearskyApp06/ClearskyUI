@@ -124,16 +124,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
 
   {
     path: 'history',
-    lazy: async () => {
-      const { default: HistoryPanel } = await import('./history/history-panel');
-      return {
-        Component: () => (
-          <ProtectedContent>
-            <HistoryPanel />
-          </ProtectedContent>
-        ),
-      };
-    },
+    lazy: () => getDefaultComponent(import('./history/history-panel')),
     tab: () => ({ label: localise('Posts') }),
     featureFlag: 'posts-tab',
   },

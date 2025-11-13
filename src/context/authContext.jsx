@@ -25,48 +25,42 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState(null);
+  const [sessionId, setSessionId] = useState(localStorage.getItem('session-id'));
   const [authenticated, setAuthenticated] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
   const openLoginModal = useCallback(() => setLoginOpen(true), []);
   const closeLoginModal = useCallback(() => setLoginOpen(false), []);
 
-  const validateAuth = useCallback(async (id) => {
-    if (!id) return false;
+  const validateAuth = useCallback(async () => {
+    if (!sessionId) return false;
+    setLoading(true);
     try {
       const res = await fetchClearskyApi(
         'v1',
-        `login/session/validate?identifier=${encodeURIComponent(id)}`,
-        { credentials: 'include' }
+        `login/session/validate`
       );
       const ok = Boolean(res?.authenticated);
-      setAuthenticated(ok);
-      if (ok) {
-        const returnTo = localStorage.getItem('return-to');
-        if (returnTo) {
-          localStorage.removeItem('return-to');
-          globalThis.location.replace(returnTo);
-        }
-      } else {
+      if (!ok) {
         localStorage.removeItem('session-id');
       }
+      setAuthenticated(ok);
+      setLoading(false);
       return ok;
     } catch (err) {
       console.error('Auth validation failed:', err);
       localStorage.removeItem('session-id');
       setAuthenticated(false);
+      setLoading(false);
       return false;
     }
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('session-id');
-    if (saved) {
-      setSessionId(saved);
-      validateAuth(saved);
+    if (sessionId) {
+      validateAuth();
     }
-  }, [validateAuth]);
+  }, [validateAuth, sessionId]);
 
   const loginWithHandle = useCallback((handle) => {
     if (!handle) return;

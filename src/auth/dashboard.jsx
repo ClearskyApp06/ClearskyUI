@@ -5,6 +5,7 @@ import { CircularProgress, Box, Typography } from "@mui/material";
 export default function AuthCallback() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  const returnTo = localStorage.getItem('return-to');
 
   useEffect(() => {
     const session = params.get("session-id");
@@ -13,8 +14,13 @@ export default function AuthCallback() {
     if (session && state) {
       localStorage.setItem("session-id", session);
     }
-    navigate("/", { replace: true });
-  }, [params, navigate]);
+    if (returnTo) {
+      localStorage.removeItem('return-to');
+      globalThis.location.replace(returnTo);
+    } else {
+      navigate("/", { replace: true });
+    }
+  }, [params, navigate, returnTo]);
 
   return (
     <Box

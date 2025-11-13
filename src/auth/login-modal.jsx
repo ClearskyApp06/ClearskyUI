@@ -44,6 +44,7 @@ export function LoginModal({ open, onClose }) {
       <DialogContent>
         <TextField
           autoFocus
+          sx={{ mt: 1 }}
           fullWidth
           label="Bluesky Handle"
           placeholder="example.bsky.social"

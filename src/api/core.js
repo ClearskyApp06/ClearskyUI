@@ -59,10 +59,13 @@ export function unwrapClearskyURL(apiURL) {
 export function fetchClearskyApi(apiVer, apiPath, options) {
   const isClearSkyDomain = location.hostname.includes('clearsky.app');
   const isVercelDomain = location.hostname.includes('vercel.app');
+  const identifier = localStorage.getItem('session-id');
+
+  const baseUrl = `${v1APIPrefix}${apiPath}?identifier=${encodeURIComponent(identifier || '')}`;
 
   let apiUrl = isClearSkyDomain || isVercelDomain
-    ? unwrapClearskyURL(v1APIPrefix + apiPath)
-    : '/proxy' + v1APIPrefix + apiPath;
+    ? unwrapClearskyURL(baseUrl)
+    : '/proxy' + baseUrl;
 
   return fetch(apiUrl, {
     credentials: isVercelDomain ? 'omit' : 'include',
