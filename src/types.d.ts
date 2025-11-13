@@ -20,6 +20,9 @@ type AccountInfo = {
   bannerUrl?: string;
   obscurePublicRecords?: boolean;
   labels: AccountLabel[];
+  followersCount?: number;
+  followsCount?: number;
+  postsCount?: number;
 };
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {

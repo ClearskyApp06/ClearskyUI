@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { shortenDID, unwrapShortHandle, isBskySocialHandle } from '..';
-import { atClient } from '../core';
+import {atClient, publicAtClient} from '../core';
 import { queryClient } from '../query-client';
 
 /**
@@ -83,7 +83,7 @@ async function resolveHandleToDid(fullHandle, signal) {
  */
 async function resolveHandleFromBsky(fullHandle, signal) {
   try {
-    const resolved = await atClient.com.atproto.identity.resolveHandle(
+    const resolved = await publicAtClient.com.atproto.identity.resolveHandle(
       {
         handle: fullHandle,
       },

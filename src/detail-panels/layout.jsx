@@ -1,7 +1,7 @@
 // @ts-check
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet, Await, Link, useMatch } from 'react-router-dom';
+import { Outlet, Await, Link, useMatch, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
 import './layout.css';
@@ -21,7 +21,26 @@ import { LoginButton } from '../auth/login-button';
  * @returns
  */
 export function AccountLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { handle: urlHandle } = useParams();
   const resolved = useAccountResolver();
+
+  // Update URL if the resolved handle is different from the URL handle
+  useEffect(() => {
+    if (resolved.isSuccess && resolved.data?.shortHandle) {
+      const resolvedHandle = resolved.data.shortHandle;
+      // Only update if the resolved handle is different from the URL parameter
+      if (urlHandle && resolvedHandle !== urlHandle) {
+        // Extract the path after the handle (e.g., /profile, /blocking/blocked-by, etc.)
+        const handleIndex = location.pathname.indexOf(urlHandle);
+        const pathAfterHandle = location.pathname.substring(handleIndex + urlHandle.length);
+        // Build the new path with the resolved handle
+        const newPath = `/${resolvedHandle}${pathAfterHandle}`;
+        navigate(newPath, { replace: true });
+      }
+    }
+  }, [resolved.isSuccess, resolved.data?.shortHandle, urlHandle, location.pathname, navigate]);
 
   const spamQuery = useSpamStatus(resolved.data?.shortHandle);
   const spamFeature = useFeatureFlag('spam-profile-overlay');
