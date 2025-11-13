@@ -89,3 +89,8 @@
   border-color: #2563eb;
   text-decoration: none;
 }
+
+.lists-as-list-view .lists-entry .list-count {
+  padding-left: 0.3em;
+  color: green;
+}

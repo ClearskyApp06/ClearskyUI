@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { ConditionalAnchor } from './conditional-anchor';
 import { useResolveHandleOrDid } from '../api';
 import { GoogleAdSlot } from './google-ad-slot';
+import { useListSize } from '../api/lists';
+import { CircularProgress } from '@mui/material';
 
 const AD_FREQUENCY = 35;
 
@@ -59,6 +61,8 @@ export function BlockListsView({ className, list, handle }) {
  */
 function BlockListsViewEntry({ className, entry, handle }) {
   const resolved = useResolveHandleOrDid(entry.list_owner);
+  const { data: sizeData, isLoading } = useListSize(entry.list_url);
+  const count = sizeData?.count?.toLocaleString() || '';
 
   return (
     <li className={'lists-entry ' + (className || '')}>
@@ -85,6 +89,13 @@ function BlockListsViewEntry({ className, entry, handle }) {
           >
             {entry.list_name}
           </ConditionalAnchor>
+        </span>
+        <span className="list-count">
+          {isLoading ? (
+            <CircularProgress color="inherit" size="0.75em" />
+          ) : (
+            count
+          )}
         </span>
       </div>
       {entry.description && (
