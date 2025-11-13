@@ -37,6 +37,48 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
             <MultilineFormatted text={account?.description} />
           )}
         </div>
+        {(account?.followersCount !== undefined ||
+          account?.followsCount !== undefined ||
+          account?.postsCount !== undefined) && (
+          <div className="stats-section">
+            {account.followersCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.followersCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Followers', {
+                    uk: 'Підписників',
+                  })}
+                </span>
+              </div>
+            )}
+            {account.followsCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.followsCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Following', {
+                    uk: 'Підписок',
+                  })}
+                </span>
+              </div>
+            )}
+            {account.postsCount !== undefined && (
+              <div className="stat-item">
+                <span className="stat-value">
+                  {account.postsCount.toLocaleString()}
+                </span>{' '}
+                <span className="stat-label">
+                  {localise('Posts', {
+                    uk: 'Постів',
+                  })}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
         <div className="did-section">
           <DidWithCopyButton
             shortDID={account?.shortDID}
