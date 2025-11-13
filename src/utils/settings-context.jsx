@@ -1,5 +1,5 @@
 // @ts-check
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 /**
  * @typedef {'auto' | '12' | '24'} TimeFormat
