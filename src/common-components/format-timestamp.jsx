@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@mui/material';
 import { localise } from '../localisation';
+import { useSettings } from '../utils/settings-context';
 
 /**
  * @param {{
@@ -24,6 +25,7 @@ export function FormatTimestamp({
   ...props
 }) {
   const [_, setState] = useState(0);
+  const { getEffectiveTimeFormat } = useSettings();
 
   const date = new Date(timestamp);
   const now = Date.now();
@@ -85,16 +87,28 @@ export function FormatTimestamp({
 
   if (noTooltip) return core;
 
+  const effectiveFormat = getEffectiveTimeFormat();
+  const hour12 = effectiveFormat === '12';
+  const fullDateTimeStr = date.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: hour12,
+  });
+
   return (
     <Tooltip
       title={
         tooltipExtra ? (
           <>
-            {date.toString()}
+            {fullDateTimeStr}
             {tooltipExtra}
           </>
         ) : (
-          date.toString()
+          fullDateTimeStr
         )
       }
     >

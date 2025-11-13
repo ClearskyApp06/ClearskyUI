@@ -7,6 +7,7 @@ import { AccountHeader } from './account-header';
 import './layout.css';
 import '../donate.css';
 import Donate from '../common-components/donate';
+import { TimeFormatToggle } from '../common-components/time-format-toggle';
 import { Box, Fade, useTheme, keyframes, Tab, Tabs, useMediaQuery } from '@mui/material';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
@@ -35,7 +36,10 @@ export function AccountLayout() {
         <GoogleAdSlot slot="4524958237" style={{ height: '100%' }} />
       </div>
       <div className="main-content">
-        <Donate />
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+          <Donate />
+          <TimeFormatToggle />
+        </Box>
         <div className="detail-container">
           <AccountHeader className="account-header" />
           <Box
