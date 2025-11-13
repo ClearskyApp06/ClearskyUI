@@ -23,7 +23,8 @@ export function patchBskyAgent(atClient) {
 let baseURL = 'https://api.clearsky.services/';
 let baseStagingURL = 'https://staging.api.clearsky.services/';
 
-export const v1APIPrefix = '/csky/api/';
+export const v1APIPrefix = '/csky/api/v1/';
+export const v2APIPrefix = '/csky/api/v2/';
 
 const params = new URLSearchParams(location.search);
 const apiOverride = params.get('api');
