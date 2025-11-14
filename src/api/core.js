@@ -20,8 +20,8 @@ export function patchBskyAgent(atClient) {
   };
 }
 
-let baseURL = 'https://api.clearsky.services/';
-let baseStagingURL = 'https://staging.api.clearsky.services/';
+let baseURL = 'https://api.clearsky.app/';
+let baseStagingURL = 'https://staging.api.clearsky.app/';
 
 export const v1APIPrefix = '/csky/api/v1/';
 export const v2APIPrefix = '/csky/api/v2/';
