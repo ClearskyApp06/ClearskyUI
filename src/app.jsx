@@ -48,6 +48,7 @@ async function showApp() {
           { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
           { path: 'labelers/:did', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
           { path: 'dashboard', lazy: () => getDefaultComponent(import('./auth/dashboard')) },
+          { path: 'auth/login/error', lazy: () => getDefaultComponent(import('./auth/login-error')) },
           {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),

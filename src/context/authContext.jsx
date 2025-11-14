@@ -71,6 +71,7 @@ export function AuthProvider({ children }) {
     const loginURL = unwrapClearskyURL(
       `${v1APIPrefix}login?identifier=${encodeURIComponent(handle)}`
     );
+    setLoading(false)
     globalThis.location.href = loginURL;
   }, []);
 
