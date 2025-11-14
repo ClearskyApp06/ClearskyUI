@@ -16,7 +16,8 @@ const DEFAULT_LIMIT = 5;
  *  header?: React.ReactNode | ((list: DashboardBlockListEntry[]) => React.ReactNode),
  *  list: BlockList | null,
  *  list24: BlockList | null,
- *  limit?: number
+ *  limit?: number,
+ *  show24hToggle?: boolean
  * }} _
  */
 export function TopList({
@@ -25,6 +26,7 @@ export function TopList({
   list,
   list24,
   limit = DEFAULT_LIMIT,
+  show24hToggle = true,
 }) {
   const [expanded, setExpanded] = useState(
     /** @type {boolean | undefined } */ (undefined)
@@ -33,7 +35,7 @@ export function TopList({
     /** @type {boolean | undefined } */ (undefined)
   );
 
-  const useList = see24 ? list24 : list;
+  const useList = show24hToggle && see24 ? list24 : list;
 
   const blockedSlice = !useList
     ? []
@@ -47,20 +49,22 @@ export function TopList({
         {typeof header === 'function'
           ? header(blockedSlice)
           : header || defaultHeader(blockedSlice)}
-        <span className="top-list-24h-toggle-container">
-          <Switch
-            value={!!see24}
-            onChange={() => setSee24(!see24)}
-            size="small"
-          />{' '}
-          <br />
-          <span
-            className="top-list-24h-toggle-label"
-            onClick={() => setSee24(!see24)}
-          >
-            {localise('last 24h', { uk: 'за 24г' })}
+        {show24hToggle && (
+          <span className="top-list-24h-toggle-container">
+            <Switch
+              value={!!see24}
+              onChange={() => setSee24(!see24)}
+              size="small"
+            />{' '}
+            <br />
+            <span
+              className="top-list-24h-toggle-label"
+              onClick={() => setSee24(!see24)}
+            >
+              {localise('last 24h', { uk: 'за 24г' })}
+            </span>
           </span>
-        </span>
+        )}
       </h2>
       <div className="top-list-entries">
         {!useList

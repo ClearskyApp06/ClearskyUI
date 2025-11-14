@@ -24,6 +24,7 @@ export function TopListsOn({ listsOn, listsOn24, limit }) {
       list={listsOn}
       list24={listsOn24}
       limit={limit}
+      show24hToggle={false}
     />
   );
 }

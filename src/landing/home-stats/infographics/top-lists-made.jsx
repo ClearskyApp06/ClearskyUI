@@ -24,6 +24,7 @@ export function TopListsMade({ listsMade, listsMade24, limit }) {
       list={listsMade}
       list24={listsMade24}
       limit={limit}
+      show24hToggle={false}
     />
   );
 }
