@@ -39,6 +39,9 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         </Box>
       </Box>
 
+      <Box sx={{ mt: 2 }}>
+        <LoginButton />
+      </Box>
 
       <Box
         sx={{
@@ -50,7 +53,6 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
 
         }}
       >
-        <LoginButton />
         <FirstPartyAd placementId="447632" size="responsiveBanner" />
         <FirstPartyAd placementId="764383" size="responsiveBanner" />
       </Box>
