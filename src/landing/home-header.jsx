@@ -54,6 +54,7 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
 
         }}
       >
+        <LoginButton />
         <FirstPartyAd placementId="447632" size="responsiveBanner" />
         <FirstPartyAd placementId="764383" size="responsiveBanner" />
       </Box>
