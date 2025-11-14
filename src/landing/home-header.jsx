@@ -6,6 +6,7 @@ import { SearchAutoComplete } from './search-autocomplete';
 import Donate from '../common-components/donate';
 import { FirstPartyAd } from '../common-components/first-party-ad';
 import { Box } from '@mui/material';
+import { LoginButton } from '../auth/login-button';
 
 /**
  * @param {{
@@ -38,6 +39,9 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         </Box>
       </Box>
 
+      <Box sx={{ mt: 2 }}>
+        <LoginButton />
+      </Box>
 
       <Box
         sx={{

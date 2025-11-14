@@ -20,10 +20,11 @@ export function patchBskyAgent(atClient) {
   };
 }
 
-let baseURL = 'https://api.clearsky.services/';
-let baseStagingURL = 'https://staging.api.clearsky.services/';
+let baseURL = 'https://api.clearsky.app/';
+let baseStagingURL = 'https://staging.api.clearsky.app/';
 
-export const v1APIPrefix = '/csky/api/';
+export const v1APIPrefix = '/csky/api/v1/';
+export const v2APIPrefix = '/csky/api/v2/';
 
 const params = new URLSearchParams(location.search);
 const apiOverride = params.get('api');
@@ -56,9 +57,24 @@ export function unwrapClearskyURL(apiURL) {
  * @returns
  */
 export function fetchClearskyApi(apiVer, apiPath, options) {
-  const apiUrl = unwrapClearskyURL(v1APIPrefix + apiPath);
-  return fetch(apiUrl, options).then((x) => x.json());
+  const isClearSkyDomain = location.hostname.includes('clearsky.app');
+  const isVercelDomain = location.hostname.includes('vercel.app');
+  const identifier = localStorage.getItem('session-id');
+
+  const baseUrl = `${v1APIPrefix}${apiPath}?identifier=${encodeURIComponent(identifier || '')}`;
+
+  let apiUrl = isClearSkyDomain || isVercelDomain
+    ? unwrapClearskyURL(baseUrl)
+    : '/proxy' + baseUrl;
+
+  return fetch(apiUrl, {
+    credentials: isVercelDomain ? 'omit' : 'include',
+    ...options,
+  }).then((x) =>
+    x.json()
+  );
 }
+
 
 /**
  * POST data to a ClearSky API endpoint

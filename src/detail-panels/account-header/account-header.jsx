@@ -70,7 +70,7 @@ export function AccountHeader({ className }) {
           style={{
             backgroundImage: resolved.data?.bannerUrl
               ? `url(${resolved.data.bannerUrl})`
-              : 'transparent',
+              : 'none',
           }}
         ></div>
 
@@ -84,7 +84,7 @@ export function AccountHeader({ className }) {
               style={{
                 backgroundImage: resolved.data?.avatarUrl
                   ? `url(${resolved.data?.avatarUrl})`
-                  : 'transparent',
+                  : 'none',
               }}
             ></span>
             <span className="account-displayName">
