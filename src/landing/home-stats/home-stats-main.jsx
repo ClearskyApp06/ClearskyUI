@@ -2,6 +2,8 @@
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
+import { TopListsOn } from './infographics/top-lists-on';
+import { TopListsMade } from './infographics/top-lists-made';
 import { useFeatureFlag } from '../../api/featureFlags';
 
 import './home-stats-main.css';
@@ -27,6 +29,8 @@ export function HomeStatsMain({
   const statsPage = useFeatureFlag('stats-page');
   const topBlocked = useFeatureFlag('top-blocked');
   const topBlockers = useFeatureFlag('top-blockers');
+  const topListsOn = useFeatureFlag('top-lists-on');
+  const topListsMade = useFeatureFlag('top-lists-made');
   const pdsInformation = useFeatureFlag('pds-information');
   const labelerInformationFlag = useFeatureFlag('labeler-information');
 
@@ -139,6 +143,22 @@ export function HomeStatsMain({
               <TopBlockers
                 blockers={stats.topLists.total.blockers}
                 blockers24={stats.topLists['24h'].blockers}
+              />
+            )}
+
+            {topListsOn && (
+              <TopListsOn
+                listsOn={stats.topLists.total.listsOn}
+                listsOn24={stats.topLists['24h'].listsOn}
+                maxLimit={20}
+              />
+            )}
+
+            {topListsMade && (
+              <TopListsMade
+                listsMade={stats.topLists.total.listsMade}
+                listsMade24={stats.topLists['24h'].listsMade}
+                maxLimit={20}
               />
             )}
           </>

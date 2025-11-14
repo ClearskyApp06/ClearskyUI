@@ -96,11 +96,15 @@ interface BlockStats {
 interface FunFacts {
   blocked: BlockList | null;
   blockers: BlockList | null;
+  listsOn: BlockList | null;
+  listsMade: BlockList | null;
 }
 
 interface FunnerFacts {
   blocked: BlockList | null;
   blockers: BlockList | null;
+  listsOn: BlockList | null;
+  listsMade: BlockList | null;
 }
 
 type DashboardStats = {

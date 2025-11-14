@@ -58,3 +58,27 @@ table.stats-table th {
   .top-list-entry:nth-child(even) {
   background: #d6e5ff;
 }
+
+.home-stats-main .top-list.top-lists-on .top-list-header {
+  color: #ab6002;
+  background: #ffc7a1;
+}
+
+.home-stats-main
+  .top-list.top-lists-on
+  .top-list-entries
+  .top-list-entry:nth-child(even) {
+  background: #ffe4d2;
+}
+
+.home-stats-main .top-list.top-lists-made .top-list-header {
+  color: #4f77bf;
+  background: #d6e5ff;
+}
+
+.home-stats-main
+  .top-list.top-lists-made
+  .top-list-entries
+  .top-list-entry:nth-child(even) {
+  background: #d6e5ff;
+}
