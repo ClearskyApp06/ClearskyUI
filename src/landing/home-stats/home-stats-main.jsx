@@ -150,6 +150,7 @@ export function HomeStatsMain({
               <TopListsOn
                 listsOn={stats.topLists.total.listsOn}
                 listsOn24={stats.topLists['24h'].listsOn}
+                limit={20}
               />
             )}
 
@@ -157,6 +158,7 @@ export function HomeStatsMain({
               <TopListsMade
                 listsMade={stats.topLists.total.listsMade}
                 listsMade24={stats.topLists['24h'].listsMade}
+                limit={20}
               />
             )}
           </>
