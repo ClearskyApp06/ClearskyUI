@@ -31,7 +31,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/proxy': {
-                target: 'https://staging.api.clearsky.services',
+                target: 'https://staging.api.clearsky.app',
                 changeOrigin: true,
                 secure: false,
                 cookieDomainRewrite: '',
