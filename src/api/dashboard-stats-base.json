@@ -85,7 +85,9 @@
         { "did": "did:plc:ptlddkaqekq5xj4icqh3btu3", "count": 3320 },
         { "did": "did:plc:ofca62ov5uoae3j772j5vxkx", "count": 3210 },
         { "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg", "count": 2987 }
-      ]
+      ],
+      "listsOn": null,
+      "listsMade": null
     },
     "24h": {
       "blocked": [
@@ -131,7 +133,9 @@
         { "did": "did:plc:j5azar2i2m33clf4gx6s3q5l", "count": 99 },
         { "did": "did:plc:kyj73ifujf6tnhe7s5wpoam4", "count": 97 },
         { "did": "did:plc:6icr4tipspgctwsl24lv5r3y", "count": 95 }
-      ]
+      ],
+      "listsOn": null,
+      "listsMade": null
     }
   }
 }
