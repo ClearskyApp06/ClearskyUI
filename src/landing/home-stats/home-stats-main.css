@@ -60,25 +60,25 @@ table.stats-table th {
 }
 
 .home-stats-main .top-list.top-lists-on .top-list-header {
-  color: #6b4d9e;
-  background: #e5d9f2;
+  color: #ab6002;
+  background: #ffc7a1;
 }
 
 .home-stats-main
   .top-list.top-lists-on
   .top-list-entries
   .top-list-entry:nth-child(even) {
-  background: #f0e9f7;
+  background: #ffe4d2;
 }
 
 .home-stats-main .top-list.top-lists-made .top-list-header {
-  color: #2d7a4f;
-  background: #c8e6d4;
+  color: #4f77bf;
+  background: #d6e5ff;
 }
 
 .home-stats-main
   .top-list.top-lists-made
   .top-list-entries
   .top-list-entry:nth-child(even) {
-  background: #e0f2e8;
+  background: #d6e5ff;
 }
