@@ -37,12 +37,12 @@ async function dashboardStatsApi() {
     (err) => ({ blockStats: err.message })
   );
 
-  /** @type {Promise<StatsEndpointResp<{ listsOn: BlockList }>>} */
+  /** @type {Promise<StatsEndpointResp<BlockList>>} */
   const topListsOnPromise = fetchClearskyApi('v1', 'anon/lists/get-top-lists-on').catch(
     (err) => ({ topListsOn: err.message })
   );
 
-  /** @type {Promise<StatsEndpointResp<{ listsMade: BlockList }>>} */
+  /** @type {Promise<StatsEndpointResp<BlockList>>} */
   const topListsMadePromise = fetchClearskyApi('v1', 'anon/lists/get-top-lists-made').catch(
     (err) => ({ topListsMade: err.message })
   );
@@ -65,10 +65,10 @@ async function dashboardStatsApi() {
   const funnerFactsData = 'data' in funnerFacts ? funnerFacts.data : null;
 
   /** @type {BlockList | null} */
-  const topListsOnData = 'data' in topListsOn ? topListsOn.data?.listsOn || null : null;
+  const topListsOnData = 'data' in topListsOn ? topListsOn.data : null;
 
   /** @type {BlockList | null} */
-  const topListsMadeData = 'data' in topListsMade ? topListsMade.data?.listsMade || null : null;
+  const topListsMadeData = 'data' in topListsMade ? topListsMade.data : null;
 
   /** @type {DashboardStats} */
   const result = {
