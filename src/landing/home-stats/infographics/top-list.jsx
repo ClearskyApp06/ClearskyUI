@@ -39,12 +39,12 @@ export function TopList({
 
   const useList = show24hToggle && see24 ? list24 : list;
   
-  // Use maxLimit if provided and expanded, otherwise use limit
-  const effectiveLimit = expanded && maxLimit ? maxLimit : limit;
-
+  // Determine what to show based on expansion state
   const blockedSlice = !useList
     ? []
-    : useList?.slice(0, effectiveLimit);
+    : expanded
+    ? (maxLimit ? useList?.slice(0, maxLimit) : useList)
+    : useList?.slice(0, limit);
 
   return (
     <div className={'top-list ' + (className || '')}>
