@@ -9,10 +9,9 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { useListSize } from '../../api/lists';
 import './list-view.css';
-import { ProgressiveRender } from '../../common-components/progressive-render';
+import { VirtualizedList } from '../../common-components/virtualized-list';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 import { useResolveHandleOrDid } from '../../api';
-import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 
 /**
  * @param {{
@@ -22,20 +21,12 @@ import { GoogleAdSlot } from '../../common-components/google-ad-slot';
  */
 export function ListView({ className, list }) {
   return (
-    <ul
+    <VirtualizedList
+      items={list || []}
+      renderItem={(entry) => <ListViewEntry entry={entry} />}
+      itemHeight={100}
       className={'lists-as-list-view ' + (className || '')}
-      style={{ padding: 0 }}
-    >
-      <ProgressiveRender
-        items={list || []}
-        renderItem={(entry) => <ListViewEntry entry={entry} />}
-      />
-      <GoogleAdSlot
-        slot="9114105783"
-        format="fluid"
-        layoutKey="-fb+5w+4e-db+86"
-      />
-    </ul>
+    />
   );
 }
 
