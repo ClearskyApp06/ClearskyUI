@@ -32,7 +32,8 @@ export function About() {
         <a href="/privacy-policy.html">Privacy Policy</a> |{' '}
         <a href="/terms-and-conditions.html">Terms and Conditions</a> |{' '}
         <a href="https://status.clearsky.app">Status</a> |{' '}
-        <a href="#" className="termly-display-preferences">Consent Preferences</a>
+        <a href="#" className="termly-display-preferences">Consent Preferences</a> |{' '}
+        <a href="/faq">FAQ</a>
         </span>
         <span>
           {localise('Version', {uk: 'Версія'})}: {version}{' '}

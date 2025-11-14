@@ -50,6 +50,10 @@ async function showApp() {
           { path: 'dashboard', lazy: () => getDefaultComponent(import('./auth/dashboard')) },
           { path: 'auth/login/error', lazy: () => getDefaultComponent(import('./auth/login-error')) },
           {
+            path: 'faq',
+            lazy: () => getDefaultComponent(import('./landing/faq')),
+          },
+          {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),
             children: await profileChildRoutesPromise,
