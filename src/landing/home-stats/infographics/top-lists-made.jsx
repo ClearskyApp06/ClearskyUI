@@ -9,10 +9,11 @@ import { localise } from '../../../localisation';
  * @param {{
  *  listsMade: BlockList | null,
  *  listsMade24: BlockList | null,
- *  limit?: number
+ *  limit?: number,
+ *  maxLimit?: number
  * }} _
  */
-export function TopListsMade({ listsMade, listsMade24, limit }) {
+export function TopListsMade({ listsMade, listsMade24, limit, maxLimit }) {
   return (
     <TopList
       className="top-lists-made"
@@ -24,6 +25,7 @@ export function TopListsMade({ listsMade, listsMade24, limit }) {
       list={listsMade}
       list24={listsMade24}
       limit={limit}
+      maxLimit={maxLimit}
       show24hToggle={false}
     />
   );

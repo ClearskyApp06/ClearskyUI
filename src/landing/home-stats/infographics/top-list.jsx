@@ -17,6 +17,7 @@ const DEFAULT_LIMIT = 5;
  *  list: BlockList | null,
  *  list24: BlockList | null,
  *  limit?: number,
+ *  maxLimit?: number,
  *  show24hToggle?: boolean
  * }} _
  */
@@ -26,6 +27,7 @@ export function TopList({
   list,
   list24,
   limit = DEFAULT_LIMIT,
+  maxLimit,
   show24hToggle = true,
 }) {
   const [expanded, setExpanded] = useState(
@@ -36,12 +38,13 @@ export function TopList({
   );
 
   const useList = show24hToggle && see24 ? list24 : list;
+  
+  // Use maxLimit if provided and expanded, otherwise use limit
+  const effectiveLimit = expanded && maxLimit ? maxLimit : limit;
 
   const blockedSlice = !useList
     ? []
-    : expanded
-    ? useList
-    : useList?.slice(0, limit);
+    : useList?.slice(0, effectiveLimit);
 
   return (
     <div className={'top-list ' + (className || '')}>
@@ -78,8 +81,8 @@ export function TopList({
         {useList && useList.length > limit ? (
           <div className="top-list-more" onClick={() => setExpanded(!expanded)}>
             <span>
-              {localise(`...see top-${useList.length}`, {
-                uk: `...топ-${useList.length}`,
+              {localise(`...see top-${maxLimit || useList.length}`, {
+                uk: `...топ-${maxLimit || useList.length}`,
               })}
             </span>
           </div>
