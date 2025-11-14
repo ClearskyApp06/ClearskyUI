@@ -38,12 +38,12 @@ async function dashboardStatsApi() {
   );
 
   /** @type {Promise<StatsEndpointResp<BlockList>>} */
-  const topListsOnPromise = fetchClearskyApi('v1', 'anon/lists/get-top-lists-on').catch(
+  const topListsOnPromise = fetchClearskyApi('v1', 'lists/get-top-lists-on').catch(
     (err) => ({ topListsOn: err.message })
   );
 
   /** @type {Promise<StatsEndpointResp<BlockList>>} */
-  const topListsMadePromise = fetchClearskyApi('v1', 'anon/lists/get-top-lists-made').catch(
+  const topListsMadePromise = fetchClearskyApi('v1', 'lists/get-top-lists-made').catch(
     (err) => ({ topListsMade: err.message })
   );
 
