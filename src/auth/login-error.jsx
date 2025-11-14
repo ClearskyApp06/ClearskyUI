@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { CircularProgress, Box, Typography } from '@mui/material';
 
 export default function LoginError() {
   const [params] = useSearchParams();
-  const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     const error = params.get('error');
     const returnTo = localStorage.getItem('return-to');
 
+    const REDIRECT_DELAY = 800;
+
     if (error) {
       console.error(error);
       setErrorMsg(error);
     }
 
-    if (returnTo) {
-      localStorage.removeItem('return-to');
-      setTimeout(() => {
-        globalThis.location.replace(returnTo);
-      }, 800);
-      return;
-    }
+    const target = returnTo || '/';
 
     setTimeout(() => {
-      navigate('/', { replace: true });
-    }, 800);
-  }, [params, navigate]);
+      if (returnTo) {
+        localStorage.removeItem('return-to');
+      }
+      globalThis.location.replace(target);
+    }, REDIRECT_DELAY);
+  }, [params]);
 
   return (
     <Box
