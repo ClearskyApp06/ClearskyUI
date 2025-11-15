@@ -7,7 +7,7 @@ export function LoginButton() {
 
   const getLoginButtonText = () => {
     if (authenticated) return "Logout";
-    return "Login with Bluesky"
+    return "Login with Bluesky";
   }
 
   return (
