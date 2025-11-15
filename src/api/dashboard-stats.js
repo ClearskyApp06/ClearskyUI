@@ -56,7 +56,7 @@ async function dashboardStatsApi() {
     topListsMadePromise,
   ]);
 
-  const asof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
+  const asof = "as of" in blockStats ? blockStats["as of"] : initialData.asof;
 
   /** @type {FunFacts | null} */
   const funFactsData = 'data' in funFacts ? funFacts.data : null;
