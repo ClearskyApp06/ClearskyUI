@@ -47,7 +47,6 @@ export function AuthProvider({ children }) {
       const ok = Boolean(res?.authenticated);
       if (!ok) {
         localStorage.removeItem('session-id');
-        setLoading(false);
         setSessionId(null);
       }
       setAuthenticated(ok);
@@ -55,6 +54,10 @@ export function AuthProvider({ children }) {
       return ok;
     } catch (err) {
       console.error('Auth validation failed:', err);
+      localStorage.removeItem('session-id');
+      setAuthenticated(false);
+      setSessionId(null);
+      setLoading(false);
       return false;
     }
   }, [sessionId]);
