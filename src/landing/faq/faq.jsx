@@ -57,6 +57,10 @@ export default function FAQ() {
         FAQ
       </Typography>
 
+      {
+        error && <Typography textAlign="center" color="error">{error.message}</Typography>
+      }
+
       {Object.entries(faqsByCategory).map(([category, faqsInCategory]) => (
         <Box key={category} mb={3}>
           <Box display="flex" alignItems="center" mb={1}>
@@ -71,7 +75,7 @@ export default function FAQ() {
           </Box>
 
           {faqsInCategory.map((faq, index) => {
-            const id = `${category}-${index}`;
+            const id = `${category}-${faq.question.substring(0, 20)}-${index}`
             return (
               <Accordion
                 key={id}
