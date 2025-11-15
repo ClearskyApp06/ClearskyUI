@@ -1,4 +1,4 @@
-// src/components/ProtectedContent.jsx
+// src/auth/protected-content.jsx
 import React from 'react';
 import { useAuth } from '../context/authContext';
 import { Button, Typography } from '@mui/material';

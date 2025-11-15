@@ -106,7 +106,8 @@ async function getListCount(shortHandle) {
  */
 async function getListSize(listUrl, signal) {
   // This is the new path part *after* /csky/api/
-  const apiPath = `get-list/specific/total/${encodeURIComponent(listUrl)}`;
+  // listUrl should be an unencoded string; do not double-encode
+  const apiPath = `get-list/specific/total/${listUrl}`;
   signal.throwIfAborted();
 
   const resp = await listSizeQueue.add(

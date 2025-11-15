@@ -3,7 +3,7 @@
 
 import { BskyAgent } from '@atproto/api';
 import { breakFeedUri, unwrapShortDID } from '.';
-import {atClient, patchBskyAgent, publicAtClient} from './core';
+import { patchBskyAgent, publicAtClient } from './core';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
 import { usePdsUrl } from './pds';
