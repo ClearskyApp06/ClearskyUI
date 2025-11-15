@@ -56,8 +56,21 @@ async function dashboardStatsApi() {
     topListsMadePromise,
   ]);
 
-  const asof = "as of" in blockStats ? blockStats["as of"] : initialData.asof;
+  /**
+   * @param {StatsEndpointResp<any>} obj
+   * @param {keyof TimeStamps} key
+   */
+  function getAsof(obj, key) {
+    return ('asof' in obj && obj.asof) ? obj.asof : initialData.asofTimestamps[key];
+  }
 
+  const asofTimestamps = {
+    totalUsers: getAsof(totalUsers, 'totalUsers'),
+    blockStats: getAsof(blockStats, 'blockStats'),
+    funFacts: getAsof(funFacts, 'funFacts'),
+    funnerFacts: getAsof(funnerFacts, 'funnerFacts'),
+  };
+  
   /** @type {FunFacts | null} */
   const funFactsData = 'data' in funFacts ? funFacts.data : null;
 
@@ -72,7 +85,7 @@ async function dashboardStatsApi() {
 
   /** @type {DashboardStats} */
   const result = {
-    asof,
+    asofTimestamps,
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {

@@ -18,7 +18,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
  */
 export default function HomeStatsTable({
   className,
-  asofFormatted,
+  asofTimestamps,
   loading,
   stats,
   onToggleTable,
@@ -31,6 +31,29 @@ export default function HomeStatsTable({
     topBlockers24,
   } = useMemo(() => getGridRowsAndColumns(stats), [stats]);
 
+  const formatDateString = (/** @type {string} */ dateString) => {
+    return new Date(dateString).toString();
+  }
+
+  const setActiveTabTimestamp = (/** @type {number} */ tab) => {
+    switch (tab) {
+      case 0: {
+        const t1 = asofTimestamps.totalUsers ?? '';
+        const t2 = asofTimestamps.blockStats ?? '';
+        return new Date(t1) > new Date(t2) ? formatDateString(t1) : formatDateString(t2);
+      }
+      case 1:
+        return formatDateString(asofTimestamps.funFacts ?? '');
+      case 2:
+        return formatDateString(asofTimestamps.funnerFacts ?? '');
+      case 3:
+        return formatDateString(asofTimestamps.funFacts ?? '');
+      case 4:
+        return formatDateString(asofTimestamps.funnerFacts ?? '');
+      default:
+        return '';
+    }
+  };
   
   const [activeTab, setActiveTab] = useState(0);
   const tableData = [
@@ -120,7 +143,7 @@ export default function HomeStatsTable({
           className="as-of-subtitle"
           style={{ fontSize: '60%', color: 'silver' }}
         >
-          <i>{asofFormatted}</i>
+          <i>{setActiveTabTimestamp(activeTab)}</i>
         </div>
 
         <div className="tabs">

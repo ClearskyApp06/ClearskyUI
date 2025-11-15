@@ -107,13 +107,20 @@ interface FunnerFacts {
   listsMade: BlockList | null;
 }
 
+type TimeStamps = {
+  totalUsers: string | null;
+  blockStats: string | null;
+  funFacts: string | null;
+  funnerFacts: string | null;
+}
+
 type DashboardStats = {
-  asof: string | null;
+  asofTimestamps: TimeStamps;
   totalUsers: TotalUsers | null;
   blockStats: BlockStats | null;
   topLists: {
     total: FunFacts;
-    '24h': FunerFacts;
+    '24h': FunnerFacts;
   };
 };
 
