@@ -7,9 +7,7 @@ import './block-lists-view.css';
 import { Link } from 'react-router-dom';
 import { ConditionalAnchor } from './conditional-anchor';
 import { useResolveHandleOrDid } from '../api';
-import { GoogleAdSlot } from './google-ad-slot';
-
-const AD_FREQUENCY = 35;
+import { VirtualizedList } from './virtualized-list';
 
 /**
  * @param {{
@@ -20,33 +18,12 @@ const AD_FREQUENCY = 35;
  */
 export function BlockListsView({ className, list, handle }) {
   return (
-    <ul className={'lists-as-list-view ' + (className || '')}>
-      {(list || []).flatMap((entry, i) => {
-        const elements = [
-          <BlockListsViewEntry key={entry.date_added ?? i} entry={entry} handle={handle} />
-        ];
-
-        if (i > 0 && i % AD_FREQUENCY === 0) {
-          elements.push(
-            <GoogleAdSlot
-              key={`ad-${i}-blocked-list-9114105783`}
-              slot="9114105783"
-              format="fluid"
-              layoutKey="-fb+5w+4e-db+86"
-            />
-          );
-        }
-
-        return elements;
-      })}
-
-      <GoogleAdSlot
-        key="ad-end-blocked-list-9114105783"
-        slot="9114105783"
-        format="fluid"
-        layoutKey="-fb+5w+4e-db+86"
-      />
-    </ul>
+    <VirtualizedList
+      items={list || []}
+      renderItem={(entry) => <BlockListsViewEntry entry={entry} handle={handle} />}
+      itemHeight={100}
+      className={'lists-as-list-view ' + (className || '')}
+    />
   );
 }
 
