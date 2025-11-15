@@ -72,7 +72,12 @@ export function fetchClearskyApi(apiVer, apiPath, options) {
     ...options,
   }).then((x) =>
     x.json()
-  );
+  ).then((res) => {
+    if (res.status === 401) {
+      if (onUnauthenticated) onUnauthenticated()
+    }
+    return res
+  })
 }
 
 
@@ -137,4 +142,14 @@ export function nextRandom(rnd) {
   rnd = Math.pow(10, rnd);
   rnd = rnd - Math.floor(rnd);
   return rnd;
+}
+
+/** @type {(() => void) | null} */
+export let onUnauthenticated = null;
+
+/**
+ * @param {(() => void) | null} fn
+ */
+export function setUnauthenticatedHandler(fn) {
+  onUnauthenticated = fn;
 }
