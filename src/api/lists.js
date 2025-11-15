@@ -106,26 +106,23 @@ async function getListCount(shortHandle) {
  */
 async function getListSize(listUrl, signal) {
   // This is the new path part *after* /csky/api/
-  const apiPath = `get-list/specific/total/${encodeURIComponent(listUrl)}`;
+  // listUrl should be an unencoded string; do not double-encode
+  const apiPath = `get-list/specific/total/${listUrl}`;
   signal.throwIfAborted();
 
   const resp = await listSizeQueue.add(
     () => fetchClearskyApi('v1', apiPath, { signal }),
     {
-    signal,
-    throwOnTimeout: true,
+      signal,
+      throwOnTimeout: true,
     }
   );
 
-  if (resp.ok) {
-    /** @type {{ data: { count: number }, list_uri: string }} */
-    const respData = await resp.json();
-    return respData.data;
+  if (resp?.data) {
+    /** @type {{ count: number }} */
+    return resp.data;
   }
-  if (resp.status === 400 || resp.status === 404) {
-    return null;
-  }
-  throw new Error('getListSize error: ' + resp.statusText);
+  return null;
 }
 
 /**

@@ -3,7 +3,7 @@
 
 import { BskyAgent } from '@atproto/api';
 import { breakFeedUri, unwrapShortDID } from '.';
-import { atClient, patchBskyAgent } from './core';
+import { patchBskyAgent, publicAtClient } from './core';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { queryClient } from './query-client';
 import { usePdsUrl } from './pds';
@@ -19,7 +19,7 @@ export function usePostHistory(did) {
   const fullDid = unwrapShortDID(did);
   const { pdsUrl, status: pdsStatus } = usePdsUrl(fullDid);
   const pdsClient = useMemo(() => {
-    if (!pdsUrl) return atClient;
+    if (!pdsUrl) return publicAtClient;
     const client = new BskyAgent({ service: pdsUrl });
     patchBskyAgent(client);
     return client;
@@ -107,7 +107,7 @@ async function fetchPostByUri(uri) {
     throw new Error('Could not find valid DID in URI');
   }
 
-  const postRecord = await atClient.com.atproto.repo.getRecord({
+  const postRecord = await publicAtClient.com.atproto.repo.getRecord({
     repo: fullDid,
     collection: 'app.bsky.feed.post',
     rkey: uriEntity.postID,

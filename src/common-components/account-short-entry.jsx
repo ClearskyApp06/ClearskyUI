@@ -178,6 +178,8 @@ function ErrorAccount({
   children,
 }) {
   const at = likelyDID(handle) ? '\u24d3' : '@';
+  const isDID = likelyDID(handle);
+  const linkHandle = isDID ? handle : unwrapShortHandle(handle);
   const content = (
     <span
       className={
@@ -207,7 +209,7 @@ function ErrorAccount({
 
   return (
     <Link
-      to={link || `/${unwrapShortHandle(handle)}/history`}
+        to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       {content}
@@ -227,9 +229,11 @@ function LoadingAccount({
   children,
 }) {
   const at = likelyDID(handle) ? '\u24d3' : '@';
+  const isDID = likelyDID(handle);
+  const linkHandle = isDID ? handle : unwrapShortHandle(handle);
   return (
     <Link
-      to={link || `/${unwrapShortHandle(handle)}/history`}
+        to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       <span

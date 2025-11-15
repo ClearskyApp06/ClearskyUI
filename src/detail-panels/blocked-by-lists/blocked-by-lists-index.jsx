@@ -35,7 +35,7 @@ export function BlockedByLists() {
   if (isLoading) {
     return (
       <div style={{ padding: '1em', textAlign: 'center', opacity: '0.5' }}>
-        <CircularProgress size="1.5em" /> 
+        <CircularProgress size="1.5em" />
         <div style={{ marginTop: '0.5em' }}>
           {'Loading blocked by lists...'}
         </div>
@@ -69,7 +69,7 @@ export function BlockedByLists() {
                   onClick={() => setShowSearch(true)}><SearchIcon /></Button>
               }
             </span>
-          </> : 
+          </> :
           isLoadingTotal ? null : 'Not blocked by any users via lists'
         }
       </h3>

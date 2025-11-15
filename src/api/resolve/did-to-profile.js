@@ -112,6 +112,9 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
     const description = profileRecord.description;
     const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRecord);
     const labels = profileRecord.labels || [];
+    const followersCount = profileRecord.followersCount;
+    const followsCount = profileRecord.followsCount;
+    const postsCount = profileRecord.postsCount;
     /** @type {AccountInfo} */
     const profileDetails = {
       shortDID,
@@ -122,6 +125,9 @@ async function resolveDIDs(/** @type {string[]} */ dids) {
       description,
       obscurePublicRecords,
       labels,
+      followersCount,
+      followsCount,
+      postsCount,
     };
 
     queryClient.setQueryData(queryKeyForDID(profileRecord.did), profileDetails);

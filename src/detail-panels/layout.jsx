@@ -1,12 +1,10 @@
 // @ts-check
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet, Await, Link, useMatch } from 'react-router-dom';
+import { Outlet, Await, Link, useMatch, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import { AccountHeader } from './account-header';
 import './layout.css';
-import '../donate.css';
-import Donate from '../common-components/donate';
 import { Box, Fade, useTheme, keyframes, Tab, Tabs, useMediaQuery } from '@mui/material';
 import { activeTabRoutesPromise } from './tabs';
 import { useAccountResolver } from './account-resolver';
@@ -16,13 +14,33 @@ import { ProfileSpamBanner } from './profile/profile-spam-banner';
 import { GoogleAdSlot } from '../common-components/google-ad-slot';
 import BlockingTabs from './blocking/blocking-tabs';
 import StarterPacksTabs from './packs/starter-packs-tabs';
+import { LoginButton } from '../auth/login-button';
 
 /**
  *
  * @returns
  */
 export function AccountLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { handle: urlHandle } = useParams();
   const resolved = useAccountResolver();
+
+  // Update URL if the resolved handle is different from the URL handle
+  useEffect(() => {
+    if (resolved.isSuccess && resolved.data?.shortHandle) {
+      const resolvedHandle = resolved.data.shortHandle;
+      // Only update if the resolved handle is different from the URL parameter
+      if (urlHandle && resolvedHandle !== urlHandle) {
+        // Extract the path after the handle (e.g., /profile, /blocking/blocked-by, etc.)
+        const handleIndex = location.pathname.indexOf(urlHandle);
+        const pathAfterHandle = location.pathname.substring(handleIndex + urlHandle.length);
+        // Build the new path with the resolved handle
+        const newPath = `/${resolvedHandle}${pathAfterHandle}`;
+        navigate(newPath, { replace: true });
+      }
+    }
+  }, [resolved.isSuccess, resolved.data?.shortHandle, urlHandle, location.pathname, navigate]);
 
   const spamQuery = useSpamStatus(resolved.data?.shortHandle);
   const spamFeature = useFeatureFlag('spam-profile-overlay');
@@ -35,7 +53,14 @@ export function AccountLayout() {
         <GoogleAdSlot slot="4524958237" style={{ height: '100%' }} />
       </div>
       <div className="main-content">
-        <Donate />
+        <Box sx={{
+          position: "absolute",
+          top: "16px",
+          right: "16px",
+          zIndex: 100
+        }}>
+          <LoginButton />
+        </Box>
         <div className="detail-container">
           <AccountHeader className="account-header" />
           <Box

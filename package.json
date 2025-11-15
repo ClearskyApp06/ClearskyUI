@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "4.27.0",
+  "version": "4.28.0",
   "description": "",
   "scripts": {
     "start": "vite --open",
@@ -35,6 +35,7 @@
     "punycode2": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {

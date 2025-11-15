@@ -12,6 +12,7 @@ function getInputHtmlFiles() {
         .map((file) => join(srcDir, file));
 }
 
+
 export default defineConfig({
     plugins: [react()],
     root: 'src',
@@ -20,16 +21,27 @@ export default defineConfig({
         outDir: resolve(import.meta.dirname, 'static'),
         rollupOptions: {
             input: getInputHtmlFiles(),
-            // output: {
-            //   manualChunks: {
-            //     mui: ['@mui/material'],
-            //   },
-            // },
         },
         emptyOutDir: true,
         sourcemap: true,
     },
     define: {
         BUILD_COMMIT_HASH: JSON.stringify(env.BUILD_COMMIT_HASH),
+    },
+    server: {
+        proxy: {
+            '/proxy': {
+                target: 'https://staging.api.clearsky.app',
+                changeOrigin: true,
+                secure: false,
+                cookieDomainRewrite: '',
+                rewrite: (path) => path.replace(/^\/proxy/, ''),
+                configure: (proxy, options) => {
+                    proxy.on('proxyRes', (proxyRes) => {
+                        proxyRes.headers['Cache-Control'] = 'no-store';
+                    });
+                },
+            },
+        },
     },
 });

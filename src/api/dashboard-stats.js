@@ -37,11 +37,23 @@ async function dashboardStatsApi() {
     (err) => ({ blockStats: err.message })
   );
 
-  const [totalUsers, funFacts, funnerFacts, blockStats] = await Promise.all([
+  /** @type {Promise<StatsEndpointResp<BlockList>>} */
+  const topListsOnPromise = fetchClearskyApi('v1', 'lists/get-top-lists-on').catch(
+    (err) => ({ topListsOn: err.message })
+  );
+
+  /** @type {Promise<StatsEndpointResp<BlockList>>} */
+  const topListsMadePromise = fetchClearskyApi('v1', 'lists/get-top-lists-made').catch(
+    (err) => ({ topListsMade: err.message })
+  );
+
+  const [totalUsers, funFacts, funnerFacts, blockStats, topListsOn, topListsMade] = await Promise.all([
     totalUsersPromise,
     funFactsPromise,
     funerFactsPromise,
     blockStatsPromise,
+    topListsOnPromise,
+    topListsMadePromise,
   ]);
 
   const asof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
@@ -52,14 +64,30 @@ async function dashboardStatsApi() {
   /** @type {FunnerFacts | null} */
   const funnerFactsData = 'data' in funnerFacts ? funnerFacts.data : null;
 
+  /** @type {BlockList | null} */
+  const topListsOnData = 'data' in topListsOn ? topListsOn.data : null;
+
+  /** @type {BlockList | null} */
+  const topListsMadeData = 'data' in topListsMade ? topListsMade.data : null;
+
   /** @type {DashboardStats} */
   const result = {
     asof,
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      total: funFactsData || { blocked: null, blockers: null },
-      '24h': funnerFactsData || { blocked: null, blockers: null },
+      total: {
+        blocked: funFactsData?.blocked || null,
+        blockers: funFactsData?.blockers || null,
+        listsOn: topListsOnData,
+        listsMade: topListsMadeData,
+      },
+      '24h': {
+        blocked: funnerFactsData?.blocked || null,
+        blockers: funnerFactsData?.blockers || null,
+        listsOn: funnerFactsData?.listsOn || null,
+        listsMade: funnerFactsData?.listsMade || null,
+      },
     },
   };
   return result;

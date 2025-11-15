@@ -15,6 +15,7 @@ import { SupportBanner } from './common-components/support-banner';
 import { getDefaultComponent } from './utils/get-default';
 import { profileChildRoutesPromise } from './detail-panels/tabs';
 import './app.css';
+import { AuthProvider } from './context/authContext';
 
 const hydrateFallbackElement = (
   <div className="hydrate-fallback">
@@ -46,6 +47,12 @@ async function showApp() {
           },
           { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
           { path: 'labelers/:did', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
+          { path: 'dashboard', lazy: () => getDefaultComponent(import('./auth/dashboard')) },
+          { path: 'auth/login/error', lazy: () => getDefaultComponent(import('./auth/login-error')) },
+          {
+            path: 'faq',
+            lazy: () => getDefaultComponent(import('./landing/faq')),
+          },
           {
             path: ':handle',
             lazy: () => getDefaultComponent(import('./detail-panels')),
@@ -89,10 +96,12 @@ async function showApp() {
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <React.Suspense fallback={hydrateFallbackElement}>
-            <RouterProvider
-              router={router}
-              future={{ v7_startTransition: true }}
-            />
+            <AuthProvider>
+              <RouterProvider
+                router={router}
+                future={{ v7_startTransition: true }}
+              />
+            </AuthProvider>
           </React.Suspense>
           <SupportBanner />
           <div className="bluethernal-llc-watermark">
