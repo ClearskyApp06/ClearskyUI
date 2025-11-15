@@ -7,7 +7,12 @@ import React, {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
-import { fetchClearskyApi, unwrapClearskyURL, v1APIPrefix } from '../api/core';
+import {
+  fetchClearskyApi,
+  setUnauthenticatedHandler,
+  unwrapClearskyURL,
+  v1APIPrefix,
+} from '../api/core';
 import { LoginModal } from '../auth/login-modal';
 
 /**
@@ -25,7 +30,9 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState(localStorage.getItem('session-id'));
+  const [sessionId, setSessionId] = useState(
+    localStorage.getItem('session-id')
+  );
   const [authenticated, setAuthenticated] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
@@ -36,22 +43,18 @@ export function AuthProvider({ children }) {
     if (!sessionId) return false;
     setLoading(true);
     try {
-      const res = await fetchClearskyApi(
-        'v1',
-        `login/session/validate`
-      );
+      const res = await fetchClearskyApi('v1', `login/session/validate`);
       const ok = Boolean(res?.authenticated);
       if (!ok) {
         localStorage.removeItem('session-id');
+        setLoading(false);
+        setSessionId(null);
       }
       setAuthenticated(ok);
       setLoading(false);
       return ok;
     } catch (err) {
       console.error('Auth validation failed:', err);
-      localStorage.removeItem('session-id');
-      setAuthenticated(false);
-      setLoading(false);
       return false;
     }
   }, [sessionId]);
@@ -59,8 +62,18 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (sessionId) {
       validateAuth();
+    } else {
+      setAuthenticated(false);
     }
   }, [validateAuth, sessionId]);
+
+  useEffect(() => {
+    setUnauthenticatedHandler(() => {
+      setAuthenticated(false);
+      setSessionId(null);
+      localStorage.removeItem('session-id');
+    });
+  }, []);
 
   const loginWithHandle = useCallback((handle) => {
     if (!handle) return;
@@ -71,7 +84,7 @@ export function AuthProvider({ children }) {
     const loginURL = unwrapClearskyURL(
       `${v1APIPrefix}login?identifier=${encodeURIComponent(handle)}`
     );
-    setLoading(false)
+    setLoading(false);
     globalThis.location.href = loginURL;
   }, []);
 

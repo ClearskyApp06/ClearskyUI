@@ -10,7 +10,7 @@ export default function LoginError() {
     const error = params.get('error');
     const returnTo = localStorage.getItem('return-to');
 
-    const REDIRECT_DELAY = 800;
+    const REDIRECT_DELAY = 1800;
 
     if (error) {
       console.error(error);
