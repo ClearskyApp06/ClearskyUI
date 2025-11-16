@@ -58,17 +58,16 @@ async function dashboardStatsApi() {
 
   /**
    * @param {StatsEndpointResp<any>} obj
-   * @param {keyof TimeStamps} key
    */
-  function getAsof(obj, key) {
-    return ('asof' in obj && obj.asof) ? obj.asof : initialData.asofTimestamps[key];
+  function getAsof(obj) {
+    return ('asof' in obj && obj.asof) ? obj.asof : new Date().toISOString();
   }
 
   const asofTimestamps = {
-    totalUsers: getAsof(totalUsers, 'totalUsers'),
-    blockStats: getAsof(blockStats, 'blockStats'),
-    funFacts: getAsof(funFacts, 'funFacts'),
-    funnerFacts: getAsof(funnerFacts, 'funnerFacts'),
+    totalUsers: getAsof(totalUsers),
+    blockStats: getAsof(blockStats),
+    funFacts: getAsof(funFacts),
+    funnerFacts: getAsof(funnerFacts),
   };
   
   /** @type {FunFacts | null} */
