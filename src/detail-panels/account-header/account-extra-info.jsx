@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ContentCopy } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
-import { unwrapShortDID } from '../../api';
+import { unwrapShortDID, unwrapShortHandle } from '../../api';
 import { useHandleHistory } from '../../api/handle-history';
 import { useFeatureFlag } from '../../api/featureFlags';
 import { FullDID } from '../../common-components/full-short';
@@ -15,6 +15,7 @@ import { HandleHistory } from './handle-history';
 import { PDSName } from './handle-history/pds-name';
 import { FirstPartyAd } from '../../common-components/first-party-ad';
 import { GoogleAdSlot } from '../../common-components/google-ad-slot';
+import { BlockRelationButton } from './block-button';
 
 /**
  * @param {{
@@ -25,6 +26,7 @@ import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
   const accountQuery = useAccountResolver();
   const account = accountQuery.data;
+  const accountFullHandle = unwrapShortHandle(account?.shortHandle);
   const handleHistoryQuery = useHandleHistory(account?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
   const showProfileCounts = useFeatureFlag('profile-counts');
@@ -34,6 +36,9 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
         <div className="close-opt" onClick={onInfoClick}>
           &times;
         </div>
+
+        <BlockRelationButton sx={{ mt: 1 }} targetHandle={accountFullHandle} />
+
         <div className="bio-section">
           {!account?.description ? undefined : (
             <MultilineFormatted text={account?.description} />
@@ -43,45 +48,45 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
           (account?.followersCount !== undefined ||
             account?.followsCount !== undefined ||
             account?.postsCount !== undefined) && (
-          <div className="stats-section">
-            {account.followersCount !== undefined && (
-              <div className="stat-item">
-                <span className="stat-value">
-                  {account.followersCount.toLocaleString()}
-                </span>{' '}
-                <span className="stat-label">
-                  {localise('Followers', {
-                    uk: 'Підписників',
-                  })}
-                </span>
-              </div>
-            )}
-            {account.followsCount !== undefined && (
-              <div className="stat-item">
-                <span className="stat-value">
-                  {account.followsCount.toLocaleString()}
-                </span>{' '}
-                <span className="stat-label">
-                  {localise('Following', {
-                    uk: 'Підписок',
-                  })}
-                </span>
-              </div>
-            )}
-            {account.postsCount !== undefined && (
-              <div className="stat-item">
-                <span className="stat-value">
-                  {account.postsCount.toLocaleString()}
-                </span>{' '}
-                <span className="stat-label">
-                  {localise('Posts', {
-                    uk: 'Постів',
-                  })}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
+            <div className="stats-section">
+              {account.followersCount !== undefined && (
+                <div className="stat-item">
+                  <span className="stat-value">
+                    {account.followersCount.toLocaleString()}
+                  </span>{' '}
+                  <span className="stat-label">
+                    {localise('Followers', {
+                      uk: 'Підписників',
+                    })}
+                  </span>
+                </div>
+              )}
+              {account.followsCount !== undefined && (
+                <div className="stat-item">
+                  <span className="stat-value">
+                    {account.followsCount.toLocaleString()}
+                  </span>{' '}
+                  <span className="stat-label">
+                    {localise('Following', {
+                      uk: 'Підписок',
+                    })}
+                  </span>
+                </div>
+              )}
+              {account.postsCount !== undefined && (
+                <div className="stat-item">
+                  <span className="stat-value">
+                    {account.postsCount.toLocaleString()}
+                  </span>{' '}
+                  <span className="stat-label">
+                    {localise('Posts', {
+                      uk: 'Постів',
+                    })}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
         <div className="did-section">
           <DidWithCopyButton
             shortDID={account?.shortDID}
@@ -101,12 +106,15 @@ export function AccountExtraInfo({ className, onInfoClick, ...rest }) {
           )}
         </div>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <FirstPartyAd placementId="338957" size="responsiveBanner" />
-        <GoogleAdSlot
-          slot='9557082621'
-          format="fluid"
-        />
+        <GoogleAdSlot slot="9557082621" format="fluid" />
       </Box>
     </div>
   );
