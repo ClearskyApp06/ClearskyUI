@@ -1,14 +1,19 @@
-// src/auth/protected-content.jsx
 import React from 'react';
 import { useAuth } from '../context/authContext';
 import { Button, Typography } from '@mui/material';
+import { useFeatureFlag } from '../api/featureFlags';
 
 /**
  * Shows children only if the user is authenticated; otherwise opens login modal.
- * @param {{ children: React.ReactNode }} props
+ * @param {{ children: React.ReactNode, featureFlag: string }} props
  */
-export function ProtectedContent({ children }) {
+export function ProtectedContent({ children, featureFlag }) {
   const { authenticated, openLoginModal } = useAuth();
+  const featureEnabled = useFeatureFlag(featureFlag);
+
+  if (featureEnabled) {
+    return <>{children}</>;
+  }
 
   if (!authenticated) {
     return (

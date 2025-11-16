@@ -42,7 +42,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
           const { default: BlockedByPanel } = await import('./blocked-by');
           return {
             Component: () => (
-              <ProtectedContent>
+              <ProtectedContent featureFlag='restricted-blocked-by'>
                 <BlockedByPanel />
               </ProtectedContent>
             ),
@@ -79,7 +79,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
               const { default: BlockedByLists } = await import('./blocked-by-lists');
               return {
                 Component: () => (
-                  <ProtectedContent>
+                  <ProtectedContent featureFlag='restricted-lists-blocked-by'>
                     <BlockedByLists />
                   </ProtectedContent>
                 ),
@@ -93,7 +93,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
               const { default: BlockListSubscribersPanel } = await import('./block-list-subscribers');
               return {
                 Component: () => (
-                  <ProtectedContent>
+                  <ProtectedContent featureFlag='restricted-lists-blocked-by'>
                     <BlockListSubscribersPanel />
                   </ProtectedContent>
                 ),
@@ -112,7 +112,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
       const { default: Lists } = await import('./lists');
       return {
         Component: () => (
-          <ProtectedContent>
+          <ProtectedContent featureFlag='restricted-lists-on'>
             <Lists />
           </ProtectedContent>
         ),
@@ -153,7 +153,7 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
           const { default: Packed } = await import('./packs/packed');
           return {
             Component: () => (
-              <ProtectedContent>
+              <ProtectedContent featureFlag='restricted-starter-packs-in'>
                 <Packed />
               </ProtectedContent>
             ),
