@@ -367,7 +367,7 @@ export function useBlockRelation(compareHandle) {
  * } | null>}
  */
 async function getBlockeRelation(compareHandle, handle) {
-  if (!compareHandle || !handle) return null;
+  if (!compareHandle || !handle || compareHandle === handle) return null;
   const params = new URLSearchParams({
     'compare-identifier': compareHandle,
     handle
@@ -395,15 +395,13 @@ async function getBlockeRelation(compareHandle, handle) {
  * @returns {Promise<{
  *   status: "success" | "error",
  *   action: "block" | "unblock",
- *   blockedIdentifier: string
- * }>}
+ *   blockedIdentifier: string,
+ *   blockedStatus: 'none' | 'positive' | 'negative' | 'mutual',
+ * } | null>}
  */
 export async function blockAction(blockedHandle, handle, action) {
-  if (!blockedHandle || !handle) return {
-    status: 'error',
-    action: action,
-    blockedIdentifier: ''
-  };
+  if (!blockedHandle || !handle) return null;
+
   const params = new URLSearchParams({
     "blocked-identifier": blockedHandle,
     action,
@@ -417,6 +415,7 @@ export async function blockAction(blockedHandle, handle, action) {
   return {
     status: res?.status || "success",
     action,
-    blockedIdentifier: blockedHandle
+    blockedIdentifier: blockedHandle,
+    blockedStatus: res['blocked-status']
   };
 }

@@ -12,10 +12,12 @@ import { useAuth } from '../../context/authContext';
  */
 export function BlockRelationButton({ targetHandle, sx }) {
   const [loading, setLoading] = useState(false);
-  const { data: blockRelationData } = useBlockRelation(targetHandle);
+  const { accountFullHandle, authenticated } = useAuth();
+  const { data: blockRelationData, isLoading } = useBlockRelation(authenticated ? targetHandle : null);
   const status = blockRelationData?.blockedStatus;
   const [currentStatus, setCurrentStatus] = useState(status);
-  const { accountFullHandle, authenticated } = useAuth();
+
+  const actionLoading = loading || isLoading;
 
   const statusTextMap = {
     positive: 'You are blocking them',
@@ -27,18 +29,16 @@ export function BlockRelationButton({ targetHandle, sx }) {
   const statusText = currentStatus ? statusTextMap[currentStatus] : '';
 
   const showUnblockButton =
-    currentStatus === 'positive' || currentStatus === 'mutual';
+    currentStatus === 'positive' || currentStatus === 'mutual' || !currentStatus;
   const showBlockButton =
     currentStatus === 'negative' ||
-    currentStatus === 'none' ||
-    currentStatus === undefined;
+    currentStatus === 'none'
 
   async function handleBlock() {
     try {
       setLoading(true);
-      await blockAction(targetHandle, accountFullHandle, 'block');
-
-      setCurrentStatus('positive');
+      const res = await blockAction(targetHandle, accountFullHandle, 'block');
+      setCurrentStatus(res?.blockedStatus);
     } finally {
       setLoading(false);
     }
@@ -47,9 +47,8 @@ export function BlockRelationButton({ targetHandle, sx }) {
   async function handleUnblock() {
     try {
       setLoading(true);
-      await blockAction(targetHandle, accountFullHandle, 'unblock');
-
-      setCurrentStatus('negative');
+      const res = await blockAction(targetHandle, accountFullHandle, 'unblock');
+      setCurrentStatus(res?.blockedStatus);
     } finally {
       setLoading(false);
     }
@@ -59,7 +58,7 @@ export function BlockRelationButton({ targetHandle, sx }) {
     setCurrentStatus(status);
   }, [status]);
 
-  if (currentStatus === undefined) return null;
+  if (!authenticated || (!actionLoading && !currentStatus)) return null;
 
   return (
     <Box
@@ -81,11 +80,12 @@ export function BlockRelationButton({ targetHandle, sx }) {
             py: 0,
             color: 'grey.700',
             borderColor: 'grey.500',
+            height: 24,
             '&:hover': { borderColor: 'grey.700' },
           }}
           onClick={handleUnblock}
         >
-          {loading ? <CircularProgress size={12} /> : 'Unblock'}
+          {actionLoading ? <CircularProgress size={12} /> : 'Unblock'}
         </Button>
       )}
 
@@ -99,15 +99,15 @@ export function BlockRelationButton({ targetHandle, sx }) {
             textTransform: 'none',
             px: 1,
             py: 0,
+            height: 24,
           }}
           onClick={handleBlock}
         >
-          {loading ? <CircularProgress size={12} /> : 'Block'}
+          {actionLoading ? <CircularProgress size={12} /> : 'Block'}
         </Button>
       )}
 
-      {/* INLINE STATUS TEXT */}
-      {statusText && (
+      {!actionLoading && statusText && (
         <Typography variant="caption" sx={{ color: 'grey.600', ml: 0.5 }}>
           {statusText}
         </Typography>
