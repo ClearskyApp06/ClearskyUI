@@ -18,6 +18,7 @@ import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
 
 import './account-short-entry.css';
+import { BlockRelationButton } from '../detail-panels/account-header/block-button';
 
 /**
  * @typedef {{
@@ -30,7 +31,8 @@ import './account-short-entry.css';
  *  children?: React.ReactNode,
  *  customTooltip?: React.ReactNode,
  *  accountTooltipPanel?: boolean | React.ReactNode,
- *  accountTooltipBanner?: boolean | React.ReactNode
+ *  accountTooltipBanner?: boolean | React.ReactNode,
+ *  showBlockRelationButton?: boolean
  * }} Props
  */
 
@@ -68,12 +70,14 @@ function ResolvedAccount({
   customTooltip,
   accountTooltipPanel,
   accountTooltipBanner,
+  showBlockRelationButton,
 }) {
   const avatarClass = account.avatarUrl
     ? 'account-short-entry-avatar account-short-entry-avatar-image'
     : 'account-short-entry-avatar account-short-entry-at-sign';
 
   const avatarDelay = getAvatarDelay(account);
+  const accountFullHandle = unwrapShortHandle(account?.shortHandle);
 
   const handleWithContent = (
     <span className={'account-short-entry-content ' + (contentClassName || '')}>
@@ -84,9 +88,9 @@ function ResolvedAccount({
             !account.avatarUrl
               ? undefined
               : {
-                backgroundImage: `url(${account.avatarUrl})`,
-                animationDelay: avatarDelay,
-              }
+                  backgroundImage: `url(${account.avatarUrl})`,
+                  animationDelay: avatarDelay,
+                }
           }
         >
           @
@@ -99,6 +103,12 @@ function ResolvedAccount({
               {account.displayName}
             </span>
           </>
+        )}
+        {showBlockRelationButton && (
+          <BlockRelationButton
+            sx={{ ml: 1 }}
+            targetHandle={accountFullHandle}
+          />
         )}
       </span>
       {children}
@@ -209,7 +219,7 @@ function ErrorAccount({
 
   return (
     <Link
-        to={link || `/${linkHandle}/profile`}
+      to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       {content}
@@ -233,7 +243,7 @@ function LoadingAccount({
   const linkHandle = isDID ? handle : unwrapShortHandle(handle);
   return (
     <Link
-        to={link || `/${linkHandle}/profile`}
+      to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       <span

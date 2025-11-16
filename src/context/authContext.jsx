@@ -14,6 +14,7 @@ import {
   v1APIPrefix,
 } from '../api/core';
 import { LoginModal } from '../auth/login-modal';
+import { unwrapShortHandle, useResolveHandleOrDid } from '../api';
 
 /**
  * @typedef {Object} AuthContextValue
@@ -25,7 +26,11 @@ import { LoginModal } from '../auth/login-modal';
  * @property {(handle: string) => void} loginWithHandle
  * @property {() => void} logout
  * @property {(id: string) => Promise<boolean>} validateAuth
+ * @property {AccountInfo} accountInfo
+ * @property {string} accountFullHandle
  */
+
+/** @type {React.Context<AuthContextValue | null>} */
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -38,6 +43,9 @@ export function AuthProvider({ children }) {
 
   const openLoginModal = useCallback(() => setLoginOpen(true), []);
   const closeLoginModal = useCallback(() => setLoginOpen(false), []);
+
+  const { data: accountInfo } = useResolveHandleOrDid(sessionId);
+  const accountFullHandle = unwrapShortHandle(accountInfo?.shortHandle);
 
   const validateAuth = useCallback(async () => {
     if (!sessionId) return false;
@@ -114,6 +122,8 @@ export function AuthProvider({ children }) {
       loading,
       sessionId,
       authenticated,
+      accountInfo,
+      accountFullHandle,
       openLoginModal,
       closeLoginModal,
       loginWithHandle,
@@ -124,6 +134,8 @@ export function AuthProvider({ children }) {
       loading,
       sessionId,
       authenticated,
+      accountInfo,
+      accountFullHandle,
       openLoginModal,
       closeLoginModal,
       loginWithHandle,

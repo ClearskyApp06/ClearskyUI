@@ -40,7 +40,7 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
       </Box>
 
       <Box sx={{ mt: 2 }}>
-        <LoginButton />
+        <LoginButton shouldOpenProfile />
       </Box>
 
       <Box

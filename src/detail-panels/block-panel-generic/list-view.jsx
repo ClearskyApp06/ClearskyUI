@@ -64,6 +64,7 @@ function ListViewEntry({
           )
         }
         account={account}
+        showBlockRelationButton
       >
         {entryDate ? (
           <FormatTimestamp
