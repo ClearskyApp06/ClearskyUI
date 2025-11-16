@@ -9,7 +9,7 @@ export function LoginButton({ shouldOpenProfile = false }) {
   const navigate = useNavigate();
 
   const getLoginButtonText = () => {
-    if (authenticated && shouldOpenProfile) return 'Open Profile';
+    if (authenticated && shouldOpenProfile) return 'My Profile';
     if (authenticated) return 'Logout';
     return 'Login with Bluesky';
   };
