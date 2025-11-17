@@ -207,7 +207,7 @@ async function getBlockingLists(shortHandle, currentPage = 1) {
  * @param {string | undefined} handleOrDID
  * @param {Boolean | undefined} shouldFetchlistsBlockingCount
  */
-export function useBlockingListsTotal(handleOrDID,shouldFetchlistsBlockingCount) {
+export function useBlockingListsTotal(handleOrDID, shouldFetchlistsBlockingCount) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
