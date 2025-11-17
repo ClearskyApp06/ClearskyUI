@@ -4,14 +4,15 @@ import { Button, Typography } from '@mui/material';
 import { useFeatureFlag } from '../api/featureFlags';
 
 /**
- * Shows children only if the user is authenticated; otherwise opens login modal.
- * @param {{ children: React.ReactNode, featureFlag: string }} props
+ * Shows children if the feature flag is enabled OR if the user is authenticated.
+ * Otherwise, displays a login prompt.
+ * @param {{ children: React.ReactNode, featureFlag?: string }} props
  */
 export function ProtectedContent({ children, featureFlag }) {
   const { authenticated, openLoginModal } = useAuth();
   const featureEnabled = useFeatureFlag(featureFlag);
 
-  if (featureEnabled) {
+  if (!featureEnabled) {
     return <>{children}</>;
   }
 
