@@ -34,7 +34,6 @@ export function AccountHeader({ className, onInfoClick }) {
   
   // call only if userPlacement is true
   const placementquery = usePlacement(resolved.data?.shortDID,shoulduserPlacement);
-  // console.log(placementquery)
   const placement = placementquery?.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =
