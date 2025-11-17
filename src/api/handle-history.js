@@ -18,7 +18,7 @@ import { fetchClearskyApi } from './core';
  * @param {string | undefined} shortDid
  * @param {Boolean | undefined} shouldIshandleHistory
  */
-export function useHandleHistory(shortDid,shouldIshandleHistory) {
+export function useHandleHistory(shortDid, shouldIshandleHistory) {
   return useQuery({
     enabled: !!shortDid && shouldIshandleHistory,
     queryKey: ['get-handle-history', shortDid],
