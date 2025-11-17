@@ -10,7 +10,7 @@ const HomeStatsTable = lazy(() => import('./home-stats-table'));
 /**
  * @typedef {{
  *  className: string | undefined;
- *  asofFormatted: any;
+ *  asofTimestamps: TimeStamps;
  *  activeAccounts: number | undefined;
  *  deletedAccounts: number | undefined;
  *  totalAccounts: number | undefined;
@@ -32,8 +32,6 @@ export function HomeStats({ className }) {
 
   const { data: stats, isLoading } = useDashboardStats();
 
-  const asofFormatted = stats.asof && new Date(stats.asof) + '';
-
   const activeAccounts = stats.totalUsers?.active_count?.value;
   const deletedAccounts = stats.totalUsers?.deleted_count?.value;
   const totalAccounts = stats.totalUsers?.total_count?.value;
@@ -43,7 +41,7 @@ export function HomeStats({ className }) {
   /** @type {HomeStatsDetails} */
   const arg = {
     className,
-    asofFormatted,
+    asofTimestamps: stats.asofTimestamps,
     activeAccounts,
     deletedAccounts,
     totalAccounts,

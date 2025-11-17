@@ -18,6 +18,7 @@ import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
 
 import './account-short-entry.css';
+import { BlockRelationButton } from '../detail-panels/account-header/block-button';
 
 /**
  * @typedef {{
@@ -30,14 +31,15 @@ import './account-short-entry.css';
  *  children?: React.ReactNode,
  *  customTooltip?: React.ReactNode,
  *  accountTooltipPanel?: boolean | React.ReactNode,
- *  accountTooltipBanner?: boolean | React.ReactNode
+ *  accountTooltipBanner?: boolean | React.ReactNode,
+ *  showBlockRelationButton?: boolean
  * }} Props
  */
 
 /**
  * @param {Props} _
  */
-export function AccountShortEntry({ account, ...rest }) {
+export function AccountShortEntry({ account, showBlockRelationButton, ...rest }) {
   const resolved = useResolveHandleOrDid(account);
 
   if (resolved.isLoading) return <LoadingAccount {...rest} handle={account} />;
@@ -50,7 +52,7 @@ export function AccountShortEntry({ account, ...rest }) {
       />
     );
   else {
-    return <ResolvedAccount {...rest} account={resolved.data} />;
+    return <ResolvedAccount {...rest} account={resolved.data} showBlockRelationButton={showBlockRelationButton} />;
   }
 }
 
@@ -68,12 +70,14 @@ function ResolvedAccount({
   customTooltip,
   accountTooltipPanel,
   accountTooltipBanner,
+  showBlockRelationButton,
 }) {
   const avatarClass = account.avatarUrl
     ? 'account-short-entry-avatar account-short-entry-avatar-image'
     : 'account-short-entry-avatar account-short-entry-at-sign';
 
   const avatarDelay = getAvatarDelay(account);
+  const accountFullHandle = unwrapShortHandle(account?.shortHandle);
 
   const handleWithContent = (
     <span className={'account-short-entry-content ' + (contentClassName || '')}>
@@ -136,12 +140,21 @@ function ResolvedAccount({
     );
 
   return (
-    <Link
-      to={link || `/${unwrapShortHandle(account.shortHandle)}/profile`}
-      className={'account-short-entry ' + (className || '')}
-    >
-      {linkContent}
-    </Link>
+    <>
+      <Link
+        to={link || `/${unwrapShortHandle(account.shortHandle)}/profile`}
+        className={'account-short-entry ' + (className || '')}
+      >
+        {linkContent}
+      </Link>
+
+      {showBlockRelationButton && (
+        <BlockRelationButton
+          sx={{ ml: 3 }}
+          targetHandle={accountFullHandle}
+        />
+      )}
+    </>
   );
 }
 
@@ -209,7 +222,7 @@ function ErrorAccount({
 
   return (
     <Link
-        to={link || `/${linkHandle}/profile`}
+      to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       {content}
@@ -233,7 +246,7 @@ function LoadingAccount({
   const linkHandle = isDID ? handle : unwrapShortHandle(handle);
   return (
     <Link
-        to={link || `/${linkHandle}/profile`}
+      to={link || `/${linkHandle}/profile`}
       className={'account-short-entry ' + (className || '')}
     >
       <span

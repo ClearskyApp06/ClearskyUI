@@ -56,8 +56,20 @@ async function dashboardStatsApi() {
     topListsMadePromise,
   ]);
 
-  const asof = 'asof' in blockStats ? blockStats.asof : initialData.asof;
+  /**
+   * @param {StatsEndpointResp<any>} obj
+   */
+  function getAsof(obj) {
+    return ('asof' in obj && obj.asof) ? obj.asof : new Date().toISOString();
+  }
 
+  const asofTimestamps = {
+    totalUsers: getAsof(totalUsers),
+    blockStats: getAsof(blockStats),
+    funFacts: getAsof(funFacts),
+    funnerFacts: getAsof(funnerFacts),
+  };
+  
   /** @type {FunFacts | null} */
   const funFactsData = 'data' in funFacts ? funFacts.data : null;
 
@@ -72,7 +84,7 @@ async function dashboardStatsApi() {
 
   /** @type {DashboardStats} */
   const result = {
-    asof,
+    asofTimestamps,
     totalUsers: 'data' in totalUsers ? totalUsers.data : null,
     blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {

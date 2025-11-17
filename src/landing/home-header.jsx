@@ -39,18 +39,16 @@ export function HomeHeader({ className, searchText, onSearchTextChanged, onAccou
         </Box>
       </Box>
 
-      <Box sx={{ mt: 2 }}>
-        <LoginButton />
+      <Box sx={{ my: 2 }}>
+        <LoginButton shouldOpenProfile />
       </Box>
 
       <Box
         sx={{
-          mt: 2,
           display: { xs: 'none', md: 'flex' },
           alignItems: 'start',
           flexDirection: 'column',
           gap: 2,
-
         }}
       >
         <FirstPartyAd placementId="447632" size="responsiveBanner" />

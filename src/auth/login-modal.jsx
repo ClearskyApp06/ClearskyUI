@@ -22,7 +22,7 @@ export function LoginModal({ open, onClose }) {
     }
 
     setError('');
-    loginWithHandle(handle.trim());
+    loginWithHandle(handle.trim().replace('@', ''));
   };
 
   const handleKeyPress = (e) => {
