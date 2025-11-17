@@ -33,7 +33,6 @@ export function Lists() {
   const [showSearch, setShowSearch] = useState(!!search);
 
   const listsTotal = totalData?.count;
-  // console.log(totalData)
   const listPages = data?.pages || [];
   const allLists = listPages.flatMap((page) => page.lists);
   const filteredLists = !search
