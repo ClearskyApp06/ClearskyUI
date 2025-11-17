@@ -23,7 +23,7 @@ export function Lists() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     useList(shortHandle);
-  const shouldFetchListCounts = useFeatureFlag('lists-on-list-counts')
+  const shouldFetchListCounts = useFeatureFlag('lists-on-list-counts');
   const { data: totalData, isLoading: isLoadingTotal } =
     useListCount(shortHandle,shouldFetchListCounts);
 
