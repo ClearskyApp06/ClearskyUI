@@ -26,7 +26,7 @@ export function Packs({ created = false }) {
     usePacksCreated(shortHandle);
   const shouldFetchstarterPacksMadeCount = useFeatureFlag('starter-packs-made-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksCreatedTotal(shortHandle,shouldFetchstarterPacksMadeCount);
+    usePacksCreatedTotal(shortHandle, shouldFetchstarterPacksMadeCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [tick, setTick] = useState(0);
