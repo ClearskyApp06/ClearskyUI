@@ -75,7 +75,7 @@ export function useSingleBlocklist(did) {
  * @param {string | undefined} did
  * @param {Boolean | undefined} shouldFetchBlockingCount
  */
-export function useBlocklistCount(did,shouldFetchBlockingCount) {
+export function useBlocklistCount(did, shouldFetchBlockingCount) {
   const fullDid = unwrapShortDID(did);
   return useQuery({
     enabled: !!fullDid && shouldFetchBlockingCount,
