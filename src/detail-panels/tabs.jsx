@@ -3,17 +3,18 @@ import { Navigate } from 'react-router-dom';
 import { localise } from '../localisation';
 import { getDefaultComponent } from '../utils/get-default';
 import { getAllFeatureFlags } from '../api/featureFlags';
-import { ProtectedContent } from '../auth/protected-content';
+import { fetchClearskyApi } from '../api/core';
 
 /** @typedef {(typeof allTabRoutes)[number]['path']} AnyTab */
-/** 
- * @typedef {{ 
- *   path?: string, 
- *   index?: boolean, 
- *   lazy?: () => Promise<any>, 
- *   tab?: () => { label: string }, 
- *   featureFlag: string, 
- *   children?: ExtraUiFields[] 
+/**
+ * @typedef {{
+ *   path?: string,
+ *   index?: boolean,
+ *   lazy?: () => Promise<any>,
+ *   tab?: () => { label: string },
+ *   featureFlag: string,
+ *   authFeatureFlag?: string,
+ *   children?: ExtraUiFields[]
  * }} ExtraUiFields
  */
 
@@ -24,7 +25,6 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
     tab: () => ({ label: localise('Profile') }),
     featureFlag: 'profile-tab',
   },
-
   {
     path: 'blocking',
     tab: () => ({ label: localise('Blocking') }),
@@ -38,33 +38,28 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
       },
       {
         path: 'blocked-by',
-        lazy: async () => {
-          const { default: BlockedByPanel } = await import('./blocked-by');
-          return {
-            Component: () => (
-              <ProtectedContent featureFlag='restricted-blocked-by'>
-                <BlockedByPanel />
-              </ProtectedContent>
-            ),
-          };
-        },
+        lazy: () => getDefaultComponent(import('./blocked-by')),
         tab: () => ({ label: localise('Blocked By') }),
         featureFlag: 'blocked-by-tab',
+        authFeatureFlag: 'restricted-blocked-by',
       },
       {
         path: 'blocking-lists',
         tab: () => ({ label: localise('Lists Blocking') }),
         featureFlag: 'lists-blocking-tab',
+        authFeatureFlag: 'restricted-lists-blocking',
         children: [
           {
             index: true,
             lazy: () => getDefaultComponent(import('./blocking-lists')),
             featureFlag: 'lists-blocking-tab',
+            authFeatureFlag: 'restricted-lists-blocking',
           },
           {
             path: 'subscribers/:list_url',
             lazy: () => getDefaultComponent(import('./block-list-subscribers')),
             featureFlag: 'lists-blocking-tab',
+            authFeatureFlag: 'restricted-lists-blocking',
           },
         ],
       },
@@ -72,34 +67,19 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
         path: 'blocked-by-lists',
         tab: () => ({ label: localise('Lists Blocked By') }),
         featureFlag: 'lists-blocked-by-tab',
+        authFeatureFlag: 'restricted-lists-blocked-by',
         children: [
           {
             index: true,
-            lazy: async () => {
-              const { default: BlockedByLists } = await import('./blocked-by-lists');
-              return {
-                Component: () => (
-                  <ProtectedContent featureFlag='restricted-lists-blocked-by'>
-                    <BlockedByLists />
-                  </ProtectedContent>
-                ),
-              };
-            },
+            lazy: () => getDefaultComponent(import('./blocked-by-lists')),
             featureFlag: 'lists-blocked-by-tab',
+            authFeatureFlag: 'restricted-lists-blocked-by',
           },
           {
             path: 'subscribers/:list_url',
-            lazy: async () => {
-              const { default: BlockListSubscribersPanel } = await import('./block-list-subscribers');
-              return {
-                Component: () => (
-                  <ProtectedContent featureFlag='restricted-lists-blocked-by'>
-                    <BlockListSubscribersPanel />
-                  </ProtectedContent>
-                ),
-              };
-            },
+            lazy: () => getDefaultComponent(import('./block-list-subscribers')),
             featureFlag: 'lists-blocked-by-tab',
+            authFeatureFlag: 'restricted-lists-blocked-by',
           },
         ],
       },
@@ -108,18 +88,10 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
 
   {
     path: 'lists',
-    lazy: async () => {
-      const { default: Lists } = await import('./lists');
-      return {
-        Component: () => (
-          <ProtectedContent featureFlag='restricted-lists-on'>
-            <Lists />
-          </ProtectedContent>
-        ),
-      };
-    },
+    lazy: () => getDefaultComponent(import('./lists')),
     tab: () => ({ label: localise('Lists On') }),
     featureFlag: 'lists-on-tab',
+    authFeatureFlag: 'restricted-lists-on',
   },
 
   {
@@ -140,27 +112,21 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
     path: 'starter-packs',
     tab: () => ({ label: localise('Starter Packs') }),
     featureFlag: 'starter-packs-made-tab',
+    authFeatureFlag: 'restricted-starter-packs-made',
     children: [
       {
         index: true,
         lazy: () => getDefaultComponent(import('./packs')),
         tab: () => ({ label: localise('Starter Packs Made') }),
-        featureFlag: 'starter-packs-made-tab'
+        featureFlag: 'starter-packs-made-tab',
+        authFeatureFlag: 'restricted-starter-packs-made',
       },
       {
         path: 'in',
-        lazy: async () => {
-          const { default: Packed } = await import('./packs/packed');
-          return {
-            Component: () => (
-              <ProtectedContent featureFlag='restricted-starter-packs-in'>
-                <Packed />
-              </ProtectedContent>
-            ),
-          };
-        },
+        lazy: () => getDefaultComponent(import('./packs/packed')),
         tab: () => ({ label: localise('Starter Packs In') }),
-        featureFlag: 'starter-packs-in-tab'
+        authFeatureFlag: 'restricted-starter-packs-in',
+        featureFlag: 'starter-packs-in-tab',
       },
     ],
   },
@@ -170,14 +136,29 @@ const featureFlagAssignmentsPromise = getAllFeatureFlags();
 
 export const activeTabRoutesPromise = (async () => {
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
+  let isAuthenticated = false;
+  if (localStorage.getItem('session-id')) {
+    const res = await fetchClearskyApi('v1', `login/session/validate`);
+    isAuthenticated = Boolean(res?.authenticated);
+  }
 
-  /** 
-   * @param {readonly ExtraUiFields[]} tabs 
-   * @returns {ExtraUiFields[]} 
+  /**
+   * @param {readonly ExtraUiFields[]} tabs
+   * @returns {ExtraUiFields[]}
    */
   const filterEnabled = (tabs) =>
     tabs
-      .filter((tab) => featureFlagAssignments[tab.featureFlag])
+      .filter((tab) => {
+        const isFlagEnabled = featureFlagAssignments[tab.featureFlag];
+        if (tab.authFeatureFlag) {
+          const isAuthFlagEnabled = featureFlagAssignments[tab.authFeatureFlag];
+          if (!isAuthFlagEnabled) {
+            return isFlagEnabled;
+          }
+          return !!isAuthenticated;
+        }
+        return isFlagEnabled;
+      })
       .map((tab) => ({
         ...tab,
         children: tab.children ? filterEnabled(tab.children) : undefined,
@@ -190,16 +171,16 @@ export const profileChildRoutesPromise = (async () => {
   const activeTabRoutes = await activeTabRoutesPromise;
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
 
-
   const defaultProfilePath = featureFlagAssignments['profile-tab']
     ? 'profile'
-    : activeTabRoutes[0].path
-    ||
-    '';
+    : activeTabRoutes[0].path || '';
 
   return [
     ...activeTabRoutes,
     { index: true, element: <Navigate to={defaultProfilePath} replace /> },
-    { path: '*', element: <Navigate to={'../' + defaultProfilePath} replace /> },
+    {
+      path: '*',
+      element: <Navigate to={'../' + defaultProfilePath} replace />,
+    },
   ];
 })();
