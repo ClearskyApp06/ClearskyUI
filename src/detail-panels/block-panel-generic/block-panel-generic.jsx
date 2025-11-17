@@ -32,7 +32,7 @@ export function BlockPanelGeneric({
   blocklistQuery,
   totalQuery,
   header,
-  showBlockRelationButton
+  showBlockRelationButton,
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     blocklistQuery;
@@ -76,10 +76,10 @@ export function BlockPanelGeneric({
         header={header}
         // Ironically this hides the search button
         showSearch={true}
-      // setShowSearch={setShowSearch}
-      // onShowSearch={() => setShowSearch(true)}
-      // onToggleView={() => setTableView(!tableView)}
-      // tableView={tableView}
+        // setShowSearch={setShowSearch}
+        // onShowSearch={() => setShowSearch(true)}
+        // onToggleView={() => setTableView(!tableView)}
+        // tableView={tableView}
       />
       {isLoading ? (
         <p style={{ padding: '0.5em', opacity: '0.5' }}>

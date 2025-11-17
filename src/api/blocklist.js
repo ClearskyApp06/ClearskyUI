@@ -353,7 +353,7 @@ export function useBlockRelation(compareHandle) {
   return useQuery({
     enabled: !!compareHandle,
     queryKey: ['block-relation', compareHandle],
-    queryFn: () => getBlockeRelation(compareHandle, accountFullHandle),
+    queryFn: () => getBlockRelation(compareHandle, accountFullHandle),
   });
 }
 
@@ -366,12 +366,12 @@ export function useBlockRelation(compareHandle) {
  *    'identifier': string
  * } | null>}
  */
-async function getBlockeRelation(compareHandle, handle) {
+async function getBlockRelation(compareHandle, handle) {
   if (!compareHandle || !handle || compareHandle === handle) return null;
   const params = new URLSearchParams({
     'compare-identifier': compareHandle,
     handle
-  })
+  });
 
   const handleURL =
     `feature/request/get-block-relation?${params}`;

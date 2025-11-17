@@ -35,7 +35,7 @@ export function BlockRelationButton({ targetHandle, sx }) {
     currentStatus === 'positive' || currentStatus === 'mutual' || !currentStatus;
   const showBlockButton =
     currentStatus === 'negative' ||
-    currentStatus === 'none'
+    currentStatus === 'none';
 
   async function handleBlock() {
     try {
