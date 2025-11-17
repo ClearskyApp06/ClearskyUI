@@ -15,6 +15,8 @@ import { useHandleHistory } from '../../api/handle-history';
 import { usePlacement } from '../../api/placement';
 import { FirstPartyAd } from '../../common-components/first-party-ad';
 import { Home } from '@mui/icons-material';
+import { useAuth } from '../../context/authContext';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -22,14 +24,24 @@ import { Home } from '@mui/icons-material';
  * }} _
  */
 export function AccountHeader({ className }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
   const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID);
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
-  const placementquery = usePlacement(resolved.data?.shortDID);
+  const { authenticated } = useAuth();
+
+  const userPlacementFlag = useFeatureFlag('user-placement');
+  const authUserPlacementFlag = useFeatureFlag('restricted-user-placement')
+    ? !!authenticated
+    : true;
+  const userPlacementEnabled = userPlacementFlag && authUserPlacementFlag;
+
+  const placementquery = usePlacement(
+    userPlacementEnabled ? resolved.data?.shortDID : null
+  );
   const placement = placementquery.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =
@@ -58,9 +70,9 @@ export function AccountHeader({ className }) {
     <div className={className}>
       <h1 style={{ margin: 0 }}>
         <IconButton
-          className='account-close-button'
+          className="account-close-button"
           aria-label="Go to home"
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
         >
           <Home />
         </IconButton>
