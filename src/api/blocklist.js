@@ -5,6 +5,7 @@ import { usePdsUrl } from './pds';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { unwrapShortHandle } from '.';
+import { useAuth } from '../context/authContext';
 
 const PAGE_SIZE = 100;
 
@@ -129,9 +130,8 @@ export function useSingleBlocklistCount(handleOrDID) {
  * }>}
  */
 async function blocklistCall(shortHandle, api, currentPage = 1) {
-  const handleURL = `${api}/${unwrapShortHandle(shortHandle)}${
-    currentPage === 1 ? '' : `/${currentPage}`
-  }`;
+  const handleURL = `${api}/${unwrapShortHandle(shortHandle)}${currentPage === 1 ? '' : `/${currentPage}`
+    }`;
 
   /** @type {BlocklistResponse<BlocklistPage>} */
   const pageResponse = await fetchClearskyApi('v1', handleURL);
@@ -340,5 +340,82 @@ async function getBlockListSubscribers(blocklistUrl, currentPage = 1) {
     listName: re.data?.list_name,
     subscribers,
     nextPage: subscribers.length >= PAGE_SIZE ? currentPage + 1 : null,
+  };
+}
+
+
+/**
+ * @param {string | undefined | null} compareHandle
+ */
+export function useBlockRelation(compareHandle) {
+  const { accountFullHandle } = useAuth();
+
+  return useQuery({
+    enabled: !!compareHandle,
+    queryKey: ['block-relation', compareHandle],
+    queryFn: () => getBlockRelation(compareHandle, accountFullHandle),
+  });
+}
+
+/**
+ * @param {string | undefined | null} compareHandle
+ * @param {string | undefined} handle
+ * @returns {Promise<{
+ *    'blockedStatus': 'none' | 'positive' | 'negative' | 'mutual',
+ *    'comparingIdentifier': string,
+ *    'identifier': string
+ * } | null>}
+ */
+async function getBlockRelation(compareHandle, handle) {
+  if (!compareHandle || !handle || compareHandle === handle) return null;
+  const params = new URLSearchParams({
+    'compare-identifier': compareHandle,
+    handle
+  });
+
+  const handleURL =
+    `feature/request/get-block-relation?${params}`;
+
+  const re = await fetchClearskyApi('v1', handleURL);
+
+  return {
+    blockedStatus: re['blocked-status'],
+    comparingIdentifier: re['comparing-identifier'],
+    identifier: re.identifier
+  };
+}
+
+/**
+ * Call the block/unblock action endpoint.
+ *
+ * @param {string | undefined} blockedHandle - The profile you want to block/unblock
+ * @param {string | undefined} handle - The profile you want to block/unblock
+ * @param {"block" | "unblock"} action - Which action to perform
+ * 
+ * @returns {Promise<{
+ *   status: "success" | "error",
+ *   action: "block" | "unblock",
+ *   blockedIdentifier: string,
+ *   blockedStatus: 'none' | 'positive' | 'negative' | 'mutual',
+ * } | null>}
+ */
+export async function blockAction(blockedHandle, handle, action) {
+  if (!blockedHandle || !handle) return null;
+
+  const params = new URLSearchParams({
+    "blocked-identifier": blockedHandle,
+    action,
+    handle
+  });
+
+  const endpoint = "feature/request/block-action?" + params.toString();
+
+  const res = await fetchClearskyApi("v1", endpoint, { method: 'POST' });
+
+  return {
+    status: res?.status || "success",
+    action,
+    blockedIdentifier: blockedHandle,
+    blockedStatus: res['blocked-status']
   };
 }

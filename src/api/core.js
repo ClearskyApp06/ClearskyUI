@@ -61,7 +61,8 @@ export function fetchClearskyApi(apiVer, apiPath, options) {
   const isVercelDomain = location.hostname.includes('vercel.app');
   const identifier = localStorage.getItem('session-id');
 
-  const baseUrl = `${v1APIPrefix}${apiPath}?identifier=${encodeURIComponent(identifier || '')}`;
+  const separator = apiPath.includes('?') ? '&' : '?';
+  const baseUrl = `${v1APIPrefix}${apiPath}${separator}identifier=${encodeURIComponent(identifier || '')}`;
 
   let apiUrl = isClearSkyDomain || isVercelDomain
     ? unwrapClearskyURL(baseUrl)
