@@ -26,7 +26,8 @@ export function AccountHeader({ className, onInfoClick }) {
   const [isCopied, setIsCopied] = useState(false);
   // const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
   const resolved = useAccountResolver();
-  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID,true);
+  const shouldFetchHandleHistory = useFeatureFlag('handle-history');
+  const handleHistoryQuery = useHandleHistory(resolved.data?.shortDID, shouldFetchHandleHistory);
   const handleHistory = handleHistoryQuery.data?.handle_history;
 
   const shoulduserPlacement = useFeatureFlag('user-placement')
