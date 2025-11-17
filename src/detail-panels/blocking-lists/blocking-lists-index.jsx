@@ -20,7 +20,7 @@ export function BlockingLists() {
   const accountQuery = useAccountResolver();
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useBlockingLists(shortHandle);
-  const shouldFetchlistsBlockingCount = useFeatureFlag('lists-blocking-count')
+  const shouldFetchlistsBlockingCount = useFeatureFlag('lists-blocking-count');
   const { data: totalData, isLoading: isLoadingTotal } = useBlockingListsTotal(shortHandle,shouldFetchlistsBlockingCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
