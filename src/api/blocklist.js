@@ -280,7 +280,7 @@ async function getBlockedByLists(shortHandle, currentPage = 1) {
  * @param {string | undefined} handleOrDID
  * @param {Boolean | undefined} shouldFetchlistsBlockedByCount
  */
-export function useBlockedByListsTotal(handleOrDID,shouldFetchlistsBlockedByCount) {
+export function useBlockedByListsTotal(handleOrDID, shouldFetchlistsBlockedByCount) {
   const profileQuery = useResolveHandleOrDid(handleOrDID);
   const shortHandle = profileQuery.data?.shortHandle;
   return useQuery({
