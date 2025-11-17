@@ -27,7 +27,7 @@ export default function Packed() {
   const shouldFetchstarterPacksInCount = 
   useFeatureFlag('starter-packs-in-count');
   const { data: totalData, isLoading: isLoadingTotal } =
-    usePacksPopulatedTotal(shortHandle,shouldFetchstarterPacksInCount);
+    usePacksPopulatedTotal(shortHandle, shouldFetchstarterPacksInCount);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = (searchParams.get('q') || '').trim();
