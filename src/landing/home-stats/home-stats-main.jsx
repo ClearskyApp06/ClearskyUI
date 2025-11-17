@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
  */
 export function HomeStatsMain({
   className,
-  asofFormatted,
+  asofTimestamps,
   activeAccounts,
   totalAccounts,
   deletedAccounts,
@@ -63,13 +63,15 @@ export function HomeStatsMain({
     },
   }
 
+  const totalUsersAsof = asofTimestamps.totalUsers && new Date(asofTimestamps.totalUsers).toString();
+
   return (
     <div
       className={'home-stats-main ' + (className || '')}
       style={{ padding: '0 1em' }}
     >
       <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}>
-        <i>{asofFormatted}</i>
+        <i>{totalUsersAsof}</i>
       </div>
 
       <NetworkCircle
