@@ -24,8 +24,7 @@ export default function Packed() {
   const shortHandle = accountQuery.data?.shortHandle;
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     usePacksPopulated(shortHandle);
-  const shouldFetchstarterPacksInCount = 
-  useFeatureFlag('starter-packs-in-count');
+  const shouldFetchstarterPacksInCount = useFeatureFlag('starter-packs-in-count');
   const { data: totalData, isLoading: isLoadingTotal } =
     usePacksPopulatedTotal(shortHandle, shouldFetchstarterPacksInCount);
 
