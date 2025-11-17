@@ -33,7 +33,7 @@ export function AccountHeader({ className, onInfoClick }) {
   const shoulduserPlacement = useFeatureFlag('user-placement')
   
   // call only if userPlacement is true
-  const placementquery = usePlacement(resolved.data?.shortDID,shoulduserPlacement);
+  const placementquery = usePlacement(resolved.data?.shortDID, shoulduserPlacement);
   const placement = placementquery?.data?.placement?.toLocaleString() ?? '';
 
   const firstHandleChangeTimestamp =
