@@ -14,6 +14,7 @@ import { ErrorBoundary } from './common-components/error-boundary';
 import { SupportBanner } from './common-components/support-banner';
 import { getDefaultComponent } from './utils/get-default';
 import { profileChildRoutesPromise } from './detail-panels/tabs';
+import { getAllFeatureFlags } from './api/featureFlags';
 import './app.css';
 import { AuthProvider } from './context/authContext';
 
@@ -23,42 +24,100 @@ const hydrateFallbackElement = (
   </div>
 );
 
+/**
+ * @typedef {Object} RouteWithFeatureFlag
+ * @property {string} [path]
+ * @property {boolean} [index]
+ * @property {() => Promise<any>} [lazy]
+ * @property {React.ReactElement} [element]
+ * @property {string} [featureFlag] - Optional feature flag name
+ * @property {RouteWithFeatureFlag[]} [children]
+ */
+
 async function showApp() {
   const root = document.createElement('div');
   root.id = 'root';
   document.body.appendChild(root);
+
+  // Get all feature flags
+  const featureFlagAssignments = await getAllFeatureFlags();
+
+  /**
+   * Filter routes based on feature flags
+   * @param {RouteWithFeatureFlag[]} routes
+   * @returns {RouteWithFeatureFlag[]}
+   */
+  const filterEnabledRoutes = (routes) =>
+    routes
+      .filter((route) => !route.featureFlag || featureFlagAssignments[route.featureFlag])
+      .map((route) => ({
+        ...route,
+        children: route.children ? filterEnabledRoutes(route.children) : undefined,
+      }));
+
+  /** @type {RouteWithFeatureFlag[]} */
+  const allRoutes = [
+    {
+      index: true,
+      lazy: () => getDefaultComponent(import('./landing/home')),
+    },
+    { path: 'index.html', element: <Navigate to="/" replace /> },
+    { path: 'stable/*', element: <Navigate to="/" replace /> },
+    { 
+      path: 'pds', 
+      lazy: () => getDefaultComponent(import('./pds/dids-per-pds')),
+      featureFlag: 'pds-information',
+    },
+    { 
+      path: 'pds/:pds', 
+      lazy: () => getDefaultComponent(import('./pds/users-per-pds')),
+      featureFlag: 'pds-information',
+    },
+    {
+      path: 'contact',
+      lazy: () => getDefaultComponent(import('./landing/contact')),
+      featureFlag: 'contact-page',
+    },
+    { 
+      path: 'labelers', 
+      lazy: () => getDefaultComponent(import('./labelers/labelers')),
+      featureFlag: 'labeler-information',
+    },
+    { 
+      path: 'labelers/:did', 
+      lazy: () => getDefaultComponent(import('./labelers/label-view')),
+      featureFlag: 'labeler-information',
+    },
+    { 
+      path: 'dashboard', 
+      lazy: () => getDefaultComponent(import('./auth/dashboard')),
+      featureFlag: 'auth-dashboard',
+    },
+    { 
+      path: 'auth/login/error', 
+      lazy: () => getDefaultComponent(import('./auth/login-error')),
+      featureFlag: 'auth-login-error',
+    },
+    {
+      path: 'faq',
+      lazy: () => getDefaultComponent(import('./landing/faq')),
+      featureFlag: 'faq-page',
+    },
+    {
+      path: ':handle',
+      lazy: () => getDefaultComponent(import('./detail-panels')),
+      children: await profileChildRoutesPromise,
+    },
+  ];
+
+  const enabledRoutes = filterEnabledRoutes(allRoutes);
+
   const router = createBrowserRouter(
     [
       {
         errorElement: <ErrorBoundary />,
         hydrateFallbackElement,
-        children: [
-          {
-            index: true,
-            lazy: () => getDefaultComponent(import('./landing/home')),
-          },
-          { path: 'index.html', element: <Navigate to="/" replace /> },
-          { path: 'stable/*', element: <Navigate to="/" replace /> },
-          { path: 'pds', lazy: () => getDefaultComponent(import('./pds/dids-per-pds')) },
-          { path: 'pds/:pds', lazy: () => getDefaultComponent(import('./pds/users-per-pds')) },
-          {
-            path: 'contact',
-            lazy: () => getDefaultComponent(import('./landing/contact')),
-          },
-          { path: 'labelers', lazy: () => getDefaultComponent(import('./labelers/labelers')) },
-          { path: 'labelers/:did', lazy: () => getDefaultComponent(import('./labelers/label-view')) },
-          { path: 'dashboard', lazy: () => getDefaultComponent(import('./auth/dashboard')) },
-          { path: 'auth/login/error', lazy: () => getDefaultComponent(import('./auth/login-error')) },
-          {
-            path: 'faq',
-            lazy: () => getDefaultComponent(import('./landing/faq')),
-          },
-          {
-            path: ':handle',
-            lazy: () => getDefaultComponent(import('./detail-panels')),
-            children: await profileChildRoutesPromise,
-          },
-        ],
+        children: enabledRoutes,
       },
     ],
     {
