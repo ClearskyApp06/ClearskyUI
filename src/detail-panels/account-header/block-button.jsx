@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { blockAction, useBlockRelation } from '../../api/blocklist';
 import { useAuth } from '../../context/authContext';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -13,7 +14,9 @@ import { useAuth } from '../../context/authContext';
 export function BlockRelationButton({ targetHandle, sx }) {
   const [loading, setLoading] = useState(false);
   const { accountFullHandle, authenticated } = useAuth();
-  const { data: blockRelationData, isLoading } = useBlockRelation(authenticated ? targetHandle : null);
+  const enableBlockActionFeature = useFeatureFlag('restricted-blocked-action');
+
+  const { data: blockRelationData, isLoading } = useBlockRelation(enableBlockActionFeature && authenticated ? targetHandle : null);
   const status = blockRelationData?.blockedStatus;
   const [currentStatus, setCurrentStatus] = useState(status);
 
@@ -58,7 +61,7 @@ export function BlockRelationButton({ targetHandle, sx }) {
     setCurrentStatus(status);
   }, [status]);
 
-  if (!authenticated || (!actionLoading && !currentStatus)) return null;
+  if (!enableBlockActionFeature || !authenticated || (!actionLoading && !currentStatus)) return null;
 
   return (
     <Box

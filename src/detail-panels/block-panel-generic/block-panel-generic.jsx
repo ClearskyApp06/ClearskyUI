@@ -24,6 +24,7 @@ import { localise } from '../../localisation';
  *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
  *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
  *  header?: React.ReactNode | ((args: { count: number, blocklist: any[] }) => React.ReactNode)
+ *  showBlockRelationButton?: boolean
  * }} _
  */
 export function BlockPanelGeneric({
@@ -31,6 +32,7 @@ export function BlockPanelGeneric({
   blocklistQuery,
   totalQuery,
   header,
+  showBlockRelationButton
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     blocklistQuery;
@@ -74,10 +76,10 @@ export function BlockPanelGeneric({
         header={header}
         // Ironically this hides the search button
         showSearch={true}
-        // setShowSearch={setShowSearch}
-        // onShowSearch={() => setShowSearch(true)}
-        // onToggleView={() => setTableView(!tableView)}
-        // tableView={tableView}
+      // setShowSearch={setShowSearch}
+      // onShowSearch={() => setShowSearch(true)}
+      // onToggleView={() => setTableView(!tableView)}
+      // tableView={tableView}
       />
       {isLoading ? (
         <p style={{ padding: '0.5em', opacity: '0.5' }}>
@@ -85,7 +87,7 @@ export function BlockPanelGeneric({
         </p>
       ) : (
         //tableView ? (<TableView account={account} blocklist={blocklist} />) : (
-        <ListView blocklist={blocklist} />
+        <ListView blocklist={blocklist} showBlockRelationButton={showBlockRelationButton} />
       )}
       {/* )} */}
       {hasNextPage ? (

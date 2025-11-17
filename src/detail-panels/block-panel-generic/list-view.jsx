@@ -8,14 +8,15 @@ import { GoogleAdSlot } from '../../common-components/google-ad-slot';
 /**
  * @param {{
  *  blocklist: (BlockedByRecord | { did: string; blocked_date: string } | { did: string; date_added: string } | BlockListSubscriberEntry)[];
+ *  showBlockRelationButton?: boolean;
  * }} _
  */
-export function ListView({ blocklist }) {
+export function ListView({ blocklist, showBlockRelationButton }) {
   return (
     <ul className="block-list">
       <ProgressiveRender
         items={blocklist}
-        renderItem={(item) => <ListViewEntry {...item} />}
+        renderItem={(item) => <ListViewEntry {...item} showBlockRelationButton={showBlockRelationButton} />}
       />
       <GoogleAdSlot
         slot="9114105783"
@@ -33,6 +34,7 @@ export function ListView({ blocklist }) {
  *  handle?: string;
  *  did?: string;
  *  className?: string;
+ *  showBlockRelationButton?: boolean;
  * }} _
  */
 function ListViewEntry({
@@ -41,6 +43,7 @@ function ListViewEntry({
   handle,
   did,
   className,
+  showBlockRelationButton,
   ...rest
 }) {
   const account = handle || did;
@@ -64,6 +67,7 @@ function ListViewEntry({
           )
         }
         account={account}
+        showBlockRelationButton={showBlockRelationButton}
       >
         {entryDate ? (
           <FormatTimestamp
