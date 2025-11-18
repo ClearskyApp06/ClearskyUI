@@ -7,6 +7,7 @@ import {
   Button,
   TextField,
   CircularProgress,
+  Alert,
 } from '@mui/material';
 import { useAuth } from '../context/authContext';
 
@@ -55,6 +56,20 @@ export function LoginModal({ open, onClose }) {
           error={Boolean(error)}
           helperText={error || 'Enter your Bluesky handle to continue.'}
         />
+
+        <Alert
+          severity="warning"
+          icon={false}
+          sx={{
+            mt: 2,
+            fontSize: '0.8rem',
+            borderRadius: 2,
+            textAlign: 'center',
+          }}
+        >
+          You will now be redirected to Bluesky to securely authorize Clearsky.
+          Clearsky never sees or stores your password.
+        </Alert>
       </DialogContent>
 
       <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 2 }}>

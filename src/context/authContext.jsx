@@ -26,8 +26,8 @@ import { unwrapShortHandle, useResolveHandleOrDid } from '../api';
  * @property {(handle: string) => void} loginWithHandle
  * @property {() => void} logout
  * @property {(id: string) => Promise<boolean>} validateAuth
- * @property {AccountInfo} accountInfo
- * @property {string} accountFullHandle
+ * @property {AccountInfo | undefined} accountInfo
+ * @property {string | undefined} accountFullHandle
  */
 
 /** @type {React.Context<AuthContextValue | null>} */

@@ -15,7 +15,9 @@ export default function BlockedByPanel() {
   const totalQuery = useSingleBlocklistCount(did);
   const enableBlockActionFeature = useFeatureFlag('restricted-blocked-action');
 
-  const { accountInfo: { shortDID } } = useAuth();
+  const { accountInfo } = useAuth();
+
+  const shortDID = accountInfo?.shortDID;
 
   return (
     <BlockPanelGeneric

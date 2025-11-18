@@ -13,6 +13,8 @@ import { ProgressiveRender } from '../../common-components/progressive-render';
 import { ConditionalAnchor } from '../../common-components/conditional-anchor';
 import { useResolveHandleOrDid } from '../../api';
 import { GoogleAdSlot } from '../../common-components/google-ad-slot';
+import { useAuth } from '../../context/authContext';
+import { useFeatureFlag } from '../../api/featureFlags';
 
 /**
  * @param {{
@@ -46,7 +48,15 @@ export function ListView({ className, list }) {
  * }} _
  */
 export function ListViewEntry({ className, entry }) {
-  const { data: sizeData, isLoading } = useListSize(entry?.url);
+    const { authenticated } = useAuth();
+  
+    const listsOnCountFlag = useFeatureFlag('lists-on-count');
+    const authListsOnCountFlag = useFeatureFlag('restricted-lists-on-count')
+      ? !!authenticated
+      : true;
+    const listsOnCountEnabled = listsOnCountFlag && authListsOnCountFlag;
+  
+  const { data: sizeData, isLoading } = useListSize(listsOnCountEnabled ? entry?.url : null);
   const count = sizeData?.count?.toLocaleString() || '';
 
   const [open, setOpen] = useState(false);

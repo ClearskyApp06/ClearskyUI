@@ -3,16 +3,23 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import { Tabs, Tab, Box, useTheme, useMediaQuery } from '@mui/material';
 import { useFeatureFlag } from '../../api/featureFlags';
+import { useAuth } from '../../context/authContext';
 
 export default function StarterPacksTabs() {
   const match = useMatch('/:account/starter-packs/*');
   const tab = 'starter-packs' + (match?.params['*'] ? `/${match.params['*']}` : '');
 
+  const { authenticated } = useAuth();
+
   // Feature flags
   const madeEnabled = useFeatureFlag('starter-packs-made-tab');
   const inEnabled = useFeatureFlag('starter-packs-in-tab');
 
-  const theme = useTheme()
+  // Auth flags
+  const madeAuthEnabled = useFeatureFlag('restricted-starter-packs-made') ? !!authenticated : true;
+  const inAuthEnabled = useFeatureFlag('restricted-starter-packs-in') ? !!authenticated : true;
+
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /** @type {React.RefObject<HTMLDivElement>} */
@@ -23,8 +30,8 @@ export default function StarterPacksTabs() {
   const [id, setId] = useState("");
 
   const routes = [
-    { label: 'Starter Packs Made', to: 'starter-packs', enabled: madeEnabled, id: 'starter-packs' },
-    { label: 'Starter Packs In', to: 'starter-packs/in', enabled: inEnabled, id: 'starter-packs-in' },
+    { label: 'Starter Packs Made', to: 'starter-packs', enabled: madeEnabled && madeAuthEnabled, id: 'starter-packs' },
+    { label: 'Starter Packs In', to: 'starter-packs/in', enabled: inEnabled && inAuthEnabled, id: 'starter-packs-in' },
   ].filter((r) => r.enabled);
 
   const activeIndex = routes.findIndex(route => route.to === tab);
