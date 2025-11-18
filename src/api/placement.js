@@ -6,10 +6,10 @@ import { useResolveHandleOrDid } from './resolve-handle-or-did';
 import { useQuery } from '@tanstack/react-query';
 
 /**
- * @param {string | undefined} handleOrDID
+ * @param {string | undefined | null} handleOrDID
  */
 export function usePlacement(handleOrDID) {
-  const profileQuery = useResolveHandleOrDid(handleOrDID);
+  const profileQuery = useResolveHandleOrDid(handleOrDID || '');
   const shortHandle = profileQuery.data?.shortHandle;
 
   return useQuery({
@@ -24,6 +24,7 @@ export function usePlacement(handleOrDID) {
  * @param {string} shortHandle
  */
 async function getPlacement(shortHandle) {
+  if (!shortHandle) return { placement: undefined };
   const handleURL = 'placement/' + unwrapShortHandle(shortHandle);
 
   /** @type {{ data: { placement: number }, identity: string, status: true } | { status: false }} */

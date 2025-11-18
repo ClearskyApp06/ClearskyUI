@@ -4,17 +4,25 @@ import { Link, useMatch } from 'react-router-dom';
 import { Tabs, Tab, Box, useTheme, useMediaQuery } from '@mui/material';
 import { localise } from '../../localisation';
 import { useFeatureFlag } from '../../api/featureFlags';
+import { useAuth } from '../../context/authContext';
 
 export default function BlockingTabs() {
   const baseMatch = useMatch('/:account/blocking/*');
   const tab = 'blocking' + (baseMatch?.params['*'] ? `/${baseMatch.params['*']}` : '');
+
+  const { authenticated } = useAuth();
 
   const blockingEnabled = useFeatureFlag('blocking-tab');
   const blockedByEnabled = useFeatureFlag('blocked-by-tab');
   const listsBlockingEnabled = useFeatureFlag('lists-blocking-tab');
   const listsBlockedByEnabled = useFeatureFlag('lists-blocked-by-tab');
 
-  const theme = useTheme()
+  // Auth flags
+  const authBlockedByEnabled = useFeatureFlag('restricted-blocked-by') ? !!authenticated : true;
+  const authListsBlockingEnabled = useFeatureFlag('restricted-lists-blocking') ? !!authenticated : true;
+  const authListsBlockedByEnabled = useFeatureFlag('restricted-lists-blocked-by') ? !!authenticated : true;
+
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /** @type {React.RefObject<HTMLDivElement>} */
@@ -26,9 +34,9 @@ export default function BlockingTabs() {
 
   const childrenTabs = [
     { label: localise('Blocking'), to: 'blocking', enabled: blockingEnabled, id: 'blocking' },
-    { label: localise('Blocked By'), to: 'blocking/blocked-by', enabled: blockedByEnabled, id: 'blocked-by' },
-    { label: localise('Lists Blocking'), to: 'blocking/blocking-lists', enabled: listsBlockingEnabled, id: 'blocking-lists' },
-    { label: localise('Lists Blocked By'), to: 'blocking/blocked-by-lists', enabled: listsBlockedByEnabled, id: 'blocked-by-lists' },
+    { label: localise('Blocked By'), to: 'blocking/blocked-by', enabled: blockedByEnabled && authBlockedByEnabled, id: 'blocked-by' },
+    { label: localise('Lists Blocking'), to: 'blocking/blocking-lists', enabled: listsBlockingEnabled && authListsBlockingEnabled, id: 'blocking-lists' },
+    { label: localise('Lists Blocked By'), to: 'blocking/blocked-by-lists', enabled: listsBlockedByEnabled && authListsBlockedByEnabled, id: 'blocked-by-lists' },
   ].filter((t) => t.enabled);
 
   const activeIndex = childrenTabs.findIndex(route => route.to === tab);
