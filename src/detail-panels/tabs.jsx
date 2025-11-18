@@ -134,13 +134,22 @@ const allTabRoutes = /** @type {ExtraUiFields[]} */ ([
 
 const featureFlagAssignmentsPromise = getAllFeatureFlags();
 
+const authValidationPromise = (async () => {
+  let isAuthenticated = false;
+  try {
+    if (localStorage.getItem('session-id')) {
+      const res = await fetchClearskyApi('v1', `login/session/validate`);
+      isAuthenticated = Boolean(res?.authenticated);
+    }
+  } catch (error) {
+    console.error('Failed to validate session:', error);
+  }
+  return isAuthenticated;
+})();
+
 export const activeTabRoutesPromise = (async () => {
   const featureFlagAssignments = await featureFlagAssignmentsPromise;
-  let isAuthenticated = false;
-  if (localStorage.getItem('session-id')) {
-    const res = await fetchClearskyApi('v1', `login/session/validate`);
-    isAuthenticated = Boolean(res?.authenticated);
-  }
+  const isAuthenticated = await authValidationPromise;
 
   /**
    * @param {readonly ExtraUiFields[]} tabs
@@ -173,7 +182,7 @@ export const profileChildRoutesPromise = (async () => {
 
   const defaultProfilePath = featureFlagAssignments['profile-tab']
     ? 'profile'
-    : activeTabRoutes[0].path || '';
+    : activeTabRoutes[0]?.path || '';
 
   return [
     ...activeTabRoutes,
