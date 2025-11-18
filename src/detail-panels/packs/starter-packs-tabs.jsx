@@ -9,17 +9,17 @@ export default function StarterPacksTabs() {
   const match = useMatch('/:account/starter-packs/*');
   const tab = 'starter-packs' + (match?.params['*'] ? `/${match.params['*']}` : '');
 
-  const { authenticated } = useAuth()
+  const { authenticated } = useAuth();
 
   // Feature flags
   const madeEnabled = useFeatureFlag('starter-packs-made-tab');
   const inEnabled = useFeatureFlag('starter-packs-in-tab');
 
   // Auth flags
-  const madeAuthEnabled = useFeatureFlag('restricted-starter-packs-made') ?  !!authenticated : true;
+  const madeAuthEnabled = useFeatureFlag('restricted-starter-packs-made') ? !!authenticated : true;
   const inAuthEnabled = useFeatureFlag('restricted-starter-packs-in') ? !!authenticated : true;
 
-  const theme = useTheme()
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /** @type {React.RefObject<HTMLDivElement>} */

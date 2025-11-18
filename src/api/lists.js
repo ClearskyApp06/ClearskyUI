@@ -105,7 +105,7 @@ async function getListCount(shortHandle) {
  * @returns {Promise<{ count: number } | null>} null if response is a 400/404
  */
 async function getListSize(listUrl, signal) {
-  if (!listUrl) return null
+  if (!listUrl) return null;
   // This is the new path part *after* /csky/api/
   // listUrl should be an unencoded string; do not double-encode
   const apiPath = `get-list/specific/total/${listUrl}`;

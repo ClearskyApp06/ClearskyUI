@@ -10,19 +10,19 @@ export default function BlockingTabs() {
   const baseMatch = useMatch('/:account/blocking/*');
   const tab = 'blocking' + (baseMatch?.params['*'] ? `/${baseMatch.params['*']}` : '');
 
-  const { authenticated } = useAuth()
+  const { authenticated } = useAuth();
 
   const blockingEnabled = useFeatureFlag('blocking-tab');
   const blockedByEnabled = useFeatureFlag('blocked-by-tab');
   const listsBlockingEnabled = useFeatureFlag('lists-blocking-tab');
   const listsBlockedByEnabled = useFeatureFlag('lists-blocked-by-tab');
 
-    // Auth flags
-    const authBlockedByEnabled = useFeatureFlag('restricted-blocked-by') ? !!authenticated : true;
-    const authListsBlockingEnabled = useFeatureFlag('restricted-lists-blocking') ? !!authenticated : true;
-    const authListsBlockedByEnabled = useFeatureFlag('restricted-lists-blocked-by') ? !!authenticated : true;
+  // Auth flags
+  const authBlockedByEnabled = useFeatureFlag('restricted-blocked-by') ? !!authenticated : true;
+  const authListsBlockingEnabled = useFeatureFlag('restricted-lists-blocking') ? !!authenticated : true;
+  const authListsBlockedByEnabled = useFeatureFlag('restricted-lists-blocked-by') ? !!authenticated : true;
 
-  const theme = useTheme()
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /** @type {React.RefObject<HTMLDivElement>} */
