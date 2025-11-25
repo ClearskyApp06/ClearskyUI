@@ -16,6 +16,8 @@ export default function BlockingPanel() {
       className="blocking-panel"
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
+      userHandle={accountQuery.data?.shortHandle}
+      isBlockingPanel={true}
       header={({ count }) => (
         <>
           {localise(

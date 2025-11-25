@@ -4,7 +4,7 @@ import React from 'react';
 
 import { TableChart, TableRows } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, IconButton } from '@mui/material';
 // import { useSearchParams } from 'react-router-dom';
 
 // import { SearchHeaderDebounced } from '../history/search-header';
@@ -14,6 +14,10 @@ import { VisibleWithDelay } from '../../common-components/visible';
 
 import './block-panel-generic.css';
 import { localise } from '../../localisation';
+import { useFeatureFlag } from '../../api/featureFlags';
+import { SearchAutoComplete } from '../../landing/search-autocomplete';
+import { unwrapShortHandle } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 /** @typedef {import('@tanstack/react-query').InfiniteData<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string })[]; count?: number }>} InfBlockData */
 
@@ -25,6 +29,8 @@ import { localise } from '../../localisation';
  *  totalQuery: import('@tanstack/react-query').UseQueryResult<{ count: number }>,
  *  header?: React.ReactNode | ((args: { count: number, blocklist: any[] }) => React.ReactNode)
  *  showBlockRelationButton?: boolean
+ *  userHandle?: string
+ *  isBlockingPanel?: boolean
  * }} _
  */
 export function BlockPanelGeneric({
@@ -33,6 +39,8 @@ export function BlockPanelGeneric({
   totalQuery,
   header,
   showBlockRelationButton,
+  userHandle,
+  isBlockingPanel,
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
     blocklistQuery;
@@ -44,6 +52,15 @@ export function BlockPanelGeneric({
   const blocklist = blocklistPages.flatMap((page) => page.blocklist);
   const count = totalData?.count;
 
+  const enableBlockingSearchingFeature = useFeatureFlag('blocking-searching');
+
+  // const { accountFullHandle } = useAuth();
+
+  const [searchText, setSearchText] = React.useState('');
+  const [showSearch, setShowSearch] = React.useState(false);
+
+  const navigate = useNavigate();
+
   // const [searchParams, setSearchParams] = useSearchParams();
   // const [tick, setTick] = useState(0);
   // const search = (searchParams.get('q') || '').trim();
@@ -54,6 +71,46 @@ export function BlockPanelGeneric({
   //   !search || !blocklist
   //     ? blocklist || []
   //     : matchSearch(blocklist, search, () => setTick(tick + 1));
+
+  /**
+   * Batch filter entries using fetchIsBlockingMany/fetchIsBlockedByMany.
+   * @param {SearchMatch[]} entries
+   * @returns {Promise<SearchMatch[]>}
+   */
+  const filterOptionsAsync = async (entries) => {
+    if (!Array.isArray(entries) || !userHandle) return [];
+    let results;
+    if (isBlockingPanel) {
+      results = await import('../../api/blocklist').then((mod) =>
+        mod.fetchIsBlockingMany(userHandle, entries)
+      );
+    } else {
+      results = await import('../../api/blocklist').then((mod) =>
+        mod.fetchIsBlockedByMany(userHandle, entries)
+      );
+    }
+    // Only keep entries whose shortHandle is in the results
+    const validEntries = new Set(results.map((r) => r.shortHandle));
+    return entries.filter((e) => validEntries.has(e.shortHandle));
+  };
+
+  /**
+   * @param {Partial<AccountInfo & SearchMatch>} account
+   */
+  const onAccountSelected = (account) => {
+    if (account.shortHandle) {
+      if (account.postID) {
+        navigate(
+          '/' +
+            unwrapShortHandle(account.shortHandle) +
+            '/history/?q=' +
+            account.postID
+        );
+      } else {
+        navigate('/' + unwrapShortHandle(account.shortHandle));
+      }
+    }
+  };
 
   return (
     <div
@@ -74,9 +131,13 @@ export function BlockPanelGeneric({
         count={count}
         blocklist={blocklist}
         header={header}
-        // Ironically this hides the search button
-        showSearch={true}
-        // setShowSearch={setShowSearch}
+        filterOptionsAsync={filterOptionsAsync}
+        enableBlockingSearchingFeature={enableBlockingSearchingFeature}
+        searchText={searchText}
+        showSearch={showSearch}
+        setSearchText={setSearchText}
+        setShowSearch={setShowSearch}
+        onAccountSelected={onAccountSelected}
         // onShowSearch={() => setShowSearch(true)}
         // onToggleView={() => setTableView(!tableView)}
         // tableView={tableView}
@@ -87,7 +148,10 @@ export function BlockPanelGeneric({
         </p>
       ) : (
         //tableView ? (<TableView account={account} blocklist={blocklist} />) : (
-        <ListView blocklist={blocklist} showBlockRelationButton={showBlockRelationButton} />
+        <ListView
+          blocklist={blocklist}
+          showBlockRelationButton={showBlockRelationButton}
+        />
       )}
       {/* )} */}
       {hasNextPage ? (
@@ -120,7 +184,19 @@ class PanelHeader extends React.Component {
       count = this.state?.count || 0;
     }
 
-    const { blocklist, header } = this.props;
+    const {
+      blocklist,
+      header,
+      enableBlockingSearchingFeature,
+      searchText,
+      setSearchText,
+      showSearch,
+      setShowSearch,
+      onAccountSelected,
+      // userHandle,
+      // isBlockingPanel,
+      filterOptionsAsync,
+    } = this.props;
 
     return (
       <h3
@@ -134,14 +210,30 @@ class PanelHeader extends React.Component {
         {typeof header === 'function' ? header({ count, blocklist }) : header}
 
         <span className="panel-toggles">
-          {this.props.showSearch ? undefined : (
-            <Button
-              size="small"
-              className="panel-show-search"
-              onClick={this.props.setShowSearch}
-            >
-              <SearchIcon />
-            </Button>
+          {enableBlockingSearchingFeature && (
+            <Box sx={{ width: 1, margin: '0.5em 0 0 0' }}>
+              {showSearch ? (
+                <SearchAutoComplete
+                  label={{
+                    en: 'Search accounts',
+                    localised: { uk: 'Пошук акаунтів' },
+                  }}
+                  searchText={searchText}
+                  filterOptionsAsync={filterOptionsAsync}
+                  onSearchTextChanged={setSearchText}
+                  onAccountSelected={onAccountSelected}
+                />
+              ) : (
+                <IconButton
+                  size="small"
+                  className="panel-show-search"
+                  color="primary"
+                  onClick={() => setShowSearch(true)}
+                >
+                  <SearchIcon />
+                </IconButton>
+              )}
+            </Box>
           )}
           {this.props.onToggleView ? (
             <Button

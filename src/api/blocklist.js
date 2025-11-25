@@ -1,3 +1,57 @@
+// Simple in-memory cache for endpoint results
+const _blocklistCache = new Map();
+
+/**
+ * Helper to run async tasks with limited concurrency and retry on 429 errors.
+ * @param {Array<any>} entries
+ * @param {(entry: any) => Promise<any>} fn
+ * @param {number} concurrency
+ * @param {number} maxRetries
+ * @returns {Promise<Array<any>>}
+ */
+async function runWithConcurrencyAndRetry(
+  entries,
+  fn,
+  concurrency = 5,
+  maxRetries = 2
+) {
+  const results = new Array(entries.length);
+  let idx = 0;
+  async function worker() {
+    while (idx < entries.length) {
+      const myIdx = idx++;
+      let attempt = 0;
+      const entry = entries[myIdx];
+      const cacheKey = entry._cacheKey;
+      // Check cache first
+      if (cacheKey && _blocklistCache.has(cacheKey)) {
+        results[myIdx] = _blocklistCache.get(cacheKey);
+        continue;
+      }
+      while (attempt <= maxRetries) {
+        try {
+          const result = await fn(entry);
+          results[myIdx] = result;
+          if (cacheKey) _blocklistCache.set(cacheKey, result);
+          break;
+        } catch (err) {
+          if (err && err.status === 429 && attempt < maxRetries) {
+            await new Promise((res) => setTimeout(res, 500 * (attempt + 1)));
+            attempt++;
+          } else {
+            results[myIdx] = undefined;
+            break;
+          }
+        }
+      }
+    }
+  }
+  const workers = Array(concurrency)
+    .fill(0)
+    .map(() => worker());
+  await Promise.all(workers);
+  return results;
+}
 // @ts-check
 
 import { fetchClearskyApi, unwrapShortDID } from './core';
@@ -130,8 +184,9 @@ export function useSingleBlocklistCount(handleOrDID) {
  * }>}
  */
 async function blocklistCall(shortHandle, api, currentPage = 1) {
-  const handleURL = `${api}/${unwrapShortHandle(shortHandle)}${currentPage === 1 ? '' : `/${currentPage}`
-    }`;
+  const handleURL = `${api}/${unwrapShortHandle(shortHandle)}${
+    currentPage === 1 ? '' : `/${currentPage}`
+  }`;
 
   /** @type {BlocklistResponse<BlocklistPage>} */
   const pageResponse = await fetchClearskyApi('v1', handleURL);
@@ -153,8 +208,101 @@ async function blocklistCall(shortHandle, api, currentPage = 1) {
  */
 async function blocklistCountCall(shortHandle, api) {
   /** @type {BlocklistResponse<{ count: number; pages: number }>} */
-  const pageResponse = await fetchClearskyApi('v1', `${api}/total/${unwrapShortHandle(shortHandle)}`);
+  const pageResponse = await fetchClearskyApi(
+    'v1',
+    `${api}/total/${unwrapShortHandle(shortHandle)}`
+  );
   return pageResponse.data;
+}
+
+/**
+ * Fetch if handle1 is blocking handle2
+ * @param {string} handle1
+ * @param {string} handle2
+ * @returns {Promise<{ blocked_date: string, did: string } | null>}
+ */
+export async function fetchIsBlocking(handle1, handle2) {
+  const url = `blocklist-search-blocking/${unwrapShortHandle(
+    handle1
+  )}/${unwrapShortHandle(handle2)}`;
+  const res = await fetchClearskyApi('v1', url);
+  return res?.data ?? null;
+}
+
+/**
+ * Fetch if handle1 is being blocked by handle2
+ * @param {string} handle1
+ * @param {string} handle2
+ * @returns {Promise<{ blocked_date: string, did: string } | null>}
+ */
+export async function fetchIsBlockedBy(handle1, handle2) {
+  const url = `blocklist-search-blocked/${unwrapShortHandle(
+    handle1
+  )}/${unwrapShortHandle(handle2)}`;
+  const res = await fetchClearskyApi('v1', url);
+  return res?.data ?? null;
+}
+
+/**
+ * Runs fetchIsBlockedBy for each entry in entries concurrently.
+ * Returns only those with valid { blocked_date, did } data.
+ * Returns an empty array if none are valid.
+ * @param {string} handle
+ * @param {Array<any>} entries - Array of entry objects with shortHandle
+ * @returns {Promise<Array<any>>}
+ */
+export async function fetchIsBlockedByMany(handle, entries) {
+  // Attach cache keys to entries
+  const entriesWithCacheKey = entries.map((entry) => ({
+    ...entry,
+    _cacheKey: `${handle}:blockedby:${entry.shortHandle}`,
+  }));
+  const results = await runWithConcurrencyAndRetry(
+    entriesWithCacheKey,
+    (entry) => fetchIsBlockedBy(handle, entry.shortHandle),
+    5, // concurrency limit
+    2 // max retries
+  );
+  // Return only the entry objects for which the endpoint returns valid data
+  return entriesWithCacheKey.filter((_, idx) => {
+    const data = results[idx];
+    return (
+      data &&
+      typeof data.blocked_date === 'string' &&
+      typeof data.did === 'string'
+    );
+  });
+}
+
+/**
+ * Runs fetchIsBlocking for each entry in entries concurrently.
+ * Returns only those with valid { blocked_date, did } data.
+ * Returns an empty array if none are valid.
+ * @param {string} handle
+ * @param {Array<any>} entries - Array of entry objects with shortHandle
+ * @returns {Promise<Array<any>>}
+ */
+export async function fetchIsBlockingMany(handle, entries) {
+  // Attach cache keys to entries
+  const entriesWithCacheKey = entries.map((entry) => ({
+    ...entry,
+    _cacheKey: `${handle}:blocking:${entry.shortHandle}`,
+  }));
+  const results = await runWithConcurrencyAndRetry(
+    entriesWithCacheKey,
+    (entry) => fetchIsBlocking(handle, entry.shortHandle),
+    5, // concurrency limit
+    2 // max retries
+  );
+  // Return only the entry objects for which the endpoint returns valid data
+  return entriesWithCacheKey.filter((_, idx) => {
+    const data = results[idx];
+    return (
+      data &&
+      typeof data.blocked_date === 'string' &&
+      typeof data.did === 'string'
+    );
+  });
 }
 
 /**
@@ -343,7 +491,6 @@ async function getBlockListSubscribers(blocklistUrl, currentPage = 1) {
   };
 }
 
-
 /**
  * @param {string | undefined | null} compareHandle
  */
@@ -370,18 +517,17 @@ async function getBlockRelation(compareHandle, handle) {
   if (!compareHandle || !handle || compareHandle === handle) return null;
   const params = new URLSearchParams({
     'compare-identifier': compareHandle,
-    handle
+    handle,
   });
 
-  const handleURL =
-    `feature/request/get-block-relation?${params}`;
+  const handleURL = `feature/request/get-block-relation?${params}`;
 
   const re = await fetchClearskyApi('v1', handleURL);
 
   return {
     blockedStatus: re['blocked-status'],
     comparingIdentifier: re['comparing-identifier'],
-    identifier: re.identifier
+    identifier: re.identifier,
   };
 }
 
@@ -391,7 +537,7 @@ async function getBlockRelation(compareHandle, handle) {
  * @param {string | undefined} blockedHandle - The profile you want to block/unblock
  * @param {string | undefined} handle - The profile you want to block/unblock
  * @param {"block" | "unblock"} action - Which action to perform
- * 
+ *
  * @returns {Promise<{
  *   status: "success" | "error",
  *   action: "block" | "unblock",
@@ -403,19 +549,19 @@ export async function blockAction(blockedHandle, handle, action) {
   if (!blockedHandle || !handle) return null;
 
   const params = new URLSearchParams({
-    "blocked-identifier": blockedHandle,
+    'blocked-identifier': blockedHandle,
     action,
-    handle
+    handle,
   });
 
-  const endpoint = "feature/request/block-action?" + params.toString();
+  const endpoint = 'feature/request/block-action?' + params.toString();
 
-  const res = await fetchClearskyApi("v1", endpoint, { method: 'POST' });
+  const res = await fetchClearskyApi('v1', endpoint, { method: 'POST' });
 
   return {
-    status: res?.status || "success",
+    status: res?.status || 'success',
     action,
     blockedIdentifier: blockedHandle,
-    blockedStatus: res['blocked-status']
+    blockedStatus: res['blocked-status'],
   };
 }
