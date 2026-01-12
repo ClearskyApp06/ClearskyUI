@@ -211,7 +211,7 @@ class PanelHeader extends React.Component {
 
         <span className="panel-toggles">
           {enableBlockingSearchingFeature && (
-            <Box sx={{ width: 1, margin: '0.5em 0 0 0' }}>
+            <Box sx={{ width: '100%', margin: '0.5em 0 0 0' }}>
               {showSearch ? (
                 <SearchAutoComplete
                   label={{

@@ -64,6 +64,32 @@ import { useAuth } from '../context/authContext';
 const PAGE_SIZE = 100;
 
 /**
+ * React Query hook: is handle1 blocking handle2?
+ * @param {string} handle1
+ * @param {string} handle2
+ */
+export function useIsBlocking(handle1, handle2) {
+  return useQuery({
+    enabled: !!handle1 && !!handle2,
+    queryKey: ['is-blocking', handle1, handle2],
+    queryFn: () => fetchIsBlocking(handle1, handle2),
+  });
+}
+
+/**
+ * React Query hook: is handle1 blocked by handle2?
+ * @param {string} handle1
+ * @param {string} handle2
+ */
+export function useIsBlockedBy(handle1, handle2) {
+  return useQuery({
+    enabled: !!handle1 && !!handle2,
+    queryKey: ['is-blocked-by', handle1, handle2],
+    queryFn: () => fetchIsBlockedBy(handle1, handle2),
+  });
+}
+
+/**
  * given an account's did, return a list of other accounts being blocked by the given account
  * @param {string | undefined} did
  */
