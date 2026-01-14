@@ -199,7 +199,7 @@ class PanelHeader extends React.Component {
     } = this.props;
 
     return (
-      <h3
+      <div
         className={
           'blocking-panel-header' +
           (typeof this.props.count === 'number'
@@ -207,49 +207,59 @@ class PanelHeader extends React.Component {
             : ' blocking-panel-header-loading')
         }
       >
-        {typeof header === 'function' ? header({ count, blocklist }) : header}
+        <div className="panel-header-top">
+          <h3 className="panel-count">
+            {typeof header === 'function'
+              ? header({ count, blocklist })
+              : header}
+          </h3>
 
-        <span className="panel-toggles">
-          {enableBlockingSearchingFeature && (
-            <Box sx={{ width: '100%', margin: '0.5em 0 0 0' }}>
-              {showSearch ? (
-                <SearchAutoComplete
-                  label={{
-                    en: 'Search accounts',
-                    localised: { uk: 'Пошук акаунтів' },
-                  }}
-                  searchText={searchText}
-                  filterOptionsAsync={filterOptionsAsync}
-                  onSearchTextChanged={setSearchText}
-                  onAccountSelected={onAccountSelected}
-                />
-              ) : (
-                <IconButton
-                  size="small"
-                  className="panel-show-search"
-                  color="primary"
-                  onClick={() => setShowSearch(true)}
-                >
-                  <SearchIcon />
-                </IconButton>
-              )}
-            </Box>
-          )}
-          {this.props.onToggleView ? (
-            <Button
-              title={localise('Toggle table view', {
-                uk: 'Перемкнути вигляд таблиці/списку',
-              })}
-              variant="contained"
-              size="small"
-              className="panel-toggle-table"
-              onClick={this.props.onToggleView}
-            >
-              {this.props.tableView ? <TableRows /> : <TableChart />}
-            </Button>
-          ) : null}
-        </span>
-      </h3>
+          <div className="panel-toggles">
+            {enableBlockingSearchingFeature && (
+              <IconButton
+                size="small"
+                className={
+                  'panel-show-search' +
+                  (showSearch ? ' panel-show-search-active' : '')
+                }
+                color={showSearch ? 'secondary' : 'primary'}
+                onClick={() => setShowSearch(!showSearch)}
+              >
+                <SearchIcon />
+              </IconButton>
+            )}
+
+            {this.props.onToggleView ? (
+              <Button
+                title={localise('Toggle table view', {
+                  uk: 'Перемкнути вигляд таблиці/списку',
+                })}
+                variant="contained"
+                size="small"
+                className="panel-toggle-table"
+                onClick={this.props.onToggleView}
+              >
+                {this.props.tableView ? <TableRows /> : <TableChart />}
+              </Button>
+            ) : null}
+          </div>
+        </div>
+
+        {enableBlockingSearchingFeature && showSearch && (
+          <div className="panel-search-autocomplete">
+            <SearchAutoComplete
+              label={{
+                en: 'Search accounts',
+                localised: { uk: 'Пошук акаунтів' },
+              }}
+              searchText={searchText}
+              filterOptionsAsync={filterOptionsAsync}
+              onSearchTextChanged={setSearchText}
+              onAccountSelected={onAccountSelected}
+            />
+          </div>
+        )}
+      </div>
     );
   }
 

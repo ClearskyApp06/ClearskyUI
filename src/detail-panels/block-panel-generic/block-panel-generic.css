@@ -97,11 +97,20 @@ li.blocking-list-entry:nth-child(even) {
   text-align: right;
 }
 
+.MuiBox-root .css-r82bso {
+  /* This was previously 48px by default, setting it to 0 to make sure the search button is clickable */
+  padding-top: 0;
+}
+
 .blocking-panel-header {
   padding: 0.5em;
   margin: 0;
-  margin-top: 0.5em;
+  
+  /* margin-top was previously 0.5 em, changed to 48px to compensate for the removed padding in MuiBox-root css-r82bso */
+  margin-top: 48px;
   margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .blocking-panel-header-loading * {
@@ -109,10 +118,31 @@ li.blocking-list-entry:nth-child(even) {
   opacity: 0.7;
 }
 
-.panel-show-search {
-  float: right;
+.panel-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* .blocking-panel-header .panel-toggles {
-  float: right;
-} */
+.panel-count {
+  display: inline;
+  margin: 0;
+}
+
+.panel-show-search {
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px #0001;
+  margin-left: 0.5em;
+  padding: 0.3em;
+}
+
+.panel-show-search-active {
+  background-color: #e0e0e0;
+}
+
+.panel-search-autocomplete {
+  width: 100%;
+  margin: 0.5em 0 0;
+}
