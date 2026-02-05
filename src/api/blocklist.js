@@ -221,13 +221,16 @@ async function blocklistCountCall(shortHandle, api) {
  * @param {string} handle2
  * @returns {Promise<{ blocked_date: string, did: string } | null>}
  */
-export async function fetchIsBlocking(handle1, handle2) {
-  const url = `blocklist-search-blocking/${unwrapShortHandle(
-    handle1
-  )}/${unwrapShortHandle(handle2)}`;
-  const res = await fetchClearskyApi('v1', url);
-  return res?.data ?? null;
-}
+
+// not being used anywhere right now, so commented out
+
+// export async function fetchIsBlocking(handle1, handle2) {
+//   const url = `blocklist-search-blocking/${unwrapShortHandle(
+//     handle1
+//   )}/${unwrapShortHandle(handle2)}`;
+//   const res = await fetchClearskyApi('v1', url);
+//   return res?.data ?? null;
+// }
 
 /**
  * Fetch if handle1 is being blocked by handle2
@@ -235,13 +238,16 @@ export async function fetchIsBlocking(handle1, handle2) {
  * @param {string} handle2
  * @returns {Promise<{ blocked_date: string, did: string } | null>}
  */
-export async function fetchIsBlockedBy(handle1, handle2) {
-  const url = `blocklist-search-blocked/${unwrapShortHandle(
-    handle1
-  )}/${unwrapShortHandle(handle2)}`;
-  const res = await fetchClearskyApi('v1', url);
-  return res?.data ?? null;
-}
+
+// not being used anywhere right now, so commented out
+
+// export async function fetchIsBlockedBy(handle1, handle2) {
+//   const url = `blocklist-search-blocked/${unwrapShortHandle(
+//     handle1
+//   )}/${unwrapShortHandle(handle2)}`;
+//   const res = await fetchClearskyApi('v1', url);
+//   return res?.data ?? null;
+// }
 
 /**
  * Runs fetchIsBlockedBy for each entry in entries concurrently.
