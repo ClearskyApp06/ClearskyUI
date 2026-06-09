@@ -26,5 +26,17 @@ async function getSpamStatusRaw(shortHandle) {
     'v1',
     `overlays/profile/spam/${shortHandle}`
   );
-  return json.data;
+    // 1. Check if the response is your new BannedAccount format
+    if (json.data?.error_type === 'BannedAccount') {
+        return {
+            spam: true, // Force spam to true so the banner triggers
+            spam_source: json.data.message // "Unauthorized: Account is banned."
+        };
+    }
+
+    // 2. Otherwise, return the regular implementation format
+    return {
+        spam: !!json.data?.spam,
+        spam_source: json.data?.spam_source || 'Unknown'
+    };
 }
