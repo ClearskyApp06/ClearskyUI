@@ -28,7 +28,9 @@ const AUTOCOMPLETE_POPULATE_BATCH = 20;
  *  searchText?: string,
  *  onSearchTextChanged?: (text: string) => void,
  *  onAccountSelected?: (account: Partial<AccountInfo & SearchMatch>) => void,
- *  onResolveAccount?: (text: string) => Promise<AccountInfo[]>
+ *  onResolveAccount?: (text: string) => Promise<AccountInfo[]>,
+ *  filterOptionsAsync?: (entry: any) => Promise<boolean>,
+ *  label?: {en : string, localised: { [lang: string]: string }},
  * }} AutocompleteProps
  **/
 /**
@@ -141,7 +143,10 @@ export class SearchAutoComplete extends Component {
                 }
               }
             }}
-            label={localise('Find an account:', { uk: 'Кого шукаємо?' })}
+            label={localise(
+              this.props.label?.en ?? 'Find an account:',
+              this.props.label?.localised ?? { uk: 'Кого шукаємо?' }
+            )}
             placeholder={this.state.placeholder}
             variant="standard"
           />
@@ -185,8 +190,21 @@ export class SearchAutoComplete extends Component {
 
       if (this.props.searchText !== newValue) return;
 
+      let resultsToShow = searchResults;
+
+      if (typeof this.props.filterOptionsAsync === 'function') {
+        try {
+          const filtered = await this.props.filterOptionsAsync(searchResults);
+          // If the result is an array, use it; otherwise fallback to empty array
+          resultsToShow = Array.isArray(filtered) ? filtered : [];
+        } catch (e) {
+          // if filter fails, default to showing nothing (safer than showing everything)
+          resultsToShow = [];
+        }
+      }
+
       this.setState({
-        options: searchResults.map((entry) => {
+        options: resultsToShow.map((entry) => {
           const accountOrPromise = resolveHandleOrDID(entry.shortDID);
           return {
             item: {
@@ -204,7 +222,7 @@ export class SearchAutoComplete extends Component {
           };
         }),
       });
-    } catch (err) { 
+    } catch (err) {
       this.setState({
         options: [
           {

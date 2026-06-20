@@ -25,6 +25,8 @@ export default function BlockedByPanel() {
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
       showBlockRelationButton={enableBlockActionFeature && shortDID === did}
+      userHandle={accountQuery.data?.shortHandle}
+      isBlockingPanel={false}
       header={({ count }) => (
         <>
           {localise(`Blocked by ${count.toLocaleString()}`, {

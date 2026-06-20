@@ -11,11 +11,14 @@ export default function BlockingPanel() {
   const did = accountQuery.data?.shortDID;
   const blocklistQuery = useBlocklist(did);
   const totalQuery = useBlocklistCount(did);
+
   return (
     <BlockPanelGeneric
       className="blocking-panel"
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
+      userHandle={accountQuery.data?.shortHandle}
+      isBlockingPanel={true}
       header={({ count }) => (
         <>
           {localise(
