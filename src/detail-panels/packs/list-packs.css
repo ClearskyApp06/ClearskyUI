@@ -23,6 +23,11 @@ a:hover {
   text-decoration: underline;
 }
 
+.packs-as-pack-view > :last-child,
+.packs-as-pack-view + div {
+  overflow-anchor: none;
+}
+
 .account-short-entry-avatar {
   background: no-repeat center center;
   background-size: cover;
